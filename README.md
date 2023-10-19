@@ -134,3 +134,31 @@ That's the whole programming routine, isn't it simple?
 ## Test Application
 
 [TBD]
+
+
+
+
+##  Further Reading
+
+### Sui Crowdfunding Example
+
+Another Sui Move sample project for teaching purposes. Repository: https://github.com/dddappp/sui-crowdfunding-example
+
+You can refer to its README to refine the business logic of this project, as well as to test the application.
+
+### Sui Blog Example
+
+Repository: https://github.com/dddappp/sui-blog-example
+
+It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
+
+
+### A More Complex Sui Demo
+
+If you are interested, you can find a more complex Sui Demo here: ["A Sui Demo"](https://github.com/dddappp/A-Sui-Demo).
+
+
+### Rooch Blog Example
+
+Here is a Rooch version like above Sui blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog/README.md
+
