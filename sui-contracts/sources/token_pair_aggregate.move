@@ -10,6 +10,7 @@ module sui_swap_example::token_pair_aggregate {
     use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_add_liquidity_logic;
     use sui_swap_example::token_pair_initialize_liquidity_logic;
+    use sui_swap_example::token_pair_remove_liquidity_logic;
     use sui_swap_example::token_pair_swap_x_logic;
     use sui_swap_example::token_pair_swap_y_logic;
 
@@ -58,6 +59,26 @@ module sui_swap_example::token_pair_aggregate {
         );
         token_pair::update_object_version(token_pair);
         token_pair::emit_liquidity_added(liquidity_added);
+    }
+
+    public fun remove_liquidity<X, Y>(
+        token_pair: &mut token_pair::TokenPair<X, Y>,
+        liquidity_amount: u64,
+        ctx: &mut tx_context::TxContext,
+    ): (Balance<X>, Balance<Y>) {
+        let liquidity_removed = token_pair_remove_liquidity_logic::verify<X, Y>(
+            liquidity_amount,
+            token_pair,
+            ctx,
+        );
+        let (remove_liquidity_return_1, remove_liquidity_return_2) = token_pair_remove_liquidity_logic::mutate<X, Y>(
+            &liquidity_removed,
+            token_pair,
+            ctx,
+        );
+        token_pair::update_object_version(token_pair);
+        token_pair::emit_liquidity_removed(liquidity_removed);
+        (remove_liquidity_return_1, remove_liquidity_return_2)
     }
 
     public fun swap_x<X, Y>(

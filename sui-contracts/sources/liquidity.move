@@ -6,6 +6,7 @@
 module sui_swap_example::liquidity {
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
+    friend sui_swap_example::token_pair_remove_liquidity_logic;
     friend sui_swap_example::token_pair_swap_x_logic;
     friend sui_swap_example::token_pair_swap_y_logic;
     friend sui_swap_example::token_pair;

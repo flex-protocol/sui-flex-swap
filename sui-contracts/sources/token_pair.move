@@ -15,6 +15,7 @@ module sui_swap_example::token_pair {
     use sui_swap_example::liquidity::{Self, Liquidity};
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
+    friend sui_swap_example::token_pair_remove_liquidity_logic;
     friend sui_swap_example::token_pair_swap_x_logic;
     friend sui_swap_example::token_pair_swap_y_logic;
     friend sui_swap_example::token_pair_aggregate;
@@ -235,6 +236,66 @@ module sui_swap_example::token_pair {
         }
     }
 
+    struct LiquidityRemoved has copy, drop {
+        id: object::ID,
+        version: u64,
+        liquidity_amount: u64,
+        provider: address,
+        x_token_type: String,
+        y_token_type: String,
+        x_amount: u64,
+        y_amount: u64,
+    }
+
+    public fun liquidity_removed_id(liquidity_removed: &LiquidityRemoved): object::ID {
+        liquidity_removed.id
+    }
+
+    public fun liquidity_removed_liquidity_amount(liquidity_removed: &LiquidityRemoved): u64 {
+        liquidity_removed.liquidity_amount
+    }
+
+    public fun liquidity_removed_provider(liquidity_removed: &LiquidityRemoved): address {
+        liquidity_removed.provider
+    }
+
+    public fun liquidity_removed_x_token_type(liquidity_removed: &LiquidityRemoved): String {
+        liquidity_removed.x_token_type
+    }
+
+    public fun liquidity_removed_y_token_type(liquidity_removed: &LiquidityRemoved): String {
+        liquidity_removed.y_token_type
+    }
+
+    public fun liquidity_removed_x_amount(liquidity_removed: &LiquidityRemoved): u64 {
+        liquidity_removed.x_amount
+    }
+
+    public fun liquidity_removed_y_amount(liquidity_removed: &LiquidityRemoved): u64 {
+        liquidity_removed.y_amount
+    }
+
+    public(friend) fun new_liquidity_removed<X, Y>(
+        token_pair: &TokenPair<X, Y>,
+        liquidity_amount: u64,
+        provider: address,
+        x_token_type: String,
+        y_token_type: String,
+        x_amount: u64,
+        y_amount: u64,
+    ): LiquidityRemoved {
+        LiquidityRemoved {
+            id: id(token_pair),
+            version: version(token_pair),
+            liquidity_amount,
+            provider,
+            x_token_type,
+            y_token_type,
+            x_amount,
+            y_amount,
+        }
+    }
+
     struct XSwappedForY has copy, drop {
         id: object::ID,
         version: u64,
@@ -398,6 +459,10 @@ module sui_swap_example::token_pair {
 
     public(friend) fun emit_liquidity_added(liquidity_added: LiquidityAdded) {
         event::emit(liquidity_added);
+    }
+
+    public(friend) fun emit_liquidity_removed(liquidity_removed: LiquidityRemoved) {
+        event::emit(liquidity_removed);
     }
 
     public(friend) fun emit_x_swapped_for_y(x_swapped_for_y: XSwappedForY) {

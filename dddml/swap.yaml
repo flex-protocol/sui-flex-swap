@@ -95,35 +95,35 @@ aggregates:
             LiquidityAmount:
               type: u64
 
-      # RemoveLiquidity:
-      #   typeParameters:
-      #     X: {}
-      #     Y: {}
-      #   objectTypeArguments:
-      #     X: X
-      #     Y: Y
-      #   parameters:
-      #     LiquidityAmount:
-      #       type: u64
-      #   result:
-      #     type: Balance<X>
-      #   event:
-      #     name: LiquidityRemoved
-      #     properties:
-      #       Provider:
-      #         type: address
-      #       XTokenType:
-      #         type: String
-      #         length: 200
-      #       YTokenType:
-      #         type: String
-      #         length: 200
-      #       XAmount:
-      #         type: u64
-      #       YAmount:
-      #         type: u64
-      #       LiquidityAmount:
-      #         type: u64
+      RemoveLiquidity:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityAmount:
+            type: u64
+        result:
+          type: (Balance<X>, Balance<Y>)
+        event:
+          name: LiquidityRemoved
+          properties:
+            Provider:
+              type: address
+            XTokenType:
+              type: String
+              length: 200
+            YTokenType:
+              type: String
+              length: 200
+            XAmount:
+              type: u64
+            YAmount:
+              type: u64
+            LiquidityAmount:
+              type: u64
 
       SwapX:
         typeParameters:
