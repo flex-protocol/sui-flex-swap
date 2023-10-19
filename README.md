@@ -80,4 +80,57 @@ git pull wubuku/dddappp:0.0.1
 
 In repository root directory, run:
 
+```shell
+docker run \
+-v .:/myapp \
+wubuku/dddappp:0.0.1 \
+--dddmlDirectoryPath /myapp/dddml \
+--boundedContextName Test.SuiSwapExample \
+--suiMoveProjectDirectoryPath /myapp/sui-contracts \
+--boundedContextSuiPackageName sui_swap_example \
+--boundedContextJavaPackageName org.test.suiswapexample \
+--javaProjectsDirectoryPath /myapp/sui-java-service \
+--javaProjectNamePrefix suiswapexample \
+--pomGroupId test.suiswapexample
+```
+
+The command parameters above are straightforward:
+
+* This line `-v .:/myapp \` indicates mounting the local current directory into the `/myapp` directory inside the container.
+* `dddmlDirectoryPath` is the directory where the DDDML model files are located. It should be a directory path that can be read in the container.
+* Understand the value of the `boundedContextName` parameter as the name of the application you want to develop. When the name has multiple parts, separate them with dots and use the PascalCase naming convention for each part. Bounded-context is a term in Domain-driven design (DDD) that refers to a specific problem domain scope that contains specific business boundaries, constraints, and language. If you cannot understand this concept for the time being, it is not a big deal.
+* `boundedContextJavaPackageName` is the Java package name of the off-chain service. According to Java naming conventions, it should be all lowercase and the parts should be separated by dots.
+* `boundedContextSuiPackageName` is the package name of the on-chain Sui contracts. According to the Sui development convention, it should be named in snake_case style with all lowercase letters.
+* `javaProjectsDirectoryPath` is the directory path where the off-chain service code is placed. The off-chain service consists of multiple modules (projects). It should be a readable and writable directory path in the container.
+* `javaProjectNamePrefix` is the name prefix of each module of the off-chain service. It is recommended to use an all-lowercase name.
+* `pomGroupId` is the GroupId of the off-chain service. We use Maven as the project management tool for off-chain service. It should be all lowercase and the parts should be separated by dots.
+* `suiMoveProjectDirectoryPath` is the directory path where the on-chain Sui contract code is placed. It should be a readable and writable directory path in the container.
+
+After the above command is successfully executed, two directories `sui-java-service` and `sui-contracts` should be added to the local current directory.
+
+
+### Implementing Business Logic
+
+The tool has generated some files with the suffix `_logic.move` in the directory `sui-contracts/sources`.
+
+Generally, these files contain the scaffolding code of functions that implement business logic,
+namely the signature part of the functions.
+You just need to fill in the implementation part of the functions.
+
+[TBD]
+
+---
+
+In [the model file](./dddml/swap.yaml), we defined some methods which use `Balance`, a resource type, as type of parameters or return values.
+This makes these methods very combinable - as a developer of Move, a "resource-oriented programming" language,
+you will already know this.
+
+However, it's not easy to call them directly from clients.
+So, we added this file [token_pair_service.move](./sui-contracts/sources/token_pair_service.move).
+In this file, some entry functions are provided to facilitate clients to use the corresponding features directly.
+
+That's the whole programming routine, isn't it simple?
+
+## Test Application
+
 [TBD]
