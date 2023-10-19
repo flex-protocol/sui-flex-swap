@@ -1,0 +1,214 @@
+aggregates:
+  TokenPair:
+    id:
+      name: Id
+      type: UID
+    typeParameters:
+      X:
+        isPhantom: true
+      Y:
+        isPhantom: true
+    properties:
+      XReserve:
+        type: "Balance<X>"
+      YReserve:
+        type: "Balance<Y>"
+      TotalLiquidity:
+        type: u64
+      Liquidities:
+        itemType: Liquidity
+
+    entities:
+      Liquidity:
+        id:
+          name: Provider
+          type: address
+        properties:
+          Amount:
+            type: u64
+
+    methods:
+      InitializeLiquidity:
+        isCreationCommand: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          XAmount:
+            type: Balance<X>
+          YAmount:
+            type: Balance<Y>
+        event:
+          name: LiquidityInitialized
+          isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            XTokenType:
+              type: String
+              length: 200
+            YTokenType:
+              type: String
+              length: 200
+            XAmount:
+              type: u64
+            YAmount:
+              type: u64
+            LiquidityAmount:
+              type: u64
+
+      AddLiquidity:
+        #shouldCallByReference: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          XAmount:
+            type: Balance<X>
+          YAmount:
+            type: Balance<Y>
+        event:
+          name: LiquidityAdded
+          properties:
+            Provider:
+              type: address
+            XTokenType:
+              type: String
+              length: 200
+            YTokenType:
+              type: String
+              length: 200
+            XAmount:
+              type: u64
+            YAmount:
+              type: u64
+            LiquidityAmount:
+              type: u64
+
+      # RemoveLiquidity:
+      #   typeParameters:
+      #     X: {}
+      #     Y: {}
+      #   objectTypeArguments:
+      #     X: X
+      #     Y: Y
+      #   parameters:
+      #     LiquidityAmount:
+      #       type: u64
+      #   result:
+      #     type: Balance<X>
+      #   event:
+      #     name: LiquidityRemoved
+      #     properties:
+      #       Provider:
+      #         type: address
+      #       XTokenType:
+      #         type: String
+      #         length: 200
+      #       YTokenType:
+      #         type: String
+      #         length: 200
+      #       XAmount:
+      #         type: u64
+      #       YAmount:
+      #         type: u64
+      #       LiquidityAmount:
+      #         type: u64
+
+      SwapX:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          XAmount:
+            type: Balance<X>
+        result:
+          type: Balance<Y>
+        event:
+          name: XSwappedForY
+          properties:
+            Sender:
+              type: address
+            XTokenType:
+              type: String
+              length: 200
+            YTokenType:
+              type: String
+              length: 200
+            XAmount:
+              type: u64
+            YAmount:
+              type: u64
+
+      SwapY:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          YAmount:
+            type: Balance<Y>
+        result:
+          type: Balance<X>
+        event:
+          name: YSwappedForX
+          properties:
+            Sender:
+              type: address
+            XTokenType:
+              type: String
+              length: 200
+            YTokenType:
+              type: String
+              length: 200
+            XAmount:
+              type: u64
+            YAmount:
+              type: u64
+
+singletonObjects:
+  Exchange:
+    friends: [ "TokenPair.InitializeLiquidity" ]
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    properties:
+      Name:
+        type: String
+        length: 200
+        defaultLogic:
+          Move:
+            'std::string::utf8(b"sui-dex-example")'
+      TokenPairs:
+        itemType: ID #ObjectID
+        isList: true
+
+    methods:
+      "__Init__":
+        event:
+          isObjectShared: true # Share the object after initialization.
+
+      AddTokenPair:
+        isInternal: true
+        #shouldCallByReference: true
+        event:
+          name: TokenPairAddedToExchange
+        parameters:
+          TokenPairId:
+            type: ID #ObjectID
