@@ -36,7 +36,7 @@ From a front-end UX perspective, the main features are those above.
 
 The internal implementation of the smart contract will be kept as simple as possible, as long as it is sufficient to illustrate the basic principles of the DEX using the AMM model.
 
-Here, let's try to develop it using the dddappp low-code tool.
+Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.
 
 ## Prerequisites
 
