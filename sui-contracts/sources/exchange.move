@@ -15,6 +15,7 @@ module sui_swap_example::exchange {
     friend sui_swap_example::exchange_add_token_pair_logic;
     friend sui_swap_example::exchange_aggregate;
 
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 

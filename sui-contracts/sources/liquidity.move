@@ -11,6 +11,7 @@ module sui_swap_example::liquidity {
     friend sui_swap_example::token_pair_swap_y_logic;
     friend sui_swap_example::token_pair;
 
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
 
     struct Liquidity has store {

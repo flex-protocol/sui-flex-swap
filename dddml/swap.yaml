@@ -198,6 +198,10 @@ singletonObjects:
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
+#      XTokenTypes:
+#        itemType: String
+#      YTokenTypes:
+#        itemType: String
 
     methods:
       "__Init__":
@@ -212,3 +216,7 @@ singletonObjects:
         parameters:
           TokenPairId:
             type: ID #ObjectID
+#          XTokenType:
+#            itemType: String
+#          YTokenType:
+#            itemType: String
