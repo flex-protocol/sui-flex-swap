@@ -11,17 +11,18 @@ module sui_swap_example::exchange_aggregate {
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
 
-    public(friend) fun add_token_pair(
+    #[allow(unused_mut_parameter)]
+    public(friend) fun add_token_pair<X, Y>(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,
-        ctx: &tx_context::TxContext,
+        ctx: &mut tx_context::TxContext,
     ) {
-        let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify(
+        let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify<X, Y>(
             token_pair_id,
             exchange,
             ctx,
         );
-        exchange_add_token_pair_logic::mutate(
+        exchange_add_token_pair_logic::mutate<X, Y>(
             &token_pair_added_to_exchange,
             exchange,
             ctx,

@@ -33,6 +33,8 @@ module sui_swap_example::exchange {
         version: u64,
         name: String,
         token_pairs: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
     }
 
     public fun id(exchange: &Exchange): object::ID {
@@ -60,6 +62,22 @@ module sui_swap_example::exchange {
         exchange.token_pairs = token_pairs;
     }
 
+    public fun x_token_types(exchange: &Exchange): vector<String> {
+        exchange.x_token_types
+    }
+
+    public(friend) fun set_x_token_types(exchange: &mut Exchange, x_token_types: vector<String>) {
+        exchange.x_token_types = x_token_types;
+    }
+
+    public fun y_token_types(exchange: &Exchange): vector<String> {
+        exchange.y_token_types
+    }
+
+    public(friend) fun set_y_token_types(exchange: &mut Exchange, y_token_types: vector<String>) {
+        exchange.y_token_types = y_token_types;
+    }
+
     public(friend) fun new_exchange(
         _witness: EXCHANGE,
         ctx: &mut TxContext,
@@ -69,6 +87,8 @@ module sui_swap_example::exchange {
             version: 0,
             name: std::string::utf8(b"sui-dex-example"),
             token_pairs: std::vector::empty(),
+            x_token_types: std::vector::empty(),
+            y_token_types: std::vector::empty(),
         }
     }
 
@@ -92,6 +112,8 @@ module sui_swap_example::exchange {
         id: object::ID,
         version: u64,
         token_pair_id: ID,
+        x_token_type: String,
+        y_token_type: String,
     }
 
     public fun token_pair_added_to_exchange_id(token_pair_added_to_exchange: &TokenPairAddedToExchange): object::ID {
@@ -102,14 +124,26 @@ module sui_swap_example::exchange {
         token_pair_added_to_exchange.token_pair_id
     }
 
+    public fun token_pair_added_to_exchange_x_token_type(token_pair_added_to_exchange: &TokenPairAddedToExchange): String {
+        token_pair_added_to_exchange.x_token_type
+    }
+
+    public fun token_pair_added_to_exchange_y_token_type(token_pair_added_to_exchange: &TokenPairAddedToExchange): String {
+        token_pair_added_to_exchange.y_token_type
+    }
+
     public(friend) fun new_token_pair_added_to_exchange(
         exchange: &Exchange,
         token_pair_id: ID,
+        x_token_type: String,
+        y_token_type: String,
     ): TokenPairAddedToExchange {
         TokenPairAddedToExchange {
             id: id(exchange),
             version: version(exchange),
             token_pair_id,
+            x_token_type,
+            y_token_type,
         }
     }
 
@@ -151,6 +185,8 @@ module sui_swap_example::exchange {
             version: _version,
             name: _name,
             token_pairs: _token_pairs,
+            x_token_types: _x_token_types,
+            y_token_types: _y_token_types,
         } = exchange;
         object::delete(id);
     }

@@ -6,6 +6,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use sui::balance::Balance;
     use sui::object::{Self, UID};
     use sui::tx_context::{Self, TxContext};
+    use sui_swap_example::exchange_aggregate;
+    use sui_swap_example::token_util;
     use sui_swap_example::exchange::{Self, Exchange};
     use sui_swap_example::liquidity::{Self, Liquidity};
     use sui_swap_example::liquidity_initialized;
@@ -19,6 +21,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         y_amount: &Balance<Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
+        token_util::assert_type_less_than<X, Y>();
         token_pair::new_liquidity_initialized<X, Y>(
             object::id(exchange),
             tx_context::sender(ctx),
@@ -48,6 +51,9 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             liquidity_amount,
             ctx,
         );
+        //
+        exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
+        //
         let x_reserve = token_pair::borrow_mut_x_reserve(&mut token_pair);
         sui::balance::join(x_reserve, x_amount);
         let y_reserve = token_pair::borrow_mut_y_reserve(&mut token_pair);

@@ -198,10 +198,12 @@ singletonObjects:
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
-#      XTokenTypes:
-#        itemType: String
-#      YTokenTypes:
-#        itemType: String
+      XTokenTypes:
+        itemType: String
+        isList: true
+      YTokenTypes:
+        itemType: String
+        isList: true
 
     methods:
       "__Init__":
@@ -211,12 +213,16 @@ singletonObjects:
       AddTokenPair:
         isInternal: true
         #shouldCallByReference: true
-        event:
-          name: TokenPairAddedToExchange
+        typeParameters:
+          X: {}
+          Y: {}
         parameters:
           TokenPairId:
             type: ID #ObjectID
-#          XTokenType:
-#            itemType: String
-#          YTokenType:
-#            itemType: String
+        event:
+          name: TokenPairAddedToExchange
+          properties:
+            XTokenType:
+              type: String
+            YTokenType:
+              type: String

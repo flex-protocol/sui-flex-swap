@@ -5,6 +5,7 @@
 
 module sui_swap_example::token_pair_added_to_exchange {
 
+    use std::string::String;
     use sui::object::{Self, ID};
     use sui_swap_example::exchange::{Self, TokenPairAddedToExchange};
 
@@ -14,6 +15,14 @@ module sui_swap_example::token_pair_added_to_exchange {
 
     public fun token_pair_id(token_pair_added_to_exchange: &TokenPairAddedToExchange): ID {
         exchange::token_pair_added_to_exchange_token_pair_id(token_pair_added_to_exchange)
+    }
+
+    public fun x_token_type(token_pair_added_to_exchange: &TokenPairAddedToExchange): String {
+        exchange::token_pair_added_to_exchange_x_token_type(token_pair_added_to_exchange)
+    }
+
+    public fun y_token_type(token_pair_added_to_exchange: &TokenPairAddedToExchange): String {
+        exchange::token_pair_added_to_exchange_y_token_type(token_pair_added_to_exchange)
     }
 
 }
