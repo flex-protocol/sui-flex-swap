@@ -1,3 +1,4 @@
+#[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::token_pair_swap_y_logic {
     use std::string;
     use std::type_name;

@@ -14,7 +14,7 @@ module sui_swap_example::exchange_aggregate {
     public(friend) fun add_token_pair(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,
-        ctx: &mut tx_context::TxContext,
+        ctx: &tx_context::TxContext,
     ) {
         let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify(
             token_pair_id,

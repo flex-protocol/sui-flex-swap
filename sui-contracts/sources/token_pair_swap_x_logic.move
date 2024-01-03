@@ -1,3 +1,4 @@
+#[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::token_pair_swap_x_logic {
     use std::type_name;
     use std::string;

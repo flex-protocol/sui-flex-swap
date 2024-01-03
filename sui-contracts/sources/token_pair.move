@@ -156,6 +156,7 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_amount
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X, Y>(
         exchange_id: ID,
         provider: address,
@@ -420,11 +421,13 @@ module sui_swap_example::token_pair {
         transfer::share_object(token_pair);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::freeze_object(token_pair);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun update_version_and_freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         update_object_version(&mut token_pair);
         transfer::freeze_object(token_pair);
