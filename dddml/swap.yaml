@@ -104,8 +104,9 @@ aggregates:
           X: X
           Y: Y
         parameters:
-          LiquidityAmount:
-            type: u64
+          LiquidityToken:
+            type: LiquidityToken<X, Y>
+            #eventPropertyName: LiquidityTokenId
         result:
           type: (Balance<X>, Balance<Y>)
         event:
