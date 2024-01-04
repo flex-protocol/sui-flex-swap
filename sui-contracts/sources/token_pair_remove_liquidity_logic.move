@@ -6,19 +6,24 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
     use sui::balance;
     use sui::balance::Balance;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_example::token_pair::total_liquidity;
 
     use sui_swap_example::liquidity_removed;
+    use sui_swap_example::liquidity_token;
+    use sui_swap_example::liquidity_token::LiquidityToken;
+    use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
 
     friend sui_swap_example::token_pair_aggregate;
 
+    const EInconsistentLiquidityAmount: u64 = 1;
+
     public(friend) fun verify<X, Y>(
-        liquidity_amount: u64,
+        liquidity_token: &LiquidityToken<X, Y>,
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
     ): token_pair::LiquidityRemoved {
+        let liquidity_amount = liquidity_token::amount(liquidity_token);
         let total_liquidity = token_pair::total_liquidity(token_pair);
         let x_reserve = balance::value(token_pair::borrow_x_reserve(token_pair));
         let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
@@ -41,16 +46,16 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
 
     public(friend) fun mutate<X, Y>(
         liquidity_removed: &token_pair::LiquidityRemoved,
+        liquidity_token: LiquidityToken<X, Y>,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        ctx: &mut TxContext, // modify the reference to mutable if needed
     ): (Balance<X>, Balance<Y>) {
         let liquidity_amount_removed = liquidity_removed::liquidity_amount(liquidity_removed);
-        let provider = liquidity_removed::provider(liquidity_removed);
-        let x_token_type = liquidity_removed::x_token_type(liquidity_removed);
-        let y_token_type = liquidity_removed::y_token_type(liquidity_removed);
+        assert!(liquidity_amount_removed == liquidity_token::amount(&liquidity_token), EInconsistentLiquidityAmount);
+        liquidity_token_aggregate::destroy(liquidity_token, ctx);
+
         let x_amount = liquidity_removed::x_amount(liquidity_removed);
         let y_amount = liquidity_removed::y_amount(liquidity_removed);
-        let id = token_pair::id(token_pair);
         let total_liquidity = token_pair::total_liquidity(token_pair);
         token_pair::set_total_liquidity(
             token_pair,

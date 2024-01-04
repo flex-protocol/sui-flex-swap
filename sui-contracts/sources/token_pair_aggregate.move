@@ -6,6 +6,7 @@
 module sui_swap_example::token_pair_aggregate {
     use sui::balance::Balance;
     use sui::tx_context;
+    use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_add_liquidity_logic;
@@ -64,17 +65,18 @@ module sui_swap_example::token_pair_aggregate {
 
     public fun remove_liquidity<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        liquidity_amount: u64,
+        liquidity_token: LiquidityToken<X, Y>,
         ctx: &mut tx_context::TxContext,
     ): (Balance<X>, Balance<Y>) {
         token_pair::assert_schema_version(token_pair);
         let liquidity_removed = token_pair_remove_liquidity_logic::verify<X, Y>(
-            liquidity_amount,
+            &liquidity_token,
             token_pair,
             ctx,
         );
         let (remove_liquidity_return_1, remove_liquidity_return_2) = token_pair_remove_liquidity_logic::mutate<X, Y>(
             &liquidity_removed,
+            liquidity_token,
             token_pair,
             ctx,
         );
