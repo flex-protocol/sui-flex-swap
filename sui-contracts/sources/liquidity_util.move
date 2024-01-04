@@ -29,4 +29,16 @@ module sui_swap_example::liquidity_util {
         };
         (liquidity as u64)//, x_remaining, y_remaining
     }
+
+    public fun get_pair_amounts(
+        total_supplied: u64,
+        x_reserve: u64,
+        y_reserve: u64,
+        liquidity: u64
+    ): (u64, u64)
+    {
+        let x_amount = (liquidity as u128) * (x_reserve as u128) / (total_supplied as u128);
+        let y_amount = (liquidity as u128) * (y_reserve as u128) / (total_supplied as u128);
+        ((x_amount as u64), (y_amount as u64))
+    }
 }
