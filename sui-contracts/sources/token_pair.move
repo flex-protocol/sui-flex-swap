@@ -36,7 +36,7 @@ module sui_swap_example::token_pair {
     }
 
 
-    public fun asssert_schema_version<X, Y>(token_pair: &TokenPair<X, Y>) {
+    public fun assert_schema_version<X, Y>(token_pair: &TokenPair<X, Y>) {
         assert!(token_pair.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
     }
 

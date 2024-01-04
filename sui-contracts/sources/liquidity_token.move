@@ -30,7 +30,7 @@ module sui_swap_example::liquidity_token {
     }
 
 
-    public fun asssert_schema_version<X, Y>(liquidity_token: &LiquidityToken<X, Y>) {
+    public fun assert_schema_version<X, Y>(liquidity_token: &LiquidityToken<X, Y>) {
         assert!(liquidity_token.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
     }
 

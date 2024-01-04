@@ -44,7 +44,7 @@ module sui_swap_example::token_pair_aggregate {
         y_amount: Balance<Y>,
         ctx: &mut tx_context::TxContext,
     ) {
-        token_pair::asssert_schema_version(token_pair);
+        token_pair::assert_schema_version(token_pair);
         let liquidity_added = token_pair_add_liquidity_logic::verify<X, Y>(
             &x_amount,
             &y_amount,
@@ -67,7 +67,7 @@ module sui_swap_example::token_pair_aggregate {
         liquidity_amount: u64,
         ctx: &mut tx_context::TxContext,
     ): (Balance<X>, Balance<Y>) {
-        token_pair::asssert_schema_version(token_pair);
+        token_pair::assert_schema_version(token_pair);
         let liquidity_removed = token_pair_remove_liquidity_logic::verify<X, Y>(
             liquidity_amount,
             token_pair,
@@ -88,7 +88,7 @@ module sui_swap_example::token_pair_aggregate {
         x_amount: Balance<X>,
         ctx: &mut tx_context::TxContext,
     ): Balance<Y> {
-        token_pair::asssert_schema_version(token_pair);
+        token_pair::assert_schema_version(token_pair);
         let x_swapped_for_y = token_pair_swap_x_logic::verify<X, Y>(
             &x_amount,
             token_pair,
@@ -110,7 +110,7 @@ module sui_swap_example::token_pair_aggregate {
         y_amount: Balance<Y>,
         ctx: &mut tx_context::TxContext,
     ): Balance<X> {
-        token_pair::asssert_schema_version(token_pair);
+        token_pair::assert_schema_version(token_pair);
         let y_swapped_for_x = token_pair_swap_y_logic::verify<X, Y>(
             &y_amount,
             token_pair,
