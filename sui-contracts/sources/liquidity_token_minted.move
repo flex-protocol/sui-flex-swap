@@ -6,20 +6,11 @@
 module sui_swap_example::liquidity_token_minted {
 
     use std::option;
-    use std::string::String;
     use sui::object;
     use sui_swap_example::liquidity_token::{Self, LiquidityTokenMinted};
 
     public fun id(liquidity_token_minted: &LiquidityTokenMinted): option::Option<object::ID> {
         liquidity_token::liquidity_token_minted_id(liquidity_token_minted)
-    }
-
-    public fun x_token_type(liquidity_token_minted: &LiquidityTokenMinted): String {
-        liquidity_token::liquidity_token_minted_x_token_type(liquidity_token_minted)
-    }
-
-    public fun amount(liquidity_token_minted: &LiquidityTokenMinted): u64 {
-        liquidity_token::liquidity_token_minted_amount(liquidity_token_minted)
     }
 
 }

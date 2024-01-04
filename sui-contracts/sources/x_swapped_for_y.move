@@ -13,6 +13,10 @@ module sui_swap_example::x_swapped_for_y {
         token_pair::x_swapped_for_y_id(x_swapped_for_y)
     }
 
+    public fun x_amount(x_swapped_for_y: &XSwappedForY): u64 {
+        token_pair::x_swapped_for_y_x_amount(x_swapped_for_y)
+    }
+
     public fun expected_y_amount_out(x_swapped_for_y: &XSwappedForY): u64 {
         token_pair::x_swapped_for_y_expected_y_amount_out(x_swapped_for_y)
     }
@@ -27,10 +31,6 @@ module sui_swap_example::x_swapped_for_y {
 
     public fun y_token_type(x_swapped_for_y: &XSwappedForY): String {
         token_pair::x_swapped_for_y_y_token_type(x_swapped_for_y)
-    }
-
-    public fun x_amount(x_swapped_for_y: &XSwappedForY): u64 {
-        token_pair::x_swapped_for_y_x_amount(x_swapped_for_y)
     }
 
     public fun y_amount(x_swapped_for_y: &XSwappedForY): u64 {

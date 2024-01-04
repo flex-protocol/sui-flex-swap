@@ -5,69 +5,36 @@
 
 module sui_swap_example::liquidity_token {
     use std::option;
-    use std::string::String;
     use sui::event;
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::TxContext;
-
-    struct LIQUIDITY_TOKEN has drop {}
-
     friend sui_swap_example::liquidity_token_mint_logic;
     friend sui_swap_example::liquidity_token_destroy_logic;
-    friend sui_swap_example::liquidity_token_split_logic;
     friend sui_swap_example::liquidity_token_aggregate;
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EEmptyObjectID: u64 = 107;
 
-    fun init(otw: LIQUIDITY_TOKEN, ctx: &mut TxContext) {
-        sui::package::claim_and_keep(otw, ctx)
-    }
-
-    struct LiquidityToken<phantom Y> has key, store {
+    struct LiquidityToken<phantom X, phantom Y> has key, store {
         id: UID,
-        x_token_type: String,
-        amount: u64,
     }
 
-    public fun id<Y>(liquidity_token: &LiquidityToken<Y>): object::ID {
+    public fun id<X, Y>(liquidity_token: &LiquidityToken<X, Y>): object::ID {
         object::uid_to_inner(&liquidity_token.id)
     }
 
-    public fun x_token_type<Y>(liquidity_token: &LiquidityToken<Y>): String {
-        liquidity_token.x_token_type
-    }
-
-    public(friend) fun set_x_token_type<Y>(liquidity_token: &mut LiquidityToken<Y>, x_token_type: String) {
-        liquidity_token.x_token_type = x_token_type;
-    }
-
-    public fun amount<Y>(liquidity_token: &LiquidityToken<Y>): u64 {
-        liquidity_token.amount
-    }
-
-    public(friend) fun set_amount<Y>(liquidity_token: &mut LiquidityToken<Y>, amount: u64) {
-        liquidity_token.amount = amount;
-    }
-
-    public(friend) fun new_liquidity_token<Y>(
-        x_token_type: String,
-        amount: u64,
+    public(friend) fun new_liquidity_token<X, Y>(
         ctx: &mut TxContext,
-    ): LiquidityToken<Y> {
+    ): LiquidityToken<X, Y> {
         LiquidityToken {
             id: object::new(ctx),
-            x_token_type,
-            amount,
         }
     }
 
     struct LiquidityTokenMinted has copy, drop {
         id: option::Option<object::ID>,
-        x_token_type: String,
-        amount: u64,
     }
 
     public fun liquidity_token_minted_id(liquidity_token_minted: &LiquidityTokenMinted): option::Option<object::ID> {
@@ -78,95 +45,50 @@ module sui_swap_example::liquidity_token {
         liquidity_token_minted.id = option::some(id);
     }
 
-    public fun liquidity_token_minted_x_token_type(liquidity_token_minted: &LiquidityTokenMinted): String {
-        liquidity_token_minted.x_token_type
-    }
-
-    public fun liquidity_token_minted_amount(liquidity_token_minted: &LiquidityTokenMinted): u64 {
-        liquidity_token_minted.amount
-    }
-
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_minted<Y>(
-        x_token_type: String,
-        amount: u64,
+    public(friend) fun new_liquidity_token_minted<X, Y>(
     ): LiquidityTokenMinted {
         LiquidityTokenMinted {
             id: option::none(),
-            x_token_type,
-            amount,
         }
     }
 
     struct LiquidityTokenDestroyed has copy, drop {
         id: object::ID,
-        amount: u64,
     }
 
     public fun liquidity_token_destroyed_id(liquidity_token_destroyed: &LiquidityTokenDestroyed): object::ID {
         liquidity_token_destroyed.id
     }
 
-    public fun liquidity_token_destroyed_amount(liquidity_token_destroyed: &LiquidityTokenDestroyed): u64 {
-        liquidity_token_destroyed.amount
-    }
-
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_destroyed<Y>(
-        liquidity_token: &LiquidityToken<Y>,
-        amount: u64,
+    public(friend) fun new_liquidity_token_destroyed<X, Y>(
+        liquidity_token: &LiquidityToken<X, Y>,
     ): LiquidityTokenDestroyed {
         LiquidityTokenDestroyed {
             id: id(liquidity_token),
-            amount,
-        }
-    }
-
-    struct LiquidityTokenSplit has copy, drop {
-        id: object::ID,
-        amount: u64,
-    }
-
-    public fun liquidity_token_split_id(liquidity_token_split: &LiquidityTokenSplit): object::ID {
-        liquidity_token_split.id
-    }
-
-    public fun liquidity_token_split_amount(liquidity_token_split: &LiquidityTokenSplit): u64 {
-        liquidity_token_split.amount
-    }
-
-    #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_split<Y>(
-        liquidity_token: &LiquidityToken<Y>,
-        amount: u64,
-    ): LiquidityTokenSplit {
-        LiquidityTokenSplit {
-            id: id(liquidity_token),
-            amount,
         }
     }
 
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun transfer_object<Y>(liquidity_token: LiquidityToken<Y>, recipient: address) {
+    public(friend) fun transfer_object<X: key + store, Y>(liquidity_token: LiquidityToken<X, Y>, recipient: address) {
         transfer::transfer(liquidity_token, recipient);
     }
 
     #[lint_allow(share_owned, custom_state_change)]
-    public(friend) fun share_object<Y>(liquidity_token: LiquidityToken<Y>) {
+    public(friend) fun share_object<X: key + store, Y>(liquidity_token: LiquidityToken<X, Y>) {
         transfer::share_object(liquidity_token);
     }
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun freeze_object<Y>(liquidity_token: LiquidityToken<Y>) {
+    public(friend) fun freeze_object<X: key + store, Y>(liquidity_token: LiquidityToken<X, Y>) {
         transfer::freeze_object(liquidity_token);
     }
 
-    public(friend) fun drop_liquidity_token<Y>(liquidity_token: LiquidityToken<Y>) {
+    public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         let LiquidityToken {
             id,
-            x_token_type: _x_token_type,
-            amount: _amount,
         } = liquidity_token;
         object::delete(id);
     }
@@ -178,10 +100,6 @@ module sui_swap_example::liquidity_token {
 
     public(friend) fun emit_liquidity_token_destroyed(liquidity_token_destroyed: LiquidityTokenDestroyed) {
         event::emit(liquidity_token_destroyed);
-    }
-
-    public(friend) fun emit_liquidity_token_split(liquidity_token_split: LiquidityTokenSplit) {
-        event::emit(liquidity_token_split);
     }
 
 }

@@ -13,12 +13,12 @@ module sui_swap_example::liquidity_removed {
         token_pair::liquidity_removed_id(liquidity_removed)
     }
 
-    public fun liquidity_amount(liquidity_removed: &LiquidityRemoved): u64 {
-        token_pair::liquidity_removed_liquidity_amount(liquidity_removed)
-    }
-
     public fun liquidity_token_id(liquidity_removed: &LiquidityRemoved): ID {
         token_pair::liquidity_removed_liquidity_token_id(liquidity_removed)
+    }
+
+    public fun x_id(liquidity_removed: &LiquidityRemoved): ID {
+        token_pair::liquidity_removed_x_id(liquidity_removed)
     }
 
     public fun provider(liquidity_removed: &LiquidityRemoved): address {
@@ -39,6 +39,10 @@ module sui_swap_example::liquidity_removed {
 
     public fun y_amount(liquidity_removed: &LiquidityRemoved): u64 {
         token_pair::liquidity_removed_y_amount(liquidity_removed)
+    }
+
+    public fun liquidity_amount(liquidity_removed: &LiquidityRemoved): u64 {
+        token_pair::liquidity_removed_liquidity_amount(liquidity_removed)
     }
 
 }

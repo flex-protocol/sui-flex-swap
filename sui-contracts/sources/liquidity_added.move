@@ -13,8 +13,12 @@ module sui_swap_example::liquidity_added {
         token_pair::liquidity_added_id(liquidity_added)
     }
 
-    public fun expected_liquidity(liquidity_added: &LiquidityAdded): u64 {
-        token_pair::liquidity_added_expected_liquidity(liquidity_added)
+    public fun liquidity_token_id(liquidity_added: &LiquidityAdded): ID {
+        token_pair::liquidity_added_liquidity_token_id(liquidity_added)
+    }
+
+    public fun x_amount(liquidity_added: &LiquidityAdded): u64 {
+        token_pair::liquidity_added_x_amount(liquidity_added)
     }
 
     public fun provider(liquidity_added: &LiquidityAdded): address {
@@ -29,20 +33,12 @@ module sui_swap_example::liquidity_added {
         token_pair::liquidity_added_y_token_type(liquidity_added)
     }
 
-    public fun x_amount(liquidity_added: &LiquidityAdded): u64 {
-        token_pair::liquidity_added_x_amount(liquidity_added)
-    }
-
     public fun y_amount(liquidity_added: &LiquidityAdded): u64 {
         token_pair::liquidity_added_y_amount(liquidity_added)
     }
 
     public fun liquidity_amount(liquidity_added: &LiquidityAdded): u64 {
         token_pair::liquidity_added_liquidity_amount(liquidity_added)
-    }
-
-    public fun liquidity_token_id(liquidity_added: &LiquidityAdded): ID {
-        token_pair::liquidity_added_liquidity_token_id(liquidity_added)
     }
 
 }

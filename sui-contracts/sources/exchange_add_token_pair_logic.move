@@ -16,13 +16,13 @@ module sui_swap_example::exchange_add_token_pair_logic {
 
     const ETokenPairExists: u64 = 100;
 
-    public(friend) fun verify<Y>(
+    public(friend) fun verify<X: key + store, Y>(
         token_pair_id: ID,
-        x_token_type: String,
+        //x_token_type: String,
         exchange: &exchange::Exchange,
         _ctx: &TxContext,
     ): exchange::TokenPairAddedToExchange {
-        //let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
+        let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
         assert_token_pair_not_exists(exchange, x_token_type, y_token_type);
         exchange::new_token_pair_added_to_exchange(
@@ -52,7 +52,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun mutate<Y>(
+    public(friend) fun mutate<X: key + store, Y>(
         token_pair_added_to_exchange: &exchange::TokenPairAddedToExchange,
         exchange: &mut exchange::Exchange,
         _ctx: &TxContext, // modify the reference to mutable if needed

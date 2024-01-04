@@ -12,8 +12,4 @@ module sui_swap_example::liquidity_token_destroyed {
         liquidity_token::liquidity_token_destroyed_id(liquidity_token_destroyed)
     }
 
-    public fun amount(liquidity_token_destroyed: &LiquidityTokenDestroyed): u64 {
-        liquidity_token::liquidity_token_destroyed_amount(liquidity_token_destroyed)
-    }
-
 }

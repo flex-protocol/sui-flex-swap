@@ -17,20 +17,18 @@ module sui_swap_example::exchange_aggregate {
     const EInvalidAdminCap: u64 = 50;
 
     #[allow(unused_mut_parameter)]
-    public(friend) fun add_token_pair<Y>(
+    public(friend) fun add_token_pair<X: key + store, Y>(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,
-        x_token_type: String,
         ctx: &mut tx_context::TxContext,
     ) {
         exchange::assert_schema_version(exchange);
-        let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify<Y>(
+        let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify<X, Y>(
             token_pair_id,
-            x_token_type,
             exchange,
             ctx,
         );
-        exchange_add_token_pair_logic::mutate<Y>(
+        exchange_add_token_pair_logic::mutate<X, Y>(
             &token_pair_added_to_exchange,
             exchange,
             ctx,

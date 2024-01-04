@@ -18,6 +18,10 @@ module sui_swap_example::liquidity_initialized {
         token_pair::liquidity_initialized_exchange_id(liquidity_initialized)
     }
 
+    public fun x_amount(liquidity_initialized: &LiquidityInitialized): u64 {
+        token_pair::liquidity_initialized_x_amount(liquidity_initialized)
+    }
+
     public fun provider(liquidity_initialized: &LiquidityInitialized): address {
         token_pair::liquidity_initialized_provider(liquidity_initialized)
     }
@@ -28,10 +32,6 @@ module sui_swap_example::liquidity_initialized {
 
     public fun y_token_type(liquidity_initialized: &LiquidityInitialized): String {
         token_pair::liquidity_initialized_y_token_type(liquidity_initialized)
-    }
-
-    public fun x_amount(liquidity_initialized: &LiquidityInitialized): u64 {
-        token_pair::liquidity_initialized_x_amount(liquidity_initialized)
     }
 
     public fun y_amount(liquidity_initialized: &LiquidityInitialized): u64 {
