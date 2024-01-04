@@ -10,7 +10,7 @@ module sui_swap_example::liquidity_token_destroy_logic {
         ctx: &TxContext,
     ): liquidity_token::LiquidityTokenDestroyed {
         let _ = ctx;
-        liquidity_token::new_liquidity_token_destroyed(
+        liquidity_token::new_liquidity_token_destroyed<X, Y>(
             liquidity_token,
             liquidity_token::amount(liquidity_token),
         )
