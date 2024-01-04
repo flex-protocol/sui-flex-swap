@@ -1,5 +1,7 @@
 aggregates:
   TokenPair:
+    metadata:
+      IS_MOVE_SCHEMA_VERSIONED: true
     id:
       name: Id
       type: UID
@@ -15,17 +17,17 @@ aggregates:
         type: "Balance<Y>"
       TotalLiquidity:
         type: u64
-      Liquidities:
-        itemType: Liquidity
+#      Liquidities:
+#        itemType: Liquidity
 
-    entities:
-      Liquidity:
-        id:
-          name: Provider
-          type: address
-        properties:
-          Amount:
-            type: u64
+#    entities:
+#      Liquidity:
+#        id:
+#          name: Provider
+#          type: address
+#        properties:
+#          Amount:
+#            type: u64
 
     methods:
       InitializeLiquidity:
@@ -183,6 +185,44 @@ aggregates:
             XAmount:
               type: u64
             YAmount:
+              type: u64
+
+  LiquidityToken:
+    metadata:
+      HasStoreAbility: true
+      Preprocessors:
+        - MOVE_CRUD_IT
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_CREATE_METHOD_NAME: Mint
+      CRUD_IT_DELETE_METHOD_NAME: Destroy
+      MOVE_NO_VERSION_PROPERTY: true
+      IS_MOVE_SCHEMA_VERSIONED: true
+    friends:
+      - TokenPair.InitializeLiquidity
+      - TokenPair.AddLiquidity
+      - TokenPair.RemoveLiquidity
+    id:
+      name: Id
+      type: UID
+    properties:
+      Amount:
+        type: u64
+    methods:
+      Mint:
+        isInternal: true
+        event:
+          name: LiquidityTokenMinted
+          #isObjectShared: true
+          #isObjectFrozen: true
+          #properties:
+          #  Owner:
+          #    isOwner: true # Transfer the object to the account address indicated by this property
+      Destroy:
+        isInternal: true
+        event:
+          name: LiquidityTokenDestroyed
+          properties:
+            Amount:
               type: u64
 
 singletonObjects:

@@ -59,9 +59,10 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         // let y_amount = liquidity_added::y_amount(liquidity_added);
         let liquidity_amount_added = liquidity_added::liquidity_amount(liquidity_added);
         let id = token_pair::id(token_pair);
+        let total_liquidity = token_pair::total_liquidity(token_pair);
         token_pair::set_total_liquidity(
             token_pair,
-            token_pair::total_liquidity(token_pair) + liquidity_amount_added,
+            total_liquidity + liquidity_amount_added,
         );
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);
         sui::balance::join(x_reserve, x_amount);

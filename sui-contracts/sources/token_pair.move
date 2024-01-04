@@ -9,10 +9,8 @@ module sui_swap_example::token_pair {
     use sui::balance::Balance;
     use sui::event;
     use sui::object::{Self, ID, UID};
-    use sui::table;
     use sui::transfer;
     use sui::tx_context::TxContext;
-    use sui_swap_example::liquidity::{Self, Liquidity};
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
@@ -20,19 +18,36 @@ module sui_swap_example::token_pair {
     friend sui_swap_example::token_pair_swap_y_logic;
     friend sui_swap_example::token_pair_aggregate;
 
-    const EIdAlreadyExists: u64 = 101;
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
-    const EIdNotFound: u64 = 106;
+
+    /// Not the right admin for the object
+    const ENotAdmin: u64 = 0;
+    /// Migration is not an upgrade
+    const ENotUpgrade: u64 = 1;
+    /// Calling functions from the wrong package version
+    const EWrongSchemaVersion: u64 = 2;
+
+    const SCHEMA_VERSION: u64 = 0;
+
+    struct AdminCap has key {
+        id: UID,
+    }
+
+
+    public fun asssert_schema_version<X, Y>(token_pair: &TokenPair<X, Y>) {
+        assert!(token_pair.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
+    }
 
     struct TokenPair<phantom X, phantom Y> has key {
         id: UID,
         version: u64,
+        schema_version: u64,
+        admin_cap: ID,
         x_reserve: Balance<X>,
         y_reserve: Balance<Y>,
         total_liquidity: u64,
-        liquidities: table::Table<address, Liquidity>,
     }
 
     public fun id<X, Y>(token_pair: &TokenPair<X, Y>): object::ID {
@@ -67,46 +82,30 @@ module sui_swap_example::token_pair {
         token_pair.total_liquidity = total_liquidity;
     }
 
-    public(friend) fun add_liquidity<X, Y>(token_pair: &mut TokenPair<X, Y>, liquidity: Liquidity) {
-        let key = liquidity::provider(&liquidity);
-        assert!(!table::contains(&token_pair.liquidities, key), EIdAlreadyExists);
-        table::add(&mut token_pair.liquidities, key, liquidity);
-    }
-
-    public(friend) fun remove_liquidity<X, Y>(token_pair: &mut TokenPair<X, Y>, provider: address) {
-        assert!(table::contains(&token_pair.liquidities, provider), EIdNotFound);
-        let liquidity = table::remove(&mut token_pair.liquidities, provider);
-        liquidity::drop_liquidity(liquidity);
-    }
-
-    public(friend) fun borrow_mut_liquidity<X, Y>(token_pair: &mut TokenPair<X, Y>, provider: address): &mut Liquidity {
-        table::borrow_mut(&mut token_pair.liquidities, provider)
-    }
-
-    public fun borrow_liquidity<X, Y>(token_pair: &TokenPair<X, Y>, provider: address): &Liquidity {
-        table::borrow(&token_pair.liquidities, provider)
-    }
-
-    public fun liquidities_contains<X, Y>(token_pair: &TokenPair<X, Y>, provider: address): bool {
-        table::contains(&token_pair.liquidities, provider)
-    }
-
-    public fun liquidities_length<X, Y>(token_pair: &TokenPair<X, Y>): u64 {
-        table::length(&token_pair.liquidities)
-    }
-
     public(friend) fun new_token_pair<X, Y>(
         total_liquidity: u64,
         ctx: &mut TxContext,
     ): TokenPair<X, Y> {
+        let admin_cap = AdminCap {
+            id: object::new(ctx),
+        };
+        let admin_cap_id = object::id(&admin_cap);
+        transfer::transfer(admin_cap, sui::tx_context::sender(ctx));
         TokenPair {
             id: object::new(ctx),
             version: 0,
+            schema_version: SCHEMA_VERSION,
+            admin_cap: admin_cap_id,
             x_reserve: sui::balance::zero(),
             y_reserve: sui::balance::zero(),
             total_liquidity,
-            liquidities: table::new<address, Liquidity>(ctx),
         }
+    }
+
+    entry fun migrate<X, Y>(token_pair: &mut TokenPair<X, Y>, a: &AdminCap) {
+        assert!(token_pair.admin_cap == object::id(a), ENotAdmin);
+        assert!(token_pair.schema_version < SCHEMA_VERSION, ENotUpgrade);
+        token_pair.schema_version = SCHEMA_VERSION;
     }
 
     struct LiquidityInitialized has copy, drop {
@@ -156,7 +155,6 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_amount
     }
 
-    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X, Y>(
         exchange_id: ID,
         provider: address,
@@ -421,13 +419,11 @@ module sui_swap_example::token_pair {
         transfer::share_object(token_pair);
     }
 
-    #[lint_allow(freeze_wrapped)]
     public(friend) fun freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::freeze_object(token_pair);
     }
 
-    #[lint_allow(freeze_wrapped)]
     public(friend) fun update_version_and_freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         update_object_version(&mut token_pair);
         transfer::freeze_object(token_pair);
@@ -442,15 +438,15 @@ module sui_swap_example::token_pair {
         let TokenPair {
             id,
             version: _version,
+            schema_version: _,
+            admin_cap: _,
             x_reserve,
             y_reserve,
             total_liquidity: _total_liquidity,
-            liquidities,
         } = token_pair;
         object::delete(id);
         sui::balance::destroy_zero(x_reserve);
         sui::balance::destroy_zero(y_reserve);
-        table::destroy_empty(liquidities);
     }
 
     public(friend) fun emit_liquidity_initialized(liquidity_initialized: LiquidityInitialized) {

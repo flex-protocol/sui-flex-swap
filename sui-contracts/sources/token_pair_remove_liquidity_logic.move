@@ -6,6 +6,7 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
     use sui::balance;
     use sui::balance::Balance;
     use sui::tx_context::{Self, TxContext};
+    use sui_swap_example::token_pair::total_liquidity;
 
     use sui_swap_example::liquidity_removed;
     use sui_swap_example::liquidity_util;
@@ -50,9 +51,10 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
         let x_amount = liquidity_removed::x_amount(liquidity_removed);
         let y_amount = liquidity_removed::y_amount(liquidity_removed);
         let id = token_pair::id(token_pair);
+        let total_liquidity = token_pair::total_liquidity(token_pair);
         token_pair::set_total_liquidity(
             token_pair,
-            token_pair::total_liquidity(token_pair) - liquidity_amount_removed,
+            total_liquidity - liquidity_amount_removed,
         );
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);
         let x_out = balance::split(x_reserve, x_amount);

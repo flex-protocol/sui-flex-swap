@@ -11,7 +11,6 @@ module sui_swap_example::exchange_aggregate {
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
 
-    #[allow(unused_mut_parameter)]
     public(friend) fun add_token_pair<X, Y>(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,
