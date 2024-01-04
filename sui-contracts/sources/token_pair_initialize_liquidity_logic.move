@@ -2,18 +2,22 @@
 module sui_swap_example::token_pair_initialize_liquidity_logic {
     use std::string;
     use std::type_name;
+
     use sui::balance;
     use sui::balance::Balance;
-    use sui::object::{Self, UID};
+    use sui::object::Self;
     use sui::tx_context::{Self, TxContext};
+
+    use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
-    use sui_swap_example::token_util;
-    use sui_swap_example::exchange::{Self, Exchange};
-    use sui_swap_example::liquidity::{Self, Liquidity};
     use sui_swap_example::liquidity_initialized;
+    use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
+    use sui_swap_example::token_util;
 
     friend sui_swap_example::token_pair_aggregate;
+
+    const EAddInvalidLiquidity: u64 = 100;
 
     public(friend) fun verify<X, Y>(
         exchange: &mut Exchange,
@@ -22,14 +26,19 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
         token_util::assert_type_less_than<X, Y>();
+        let total_liquidity = 0;
+        let x_amount_i = balance::value(x_amount);
+        let y_amount_i = balance::value(y_amount);
+        let liquidity = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
+        assert!(liquidity > 0, EAddInvalidLiquidity);
         token_pair::new_liquidity_initialized<X, Y>(
             object::id(exchange),
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
-            balance::value(x_amount),
-            balance::value(y_amount),
-            0,//todo liquidity_amount
+            x_amount_i,
+            y_amount_i,
+            liquidity,
         )
     }
 
@@ -60,5 +69,4 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         sui::balance::join(y_reserve, y_amount);
         token_pair
     }
-
 }

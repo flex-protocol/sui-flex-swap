@@ -2,15 +2,18 @@
 module sui_swap_example::token_pair_add_liquidity_logic {
     use std::string;
     use std::type_name;
+
     use sui::balance;
     use sui::balance::Balance;
-    use sui::coin::balance;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_example::liquidity::{Self, Liquidity};
+
     use sui_swap_example::liquidity_added;
+    use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
 
     friend sui_swap_example::token_pair_aggregate;
+
+    const EAddInvalidLiquidity: u64 = 100;
 
     public(friend) fun verify<X, Y>(
         x_amount: &Balance<X>,
@@ -18,14 +21,27 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
     ): token_pair::LiquidityAdded {
+        let total_liquidity = token_pair::total_liquidity(token_pair);
+        let x_reserve = balance::value(token_pair::borrow_x_reserve(token_pair));
+        let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
+        let x_amount_i = balance::value(x_amount);
+        let y_amount_i = balance::value(y_amount);
+        let liquidity = liquidity_util::calculate_liquidity(
+            total_liquidity,
+            x_reserve,
+            y_reserve,
+            x_amount_i,
+            y_amount_i
+        );
+        assert!(liquidity > 0, EAddInvalidLiquidity);
         token_pair::new_liquidity_added(
             token_pair,
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
-            balance::value(x_amount),
-            balance::value(y_amount),
-            0,//todo liquidity_amount
+            x_amount_i,
+            y_amount_i,
+            liquidity,
         )
     }
 
@@ -49,5 +65,4 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         let y_reserve = token_pair::borrow_mut_y_reserve(token_pair);
         sui::balance::join(y_reserve, y_amount);
     }
-
 }
