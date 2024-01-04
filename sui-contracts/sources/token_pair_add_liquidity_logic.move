@@ -8,6 +8,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::liquidity_added;
+    use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
 
@@ -50,15 +51,18 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        ctx: &mut TxContext, // modify the reference to mutable if needed
     ) {
-        let provider = liquidity_added::provider(liquidity_added);
-        let x_token_type = liquidity_added::x_token_type(liquidity_added);
-        let y_token_type = liquidity_added::y_token_type(liquidity_added);
+        //let provider = liquidity_added::provider(liquidity_added);
+        //let x_token_type = liquidity_added::x_token_type(liquidity_added);
+        //let y_token_type = liquidity_added::y_token_type(liquidity_added);
         // let x_amount = liquidity_added::x_amount(liquidity_added);
         // let y_amount = liquidity_added::y_amount(liquidity_added);
         let liquidity_amount_added = liquidity_added::liquidity_amount(liquidity_added);
-        let id = token_pair::id(token_pair);
+
+        liquidity_token_aggregate::mint<X, Y>(liquidity_amount_added, ctx);
+
+        //let id = token_pair::id(token_pair);
         let total_liquidity = token_pair::total_liquidity(token_pair);
         token_pair::set_total_liquidity(
             token_pair,

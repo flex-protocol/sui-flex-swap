@@ -11,6 +11,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
     use sui_swap_example::liquidity_initialized;
+    use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
     use sui_swap_example::token_util;
@@ -49,13 +50,16 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         exchange: &mut Exchange,
         ctx: &mut TxContext,
     ): token_pair::TokenPair<X, Y> {
-        let exchange_id = liquidity_initialized::exchange_id(liquidity_initialized);
-        let provider = liquidity_initialized::provider(liquidity_initialized);
-        let x_token_type = liquidity_initialized::x_token_type(liquidity_initialized);
-        let y_token_type = liquidity_initialized::y_token_type(liquidity_initialized);
+        //let exchange_id = liquidity_initialized::exchange_id(liquidity_initialized);
+        //let provider = liquidity_initialized::provider(liquidity_initialized);
+        //let x_token_type = liquidity_initialized::x_token_type(liquidity_initialized);
+        //let y_token_type = liquidity_initialized::y_token_type(liquidity_initialized);
         // let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
         // let y_amount = liquidity_initialized::y_amount(liquidity_initialized);
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
+
+        liquidity_token_aggregate::mint<X, Y>(liquidity_amount, ctx);
+
         let token_pair = token_pair::new_token_pair(
             liquidity_amount,
             ctx,
