@@ -26,9 +26,9 @@ From the front-end, the dApp would look roughly like this:
 
 * The front-end has a place to show the "token reserves" in a token pair. That is, the amount of TokenX and TokenY are in the pair TokenX-TokenY.
 
-* For already supported token pair, e.g. TokenX-TokenY, user can "swap" TokenX for TokenY, or vice versa. Each swap transaction is charged 0.3% of the target token as a fee.
+* For already supported token pair, e.g. TokenX-TokenY, user can "swap" TokenX for TokenY, or vice versa. A fee of 0.3% will be charged for each transaction.
 
-* Users can "remove liquidity ". This means that by destroying their share of TokenX-TokenY liquidity, they can get a certain amount of TokenX and TokenY back.
+* Users can "remove liquidity". This means that by destroying their share of TokenX-TokenY liquidity, they can get a certain amount of TokenX and TokenY back.
 
 * The revenue that the user receives for providing liquidity comes from the fee and nothing else.
 
