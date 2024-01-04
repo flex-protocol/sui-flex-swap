@@ -35,14 +35,14 @@ module sui_swap_example::token_pair_swap_x_logic {
         x_swapped_for_y: &token_pair::XSwappedForY,
         x_amount: Balance<X>,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        _ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {
-        let sender = x_swapped_for_y::sender(x_swapped_for_y);
-        let x_token_type = x_swapped_for_y::x_token_type(x_swapped_for_y);
-        let y_token_type = x_swapped_for_y::y_token_type(x_swapped_for_y);
-        // let x_amount = x_swapped_for_y::x_amount(x_swapped_for_y);
+        //let sender = x_swapped_for_y::sender(x_swapped_for_y);
+        //let x_token_type = x_swapped_for_y::x_token_type(x_swapped_for_y);
+        //let y_token_type = x_swapped_for_y::y_token_type(x_swapped_for_y);
+        // let x_amount_i = x_swapped_for_y::x_amount(x_swapped_for_y);
         let y_amount = x_swapped_for_y::y_amount(x_swapped_for_y);
-        let id = token_pair::id(token_pair);
+        //let id = token_pair::id(token_pair);
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);
         sui::balance::join(x_reserve, x_amount);
         let y_reserve = token_pair::borrow_mut_y_reserve(token_pair);
