@@ -5,20 +5,20 @@ module sui_swap_example::liquidity_token_mint_logic {
 
     friend sui_swap_example::liquidity_token_aggregate;
 
-    public(friend) fun verify(
+    public(friend) fun verify<X, Y>(
         amount: u64,
         ctx: &mut TxContext,
     ): liquidity_token::LiquidityTokenMinted {
         let _ = ctx;
-        liquidity_token::new_liquidity_token_minted(
+        liquidity_token::new_liquidity_token_minted<X, Y>(
             amount,
         )
     }
 
-    public(friend) fun mutate(
+    public(friend) fun mutate<X, Y>(
         liquidity_token_minted: &liquidity_token::LiquidityTokenMinted,
         ctx: &mut TxContext,
-    ): liquidity_token::LiquidityToken {
+    ): liquidity_token::LiquidityToken<X, Y> {
         let amount = liquidity_token_minted::amount(liquidity_token_minted);
         liquidity_token::new_liquidity_token(
             amount,

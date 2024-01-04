@@ -5,8 +5,8 @@ module sui_swap_example::liquidity_token_destroy_logic {
 
     friend sui_swap_example::liquidity_token_aggregate;
 
-    public(friend) fun verify(
-        liquidity_token: &liquidity_token::LiquidityToken,
+    public(friend) fun verify<X, Y>(
+        liquidity_token: &liquidity_token::LiquidityToken<X, Y>,
         ctx: &TxContext,
     ): liquidity_token::LiquidityTokenDestroyed {
         let _ = ctx;
@@ -16,11 +16,11 @@ module sui_swap_example::liquidity_token_destroy_logic {
         )
     }
 
-    public(friend) fun mutate(
+    public(friend) fun mutate<X, Y>(
         liquidity_token_destroyed: &liquidity_token::LiquidityTokenDestroyed,
-        liquidity_token: liquidity_token::LiquidityToken,
+        liquidity_token: liquidity_token::LiquidityToken<X, Y>,
         ctx: &TxContext, // modify the reference to mutable if needed
-    ): liquidity_token::LiquidityToken {
+    ): liquidity_token::LiquidityToken<X, Y> {
         let amount = liquidity_token_destroyed::amount(liquidity_token_destroyed);
         let id = liquidity_token::id(&liquidity_token);
         let _ = ctx;

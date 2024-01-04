@@ -30,33 +30,33 @@ module sui_swap_example::liquidity_token {
     }
 
 
-    public fun asssert_schema_version(liquidity_token: &LiquidityToken) {
+    public fun asssert_schema_version<X, Y>(liquidity_token: &LiquidityToken<X, Y>) {
         assert!(liquidity_token.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
     }
 
-    struct LiquidityToken has key, store {
+    struct LiquidityToken<phantom X, phantom Y> has key, store {
         id: UID,
         schema_version: u64,
         admin_cap: ID,
         amount: u64,
     }
 
-    public fun id(liquidity_token: &LiquidityToken): object::ID {
+    public fun id<X, Y>(liquidity_token: &LiquidityToken<X, Y>): object::ID {
         object::uid_to_inner(&liquidity_token.id)
     }
 
-    public fun amount(liquidity_token: &LiquidityToken): u64 {
+    public fun amount<X, Y>(liquidity_token: &LiquidityToken<X, Y>): u64 {
         liquidity_token.amount
     }
 
-    public(friend) fun set_amount(liquidity_token: &mut LiquidityToken, amount: u64) {
+    public(friend) fun set_amount<X, Y>(liquidity_token: &mut LiquidityToken<X, Y>, amount: u64) {
         liquidity_token.amount = amount;
     }
 
-    public(friend) fun new_liquidity_token(
+    public(friend) fun new_liquidity_token<X, Y>(
         amount: u64,
         ctx: &mut TxContext,
-    ): LiquidityToken {
+    ): LiquidityToken<X, Y> {
         let admin_cap = AdminCap {
             id: object::new(ctx),
         };
@@ -70,7 +70,7 @@ module sui_swap_example::liquidity_token {
         }
     }
 
-    entry fun migrate(liquidity_token: &mut LiquidityToken, a: &AdminCap) {
+    entry fun migrate<X, Y>(liquidity_token: &mut LiquidityToken<X, Y>, a: &AdminCap) {
         assert!(liquidity_token.admin_cap == object::id(a), ENotAdmin);
         assert!(liquidity_token.schema_version < SCHEMA_VERSION, ENotUpgrade);
         liquidity_token.schema_version = SCHEMA_VERSION;
@@ -93,7 +93,7 @@ module sui_swap_example::liquidity_token {
         liquidity_token_minted.amount
     }
 
-    public(friend) fun new_liquidity_token_minted(
+    public(friend) fun new_liquidity_token_minted<X, Y>(
         amount: u64,
     ): LiquidityTokenMinted {
         LiquidityTokenMinted {
@@ -115,8 +115,8 @@ module sui_swap_example::liquidity_token {
         liquidity_token_destroyed.amount
     }
 
-    public(friend) fun new_liquidity_token_destroyed(
-        liquidity_token: &LiquidityToken,
+    public(friend) fun new_liquidity_token_destroyed<X, Y>(
+        liquidity_token: &LiquidityToken<X, Y>,
         amount: u64,
     ): LiquidityTokenDestroyed {
         LiquidityTokenDestroyed {
@@ -127,21 +127,21 @@ module sui_swap_example::liquidity_token {
 
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun transfer_object(liquidity_token: LiquidityToken, recipient: address) {
+    public(friend) fun transfer_object<X, Y>(liquidity_token: LiquidityToken<X, Y>, recipient: address) {
         transfer::transfer(liquidity_token, recipient);
     }
 
     #[lint_allow(share_owned, custom_state_change)]
-    public(friend) fun share_object(liquidity_token: LiquidityToken) {
+    public(friend) fun share_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         transfer::share_object(liquidity_token);
     }
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun freeze_object(liquidity_token: LiquidityToken) {
+    public(friend) fun freeze_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         transfer::freeze_object(liquidity_token);
     }
 
-    public(friend) fun drop_liquidity_token(liquidity_token: LiquidityToken) {
+    public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         let LiquidityToken {
             id,
             schema_version: _,

@@ -13,15 +13,15 @@ module sui_swap_example::liquidity_token_aggregate {
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
 
-    public(friend) fun mint(
+    public(friend) fun mint<X, Y>(
         amount: u64,
         ctx: &mut tx_context::TxContext,
     ) {
-        let liquidity_token_minted = liquidity_token_mint_logic::verify(
+        let liquidity_token_minted = liquidity_token_mint_logic::verify<X, Y>(
             amount,
             ctx,
         );
-        let liquidity_token = liquidity_token_mint_logic::mutate(
+        let liquidity_token = liquidity_token_mint_logic::mutate<X, Y>(
             &liquidity_token_minted,
             ctx,
         );
@@ -30,11 +30,11 @@ module sui_swap_example::liquidity_token_aggregate {
         liquidity_token::emit_liquidity_token_minted(liquidity_token_minted);
     }
 
-    public(friend) fun destroy(
-        liquidity_token: liquidity_token::LiquidityToken,
+    public(friend) fun destroy<X, Y>(
+        liquidity_token: liquidity_token::LiquidityToken<X, Y>,
         ctx: &mut tx_context::TxContext,
     ) {
-        liquidity_token::asssert_schema_version(&liquidity_token);
+        liquidity_token::asssert_schema_version<X, Y>(&liquidity_token);
         let liquidity_token_destroyed = liquidity_token_destroy_logic::verify(
             &liquidity_token,
             ctx,

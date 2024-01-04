@@ -201,6 +201,11 @@ aggregates:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
       - TokenPair.RemoveLiquidity
+    typeParameters:
+      X:
+        isPhantom: true
+      Y:
+        isPhantom: true
     id:
       name: Id
       type: UID

@@ -5,7 +5,6 @@ module sui_swap_example::token_pair_swap_x_logic {
     use sui::balance::{Self, Balance};
     use sui::tx_context::{Self, TxContext};
     use sui_swap_example::swap_util;
-    use sui_swap_example::liquidity::{Self, Liquidity};
     use sui_swap_example::token_pair;
     use sui_swap_example::x_swapped_for_y;
 
