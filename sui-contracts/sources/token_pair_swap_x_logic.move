@@ -12,16 +12,17 @@ module sui_swap_example::token_pair_swap_x_logic {
 
     public(friend) fun verify<X, Y>(
         x_amount: &Balance<X>,
+        expected_y_amount_out: u64,
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
     ): token_pair::XSwappedForY {
         let x_reserve = balance::value(token_pair::borrow_x_reserve(token_pair));
         let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
         let x_amount_in = balance::value(x_amount);
-        let expected_y_amount_out: u64 = 0;//todo?
         let y_amount_out = swap_util::swap(x_reserve, y_reserve, x_amount_in, expected_y_amount_out);
         token_pair::new_x_swapped_for_y(
             token_pair,
+            expected_y_amount_out,
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),

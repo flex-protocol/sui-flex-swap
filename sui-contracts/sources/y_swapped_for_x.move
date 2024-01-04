@@ -13,6 +13,10 @@ module sui_swap_example::y_swapped_for_x {
         token_pair::y_swapped_for_x_id(y_swapped_for_x)
     }
 
+    public fun expected_x_amount_out(y_swapped_for_x: &YSwappedForX): u64 {
+        token_pair::y_swapped_for_x_expected_x_amount_out(y_swapped_for_x)
+    }
+
     public fun sender(y_swapped_for_x: &YSwappedForX): address {
         token_pair::y_swapped_for_x_sender(y_swapped_for_x)
     }

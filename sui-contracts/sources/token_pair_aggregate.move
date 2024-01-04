@@ -88,11 +88,13 @@ module sui_swap_example::token_pair_aggregate {
     public fun swap_x<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         x_amount: Balance<X>,
+        expected_y_amount_out: u64,
         ctx: &mut tx_context::TxContext,
     ): Balance<Y> {
         token_pair::assert_schema_version(token_pair);
         let x_swapped_for_y = token_pair_swap_x_logic::verify<X, Y>(
             &x_amount,
+            expected_y_amount_out,
             token_pair,
             ctx,
         );
@@ -110,11 +112,13 @@ module sui_swap_example::token_pair_aggregate {
     public fun swap_y<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         y_amount: Balance<Y>,
+        expected_x_amount_out: u64,
         ctx: &mut tx_context::TxContext,
     ): Balance<X> {
         token_pair::assert_schema_version(token_pair);
         let y_swapped_for_x = token_pair_swap_y_logic::verify<X, Y>(
             &y_amount,
+            expected_x_amount_out,
             token_pair,
             ctx,
         );

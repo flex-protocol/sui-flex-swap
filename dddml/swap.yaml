@@ -19,7 +19,6 @@ aggregates:
         type: u64
 #      Liquidities:
 #        itemType: Liquidity
-
 #    entities:
 #      Liquidity:
 #        id:
@@ -137,8 +136,8 @@ aggregates:
         parameters:
           XAmount:
             type: Balance<X>
-          #ExpectedYAmountOut:
-          #  type: u64
+          ExpectedYAmountOut:
+            type: u64
         result:
           type: Balance<Y>
         event:
@@ -167,8 +166,8 @@ aggregates:
         parameters:
           YAmount:
             type: Balance<Y>
-          #ExpectedXAmountOut:
-          #  type: u64
+          ExpectedXAmountOut:
+            type: u64
         result:
           type: Balance<X>
         event:

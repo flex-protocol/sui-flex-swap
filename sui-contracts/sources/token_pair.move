@@ -299,6 +299,7 @@ module sui_swap_example::token_pair {
     struct XSwappedForY has copy, drop {
         id: object::ID,
         version: u64,
+        expected_y_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
@@ -308,6 +309,10 @@ module sui_swap_example::token_pair {
 
     public fun x_swapped_for_y_id(x_swapped_for_y: &XSwappedForY): object::ID {
         x_swapped_for_y.id
+    }
+
+    public fun x_swapped_for_y_expected_y_amount_out(x_swapped_for_y: &XSwappedForY): u64 {
+        x_swapped_for_y.expected_y_amount_out
     }
 
     public fun x_swapped_for_y_sender(x_swapped_for_y: &XSwappedForY): address {
@@ -332,6 +337,7 @@ module sui_swap_example::token_pair {
 
     public(friend) fun new_x_swapped_for_y<X, Y>(
         token_pair: &TokenPair<X, Y>,
+        expected_y_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
@@ -341,6 +347,7 @@ module sui_swap_example::token_pair {
         XSwappedForY {
             id: id(token_pair),
             version: version(token_pair),
+            expected_y_amount_out,
             sender,
             x_token_type,
             y_token_type,
@@ -352,6 +359,7 @@ module sui_swap_example::token_pair {
     struct YSwappedForX has copy, drop {
         id: object::ID,
         version: u64,
+        expected_x_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
@@ -361,6 +369,10 @@ module sui_swap_example::token_pair {
 
     public fun y_swapped_for_x_id(y_swapped_for_x: &YSwappedForX): object::ID {
         y_swapped_for_x.id
+    }
+
+    public fun y_swapped_for_x_expected_x_amount_out(y_swapped_for_x: &YSwappedForX): u64 {
+        y_swapped_for_x.expected_x_amount_out
     }
 
     public fun y_swapped_for_x_sender(y_swapped_for_x: &YSwappedForX): address {
@@ -385,6 +397,7 @@ module sui_swap_example::token_pair {
 
     public(friend) fun new_y_swapped_for_x<X, Y>(
         token_pair: &TokenPair<X, Y>,
+        expected_x_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
@@ -394,6 +407,7 @@ module sui_swap_example::token_pair {
         YSwappedForX {
             id: id(token_pair),
             version: version(token_pair),
+            expected_x_amount_out,
             sender,
             x_token_type,
             y_token_type,
