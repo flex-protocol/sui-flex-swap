@@ -82,6 +82,10 @@ module sui_swap_example::token_pair {
         token_pair.total_liquidity = total_liquidity;
     }
 
+    public fun admin_cap<X, Y>(token_pair: &TokenPair<X, Y>): ID {
+        token_pair.admin_cap
+    }
+
     public(friend) fun new_token_pair<X, Y>(
         total_liquidity: u64,
         ctx: &mut TxContext,
