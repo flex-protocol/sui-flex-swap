@@ -189,9 +189,6 @@ module sui_swap_example::exchange {
         id: object::ID,
         version: u64,
         name: String,
-        token_pairs: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
     }
 
     public fun exchange_updated_id(exchange_updated: &ExchangeUpdated): object::ID {
@@ -202,32 +199,14 @@ module sui_swap_example::exchange {
         exchange_updated.name
     }
 
-    public fun exchange_updated_token_pairs(exchange_updated: &ExchangeUpdated): vector<ID> {
-        exchange_updated.token_pairs
-    }
-
-    public fun exchange_updated_x_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
-        exchange_updated.x_token_types
-    }
-
-    public fun exchange_updated_y_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
-        exchange_updated.y_token_types
-    }
-
     public(friend) fun new_exchange_updated(
         exchange: &Exchange,
         name: String,
-        token_pairs: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
     ): ExchangeUpdated {
         ExchangeUpdated {
             id: id(exchange),
             version: version(exchange),
             name,
-            token_pairs,
-            x_token_types,
-            y_token_types,
         }
     }
 

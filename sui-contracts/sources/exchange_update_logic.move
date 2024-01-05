@@ -9,9 +9,6 @@ module sui_swap_example::exchange_update_logic {
 
     public(friend) fun verify(
         name: String,
-        token_pairs: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
         exchange: &exchange::Exchange,
         ctx: &TxContext,
     ): exchange::ExchangeUpdated {
@@ -19,9 +16,9 @@ module sui_swap_example::exchange_update_logic {
         exchange::new_exchange_updated(
             exchange,
             name,
-            token_pairs,
-            x_token_types,
-            y_token_types,
+            // token_pairs,
+            // x_token_types,
+            // y_token_types,
         )
     }
 
@@ -31,14 +28,14 @@ module sui_swap_example::exchange_update_logic {
         ctx: &TxContext, // modify the reference to mutable if needed
     ) {
         let name = exchange_updated::name(exchange_updated);
-        let token_pairs = exchange_updated::token_pairs(exchange_updated);
-        let x_token_types = exchange_updated::x_token_types(exchange_updated);
-        let y_token_types = exchange_updated::y_token_types(exchange_updated);
+        // let token_pairs = exchange_updated::token_pairs(exchange_updated);
+        // let x_token_types = exchange_updated::x_token_types(exchange_updated);
+        // let y_token_types = exchange_updated::y_token_types(exchange_updated);
         let _ = ctx;
         exchange::set_name(exchange, name);
-        exchange::set_token_pairs(exchange, token_pairs);
-        exchange::set_x_token_types(exchange, x_token_types);
-        exchange::set_y_token_types(exchange, y_token_types);
+        // exchange::set_token_pairs(exchange, token_pairs);
+        // exchange::set_x_token_types(exchange, x_token_types);
+        // exchange::set_y_token_types(exchange, y_token_types);
     }
 
 }

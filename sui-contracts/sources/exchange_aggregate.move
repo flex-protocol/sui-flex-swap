@@ -39,18 +39,12 @@ module sui_swap_example::exchange_aggregate {
         exchange: &mut exchange::Exchange,
         admin_cap: &exchange::AdminCap,
         name: String,
-        token_pairs: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
         ctx: &mut tx_context::TxContext,
     ) {
         assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
         exchange::assert_schema_version(exchange);
         let exchange_updated = exchange_update_logic::verify(
             name,
-            token_pairs,
-            x_token_types,
-            y_token_types,
             exchange,
             ctx,
         );

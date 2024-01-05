@@ -6,7 +6,7 @@
 module sui_swap_example::exchange_updated {
 
     use std::string::String;
-    use sui::object::{Self, ID};
+    use sui::object;
     use sui_swap_example::exchange::{Self, ExchangeUpdated};
 
     public fun id(exchange_updated: &ExchangeUpdated): object::ID {
@@ -15,18 +15,6 @@ module sui_swap_example::exchange_updated {
 
     public fun name(exchange_updated: &ExchangeUpdated): String {
         exchange::exchange_updated_name(exchange_updated)
-    }
-
-    public fun token_pairs(exchange_updated: &ExchangeUpdated): vector<ID> {
-        exchange::exchange_updated_token_pairs(exchange_updated)
-    }
-
-    public fun x_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
-        exchange::exchange_updated_x_token_types(exchange_updated)
-    }
-
-    public fun y_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
-        exchange::exchange_updated_y_token_types(exchange_updated)
     }
 
 }
