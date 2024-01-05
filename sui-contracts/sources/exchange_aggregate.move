@@ -12,6 +12,7 @@ module sui_swap_example::exchange_aggregate {
     use sui_swap_example::exchange_update_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
+    friend sui_swap_example::token_pair_service;
 
     const EInvalidAdminCap: u64 = 50;
 

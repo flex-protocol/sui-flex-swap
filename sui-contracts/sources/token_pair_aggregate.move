@@ -15,6 +15,8 @@ module sui_swap_example::token_pair_aggregate {
     use sui_swap_example::token_pair_swap_x_logic;
     use sui_swap_example::token_pair_swap_y_logic;
 
+    friend sui_swap_example::token_pair_service;
+
     public fun initialize_liquidity<X, Y>(
         exchange: &mut Exchange,
         x_amount: Balance<X>,

@@ -293,4 +293,23 @@ singletonObjects:
         event:
           name: ExchangeUpdated
 
-
+services:
+  TokenPairService:
+    methods:
+      InitializeLiquidity:
+        typeParameters:
+          X: {}
+          Y: {}
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            #eventPropertyName: ExchangeId
+          XCoin:
+            type: Coin<X>
+          XAmount:
+            type: Balance<X>
+          YCoin:
+            type: Coin<Y>
+          YAmount:
+            type: Balance<Y>

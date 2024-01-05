@@ -1,22 +1,21 @@
 module sui_swap_example::token_pair_service {
 
     use sui::balance::Balance;
-    use sui::coin;
-    use sui::coin::Coin;
+    use sui::coin::{Self, Coin};
     use sui::transfer;
     use sui::tx_context;
     use sui::tx_context::TxContext;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::token_pair;
 
     use sui_swap_example::exchange::Exchange;
+    use sui_swap_example::liquidity_token::LiquidityToken;
+    use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_aggregate;
 
     public entry fun initialize_liquidity<X, Y>(
         exchange: &mut Exchange,
-        x_coin: coin::Coin<X>,
+        x_coin: Coin<X>,
         x_amount: u64,
-        y_coin: coin::Coin<Y>,
+        y_coin: Coin<Y>,
         y_amount: u64,
         ctx: &mut tx_context::TxContext,
     ) {
@@ -32,9 +31,9 @@ module sui_swap_example::token_pair_service {
 
     public entry fun add_liquidity<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        x_coin: coin::Coin<X>,
+        x_coin: Coin<X>,
         x_amount: u64,
-        y_coin: coin::Coin<Y>,
+        y_coin: Coin<Y>,
         y_amount: u64,
         ctx: &mut tx_context::TxContext,
     ) {
@@ -51,8 +50,8 @@ module sui_swap_example::token_pair_service {
     public entry fun remove_liquidity<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         liquidity_token: LiquidityToken<X, Y>,
-        x_coin: &mut coin::Coin<X>,
-        y_coin: &mut coin::Coin<Y>,
+        x_coin: &mut Coin<X>,
+        y_coin: &mut Coin<Y>,
         ctx: &mut tx_context::TxContext,
     ) {
         let (x_balance, y_balance) = token_pair_aggregate::remove_liquidity(
@@ -66,9 +65,9 @@ module sui_swap_example::token_pair_service {
 
     public entry fun swap_x<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        x_coin: coin::Coin<X>,
+        x_coin: Coin<X>,
         x_amount: u64,
-        y_coin: &mut coin::Coin<Y>,
+        y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
         ctx: &mut tx_context::TxContext,
     ) {
@@ -84,9 +83,9 @@ module sui_swap_example::token_pair_service {
 
     public entry fun swap_y<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        y_coin: coin::Coin<Y>,
+        y_coin: Coin<Y>,
         y_amount: u64,
-        x_coin: &mut coin::Coin<X>,
+        x_coin: &mut Coin<X>,
         expected_x_amount_out: u64,
         ctx: &mut tx_context::TxContext,
     ) {

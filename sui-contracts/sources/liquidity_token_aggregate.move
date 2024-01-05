@@ -12,6 +12,7 @@ module sui_swap_example::liquidity_token_aggregate {
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
+    friend sui_swap_example::token_pair_service;
 
     public(friend) fun mint<X, Y>(
         amount: u64,
