@@ -6,7 +6,7 @@
 module sui_swap_example::liquidity_removed {
 
     use std::string::String;
-    use sui::object;
+    use sui::object::{Self, ID};
     use sui_swap_example::token_pair::{Self, LiquidityRemoved};
 
     public fun id(liquidity_removed: &LiquidityRemoved): object::ID {
@@ -15,6 +15,10 @@ module sui_swap_example::liquidity_removed {
 
     public fun liquidity_amount(liquidity_removed: &LiquidityRemoved): u64 {
         token_pair::liquidity_removed_liquidity_amount(liquidity_removed)
+    }
+
+    public fun liquidity_token_id(liquidity_removed: &LiquidityRemoved): ID {
+        token_pair::liquidity_removed_liquidity_token_id(liquidity_removed)
     }
 
     public fun provider(liquidity_removed: &LiquidityRemoved): address {

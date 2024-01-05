@@ -117,6 +117,7 @@ module sui_swap_example::token_pair {
         x_amount: u64,
         y_amount: u64,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
     }
 
     public fun liquidity_initialized_id(liquidity_initialized: &LiquidityInitialized): option::Option<object::ID> {
@@ -155,6 +156,10 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_amount
     }
 
+    public fun liquidity_initialized_liquidity_token_id(liquidity_initialized: &LiquidityInitialized): ID {
+        liquidity_initialized.liquidity_token_id
+    }
+
     public(friend) fun new_liquidity_initialized<X, Y>(
         exchange_id: ID,
         provider: address,
@@ -163,6 +168,7 @@ module sui_swap_example::token_pair {
         x_amount: u64,
         y_amount: u64,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
     ): LiquidityInitialized {
         LiquidityInitialized {
             id: option::none(),
@@ -173,6 +179,7 @@ module sui_swap_example::token_pair {
             x_amount,
             y_amount,
             liquidity_amount,
+            liquidity_token_id,
         }
     }
 
@@ -185,6 +192,7 @@ module sui_swap_example::token_pair {
         x_amount: u64,
         y_amount: u64,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
     }
 
     public fun liquidity_added_id(liquidity_added: &LiquidityAdded): object::ID {
@@ -215,6 +223,10 @@ module sui_swap_example::token_pair {
         liquidity_added.liquidity_amount
     }
 
+    public fun liquidity_added_liquidity_token_id(liquidity_added: &LiquidityAdded): ID {
+        liquidity_added.liquidity_token_id
+    }
+
     public(friend) fun new_liquidity_added<X, Y>(
         token_pair: &TokenPair<X, Y>,
         provider: address,
@@ -223,6 +235,7 @@ module sui_swap_example::token_pair {
         x_amount: u64,
         y_amount: u64,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
     ): LiquidityAdded {
         LiquidityAdded {
             id: id(token_pair),
@@ -233,6 +246,7 @@ module sui_swap_example::token_pair {
             x_amount,
             y_amount,
             liquidity_amount,
+            liquidity_token_id,
         }
     }
 
@@ -240,6 +254,7 @@ module sui_swap_example::token_pair {
         id: object::ID,
         version: u64,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -253,6 +268,10 @@ module sui_swap_example::token_pair {
 
     public fun liquidity_removed_liquidity_amount(liquidity_removed: &LiquidityRemoved): u64 {
         liquidity_removed.liquidity_amount
+    }
+
+    public fun liquidity_removed_liquidity_token_id(liquidity_removed: &LiquidityRemoved): ID {
+        liquidity_removed.liquidity_token_id
     }
 
     public fun liquidity_removed_provider(liquidity_removed: &LiquidityRemoved): address {
@@ -278,6 +297,7 @@ module sui_swap_example::token_pair {
     public(friend) fun new_liquidity_removed<X, Y>(
         token_pair: &TokenPair<X, Y>,
         liquidity_amount: u64,
+        liquidity_token_id: ID,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -288,6 +308,7 @@ module sui_swap_example::token_pair {
             id: id(token_pair),
             version: version(token_pair),
             liquidity_amount,
+            liquidity_token_id,
             provider,
             x_token_type,
             y_token_type,

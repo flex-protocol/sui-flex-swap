@@ -36,6 +36,7 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
         token_pair::new_liquidity_removed(
             token_pair,
             liquidity_amount,
+            liquidity_token::id(liquidity_token),
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),

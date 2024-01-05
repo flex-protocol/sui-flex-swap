@@ -31,8 +31,14 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         let total_liquidity = 0;
         let x_amount_i = balance::value(x_amount);
         let y_amount_i = balance::value(y_amount);
-        let liquidity = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
-        assert!(liquidity > 0, EAddInvalidLiquidity);
+        let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
+        assert!(liquidity_amount > 0, EAddInvalidLiquidity);
+
+        // mint first, so that we can emit its id in the event
+        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(liquidity_amount, ctx);
+        let liquidity_token_id = object::id(&liquidity_token);
+        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
+
         token_pair::new_liquidity_initialized<X, Y>(
             object::id(exchange),
             tx_context::sender(ctx),
@@ -40,7 +46,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
             x_amount_i,
             y_amount_i,
-            liquidity,
+            liquidity_amount,
+            liquidity_token_id,
         )
     }
 
@@ -58,9 +65,6 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         // let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
         // let y_amount = liquidity_initialized::y_amount(liquidity_initialized);
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
-
-        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(liquidity_amount, ctx);
-        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         let token_pair = token_pair::new_token_pair(
             liquidity_amount,

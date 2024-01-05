@@ -64,6 +64,8 @@ aggregates:
               type: u64
             LiquidityAmount:
               type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
 
       AddLiquidity:
         #shouldCallByReference: true
@@ -95,6 +97,8 @@ aggregates:
               type: u64
             LiquidityAmount:
               type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
 
       RemoveLiquidity:
         typeParameters:
@@ -114,8 +118,8 @@ aggregates:
           properties:
             LiquidityAmount:
               type: u64
-#            LiquidityTokenId:
-              #type: ID #ObjectID
+            LiquidityTokenId:
+              type: ID #ObjectID
             Provider:
               type: address
             XTokenType:
