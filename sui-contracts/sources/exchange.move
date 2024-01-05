@@ -13,6 +13,7 @@ module sui_swap_example::exchange {
     struct EXCHANGE has drop {}
 
     friend sui_swap_example::exchange_add_token_pair_logic;
+    friend sui_swap_example::exchange_update_logic;
     friend sui_swap_example::exchange_aggregate;
 
     #[allow(unused_const)]
@@ -112,7 +113,7 @@ module sui_swap_example::exchange {
             version: 0,
             schema_version: SCHEMA_VERSION,
             admin_cap: admin_cap_id,
-            name: std::string::utf8(b"sui-dex-example"),
+            name: std::string::utf8(b"sui-dddappp-dex"),
             token_pairs: std::vector::empty(),
             x_token_types: std::vector::empty(),
             y_token_types: std::vector::empty(),
@@ -180,6 +181,52 @@ module sui_swap_example::exchange {
         }
     }
 
+    struct ExchangeUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        name: String,
+        token_pairs: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    }
+
+    public fun exchange_updated_id(exchange_updated: &ExchangeUpdated): object::ID {
+        exchange_updated.id
+    }
+
+    public fun exchange_updated_name(exchange_updated: &ExchangeUpdated): String {
+        exchange_updated.name
+    }
+
+    public fun exchange_updated_token_pairs(exchange_updated: &ExchangeUpdated): vector<ID> {
+        exchange_updated.token_pairs
+    }
+
+    public fun exchange_updated_x_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
+        exchange_updated.x_token_types
+    }
+
+    public fun exchange_updated_y_token_types(exchange_updated: &ExchangeUpdated): vector<String> {
+        exchange_updated.y_token_types
+    }
+
+    public(friend) fun new_exchange_updated(
+        exchange: &Exchange,
+        name: String,
+        token_pairs: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    ): ExchangeUpdated {
+        ExchangeUpdated {
+            id: id(exchange),
+            version: version(exchange),
+            name,
+            token_pairs,
+            x_token_types,
+            y_token_types,
+        }
+    }
+
 
     public(friend) fun transfer_object(exchange: Exchange, recipient: address) {
         assert!(exchange.version == 0, EInappropriateVersion);
@@ -228,6 +275,10 @@ module sui_swap_example::exchange {
 
     public(friend) fun emit_token_pair_added_to_exchange(token_pair_added_to_exchange: TokenPairAddedToExchange) {
         event::emit(token_pair_added_to_exchange);
+    }
+
+    public(friend) fun emit_exchange_updated(exchange_updated: ExchangeUpdated) {
+        event::emit(exchange_updated);
     }
 
 }

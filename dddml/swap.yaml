@@ -243,7 +243,7 @@ singletonObjects:
     friends: [ "TokenPair.InitializeLiquidity" ]
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
-      CRUD_IT_NO_UPDATE: true
+      #CRUD_IT_NO_UPDATE: true
       CRUD_IT_NO_DELETE: true
       IS_MOVE_SCHEMA_VERSIONED: true
     properties:
@@ -252,7 +252,7 @@ singletonObjects:
         length: 200
         defaultLogic:
           Move:
-            'std::string::utf8(b"sui-dex-example")'
+            'std::string::utf8(b"sui-dddappp-dex")'
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
@@ -284,3 +284,5 @@ singletonObjects:
               type: String
             YTokenType:
               type: String
+      Update:
+        requiredPermission: AdminCap
