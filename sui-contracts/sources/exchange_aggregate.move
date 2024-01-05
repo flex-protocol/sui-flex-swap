@@ -13,6 +13,8 @@ module sui_swap_example::exchange_aggregate {
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
 
+    const EInvalidAdminCap:u64 = 50;
+
     public(friend) fun add_token_pair<X, Y>(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,
@@ -35,12 +37,14 @@ module sui_swap_example::exchange_aggregate {
 
     public entry fun update(
         exchange: &mut exchange::Exchange,
+        admin_cap: &exchange::AdminCap,
         name: String,
         token_pairs: vector<ID>,
         x_token_types: vector<String>,
         y_token_types: vector<String>,
         ctx: &mut tx_context::TxContext,
     ) {
+        assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
         exchange::assert_schema_version(exchange);
         let exchange_updated = exchange_update_logic::verify(
             name,

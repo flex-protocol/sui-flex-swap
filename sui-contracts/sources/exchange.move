@@ -99,6 +99,10 @@ module sui_swap_example::exchange {
         exchange.y_token_types = y_token_types;
     }
 
+    public fun admin_cap(exchange: &Exchange): ID {
+        exchange.admin_cap
+    }
+
     public(friend) fun new_exchange(
         _witness: EXCHANGE,
         ctx: &mut TxContext,
