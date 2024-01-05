@@ -308,8 +308,86 @@ services:
           XCoin:
             type: Coin<X>
           XAmount:
-            type: Balance<X>
+            type: u64
           YCoin:
             type: Coin<Y>
           YAmount:
-            type: Balance<Y>
+            type: u64
+
+      AddLiquidity:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+            #eventPropertyName: TokenPairId
+          XCoin:
+            type: Coin<X>
+          XAmount:
+            type: u64
+          YCoin:
+            type: Coin<Y>
+          YAmount:
+            type: u64
+
+      RemoveLiquidity:
+        typeParameters:
+          X: {}
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+            #eventPropertyName: TokenPairId
+          LiquidityToken:
+            type: LiquidityToken<X, Y>
+            #eventPropertyName: LiquidityTokenId
+          XCoin:
+            referenceType: Coin<X>
+            isMutableReference: true
+          YCoin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+
+      SwapX:
+        typeParameters:
+          X: {}
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+            #eventPropertyName: TokenPairId
+          XCoin:
+            type: Coin<X>
+          XAmount:
+            type: u64
+          YCoin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+          ExpectedYAmountOut:
+            type: u64
+
+      SwapY:
+        typeParameters:
+          X: {}
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+            #eventPropertyName: TokenPairId
+          YCoin:
+            type: Coin<Y>
+          YAmount:
+            type: u64
+          XCoin:
+            referenceType: Coin<X>
+            isMutableReference: true
+          ExpectedXAmountOut:
+            type: u64
