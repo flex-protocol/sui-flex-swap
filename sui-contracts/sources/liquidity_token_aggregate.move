@@ -16,7 +16,7 @@ module sui_swap_example::liquidity_token_aggregate {
     public(friend) fun mint<X, Y>(
         amount: u64,
         ctx: &mut tx_context::TxContext,
-    ) {
+    ): liquidity_token::LiquidityToken<X, Y> {
         let liquidity_token_minted = liquidity_token_mint_logic::verify<X, Y>(
             amount,
             ctx,
@@ -26,8 +26,8 @@ module sui_swap_example::liquidity_token_aggregate {
             ctx,
         );
         liquidity_token::set_liquidity_token_minted_id(&mut liquidity_token_minted, liquidity_token::id(&liquidity_token));
-        liquidity_token::transfer_object(liquidity_token, tx_context::sender(ctx));
         liquidity_token::emit_liquidity_token_minted(liquidity_token_minted);
+        liquidity_token
     }
 
     public(friend) fun destroy<X, Y>(

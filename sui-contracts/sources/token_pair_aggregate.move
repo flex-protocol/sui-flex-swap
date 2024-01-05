@@ -6,8 +6,8 @@
 module sui_swap_example::token_pair_aggregate {
     use sui::balance::Balance;
     use sui::tx_context;
-    use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::exchange::Exchange;
+    use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_add_liquidity_logic;
     use sui_swap_example::token_pair_initialize_liquidity_logic;

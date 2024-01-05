@@ -112,6 +112,10 @@ aggregates:
         event:
           name: LiquidityRemoved
           properties:
+            LiquidityAmount:
+              type: u64
+#            LiquidityTokenId:
+              #type: ID #ObjectID
             Provider:
               type: address
             XTokenType:
@@ -123,8 +127,6 @@ aggregates:
             XAmount:
               type: u64
             YAmount:
-              type: u64
-            LiquidityAmount:
               type: u64
 
       SwapX:
@@ -215,6 +217,8 @@ aggregates:
     methods:
       Mint:
         isInternal: true
+        result:
+          isObjectReturned: true
         event:
           name: LiquidityTokenMinted
           #isObjectShared: true

@@ -5,6 +5,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
 
     use sui::balance;
     use sui::balance::Balance;
+    use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::liquidity_added;
@@ -60,7 +61,8 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         // let y_amount = liquidity_added::y_amount(liquidity_added);
         let liquidity_amount_added = liquidity_added::liquidity_amount(liquidity_added);
 
-        liquidity_token_aggregate::mint<X, Y>(liquidity_amount_added, ctx);
+        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(liquidity_amount_added, ctx);
+        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         //let id = token_pair::id(token_pair);
         let total_liquidity = token_pair::total_liquidity(token_pair);
