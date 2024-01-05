@@ -6,7 +6,7 @@
 module sui_swap_example::liquidity_token {
     use std::option;
     use sui::event;
-    use sui::object::{Self, ID, UID};
+    use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::TxContext;
     friend sui_swap_example::liquidity_token_mint_logic;
@@ -16,28 +16,8 @@ module sui_swap_example::liquidity_token {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
 
-    /// Not the right admin for the object
-    const ENotAdmin: u64 = 0;
-    /// Migration is not an upgrade
-    const ENotUpgrade: u64 = 1;
-    /// Calling functions from the wrong package version
-    const EWrongSchemaVersion: u64 = 2;
-
-    const SCHEMA_VERSION: u64 = 0;
-
-    struct AdminCap has key {
-        id: UID,
-    }
-
-
-    public fun assert_schema_version<X, Y>(liquidity_token: &LiquidityToken<X, Y>) {
-        assert!(liquidity_token.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
-    }
-
     struct LiquidityToken<phantom X, phantom Y> has key, store {
         id: UID,
-        schema_version: u64,
-        admin_cap: ID,
         amount: u64,
     }
 
@@ -57,23 +37,10 @@ module sui_swap_example::liquidity_token {
         amount: u64,
         ctx: &mut TxContext,
     ): LiquidityToken<X, Y> {
-        let admin_cap = AdminCap {
-            id: object::new(ctx),
-        };
-        let admin_cap_id = object::id(&admin_cap);
-        transfer::transfer(admin_cap, sui::tx_context::sender(ctx));
         LiquidityToken {
             id: object::new(ctx),
-            schema_version: SCHEMA_VERSION,
-            admin_cap: admin_cap_id,
             amount,
         }
-    }
-
-    entry fun migrate<X, Y>(liquidity_token: &mut LiquidityToken<X, Y>, a: &AdminCap) {
-        assert!(liquidity_token.admin_cap == object::id(a), ENotAdmin);
-        assert!(liquidity_token.schema_version < SCHEMA_VERSION, ENotUpgrade);
-        liquidity_token.schema_version = SCHEMA_VERSION;
     }
 
     struct LiquidityTokenMinted has copy, drop {
@@ -144,8 +111,6 @@ module sui_swap_example::liquidity_token {
     public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         let LiquidityToken {
             id,
-            schema_version: _,
-            admin_cap: _,
             amount: _amount,
         } = liquidity_token;
         object::delete(id);

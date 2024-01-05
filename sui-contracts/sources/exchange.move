@@ -19,6 +19,20 @@ module sui_swap_example::exchange {
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 
+    /// Not the right admin for the object
+    const ENotAdmin: u64 = 0;
+    /// Migration is not an upgrade
+    const ENotUpgrade: u64 = 1;
+    /// Calling functions from the wrong package version
+    const EWrongSchemaVersion: u64 = 2;
+
+    const SCHEMA_VERSION: u64 = 0;
+
+    struct AdminCap has key {
+        id: UID,
+    }
+
+
     fun init(witness: EXCHANGE, ctx: &mut TxContext) {
         let exchange = new_exchange(
             witness,
@@ -28,9 +42,15 @@ module sui_swap_example::exchange {
         share_object(exchange);
     }
 
+    public fun assert_schema_version(exchange: &Exchange) {
+        assert!(exchange.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
+    }
+
     struct Exchange has key {
         id: UID,
         version: u64,
+        schema_version: u64,
+        admin_cap: ID,
         name: String,
         token_pairs: vector<ID>,
         x_token_types: vector<String>,
@@ -82,14 +102,27 @@ module sui_swap_example::exchange {
         _witness: EXCHANGE,
         ctx: &mut TxContext,
     ): Exchange {
+        let admin_cap = AdminCap {
+            id: object::new(ctx),
+        };
+        let admin_cap_id = object::id(&admin_cap);
+        transfer::transfer(admin_cap, sui::tx_context::sender(ctx));
         Exchange {
             id: object::new(ctx),
             version: 0,
+            schema_version: SCHEMA_VERSION,
+            admin_cap: admin_cap_id,
             name: std::string::utf8(b"sui-dex-example"),
             token_pairs: std::vector::empty(),
             x_token_types: std::vector::empty(),
             y_token_types: std::vector::empty(),
         }
+    }
+
+    entry fun migrate(exchange: &mut Exchange, a: &AdminCap) {
+        assert!(exchange.admin_cap == object::id(a), ENotAdmin);
+        assert!(exchange.schema_version < SCHEMA_VERSION, ENotUpgrade);
+        exchange.schema_version = SCHEMA_VERSION;
     }
 
     struct InitExchangeEvent has copy, drop {
@@ -183,6 +216,8 @@ module sui_swap_example::exchange {
         let Exchange {
             id,
             version: _version,
+            schema_version: _,
+            admin_cap: _,
             name: _name,
             token_pairs: _token_pairs,
             x_token_types: _x_token_types,

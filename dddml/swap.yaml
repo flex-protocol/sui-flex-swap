@@ -202,7 +202,7 @@ aggregates:
       CRUD_IT_CREATE_METHOD_NAME: Mint
       CRUD_IT_DELETE_METHOD_NAME: Destroy
       MOVE_NO_VERSION_PROPERTY: true
-      IS_MOVE_SCHEMA_VERSIONED: true
+      #IS_MOVE_SCHEMA_VERSIONED: true
     friends:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
@@ -245,6 +245,7 @@ singletonObjects:
       Preprocessors: [ "MOVE_CRUD_IT" ]
       CRUD_IT_NO_UPDATE: true
       CRUD_IT_NO_DELETE: true
+      IS_MOVE_SCHEMA_VERSIONED: true
     properties:
       Name:
         type: String

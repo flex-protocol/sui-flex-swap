@@ -16,6 +16,7 @@ module sui_swap_example::exchange_aggregate {
         token_pair_id: ID,
         ctx: &mut tx_context::TxContext,
     ) {
+        exchange::assert_schema_version(exchange);
         let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify<X, Y>(
             token_pair_id,
             exchange,

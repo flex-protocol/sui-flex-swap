@@ -34,7 +34,6 @@ module sui_swap_example::liquidity_token_aggregate {
         liquidity_token: liquidity_token::LiquidityToken<X, Y>,
         ctx: &mut tx_context::TxContext,
     ) {
-        liquidity_token::assert_schema_version(&liquidity_token);
         let liquidity_token_destroyed = liquidity_token_destroy_logic::verify<X, Y>(
             &liquidity_token,
             ctx,
