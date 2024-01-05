@@ -8,7 +8,7 @@ module sui_swap_example::token_pair_service {
 
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::token_pair;
+    use sui_swap_example::token_pair::TokenPair;
     use sui_swap_example::token_pair_aggregate;
 
     public entry fun initialize_liquidity<X, Y>(
@@ -30,7 +30,7 @@ module sui_swap_example::token_pair_service {
     }
 
     public entry fun add_liquidity<X, Y>(
-        token_pair: &mut token_pair::TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         x_coin: Coin<X>,
         x_amount: u64,
         y_coin: Coin<Y>,
@@ -48,7 +48,7 @@ module sui_swap_example::token_pair_service {
     }
 
     public entry fun remove_liquidity<X, Y>(
-        token_pair: &mut token_pair::TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         liquidity_token: LiquidityToken<X, Y>,
         x_coin: &mut Coin<X>,
         y_coin: &mut Coin<Y>,
@@ -64,7 +64,7 @@ module sui_swap_example::token_pair_service {
     }
 
     public entry fun swap_x<X, Y>(
-        token_pair: &mut token_pair::TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         x_coin: Coin<X>,
         x_amount: u64,
         y_coin: &mut Coin<Y>,
@@ -82,7 +82,7 @@ module sui_swap_example::token_pair_service {
     }
 
     public entry fun swap_y<X, Y>(
-        token_pair: &mut token_pair::TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         y_coin: Coin<Y>,
         y_amount: u64,
         x_coin: &mut Coin<X>,
