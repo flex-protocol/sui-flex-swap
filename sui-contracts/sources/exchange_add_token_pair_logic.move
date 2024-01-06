@@ -3,9 +3,12 @@ module sui_swap_example::exchange_add_token_pair_logic {
     use std::string;
     use std::type_name;
     use std::vector;
+
     use sui::object::ID;
-    use sui::tx_context::{Self, TxContext};
+    use sui::tx_context::TxContext;
+
     use sui_swap_example::exchange;
+    use sui_swap_example::exchange::Exchange;
     use sui_swap_example::token_pair_added_to_exchange;
 
     friend sui_swap_example::exchange_aggregate;
@@ -19,6 +22,16 @@ module sui_swap_example::exchange_add_token_pair_logic {
     ): exchange::TokenPairAddedToExchange {
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
+        assert_token_pair_not_exists(exchange, x_token_type, y_token_type);
+        exchange::new_token_pair_added_to_exchange(
+            exchange,
+            token_pair_id,
+            x_token_type,
+            y_token_type,
+        )
+    }
+
+    fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
         let exists: bool = false;
         let x_len = vector::length(&exchange::x_token_types(exchange));
         let i = 0;
@@ -27,19 +40,13 @@ module sui_swap_example::exchange_add_token_pair_logic {
             if (*x == x_token_type) {
                 let y = vector::borrow(&exchange::y_token_types(exchange), i);
                 if (*y == y_token_type) {
-                   exists = true;
+                    exists = true;
                     break
                 };
             };
             i = i + 1;
         };
         assert!(!exists, ETokenPairExists);
-        exchange::new_token_pair_added_to_exchange(
-            exchange,
-            token_pair_id,
-            x_token_type,
-            y_token_type,
-        )
     }
 
     #[allow(unused_type_parameter)]
@@ -57,6 +64,8 @@ module sui_swap_example::exchange_add_token_pair_logic {
         vector::push_back(&mut ids, token_pair_id);
         vector::push_back(&mut x_token_types, x_token_type);
         vector::push_back(&mut y_token_types, y_token_type);
+        exchange::set_token_pairs(exchange, ids);
+        exchange::set_x_token_types(exchange, x_token_types);
+        exchange::set_y_token_types(exchange, y_token_types);
     }
-
 }
