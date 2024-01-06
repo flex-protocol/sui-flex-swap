@@ -133,9 +133,164 @@ That's the whole programming routine, isn't it simple?
 
 ## Test Application
 
-[TBD]
+### Deploy contract
+
+```shell
+sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
+```
+
+### Some preparations might be needed
 
 
+We may need to mint ourselves some test coins first.
+
+Included in this repository is a Move file (`example_coin.move`) that is needed to deploy a test coin (`EXAMPLE_COIN`).
+You can create a separate Move project for it and deploy it.
+
+Note that the first argument that needs to be passed to mint test coin is the ID of an object of type `0x0000..0002::coin::TreasuryCap`.
+You can find it in the output message of the terminal when you deploy the contract.
+
+Let's say the package ID of the test coin contract we deployed is `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`.
+Then, mint yourself some test coins like the following:
+
+```shell
+sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d --module example_coin --function mint \
+--args 0x3c3a6aba123ab679b634f7cb7904d9c15d311994c5347afb984b508bb6add40a 100000000000 --gas-budget 30000000
+```
+
+The output contains something like the following:
+
+```text
+│ Created Objects:                                                                                                                       │
+│  ┌──                                                                                                                                   │
+│  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
+│  │ Sender: 0x...                                                                                                                       │
+│  │ Owner: Account Address ( 0x... )                                                                                                    │
+│  │ ObjectType: 0x2::coin::Coin<0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>         │
+```
+
+Record the ID of the test Coin object created, for example `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`:
+
+View the Sui Coin objects in the current account:
+
+```shell
+sui client gas
+```
+
+If you have only one Sui Coin object in your account, you can transfer some SUI to your account first to split this Sui Coin object.
+In the following test, we need to use a Sui Coin object to add liquidity in addition to a Sui Coin object to pay gas fee:
+
+```shell
+sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294 --amounts 1000000000 \
+--recipients 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 --gas-budget 30000000
+```
+
+### Initialize liquidity
+
+
+Note the arguments required by "initialize liquidity" function, which are assumed by the following commands:
+
+* The ID of the publisher object for module `liquidity_token` is `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`.
+* Assuming the ID of the `Exchange` object is `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`.
+* SUI coin object ID is `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`.
+* The ID of the test coin (`EXAMPLE_COIN`) object is `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`.
+
+So, the command that needs to be executed is similar to the following:
+
+```shell
+sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function initialize_liquidity \
+--type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+--args \
+'0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116' \
+'0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6' \
+'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'"1000"' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'"100000000"' \
+--gas-budget 30000000
+```
+
+Note the ID of the output `TokenPair` object:
+
+```text
+│  ┌──                                                                                                                                                                                                                               │
+│  │ ObjectID: 0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd                                                                                                                                                    │
+│  │ Sender: 0x...                                                                                                                                                                                                                   │
+│  │ Owner: Shared                                                                                                                                                                                                                   │
+│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::token_pair::TokenPair<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>            │
+```
+
+### Add liquidity
+
+Add liquidity:
+
+```shell
+sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function add_liquidity \
+--type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+--args \
+'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
+'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'"1000"' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'"100000000"' \
+--gas-budget 30000000
+```
+
+Note the ID of the `LiquidityToken` object in the output:
+
+```text
+│ Created Objects:                                                                                                                                                                                                                   │
+│  ┌──                                                                                                                                                                                                                               │
+│  │ ObjectID: 0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8                                                                                                                                                    │
+│  │ Sender: 0x...                                                                                                                                                                                                                   │
+│  │ Owner: Account Address ( 0x... )                                                                                                                                                                                                │
+│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::liquidity_token::LiquidityToken<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>  │
+```
+
+### Remove liquidity
+
+Remove liquidity:
+
+```shell
+sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function remove_liquidity \
+--type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+--args \
+'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
+'0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8' \
+'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+--gas-budget 30000000
+```
+
+### Swap tokens
+
+Swap, to exchange Token X for Token Y:
+
+```shell
+sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_x \
+--type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+--args \
+'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
+'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'"100"' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'"9060000"' \
+--gas-budget 30000000
+```
+
+In the opposite direction, Token Y is exchanged for Token X:
+
+```shell
+sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_y \
+--type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+--args \
+'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'"9060000"' \
+'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'"90"' \
+--gas-budget 30000000
+```
 
 
 ##  Further Reading

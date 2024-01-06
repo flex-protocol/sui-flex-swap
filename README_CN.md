@@ -84,11 +84,14 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 
 ### 初始化流动性
 
-初始化流动性，注意函数需要的参数， 下面的命令假设，
-模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
-假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`，
-Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`，
-测试币（EXAMPLE_COIN）Coin 对象的 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`：
+注意初始化流动性函数所需要的参数，下面的命令假设：
+
+* 模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
+* 假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`，
+* Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`，
+* 测试币（EXAMPLE_COIN）Coin 对象的 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+
+所以，需要执行的命令类似下面这样：
 
 ```shell
 sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function initialize_liquidity \
