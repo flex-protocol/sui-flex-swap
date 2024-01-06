@@ -11,6 +11,9 @@ module sui_swap_example::token_pair {
     use sui::object::{Self, ID, UID};
     use sui::transfer;
     use sui::tx_context::TxContext;
+
+    struct TOKEN_PAIR has drop {}
+
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
@@ -35,6 +38,10 @@ module sui_swap_example::token_pair {
         id: UID,
     }
 
+
+    fun init(otw: TOKEN_PAIR, ctx: &mut TxContext) {
+        sui::package::claim_and_keep(otw, ctx)
+    }
 
     public fun assert_schema_version<X, Y>(token_pair: &TokenPair<X, Y>) {
         assert!(token_pair.schema_version == SCHEMA_VERSION, EWrongSchemaVersion);
