@@ -36,26 +36,37 @@
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
 
-### 准备工作
+### 一些可能需要的准备工作
 
-给自己 mint 一些测试币（第一个参数是一个类型为 `0x0000..0002::coin::TreasuryCap` 的对象的 Id），
-假设测试币合约的包 Id 是 `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`：
+
+我们可能需要先给自己 mint 一些测试代币。
+
+在本代码库中，包含一个部署测试代币（`EXAMPLE_COIN`）需要的 Move 文件（`example_coin.move`）。你可以单独为它创建一个 Move 项目，然后部署它。
+
+注意，mint 测试币需要传入的第一个参数是一个类型为 `0x0000..0002::coin::TreasuryCap` 的对象的 Id。
+你可以在部署合约时，终端的输出信息中发现它。
+
+假设我们部署的测试币合约的包 Id 是 `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`，
+那么，像下面这样给自己 mint 一些测试币：
+
 
 ```shell
 sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d --module example_coin --function mint \
 --args 0x3c3a6aba123ab679b634f7cb7904d9c15d311994c5347afb984b508bb6add40a 100000000000 --gas-budget 30000000
 ```
 
-输出类似下面，记录下创建的测试币的 Coin 对象的 Id，比如 `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`：
+输出包含类似下面这样的内容：
 
 ```text
 │ Created Objects:                                                                                                                       │
 │  ┌──                                                                                                                                   │
-│  │ ObjectID: 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d                                                        │
+│  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
 │  │ Sender: 0x...                                                                                                                       │
 │  │ Owner: Account Address ( 0x... )                                                                                                    │
 │  │ ObjectType: 0x2::coin::Coin<0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>         │
 ```
+
+记录下创建的测试币的 Coin 对象的 Id，比如 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`：
 
 查看当前账户中的 Sui Coin 对象：
 
@@ -63,7 +74,8 @@ sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae
 sui client gas
 ```
 
-如果你的账户只有一个 Sui Coin 对象，可以先给自己的账户转一些 SUI，达到 split 这个 Sui Coin 对象的目的：
+如果你的账户只有一个 Sui Coin 对象，可以先给自己的账户转一些 SUI，以达到 split 这个 Sui Coin 对象的目的。
+下面的测试中，我们除了需要使用一个 Sui Coin 对象来付 gas 费之外，还需要使用一个 Sui Coin 对象来添加流动性：
 
 ```shell
 sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294 --amounts 1000000000 \
