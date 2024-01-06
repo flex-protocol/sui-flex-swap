@@ -1,6 +1,5 @@
 module sui_swap_example::liquidity_token_destroy_logic {
     use sui::tx_context::TxContext;
-    use sui_swap_example::liquidity_token_destroyed;
     use sui_swap_example::liquidity_token;
 
     friend sui_swap_example::liquidity_token_aggregate;
@@ -21,7 +20,7 @@ module sui_swap_example::liquidity_token_destroy_logic {
         liquidity_token: liquidity_token::LiquidityToken<X, Y>,
         ctx: &TxContext, // modify the reference to mutable if needed
     ): liquidity_token::LiquidityToken<X, Y> {
-        let amount = liquidity_token_destroyed::amount(liquidity_token_destroyed);
+        //let amount = liquidity_token_destroyed::amount(liquidity_token_destroyed);
         let id = liquidity_token::id(&liquidity_token);
         let _ = ctx;
         let _ = id;

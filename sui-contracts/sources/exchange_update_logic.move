@@ -1,7 +1,8 @@
 module sui_swap_example::exchange_update_logic {
     use std::string::String;
-    use sui::object::ID;
+
     use sui::tx_context::TxContext;
+
     use sui_swap_example::exchange;
     use sui_swap_example::exchange_updated;
 
@@ -37,5 +38,4 @@ module sui_swap_example::exchange_update_logic {
         // exchange::set_x_token_types(exchange, x_token_types);
         // exchange::set_y_token_types(exchange, y_token_types);
     }
-
 }

@@ -101,6 +101,7 @@ module sui_swap_example::token_pair_service {
         coin::join(x_coin, coin::from_balance(x_amount_b, ctx));
     }
 
+    #[lint_allow(self_transfer)]
     fun split_up_and_into_balance<T>(coin: Coin<T>, amount: u64, ctx: &mut TxContext): Balance<T> {
         if (coin::value(&coin) == amount) {
             coin::into_balance(coin)

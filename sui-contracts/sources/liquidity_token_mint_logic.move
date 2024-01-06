@@ -5,6 +5,7 @@ module sui_swap_example::liquidity_token_mint_logic {
 
     friend sui_swap_example::liquidity_token_aggregate;
 
+    #[allow(unused_mut_parameter)]
     public(friend) fun verify<X, Y>(
         amount: u64,
         ctx: &mut TxContext,

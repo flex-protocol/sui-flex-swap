@@ -31,6 +31,7 @@ module sui_swap_example::liquidity_token_aggregate {
         liquidity_token
     }
 
+    #[allow(unused_mut_parameter)]
     public(friend) fun destroy<X, Y>(
         liquidity_token: liquidity_token::LiquidityToken<X, Y>,
         ctx: &mut tx_context::TxContext,

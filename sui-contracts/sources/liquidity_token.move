@@ -67,6 +67,7 @@ module sui_swap_example::liquidity_token {
         liquidity_token_minted.amount
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_token_minted<X, Y>(
         amount: u64,
     ): LiquidityTokenMinted {

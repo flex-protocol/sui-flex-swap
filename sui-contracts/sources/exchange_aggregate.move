@@ -16,6 +16,7 @@ module sui_swap_example::exchange_aggregate {
 
     const EInvalidAdminCap: u64 = 50;
 
+    #[allow(unused_mut_parameter)]
     public(friend) fun add_token_pair<X, Y>(
         exchange: &mut exchange::Exchange,
         token_pair_id: ID,

@@ -18,6 +18,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
 
     const EAddInvalidLiquidity: u64 = 100;
 
+    #[lint_allow(self_transfer)]
     public(friend) fun verify<X, Y>(
         x_amount: &Balance<X>,
         y_amount: &Balance<Y>,

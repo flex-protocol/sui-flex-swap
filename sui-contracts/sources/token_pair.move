@@ -171,6 +171,7 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_token_id
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X, Y>(
         exchange_id: ID,
         provider: address,
