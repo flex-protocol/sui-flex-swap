@@ -32,6 +32,7 @@ aggregates:
     methods:
       InitializeLiquidity:
         isCreationCommand: true
+        requiredPermission: "__Publisher__"
         typeParameters:
           X: {}
           Y: {}
@@ -303,6 +304,8 @@ services:
           X: {}
           Y: {}
         parameters:
+          Publisher:
+            referenceType: "sui::package::Publisher"
           Exchange:
             referenceType: Exchange
             isMutableReference: true
