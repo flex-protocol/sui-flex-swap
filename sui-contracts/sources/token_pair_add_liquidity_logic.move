@@ -61,7 +61,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &mut TxContext, // modify the reference to mutable if needed
+        _ctx: &mut TxContext, // modify the reference to mutable if needed
     ) {
         //let provider = liquidity_added::provider(liquidity_added);
         //let x_token_type = liquidity_added::x_token_type(liquidity_added);

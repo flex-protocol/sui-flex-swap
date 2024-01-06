@@ -15,7 +15,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
     public(friend) fun verify<X, Y>(
         token_pair_id: ID,
         exchange: &exchange::Exchange,
-        ctx: &TxContext,
+        _ctx: &TxContext,
     ): exchange::TokenPairAddedToExchange {
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
@@ -46,7 +46,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
     public(friend) fun mutate<X, Y>(
         token_pair_added_to_exchange: &exchange::TokenPairAddedToExchange,
         exchange: &mut exchange::Exchange,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
         let token_pair_id = token_pair_added_to_exchange::token_pair_id(token_pair_added_to_exchange);
         let x_token_type = token_pair_added_to_exchange::x_token_type(token_pair_added_to_exchange);

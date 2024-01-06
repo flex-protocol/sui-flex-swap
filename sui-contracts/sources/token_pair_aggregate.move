@@ -19,6 +19,7 @@ module sui_swap_example::token_pair_aggregate {
 
     const EInvalidPublisher: u64 = 50;
 
+    #[allow(unused_mut_parameter)]
     public fun initialize_liquidity<X, Y>(
         publisher: &sui::package::Publisher,
         exchange: &mut Exchange,
@@ -45,6 +46,7 @@ module sui_swap_example::token_pair_aggregate {
         token_pair::emit_liquidity_initialized(liquidity_initialized);
     }
 
+    #[allow(unused_mut_parameter)]
     public fun add_liquidity<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         x_amount: Balance<X>,
@@ -69,6 +71,7 @@ module sui_swap_example::token_pair_aggregate {
         token_pair::emit_liquidity_added(liquidity_added);
     }
 
+    #[allow(unused_mut_parameter)]
     public fun remove_liquidity<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         liquidity_token: LiquidityToken<X, Y>,
@@ -91,6 +94,7 @@ module sui_swap_example::token_pair_aggregate {
         (remove_liquidity_return_1, remove_liquidity_return_2)
     }
 
+    #[allow(unused_mut_parameter)]
     public fun swap_x<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         x_amount: Balance<X>,
@@ -115,6 +119,7 @@ module sui_swap_example::token_pair_aggregate {
         swap_x_return
     }
 
+    #[allow(unused_mut_parameter)]
     public fun swap_y<X, Y>(
         token_pair: &mut token_pair::TokenPair<X, Y>,
         y_amount: Balance<Y>,

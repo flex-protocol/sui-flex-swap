@@ -239,6 +239,7 @@ module sui_swap_example::token_pair {
         liquidity_added.liquidity_token_id
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_added<X, Y>(
         token_pair: &TokenPair<X, Y>,
         provider: address,
@@ -306,6 +307,7 @@ module sui_swap_example::token_pair {
         liquidity_removed.y_amount
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_removed<X, Y>(
         token_pair: &TokenPair<X, Y>,
         liquidity_amount: u64,
@@ -368,6 +370,7 @@ module sui_swap_example::token_pair {
         x_swapped_for_y.y_amount
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_x_swapped_for_y<X, Y>(
         token_pair: &TokenPair<X, Y>,
         expected_y_amount_out: u64,
@@ -428,6 +431,7 @@ module sui_swap_example::token_pair {
         y_swapped_for_x.y_amount
     }
 
+    #[allow(unused_type_parameter)]
     public(friend) fun new_y_swapped_for_x<X, Y>(
         token_pair: &TokenPair<X, Y>,
         expected_x_amount_out: u64,

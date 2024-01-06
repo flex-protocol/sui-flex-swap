@@ -14,6 +14,7 @@ module sui_swap_example::liquidity_token_aggregate {
     friend sui_swap_example::token_pair_remove_liquidity_logic;
     friend sui_swap_example::token_pair_service;
 
+    #[allow(unused_mut_parameter)]
     public(friend) fun mint<X, Y>(
         amount: u64,
         ctx: &mut tx_context::TxContext,
