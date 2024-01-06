@@ -17,12 +17,16 @@ module sui_swap_example::token_pair_aggregate {
 
     friend sui_swap_example::token_pair_service;
 
+    const EInvalidPublisher: u64 = 50;
+
     public fun initialize_liquidity<X, Y>(
+        publisher: &sui::package::Publisher,
         exchange: &mut Exchange,
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
         ctx: &mut tx_context::TxContext,
     ) {
+        assert!(sui::package::from_package<token_pair::TokenPair<X, Y>>(publisher), EInvalidPublisher);
         let liquidity_initialized = token_pair_initialize_liquidity_logic::verify<X, Y>(
             exchange,
             &x_amount,
