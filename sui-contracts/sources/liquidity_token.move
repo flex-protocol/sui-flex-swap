@@ -9,12 +9,19 @@ module sui_swap_example::liquidity_token {
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::TxContext;
+
+    struct LIQUIDITY_TOKEN has drop {}
+
     friend sui_swap_example::liquidity_token_mint_logic;
     friend sui_swap_example::liquidity_token_destroy_logic;
     friend sui_swap_example::liquidity_token_aggregate;
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+
+    fun init(otw: LIQUIDITY_TOKEN, ctx: &mut TxContext) {
+        sui::package::claim_and_keep(otw, ctx)
+    }
 
     struct LiquidityToken<phantom X, phantom Y> has key, store {
         id: UID,

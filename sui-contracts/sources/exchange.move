@@ -34,9 +34,9 @@ module sui_swap_example::exchange {
     }
 
 
-    fun init(witness: EXCHANGE, ctx: &mut TxContext) {
+    fun init(otw: EXCHANGE, ctx: &mut TxContext) {
         let exchange = new_exchange(
-            witness,
+            otw,
             ctx,
         );
         event::emit(new_init_exchange_event(&exchange));

@@ -203,6 +203,7 @@ aggregates:
       CRUD_IT_DELETE_METHOD_NAME: Destroy
       MOVE_NO_VERSION_PROPERTY: true
       #IS_MOVE_SCHEMA_VERSIONED: true
+      ShouldIssuePublisherObject: true
     friends:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
