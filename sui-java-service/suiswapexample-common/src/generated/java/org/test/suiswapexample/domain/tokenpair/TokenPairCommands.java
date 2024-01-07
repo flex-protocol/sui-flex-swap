@@ -178,16 +178,16 @@ public class TokenPairCommands {
         }
 
         /**
-         * Expected Y Amount Out
+         * Expected Y_ Amount Out
          */
-        private BigInteger expectedYAmountOut;
+        private BigInteger expectedY_AmountOut;
 
-        public BigInteger getExpectedYAmountOut() {
-            return this.expectedYAmountOut;
+        public BigInteger getExpectedY_AmountOut() {
+            return this.expectedY_AmountOut;
         }
 
-        public void setExpectedYAmountOut(BigInteger expectedYAmountOut) {
-            this.expectedYAmountOut = expectedYAmountOut;
+        public void setExpectedY_AmountOut(BigInteger expectedY_AmountOut) {
+            this.expectedY_AmountOut = expectedY_AmountOut;
         }
 
         /**
@@ -229,16 +229,16 @@ public class TokenPairCommands {
         }
 
         /**
-         * Expected X Amount Out
+         * Expected X_ Amount Out
          */
-        private BigInteger expectedXAmountOut;
+        private BigInteger expectedX_AmountOut;
 
-        public BigInteger getExpectedXAmountOut() {
-            return this.expectedXAmountOut;
+        public BigInteger getExpectedX_AmountOut() {
+            return this.expectedX_AmountOut;
         }
 
-        public void setExpectedXAmountOut(BigInteger expectedXAmountOut) {
-            this.expectedXAmountOut = expectedXAmountOut;
+        public void setExpectedX_AmountOut(BigInteger expectedX_AmountOut) {
+            this.expectedX_AmountOut = expectedX_AmountOut;
         }
 
         /**

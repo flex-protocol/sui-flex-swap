@@ -38,9 +38,9 @@ public interface ExchangeState extends VersionedSuiMoveObject
 
     List<String> getTokenPairs();
 
-    List<String> getXTokenTypes();
+    List<String> getX_TokenTypes();
 
-    List<String> getYTokenTypes();
+    List<String> getY_TokenTypes();
 
     interface MutableExchangeState extends ExchangeState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
@@ -63,9 +63,9 @@ public interface ExchangeState extends VersionedSuiMoveObject
 
         void setTokenPairs(List<String> tokenPairs);
 
-        void setXTokenTypes(List<String> xTokenTypes);
+        void setX_TokenTypes(List<String> x_TokenTypes);
 
-        void setYTokenTypes(List<String> yTokenTypes);
+        void setY_TokenTypes(List<String> y_TokenTypes);
 
 
         void mutate(Event e);

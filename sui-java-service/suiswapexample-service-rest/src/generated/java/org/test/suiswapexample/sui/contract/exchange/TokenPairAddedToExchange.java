@@ -21,9 +21,9 @@ public class TokenPairAddedToExchange {
 
     private String tokenPairId;
 
-    private String xTokenType;
+    private String x_TokenType;
 
-    private String yTokenType;
+    private String y_TokenType;
 
     public String getId() {
         return id;
@@ -49,20 +49,20 @@ public class TokenPairAddedToExchange {
         this.tokenPairId = tokenPairId;
     }
 
-    public String getXTokenType() {
-        return xTokenType;
+    public String getX_TokenType() {
+        return x_TokenType;
     }
 
-    public void setXTokenType(String xTokenType) {
-        this.xTokenType = xTokenType;
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
     }
 
-    public String getYTokenType() {
-        return yTokenType;
+    public String getY_TokenType() {
+        return y_TokenType;
     }
 
-    public void setYTokenType(String yTokenType) {
-        this.yTokenType = yTokenType;
+    public void setY_TokenType(String y_TokenType) {
+        this.y_TokenType = y_TokenType;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class TokenPairAddedToExchange {
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", tokenPairId=" + '\'' + tokenPairId + '\'' +
-                ", xTokenType=" + '\'' + xTokenType + '\'' +
-                ", yTokenType=" + '\'' + yTokenType + '\'' +
+                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
+                ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 '}';
     }
 

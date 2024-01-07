@@ -125,24 +125,24 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         this.tokenPairs = tokenPairs;
     }
 
-    private List<String> xTokenTypes;
+    private List<String> x_TokenTypes;
 
-    public List<String> getXTokenTypes() {
-        return this.xTokenTypes;
+    public List<String> getX_TokenTypes() {
+        return this.x_TokenTypes;
     }
 
-    public void setXTokenTypes(List<String> xTokenTypes) {
-        this.xTokenTypes = xTokenTypes;
+    public void setX_TokenTypes(List<String> x_TokenTypes) {
+        this.x_TokenTypes = x_TokenTypes;
     }
 
-    private List<String> yTokenTypes;
+    private List<String> y_TokenTypes;
 
-    public List<String> getYTokenTypes() {
-        return this.yTokenTypes;
+    public List<String> getY_TokenTypes() {
+        return this.y_TokenTypes;
     }
 
-    public void setYTokenTypes(List<String> yTokenTypes) {
-        this.yTokenTypes = yTokenTypes;
+    public void setY_TokenTypes(List<String> y_TokenTypes) {
+        this.y_TokenTypes = y_TokenTypes;
     }
 
     public boolean isStateUnsaved() {
@@ -226,8 +226,8 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         }
         this.setName(s.getName());
         this.setTokenPairs(s.getTokenPairs());
-        this.setXTokenTypes(s.getXTokenTypes());
-        this.setYTokenTypes(s.getYTokenTypes());
+        this.setX_TokenTypes(s.getX_TokenTypes());
+        this.setY_TokenTypes(s.getY_TokenTypes());
         this.setActive(s.getActive());
         this.setVersion(s.getVersion());
     }
@@ -284,10 +284,10 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
 
         String tokenPairId = e.getTokenPairId();
         String TokenPairId = tokenPairId;
-        String xTokenType = e.getXTokenType();
-        String XTokenType = xTokenType;
-        String yTokenType = e.getYTokenType();
-        String YTokenType = yTokenType;
+        String x_TokenType = e.getX_TokenType();
+        String X_TokenType = x_TokenType;
+        String y_TokenType = e.getY_TokenType();
+        String Y_TokenType = y_TokenType;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -318,13 +318,13 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
                     "org.test.suiswapexample.domain.exchange.AddTokenPairLogic",
                     "mutate",
                     new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, tokenPairId, xTokenType, yTokenType, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Object[]{this, tokenPairId, x_TokenType, y_TokenType, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.exchange;
 //
 //public class AddTokenPairLogic {
-//    public static ExchangeState mutate(ExchangeState exchangeState, String tokenPairId, String xTokenType, String yTokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
+//    public static ExchangeState mutate(ExchangeState exchangeState, String tokenPairId, String x_TokenType, String y_TokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
 //    }
 //}
 

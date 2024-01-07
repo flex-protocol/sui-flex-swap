@@ -240,28 +240,28 @@ public abstract class AbstractExchangeEvent extends AbstractEvent implements Exc
             getDynamicProperties().put("tokenPairId", value);
         }
 
-        public String getXTokenType() {
-            Object val = getDynamicProperties().get("xTokenType");
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
             if (val instanceof String) {
                 return (String) val;
             }
             return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
         }
 
-        public void setXTokenType(String value) {
-            getDynamicProperties().put("xTokenType", value);
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
         }
 
-        public String getYTokenType() {
-            Object val = getDynamicProperties().get("yTokenType");
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
             if (val instanceof String) {
                 return (String) val;
             }
             return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
         }
 
-        public void setYTokenType(String value) {
-            getDynamicProperties().put("yTokenType", value);
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
         }
 
     }

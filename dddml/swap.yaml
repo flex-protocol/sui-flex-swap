@@ -12,9 +12,9 @@ aggregates:
       Y:
         isPhantom: true
     properties:
-      XReserve:
+      X_Reserve:
         type: "Balance<X>"
-      YReserve:
+      Y_Reserve:
         type: "Balance<Y>"
       TotalLiquidity:
         type: u64
@@ -44,9 +44,9 @@ aggregates:
             referenceType: Exchange
             isMutableReference: true
             eventPropertyName: ExchangeId
-          XAmount:
+          X_Amount:
             type: Balance<X>
-          YAmount:
+          Y_Amount:
             type: Balance<Y>
         event:
           name: LiquidityInitialized
@@ -54,15 +54,15 @@ aggregates:
           properties:
             Provider:
               type: address
-            XTokenType:
+            X_TokenType:
               type: String
               length: 200
-            YTokenType:
+            Y_TokenType:
               type: String
               length: 200
-            XAmount:
+            X_Amount:
               type: u64
-            YAmount:
+            Y_Amount:
               type: u64
             LiquidityAmount:
               type: u64
@@ -78,24 +78,24 @@ aggregates:
           X: X
           Y: Y
         parameters:
-          XAmount:
+          X_Amount:
             type: Balance<X>
-          YAmount:
+          Y_Amount:
             type: Balance<Y>
         event:
           name: LiquidityAdded
           properties:
             Provider:
               type: address
-            XTokenType:
+            X_TokenType:
               type: String
               length: 200
-            YTokenType:
+            Y_TokenType:
               type: String
               length: 200
-            XAmount:
+            X_Amount:
               type: u64
-            YAmount:
+            Y_Amount:
               type: u64
             LiquidityAmount:
               type: u64
@@ -124,15 +124,15 @@ aggregates:
               type: ID #ObjectID
             Provider:
               type: address
-            XTokenType:
+            X_TokenType:
               type: String
               length: 200
-            YTokenType:
+            Y_TokenType:
               type: String
               length: 200
-            XAmount:
+            X_Amount:
               type: u64
-            YAmount:
+            Y_Amount:
               type: u64
 
       SwapX:
@@ -143,9 +143,9 @@ aggregates:
           X: X
           Y: Y
         parameters:
-          XAmount:
+          X_Amount:
             type: Balance<X>
-          ExpectedYAmountOut:
+          ExpectedY_AmountOut:
             type: u64
         result:
           type: Balance<Y>
@@ -154,15 +154,15 @@ aggregates:
           properties:
             Sender:
               type: address
-            XTokenType:
+            X_TokenType:
               type: String
               length: 200
-            YTokenType:
+            Y_TokenType:
               type: String
               length: 200
-            XAmount:
+            X_Amount:
               type: u64
-            YAmount:
+            Y_Amount:
               type: u64
 
       SwapY:
@@ -173,9 +173,9 @@ aggregates:
           X: X
           Y: Y
         parameters:
-          YAmount:
+          Y_Amount:
             type: Balance<Y>
-          ExpectedXAmountOut:
+          ExpectedX_AmountOut:
             type: u64
         result:
           type: Balance<X>
@@ -184,15 +184,15 @@ aggregates:
           properties:
             Sender:
               type: address
-            XTokenType:
+            X_TokenType:
               type: String
               length: 200
-            YTokenType:
+            Y_TokenType:
               type: String
               length: 200
-            XAmount:
+            X_Amount:
               type: u64
-            YAmount:
+            Y_Amount:
               type: u64
 
   LiquidityToken:
@@ -259,10 +259,10 @@ singletonObjects:
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
-      XTokenTypes:
+      X_TokenTypes:
         itemType: String
         isList: true
-      YTokenTypes:
+      Y_TokenTypes:
         itemType: String
         isList: true
 
@@ -283,9 +283,9 @@ singletonObjects:
         event:
           name: TokenPairAddedToExchange
           properties:
-            XTokenType:
+            X_TokenType:
               type: String
-            YTokenType:
+            Y_TokenType:
               type: String
 
       Update:
@@ -310,13 +310,13 @@ services:
             referenceType: Exchange
             isMutableReference: true
             #eventPropertyName: ExchangeId
-          XCoin:
+          X_Coin:
             type: Coin<X>
-          XAmount:
+          X_Amount:
             type: u64
-          YCoin:
+          Y_Coin:
             type: Coin<Y>
-          YAmount:
+          Y_Amount:
             type: u64
 
       AddLiquidity:
@@ -331,13 +331,13 @@ services:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
             #eventPropertyName: TokenPairId
-          XCoin:
+          X_Coin:
             type: Coin<X>
-          XAmount:
+          X_Amount:
             type: u64
-          YCoin:
+          Y_Coin:
             type: Coin<Y>
-          YAmount:
+          Y_Amount:
             type: u64
 
       RemoveLiquidity:
@@ -352,10 +352,10 @@ services:
           LiquidityToken:
             type: LiquidityToken<X, Y>
             #eventPropertyName: LiquidityTokenId
-          XCoin:
+          X_Coin:
             referenceType: Coin<X>
             isMutableReference: true
-          YCoin:
+          Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
 
@@ -368,14 +368,14 @@ services:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
             #eventPropertyName: TokenPairId
-          XCoin:
+          X_Coin:
             type: Coin<X>
-          XAmount:
+          X_Amount:
             type: u64
-          YCoin:
+          Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
-          ExpectedYAmountOut:
+          ExpectedY_AmountOut:
             type: u64
 
       SwapY:
@@ -387,12 +387,12 @@ services:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
             #eventPropertyName: TokenPairId
-          YCoin:
+          Y_Coin:
             type: Coin<Y>
-          YAmount:
+          Y_Amount:
             type: u64
-          XCoin:
+          X_Coin:
             referenceType: Coin<X>
             isMutableReference: true
-          ExpectedXAmountOut:
+          ExpectedX_AmountOut:
             type: u64

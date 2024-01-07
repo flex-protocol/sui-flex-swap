@@ -38,10 +38,10 @@ public class DomainBeanUtils {
         liquidityInitialized.setId(contractEvent.getId());
         liquidityInitialized.setExchangeId(contractEvent.getExchangeId());
         liquidityInitialized.setProvider(contractEvent.getProvider());
-        liquidityInitialized.setXTokenType(contractEvent.getXTokenType());
-        liquidityInitialized.setYTokenType(contractEvent.getYTokenType());
-        liquidityInitialized.setXAmount(contractEvent.getXAmount());
-        liquidityInitialized.setYAmount(contractEvent.getYAmount());
+        liquidityInitialized.setX_TokenType(contractEvent.getX_TokenType());
+        liquidityInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        liquidityInitialized.setX_Amount(contractEvent.getX_Amount());
+        liquidityInitialized.setY_Amount(contractEvent.getY_Amount());
         liquidityInitialized.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
         liquidityInitialized.setVersion(BigInteger.valueOf(-1));
@@ -63,10 +63,10 @@ public class DomainBeanUtils {
         AbstractTokenPairEvent.LiquidityAdded liquidityAdded = new AbstractTokenPairEvent.LiquidityAdded();
         liquidityAdded.setId(contractEvent.getId());
         liquidityAdded.setProvider(contractEvent.getProvider());
-        liquidityAdded.setXTokenType(contractEvent.getXTokenType());
-        liquidityAdded.setYTokenType(contractEvent.getYTokenType());
-        liquidityAdded.setXAmount(contractEvent.getXAmount());
-        liquidityAdded.setYAmount(contractEvent.getYAmount());
+        liquidityAdded.setX_TokenType(contractEvent.getX_TokenType());
+        liquidityAdded.setY_TokenType(contractEvent.getY_TokenType());
+        liquidityAdded.setX_Amount(contractEvent.getX_Amount());
+        liquidityAdded.setY_Amount(contractEvent.getY_Amount());
         liquidityAdded.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityAdded.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
         liquidityAdded.setVersion(contractEvent.getVersion());
@@ -91,10 +91,10 @@ public class DomainBeanUtils {
         liquidityRemoved.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityRemoved.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
         liquidityRemoved.setProvider(contractEvent.getProvider());
-        liquidityRemoved.setXTokenType(contractEvent.getXTokenType());
-        liquidityRemoved.setYTokenType(contractEvent.getYTokenType());
-        liquidityRemoved.setXAmount(contractEvent.getXAmount());
-        liquidityRemoved.setYAmount(contractEvent.getYAmount());
+        liquidityRemoved.setX_TokenType(contractEvent.getX_TokenType());
+        liquidityRemoved.setY_TokenType(contractEvent.getY_TokenType());
+        liquidityRemoved.setX_Amount(contractEvent.getX_Amount());
+        liquidityRemoved.setY_Amount(contractEvent.getY_Amount());
         liquidityRemoved.setVersion(contractEvent.getVersion());
 
         liquidityRemoved.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -113,12 +113,12 @@ public class DomainBeanUtils {
 
         AbstractTokenPairEvent.XSwappedForY xSwappedForY = new AbstractTokenPairEvent.XSwappedForY();
         xSwappedForY.setId(contractEvent.getId());
-        xSwappedForY.setExpectedYAmountOut(contractEvent.getExpectedYAmountOut());
+        xSwappedForY.setExpectedY_AmountOut(contractEvent.getExpectedY_AmountOut());
         xSwappedForY.setSender(contractEvent.getSender());
-        xSwappedForY.setXTokenType(contractEvent.getXTokenType());
-        xSwappedForY.setYTokenType(contractEvent.getYTokenType());
-        xSwappedForY.setXAmount(contractEvent.getXAmount());
-        xSwappedForY.setYAmount(contractEvent.getYAmount());
+        xSwappedForY.setX_TokenType(contractEvent.getX_TokenType());
+        xSwappedForY.setY_TokenType(contractEvent.getY_TokenType());
+        xSwappedForY.setX_Amount(contractEvent.getX_Amount());
+        xSwappedForY.setY_Amount(contractEvent.getY_Amount());
         xSwappedForY.setVersion(contractEvent.getVersion());
 
         xSwappedForY.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -137,12 +137,12 @@ public class DomainBeanUtils {
 
         AbstractTokenPairEvent.YSwappedForX ySwappedForX = new AbstractTokenPairEvent.YSwappedForX();
         ySwappedForX.setId(contractEvent.getId());
-        ySwappedForX.setExpectedXAmountOut(contractEvent.getExpectedXAmountOut());
+        ySwappedForX.setExpectedX_AmountOut(contractEvent.getExpectedX_AmountOut());
         ySwappedForX.setSender(contractEvent.getSender());
-        ySwappedForX.setXTokenType(contractEvent.getXTokenType());
-        ySwappedForX.setYTokenType(contractEvent.getYTokenType());
-        ySwappedForX.setXAmount(contractEvent.getXAmount());
-        ySwappedForX.setYAmount(contractEvent.getYAmount());
+        ySwappedForX.setX_TokenType(contractEvent.getX_TokenType());
+        ySwappedForX.setY_TokenType(contractEvent.getY_TokenType());
+        ySwappedForX.setX_Amount(contractEvent.getX_Amount());
+        ySwappedForX.setY_Amount(contractEvent.getY_Amount());
         ySwappedForX.setVersion(contractEvent.getVersion());
 
         ySwappedForX.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -218,8 +218,8 @@ public class DomainBeanUtils {
         AbstractExchangeEvent.TokenPairAddedToExchange tokenPairAddedToExchange = new AbstractExchangeEvent.TokenPairAddedToExchange();
         tokenPairAddedToExchange.setId(contractEvent.getId());
         tokenPairAddedToExchange.setTokenPairId(contractEvent.getTokenPairId());
-        tokenPairAddedToExchange.setXTokenType(contractEvent.getXTokenType());
-        tokenPairAddedToExchange.setYTokenType(contractEvent.getYTokenType());
+        tokenPairAddedToExchange.setX_TokenType(contractEvent.getX_TokenType());
+        tokenPairAddedToExchange.setY_TokenType(contractEvent.getY_TokenType());
         tokenPairAddedToExchange.setVersion(contractEvent.getVersion());
 
         tokenPairAddedToExchange.setSuiTimestamp(eventEnvelope.getTimestampMs());

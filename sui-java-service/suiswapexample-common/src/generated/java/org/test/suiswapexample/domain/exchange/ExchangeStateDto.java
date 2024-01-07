@@ -133,24 +133,24 @@ public class ExchangeStateDto {
         this.tokenPairs = tokenPairs;
     }
 
-    private String[] xTokenTypes;
+    private String[] x_TokenTypes;
 
-    public String[] getXTokenTypes() {
-        return this.xTokenTypes;
+    public String[] getX_TokenTypes() {
+        return this.x_TokenTypes;
     }
 
-    public void setXTokenTypes(String[] xTokenTypes) {
-        this.xTokenTypes = xTokenTypes;
+    public void setX_TokenTypes(String[] x_TokenTypes) {
+        this.x_TokenTypes = x_TokenTypes;
     }
 
-    private String[] yTokenTypes;
+    private String[] y_TokenTypes;
 
-    public String[] getYTokenTypes() {
-        return this.yTokenTypes;
+    public String[] getY_TokenTypes() {
+        return this.y_TokenTypes;
     }
 
-    public void setYTokenTypes(String[] yTokenTypes) {
-        this.yTokenTypes = yTokenTypes;
+    public void setY_TokenTypes(String[] y_TokenTypes) {
+        this.y_TokenTypes = y_TokenTypes;
     }
 
 
@@ -218,23 +218,23 @@ public class ExchangeStateDto {
                 }
                 dto.setTokenPairs(arrayList.toArray(new String[0]));
             }
-            if (returnedFieldsContains("XTokenTypes")) {
+            if (returnedFieldsContains("X_TokenTypes")) {
                 ArrayList<String> arrayList = new ArrayList();
-                if (state.getXTokenTypes() != null) {
-                    for (String s : state.getXTokenTypes()) {
+                if (state.getX_TokenTypes() != null) {
+                    for (String s : state.getX_TokenTypes()) {
                         arrayList.add(s);
                     }
                 }
-                dto.setXTokenTypes(arrayList.toArray(new String[0]));
+                dto.setX_TokenTypes(arrayList.toArray(new String[0]));
             }
-            if (returnedFieldsContains("YTokenTypes")) {
+            if (returnedFieldsContains("Y_TokenTypes")) {
                 ArrayList<String> arrayList = new ArrayList();
-                if (state.getYTokenTypes() != null) {
-                    for (String s : state.getYTokenTypes()) {
+                if (state.getY_TokenTypes() != null) {
+                    for (String s : state.getY_TokenTypes()) {
                         arrayList.add(s);
                     }
                 }
-                dto.setYTokenTypes(arrayList.toArray(new String[0]));
+                dto.setY_TokenTypes(arrayList.toArray(new String[0]));
             }
             return dto;
         }

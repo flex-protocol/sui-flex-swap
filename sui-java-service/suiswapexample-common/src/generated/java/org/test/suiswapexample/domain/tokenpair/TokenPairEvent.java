@@ -30,21 +30,21 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setProvider(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
-        BigInteger getXAmount();
+        BigInteger getX_Amount();
 
-        void setXAmount(BigInteger value);
+        void setX_Amount(BigInteger value);
 
-        BigInteger getYAmount();
+        BigInteger getY_Amount();
 
-        void setYAmount(BigInteger value);
+        void setY_Amount(BigInteger value);
 
         BigInteger getLiquidityAmount();
 
@@ -61,21 +61,21 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setProvider(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
-        BigInteger getXAmount();
+        BigInteger getX_Amount();
 
-        void setXAmount(BigInteger value);
+        void setX_Amount(BigInteger value);
 
-        BigInteger getYAmount();
+        BigInteger getY_Amount();
 
-        void setYAmount(BigInteger value);
+        void setY_Amount(BigInteger value);
 
         BigInteger getLiquidityAmount();
 
@@ -104,75 +104,75 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setProvider(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
-        BigInteger getXAmount();
+        BigInteger getX_Amount();
 
-        void setXAmount(BigInteger value);
+        void setX_Amount(BigInteger value);
 
-        BigInteger getYAmount();
+        BigInteger getY_Amount();
 
-        void setYAmount(BigInteger value);
+        void setY_Amount(BigInteger value);
 
     }
 
     interface XSwappedForY extends TokenPairEvent {
-        BigInteger getExpectedYAmountOut();
+        BigInteger getExpectedY_AmountOut();
 
-        void setExpectedYAmountOut(BigInteger value);
+        void setExpectedY_AmountOut(BigInteger value);
 
         String getSender();
 
         void setSender(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
-        BigInteger getXAmount();
+        BigInteger getX_Amount();
 
-        void setXAmount(BigInteger value);
+        void setX_Amount(BigInteger value);
 
-        BigInteger getYAmount();
+        BigInteger getY_Amount();
 
-        void setYAmount(BigInteger value);
+        void setY_Amount(BigInteger value);
 
     }
 
     interface YSwappedForX extends TokenPairEvent {
-        BigInteger getExpectedXAmountOut();
+        BigInteger getExpectedX_AmountOut();
 
-        void setExpectedXAmountOut(BigInteger value);
+        void setExpectedX_AmountOut(BigInteger value);
 
         String getSender();
 
         void setSender(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
-        BigInteger getXAmount();
+        BigInteger getX_Amount();
 
-        void setXAmount(BigInteger value);
+        void setX_Amount(BigInteger value);
 
-        BigInteger getYAmount();
+        BigInteger getY_Amount();
 
-        void setYAmount(BigInteger value);
+        void setY_Amount(BigInteger value);
 
     }
 

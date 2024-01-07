@@ -19,17 +19,17 @@ public class XSwappedForY {
 
     private BigInteger version;
 
-    private BigInteger expectedYAmountOut;
+    private BigInteger expectedY_AmountOut;
 
     private String sender;
 
-    private String xTokenType;
+    private String x_TokenType;
 
-    private String yTokenType;
+    private String y_TokenType;
 
-    private BigInteger xAmount;
+    private BigInteger x_Amount;
 
-    private BigInteger yAmount;
+    private BigInteger y_Amount;
 
     public String getId() {
         return id;
@@ -47,12 +47,12 @@ public class XSwappedForY {
         this.version = version;
     }
 
-    public BigInteger getExpectedYAmountOut() {
-        return expectedYAmountOut;
+    public BigInteger getExpectedY_AmountOut() {
+        return expectedY_AmountOut;
     }
 
-    public void setExpectedYAmountOut(BigInteger expectedYAmountOut) {
-        this.expectedYAmountOut = expectedYAmountOut;
+    public void setExpectedY_AmountOut(BigInteger expectedY_AmountOut) {
+        this.expectedY_AmountOut = expectedY_AmountOut;
     }
 
     public String getSender() {
@@ -63,36 +63,36 @@ public class XSwappedForY {
         this.sender = sender;
     }
 
-    public String getXTokenType() {
-        return xTokenType;
+    public String getX_TokenType() {
+        return x_TokenType;
     }
 
-    public void setXTokenType(String xTokenType) {
-        this.xTokenType = xTokenType;
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
     }
 
-    public String getYTokenType() {
-        return yTokenType;
+    public String getY_TokenType() {
+        return y_TokenType;
     }
 
-    public void setYTokenType(String yTokenType) {
-        this.yTokenType = yTokenType;
+    public void setY_TokenType(String y_TokenType) {
+        this.y_TokenType = y_TokenType;
     }
 
-    public BigInteger getXAmount() {
-        return xAmount;
+    public BigInteger getX_Amount() {
+        return x_Amount;
     }
 
-    public void setXAmount(BigInteger xAmount) {
-        this.xAmount = xAmount;
+    public void setX_Amount(BigInteger x_Amount) {
+        this.x_Amount = x_Amount;
     }
 
-    public BigInteger getYAmount() {
-        return yAmount;
+    public BigInteger getY_Amount() {
+        return y_Amount;
     }
 
-    public void setYAmount(BigInteger yAmount) {
-        this.yAmount = yAmount;
+    public void setY_Amount(BigInteger y_Amount) {
+        this.y_Amount = y_Amount;
     }
 
     @Override
@@ -100,12 +100,12 @@ public class XSwappedForY {
         return "XSwappedForY{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", expectedYAmountOut=" + expectedYAmountOut +
+                ", expectedY_AmountOut=" + expectedY_AmountOut +
                 ", sender=" + '\'' + sender + '\'' +
-                ", xTokenType=" + '\'' + xTokenType + '\'' +
-                ", yTokenType=" + '\'' + yTokenType + '\'' +
-                ", xAmount=" + xAmount +
-                ", yAmount=" + yAmount +
+                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
+                ", y_TokenType=" + '\'' + y_TokenType + '\'' +
+                ", x_Amount=" + x_Amount +
+                ", y_Amount=" + y_Amount +
                 '}';
     }
 

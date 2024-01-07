@@ -47,7 +47,7 @@ public class StaticMethodConstraints {
                     "org.test.suiswapexample.domain.tokenpair.SwapXLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "_", "expectedYAmountOut"}
+                    new String[]{"_", "_", "expectedY_AmountOut"}
             );
 
 
@@ -55,7 +55,7 @@ public class StaticMethodConstraints {
                     "org.test.suiswapexample.domain.tokenpair.SwapYLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "_", "expectedXAmountOut"}
+                    new String[]{"_", "_", "expectedX_AmountOut"}
             );
 
 
@@ -127,7 +127,7 @@ public class StaticMethodConstraints {
                     "org.test.suiswapexample.domain.exchange.AddTokenPairLogic",
                     "mutate",
                     new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "tokenPairId", "xTokenType", "yTokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+                    new String[]{"_", "tokenPairId", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

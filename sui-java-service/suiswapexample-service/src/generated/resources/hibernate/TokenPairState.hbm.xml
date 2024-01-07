@@ -7,10 +7,10 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
-    <property name="xReserve">
+    <property name="x_Reserve">
       <column name="x_reserve" />
     </property>
-    <property name="yReserve">
+    <property name="y_Reserve">
       <column name="y_reserve" />
     </property>
     <property name="totalLiquidity">

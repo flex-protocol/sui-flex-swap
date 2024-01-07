@@ -45,8 +45,8 @@ public class SuiExchangeStateRetriever {
         exchangeState.setVersion(exchange.getVersion());
         exchangeState.setName(exchange.getName());
         exchangeState.setTokenPairs(Arrays.asList(exchange.getTokenPairs()));
-        exchangeState.setXTokenTypes(Arrays.asList(exchange.getXTokenTypes()));
-        exchangeState.setYTokenTypes(Arrays.asList(exchange.getYTokenTypes()));
+        exchangeState.setX_TokenTypes(Arrays.asList(exchange.getX_TokenTypes()));
+        exchangeState.setY_TokenTypes(Arrays.asList(exchange.getY_TokenTypes()));
         return exchangeState;
     }
 

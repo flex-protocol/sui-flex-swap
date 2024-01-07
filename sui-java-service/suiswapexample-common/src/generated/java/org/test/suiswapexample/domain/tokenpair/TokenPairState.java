@@ -20,9 +20,9 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     String getId();
 
-    java.math.BigInteger getXReserve();
+    java.math.BigInteger getX_Reserve();
 
-    java.math.BigInteger getYReserve();
+    java.math.BigInteger getY_Reserve();
 
     BigInteger getTotalLiquidity();
 
@@ -43,9 +43,9 @@ public interface TokenPairState extends VersionedSuiMoveObject
     interface MutableTokenPairState extends TokenPairState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
-        void setXReserve(java.math.BigInteger xReserve);
+        void setX_Reserve(java.math.BigInteger x_Reserve);
 
-        void setYReserve(java.math.BigInteger yReserve);
+        void setY_Reserve(java.math.BigInteger y_Reserve);
 
         void setTotalLiquidity(BigInteger totalLiquidity);
 

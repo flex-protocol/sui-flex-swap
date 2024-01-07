@@ -140,8 +140,8 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
-            "xReserve",
-            "yReserve",
+            "x_Reserve",
+            "y_Reserve",
             "totalLiquidity",
             "version",
             "offChainVersion",
@@ -182,10 +182,10 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
-        aliasMap.put("xReserve", "xReserve");
-        aliasMap.put("XReserve", "xReserve");
-        aliasMap.put("yReserve", "yReserve");
-        aliasMap.put("YReserve", "yReserve");
+        aliasMap.put("x_Reserve", "x_Reserve");
+        aliasMap.put("X_Reserve", "x_Reserve");
+        aliasMap.put("y_Reserve", "y_Reserve");
+        aliasMap.put("Y_Reserve", "y_Reserve");
         aliasMap.put("totalLiquidity", "totalLiquidity");
         aliasMap.put("TotalLiquidity", "totalLiquidity");
         aliasMap.put("version", "version");

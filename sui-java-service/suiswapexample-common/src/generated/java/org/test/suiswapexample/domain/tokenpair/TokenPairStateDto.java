@@ -27,28 +27,28 @@ public class TokenPairStateDto {
         this.id = id;
     }
 
-    private java.math.BigInteger xReserve;
+    private java.math.BigInteger x_Reserve;
 
-    public java.math.BigInteger getXReserve()
+    public java.math.BigInteger getX_Reserve()
     {
-        return this.xReserve;
+        return this.x_Reserve;
     }
 
-    public void setXReserve(java.math.BigInteger xReserve)
+    public void setX_Reserve(java.math.BigInteger x_Reserve)
     {
-        this.xReserve = xReserve;
+        this.x_Reserve = x_Reserve;
     }
 
-    private java.math.BigInteger yReserve;
+    private java.math.BigInteger y_Reserve;
 
-    public java.math.BigInteger getYReserve()
+    public java.math.BigInteger getY_Reserve()
     {
-        return this.yReserve;
+        return this.y_Reserve;
     }
 
-    public void setYReserve(java.math.BigInteger yReserve)
+    public void setY_Reserve(java.math.BigInteger y_Reserve)
     {
-        this.yReserve = yReserve;
+        this.y_Reserve = y_Reserve;
     }
 
     private BigInteger totalLiquidity;
@@ -179,11 +179,11 @@ public class TokenPairStateDto {
             if (returnedFieldsContains("Id")) {
                 dto.setId(state.getId());
             }
-            if (returnedFieldsContains("XReserve")) {
-                dto.setXReserve(state.getXReserve());
+            if (returnedFieldsContains("X_Reserve")) {
+                dto.setX_Reserve(state.getX_Reserve());
             }
-            if (returnedFieldsContains("YReserve")) {
-                dto.setYReserve(state.getYReserve());
+            if (returnedFieldsContains("Y_Reserve")) {
+                dto.setY_Reserve(state.getY_Reserve());
             }
             if (returnedFieldsContains("TotalLiquidity")) {
                 dto.setTotalLiquidity(state.getTotalLiquidity());

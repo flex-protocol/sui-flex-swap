@@ -160,8 +160,8 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             AbstractExchangeEvent.TokenPairAddedToExchange e = new AbstractExchangeEvent.TokenPairAddedToExchange();
 
             e.setTokenPairId(tokenPairId);
-            e.setXTokenType(null);
-            e.setYTokenType(null);
+            e.setX_TokenType(null);
+            e.setY_TokenType(null);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);

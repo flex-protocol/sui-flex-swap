@@ -29,13 +29,13 @@ public interface ExchangeEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
         void setTokenPairId(String value);
 
-        String getXTokenType();
+        String getX_TokenType();
 
-        void setXTokenType(String value);
+        void setX_TokenType(String value);
 
-        String getYTokenType();
+        String getY_TokenType();
 
-        void setYTokenType(String value);
+        void setY_TokenType(String value);
 
     }
 
