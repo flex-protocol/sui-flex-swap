@@ -37,13 +37,16 @@ public class SuiLiquidityTokenStateRetriever {
             return null;
         }
         LiquidityToken liquidityToken = getObjectDataResponse.getData().getContent().getFields();
-        return toLiquidityTokenState(liquidityToken);
+        List<String> typeArgs = DomainBeanUtils.extractTypeArguments(getObjectDataResponse.getData().getContent().getType());
+        return toLiquidityTokenState(liquidityToken, typeArgs);
     }
 
-    private LiquidityTokenState toLiquidityTokenState(LiquidityToken liquidityToken) {
+    private LiquidityTokenState toLiquidityTokenState(LiquidityToken liquidityToken , List<String> typeArgs) {
         LiquidityTokenState.MutableLiquidityTokenState liquidityTokenState = liquidityTokenStateFactory.apply(liquidityToken.getId().getId());
         liquidityTokenState.setVersion(BigInteger.valueOf(-1));
         liquidityTokenState.setAmount(liquidityToken.getAmount());
+        liquidityTokenState.setX_TokenType(typeArgs.get(0));
+        liquidityTokenState.setY_TokenType(typeArgs.get(1));
         return liquidityTokenState;
     }
 

@@ -37,15 +37,18 @@ public class SuiTokenPairStateRetriever {
             return null;
         }
         TokenPair tokenPair = getObjectDataResponse.getData().getContent().getFields();
-        return toTokenPairState(tokenPair);
+        List<String> typeArgs = DomainBeanUtils.extractTypeArguments(getObjectDataResponse.getData().getContent().getType());
+        return toTokenPairState(tokenPair, typeArgs);
     }
 
-    private TokenPairState toTokenPairState(TokenPair tokenPair) {
+    private TokenPairState toTokenPairState(TokenPair tokenPair , List<String> typeArgs) {
         TokenPairState.MutableTokenPairState tokenPairState = tokenPairStateFactory.apply(tokenPair.getId().getId());
         tokenPairState.setVersion(tokenPair.getVersion());
         tokenPairState.setX_Reserve(tokenPair.getX_Reserve());
         tokenPairState.setY_Reserve(tokenPair.getY_Reserve());
         tokenPairState.setTotalLiquidity(tokenPair.getTotalLiquidity());
+        tokenPairState.setX_TokenType(typeArgs.get(0));
+        tokenPairState.setY_TokenType(typeArgs.get(1));
         return tokenPairState;
     }
 

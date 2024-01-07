@@ -151,6 +151,8 @@ public class M {
             "updatedAt",
             "active",
             "deleted",
+            "x_TokenType",
+            "y_TokenType",
     };
 
     public static final String[] propertyTypes = new String[] {
@@ -166,6 +168,8 @@ public class M {
             "Date",
             "Boolean",
             "Boolean",
+            "String",
+            "String",
     };
 
     public static final Map<String, String> propertyTypeMap;
@@ -204,6 +208,10 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
+        aliasMap.put("x_TokenType", "x_TokenType");
+        aliasMap.put("X_TokenType", "x_TokenType");
+        aliasMap.put("y_TokenType", "y_TokenType");
+        aliasMap.put("Y_TokenType", "y_TokenType");
     }
 
     private static void initPropertyTypeMap() {
@@ -242,6 +250,8 @@ public class M {
             "updatedAt",
             "active",
             "deleted",
+            "x_TokenType",
+            "y_TokenType",
     };
 
     public static final String[] propertyTypes = new String[] {
@@ -255,6 +265,8 @@ public class M {
             "Date",
             "Boolean",
             "Boolean",
+            "String",
+            "String",
     };
 
     public static final Map<String, String> propertyTypeMap;
@@ -289,6 +301,10 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
+        aliasMap.put("x_TokenType", "x_TokenType");
+        aliasMap.put("X_TokenType", "x_TokenType");
+        aliasMap.put("y_TokenType", "y_TokenType");
+        aliasMap.put("Y_TokenType", "y_TokenType");
     }
 
     private static void initPropertyTypeMap() {

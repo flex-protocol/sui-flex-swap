@@ -115,6 +115,26 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         this.deleted = deleted;
     }
 
+    private String x_TokenType;
+
+    public String getX_TokenType() {
+        return this.x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
+    }
+
+    private String y_TokenType;
+
+    public String getY_TokenType() {
+        return this.y_TokenType;
+    }
+
+    public void setY_TokenType(String y_TokenType) {
+        this.y_TokenType = y_TokenType;
+    }
+
     public boolean isStateUnsaved() {
         return this.getOffChainVersion() == null;
     }
@@ -195,6 +215,8 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         this.setAmount(s.getAmount());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
+        this.setX_TokenType(s.getX_TokenType());
+        this.setY_TokenType(s.getY_TokenType());
     }
 
     public void when(AbstractLiquidityTokenEvent.LiquidityTokenMinted e) {

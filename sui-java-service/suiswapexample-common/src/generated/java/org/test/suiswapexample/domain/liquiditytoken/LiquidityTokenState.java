@@ -36,6 +36,10 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    String getX_TokenType();
+
+    String getY_TokenType();
+
     interface MutableLiquidityTokenState extends LiquidityTokenState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
@@ -54,6 +58,10 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setX_TokenType(String x_TokenType);
+
+        void setY_TokenType(String y_TokenType);
 
 
         void mutate(Event e);

@@ -40,6 +40,10 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    String getX_TokenType();
+
+    String getY_TokenType();
+
     interface MutableTokenPairState extends TokenPairState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
@@ -62,6 +66,10 @@ public interface TokenPairState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setX_TokenType(String x_TokenType);
+
+        void setY_TokenType(String y_TokenType);
 
 
         void mutate(Event e);

@@ -3,6 +3,9 @@ aggregates:
     metadata:
       IS_MOVE_SCHEMA_VERSIONED: true
       ShouldIssuePublisherObject: true
+      TypeParameterOffChainPropertyNameFormats:
+        X: "{0}_TokenType"
+        Y: "{0}_TokenType"
     id:
       name: Id
       type: UID
@@ -206,6 +209,9 @@ aggregates:
       MOVE_NO_VERSION_PROPERTY: true
       #IS_MOVE_SCHEMA_VERSIONED: true
       ShouldIssuePublisherObject: true
+      TypeParameterOffChainPropertyNameFormats:
+        X: "{0}_TokenType"
+        Y: "{0}_TokenType"
     friends:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
