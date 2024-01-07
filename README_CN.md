@@ -36,6 +36,8 @@
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
 
+记录下此次部署合约的交易摘要，比如 `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`。
+
 ### 一些可能需要的准备工作
 
 

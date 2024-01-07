@@ -292,6 +292,51 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 --gas-budget 30000000
 ```
 
+### Configuring Off-Chain Service
+
+Open the `application-test.yml` file located in the directory `sui-java-service/suiswapexample-service-rest/src/main/resources` and set the published transaction digest.
+
+After setting, it should look like this:
+
+```yaml
+sui:
+  contract:
+    jsonrpc:
+      url: "https://fullnode.devnet.sui.io/"
+    package-publish-transaction: "267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp"
+```
+
+This is the only place where off-chain service need to be configured, and it's that simple.
+
+
+### Creating a Database for Off-Chain Service
+
+Use a MySQL client to connect to the local MySQL server and execute the following script to create an empty database (assuming the name is `test5`):
+
+```sql
+CREATE SCHEMA `test5` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+```
+
+Go to the `sui-java-service` directory and package the Java project:
+
+```shell
+mvn package
+```
+
+Then, run a command-line tool to initialize the database:
+
+```shell
+java -jar ./suiswapexample-service-cli/target/suiswapexample-service-cli-0.0.1-SNAPSHOT.jar ddl -d "./scripts" -c "jdbc:mysql://127.0.0.1:3306/test5?enabledTLSProtocols=TLSv1.2&characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false" -u root -p 123456
+```
+
+### Starting Off-Chain Service
+
+In the `sui-java-service` directory, run the following command to start the off-chain service:
+
+```shell
+mvn -pl suiswapexample-service-rest -am spring-boot:run
+```
+
 
 ##  Further Reading
 
