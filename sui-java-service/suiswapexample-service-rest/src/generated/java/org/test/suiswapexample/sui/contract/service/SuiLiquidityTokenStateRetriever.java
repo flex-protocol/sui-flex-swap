@@ -42,7 +42,7 @@ public class SuiLiquidityTokenStateRetriever {
 
     private LiquidityTokenState toLiquidityTokenState(LiquidityToken liquidityToken) {
         LiquidityTokenState.MutableLiquidityTokenState liquidityTokenState = liquidityTokenStateFactory.apply(liquidityToken.getId().getId());
-        liquidityTokenState.setVersion(liquidityToken.getVersion());
+        liquidityTokenState.setVersion(BigInteger.valueOf(-1));
         liquidityTokenState.setAmount(liquidityToken.getAmount());
         return liquidityTokenState;
     }

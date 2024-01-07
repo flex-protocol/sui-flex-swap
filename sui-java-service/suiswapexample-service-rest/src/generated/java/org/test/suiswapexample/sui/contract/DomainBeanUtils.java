@@ -6,6 +6,7 @@
 package org.test.suiswapexample.sui.contract;
 
 import java.math.*;
+import java.util.*;
 
 import com.github.wubuku.sui.bean.MoveEvent;
 import com.github.wubuku.sui.bean.SuiMoveEventEnvelope;
@@ -181,7 +182,7 @@ public class DomainBeanUtils {
         AbstractLiquidityTokenEvent.LiquidityTokenDestroyed liquidityTokenDestroyed = new AbstractLiquidityTokenEvent.LiquidityTokenDestroyed();
         liquidityTokenDestroyed.setId(contractEvent.getId());
         liquidityTokenDestroyed.setAmount(contractEvent.getAmount());
-        liquidityTokenDestroyed.setVersion(contractEvent.getVersion());
+        liquidityTokenDestroyed.setVersion(BigInteger.valueOf(-1));
 
         liquidityTokenDestroyed.setSuiTimestamp(eventEnvelope.getTimestampMs());
         liquidityTokenDestroyed.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
@@ -252,4 +253,16 @@ public class DomainBeanUtils {
         return exchangeUpdated;
     }
 
+
+    public static List<String> extractTypeArguments(String type) {
+        int i = type.indexOf("<");
+        int j = type.lastIndexOf(">");
+        if (i > 0 && j > i && j == type.length() - 1) {
+            String typeArguments = type.substring(i + 1, j);
+            String[] typeArgumentArray = typeArguments.split(",");
+            return Arrays.stream(typeArgumentArray).map(String::trim).collect(java.util.stream.Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
+    }
 }
