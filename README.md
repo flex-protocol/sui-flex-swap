@@ -135,9 +135,23 @@ That's the whole programming routine, isn't it simple?
 
 ### Deploy contract
 
+Execute the following command in the directory `sui-contracts` to publish the contracts to the chain:
+
 ```shell
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
+
+If the command is executed successfully, the transaction digest of this publication will be output. For example:
+
+```*shell
+*----- Transaction Digest ----
+267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp
+----- Transaction Data ----
+#...
+```
+
+Take note of this transaction digest, for example, `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`.
+When setting up the off-chain service, we will need it.
 
 ### Some preparations might be needed
 

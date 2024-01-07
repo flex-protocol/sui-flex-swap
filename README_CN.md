@@ -32,14 +32,25 @@
 
 ### 部署合约
 
+执行以下命令部署合约：
+
 ```shell
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
 
-记录下此次部署合约的交易摘要，比如 `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`。
+如果命令执行成功，在终端中会输出这次发布的交易摘要。比如：
+
+```*shell
+*----- Transaction Digest ----
+267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp
+----- Transaction Data ----
+#...
+```
+
+记录下这个交易摘要，比如 `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`。
+在设置链下服务的时候，我们需要用到它。
 
 ### 一些可能需要的准备工作
-
 
 我们可能需要先给自己 mint 一些测试代币。
 
