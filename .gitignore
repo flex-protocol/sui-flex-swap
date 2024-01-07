@@ -1,2 +1,2 @@
 sui-contracts/build
-sui-java-service
+sui-java-service/*/target

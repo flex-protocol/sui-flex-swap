@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"[]>
+<hibernate-mapping package="org.test.suiswapexample.domain.exchange">
+  <class name="org.test.suiswapexample.domain.exchange.AbstractExchangeState$SimpleExchangeState" table="exchange">
+    <id name="id" length="66">
+      <column name="id" sql-type="VARCHAR(66)" />
+      <generator class="assigned" />
+    </id>
+    <version name="offChainVersion" column="off_chain_version" type="long" />
+    <property name="name">
+      <column name="name" length="200" />
+    </property>
+    <property name="createdBy">
+      <column name="created_by" />
+    </property>
+    <property name="updatedBy">
+      <column name="updated_by" />
+    </property>
+    <property name="active">
+      <column name="active" />
+    </property>
+    <property name="deleted">
+      <column name="deleted" />
+    </property>
+    <property name="version">
+      <column name="version" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="createdAt" column="created_at" />
+    <property name="updatedAt" column="updated_at" />
+    <list name="tokenPairs" table="exchange_token_pairs" lazy="false">
+      <key column="Id" />
+      <index column="token_pairs_index" />
+      <element column="token_pairs_item" type="string" not-null="true" />
+    </list>
+    <list name="xTokenTypes" table="exchange_x_token_types" lazy="false">
+      <key column="Id" />
+      <index column="x_token_types_index" />
+      <element column="x_token_types_item" type="string" not-null="true" />
+    </list>
+    <list name="yTokenTypes" table="exchange_y_token_types" lazy="false">
+      <key column="Id" />
+      <index column="y_token_types_index" />
+      <element column="y_token_types_item" type="string" not-null="true" />
+    </list>
+  </class>
+</hibernate-mapping>
