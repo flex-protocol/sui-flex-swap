@@ -70,17 +70,50 @@ public class Movescription implements Serializable {
         this.acc = acc;
     }
 
+    private MovescriptionMetadata metadata = new MovescriptionMetadata();
+
+    public MovescriptionMetadata getMetadata()
+    {
+        return this.metadata;
+    }
+
+    public void setMetadata(MovescriptionMetadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    protected String getMetadataContentType()
+    {
+        return getMetadata().getContentType();
+    }
+
+    protected void setMetadataContentType(String metadataContentType)
+    {
+        getMetadata().setContentType(metadataContentType);
+    }
+
+    protected int[] getMetadataContent()
+    {
+        return getMetadata().getContent();
+    }
+
+    protected void setMetadataContent(int[] metadataContent)
+    {
+        getMetadata().setContent(metadataContent);
+    }
+
     public Movescription()
     {
     }
 
-    public Movescription(String id, BigInteger amount, String tick, BigInteger attachCoin, java.math.BigInteger acc)
+    public Movescription(String id, BigInteger amount, String tick, BigInteger attachCoin, java.math.BigInteger acc, MovescriptionMetadata metadata)
     {
         this.id = id;
         this.amount = amount;
         this.tick = tick;
         this.attachCoin = attachCoin;
         this.acc = acc;
+        this.metadata = metadata;
     }
 
     @Override
@@ -100,6 +133,7 @@ public class Movescription implements Serializable {
             && (tick == other.tick || (tick != null && tick.equals(other.tick)))
             && (attachCoin == other.attachCoin || (attachCoin != null && attachCoin.equals(other.attachCoin)))
             && (acc == other.acc || (acc != null && acc.equals(other.acc)))
+            && (metadata == other.metadata || (metadata != null && metadata.equals(other.metadata)))
             ;
     }
 
@@ -122,6 +156,9 @@ public class Movescription implements Serializable {
         if (this.acc != null) {
             hash += 13 * this.acc.hashCode();
         }
+        if (this.metadata != null) {
+            hash += 13 * this.metadata.hashCode();
+        }
         return hash;
     }
 
@@ -133,6 +170,7 @@ public class Movescription implements Serializable {
                 ", tick=" + '\'' + tick + '\'' +
                 ", attachCoin=" + attachCoin +
                 ", acc=" + acc +
+                ", metadata=" + metadata +
                 '}';
     }
 

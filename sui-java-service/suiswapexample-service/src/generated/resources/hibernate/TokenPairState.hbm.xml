@@ -23,6 +23,12 @@
       <property name="acc">
         <column name="x_reserve_acc" />
       </property>
+      <property name="metadataContentType">
+        <column name="x_reserve_metadata_content_type" />
+      </property>
+      <property name="metadataContent">
+        <column name="x_reserve_metadata_content" />
+      </property>
     </component>
     <property name="y_Reserve">
       <column name="y_reserve" />

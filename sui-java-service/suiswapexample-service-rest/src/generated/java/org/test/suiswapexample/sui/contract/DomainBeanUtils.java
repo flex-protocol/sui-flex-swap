@@ -36,25 +36,35 @@ public class DomainBeanUtils {
             return null;
         }
         org.test.suiswapexample.domain.Movescription movescription = new org.test.suiswapexample.domain.Movescription();
-        movescription.setId(contractMovescription.getFields().getId());
+        movescription.setId(contractMovescription.getFields().getId().getId());
         movescription.setAmount(contractMovescription.getFields().getAmount());
         movescription.setTick(contractMovescription.getFields().getTick());
         movescription.setAttachCoin(contractMovescription.getFields().getAttachCoin());
         movescription.setAcc(contractMovescription.getFields().getAcc());
+        if (contractMovescription.getFields().getMetadata() != null) {
+            movescription.setMetadata(toMovescriptionMetadata(contractMovescription.getFields().getMetadata()));
+        }
         return movescription;
     }
 
-    public static org.test.suiswapexample.domain.Movescription toMovescription(MovescriptionForEvent contractMovescription) {
-        if (contractMovescription == null) {
+    public static org.test.suiswapexample.domain.MovescriptionMetadata toMovescriptionMetadata(MovescriptionMetadata contractMovescriptionMetadata) {
+        if (contractMovescriptionMetadata == null) {
             return null;
         }
-        org.test.suiswapexample.domain.Movescription movescription = new org.test.suiswapexample.domain.Movescription();
-        movescription.setId(contractMovescription.getId());
-        movescription.setAmount(contractMovescription.getAmount());
-        movescription.setTick(contractMovescription.getTick());
-        movescription.setAttachCoin(contractMovescription.getAttachCoin());
-        movescription.setAcc(contractMovescription.getAcc());
-        return movescription;
+        org.test.suiswapexample.domain.MovescriptionMetadata movescriptionMetadata = new org.test.suiswapexample.domain.MovescriptionMetadata();
+        movescriptionMetadata.setContentType(contractMovescriptionMetadata.getFields().getContentType());
+        movescriptionMetadata.setContent(contractMovescriptionMetadata.getFields().getContent());
+        return movescriptionMetadata;
+    }
+
+    public static org.test.suiswapexample.domain.MovescriptionMetadata toMovescriptionMetadata(MovescriptionMetadataForEvent contractMovescriptionMetadata) {
+        if (contractMovescriptionMetadata == null) {
+            return null;
+        }
+        org.test.suiswapexample.domain.MovescriptionMetadata movescriptionMetadata = new org.test.suiswapexample.domain.MovescriptionMetadata();
+        movescriptionMetadata.setContentType(contractMovescriptionMetadata.getContentType());
+        movescriptionMetadata.setContent(contractMovescriptionMetadata.getContent());
+        return movescriptionMetadata;
     }
 
 

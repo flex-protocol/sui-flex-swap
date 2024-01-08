@@ -419,4 +419,16 @@ typeDefinitions:
           type: u64
         Acc:
           type: Balance<SUI>
-        #todo Metadata: Option<Metadata>
+        Metadata:
+          type: MovescriptionMetadata
+          optional: true
+
+  MovescriptionMetadata:
+    moveType: "smartinscription::movescription::Metadata"
+    isResource: false
+    dataStruct:
+      properties:
+        ContentType:
+            type: String
+        Content:
+            type: vector<u8>

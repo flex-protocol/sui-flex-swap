@@ -19,7 +19,7 @@ server:
 sui:
   contract:
     jsonrpc:
-      url: "https://fullnode.devnet.sui.io/"
-      #url: "https://fullnode.testnet.sui.io/"
+      url: "https://fullnode.testnet.sui.io/"
+      #url: "https://fullnode.devnet.sui.io/"
       #url: "http://localhost:9000"
-    package-publish-transaction: "267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp"
+    package-publish-transaction: "EfxbTRbB1jtXQyhvDf7ZitQoVJiDUGQL65HqEHgBQsP4"

@@ -157,6 +157,8 @@ public class M {
             "x_Reserve.tick",
             "x_Reserve.attachCoin",
             "x_Reserve.acc",
+            "x_Reserve.metadataContentType",
+            "x_Reserve.metadataContent",
     };
 
     public static final String[] propertyTypes = new String[] {
@@ -177,6 +179,8 @@ public class M {
             "String",
             "BigInteger",
             "java.math.BigInteger",
+            "String",
+            "int[]",
     };
 
     public static final Map<String, String> propertyTypeMap;
@@ -225,6 +229,14 @@ public class M {
         aliasMap.put("X_Reserve.AttachCoin", "x_Reserve.attachCoin");
         aliasMap.put("x_Reserve.acc", "x_Reserve.acc");
         aliasMap.put("X_Reserve.Acc", "x_Reserve.acc");
+        aliasMap.put("x_Reserve.metadataContentType", "x_Reserve.metadataContentType");
+        aliasMap.put("X_Reserve.MetadataContentType", "x_Reserve.metadataContentType");
+        aliasMap.put("x_Reserve.metadata.contentType", "x_Reserve.metadataContentType");
+        aliasMap.put("X_Reserve.Metadata.ContentType", "x_Reserve.metadataContentType");
+        aliasMap.put("x_Reserve.metadataContent", "x_Reserve.metadataContent");
+        aliasMap.put("X_Reserve.MetadataContent", "x_Reserve.metadataContent");
+        aliasMap.put("x_Reserve.metadata.content", "x_Reserve.metadataContent");
+        aliasMap.put("X_Reserve.Metadata.Content", "x_Reserve.metadataContent");
     }
 
     private static void initPropertyTypeMap() {

@@ -79,7 +79,7 @@ public class HibernateExchangeStateRepository implements ExchangeStateRepository
         ExchangeState persistent = getCurrentSession().get(AbstractExchangeState.SimpleExchangeState.class, detached.getId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateExchangeStateRepository implements ExchangeStateRepository
     }
 
     private void merge(ExchangeState persistent, ExchangeState detached) {
-        ((ExchangeState.MutableExchangeState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractExchangeState) persistent).merge(detached);
     }
 
 }

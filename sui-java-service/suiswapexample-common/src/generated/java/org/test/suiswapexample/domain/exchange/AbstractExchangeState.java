@@ -220,7 +220,7 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         }
     }
 
-    protected void merge(ExchangeState s) {
+    public void merge(ExchangeState s) {
         if (s == this) {
             return;
         }

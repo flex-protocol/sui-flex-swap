@@ -14,7 +14,7 @@ public class Movescription extends MoveObject<Movescription.MovescriptionFields>
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class MovescriptionFields {
-        private String id;
+        private UID id;
 
         private BigInteger amount;
 
@@ -24,12 +24,14 @@ public class Movescription extends MoveObject<Movescription.MovescriptionFields>
 
         private java.math.BigInteger acc;
 
+        private MovescriptionMetadata metadata;
 
-        public String getId() {
+
+        public UID getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(UID id) {
             this.id = id;
         }
 
@@ -65,6 +67,14 @@ public class Movescription extends MoveObject<Movescription.MovescriptionFields>
             this.acc = acc;
         }
 
+        public MovescriptionMetadata getMetadata() {
+            return metadata;
+        }
+
+        public void setMetadata(MovescriptionMetadata metadata) {
+            this.metadata = metadata;
+        }
+
         @Override
         public String toString() {
             return "MovescriptionFields{" +
@@ -73,6 +83,7 @@ public class Movescription extends MoveObject<Movescription.MovescriptionFields>
                     ", tick=" + '\'' + tick + '\'' +
                     ", attachCoin=" + attachCoin +
                     ", acc=" + acc +
+                    ", metadata=" + metadata +
                     '}';
         }
     }
