@@ -27,6 +27,18 @@ public class LiquidityTokenStateDto {
         this.id = id;
     }
 
+    private String x_TokenType;
+
+    public String getX_TokenType()
+    {
+        return this.x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType)
+    {
+        this.x_TokenType = x_TokenType;
+    }
+
     private BigInteger amount;
 
     public BigInteger getAmount()
@@ -61,18 +73,6 @@ public class LiquidityTokenStateDto {
     public void setActive(Boolean active)
     {
         this.active = active;
-    }
-
-    private String x_TokenType;
-
-    public String getX_TokenType()
-    {
-        return this.x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType)
-    {
-        this.x_TokenType = x_TokenType;
     }
 
     private String y_TokenType;
@@ -179,6 +179,9 @@ public class LiquidityTokenStateDto {
             if (returnedFieldsContains("Id")) {
                 dto.setId(state.getId());
             }
+            if (returnedFieldsContains("X_TokenType")) {
+                dto.setX_TokenType(state.getX_TokenType());
+            }
             if (returnedFieldsContains("Amount")) {
                 dto.setAmount(state.getAmount());
             }
@@ -187,9 +190,6 @@ public class LiquidityTokenStateDto {
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());
-            }
-            if (returnedFieldsContains("X_TokenType")) {
-                dto.setX_TokenType(state.getX_TokenType());
             }
             if (returnedFieldsContains("Y_TokenType")) {
                 dto.setY_TokenType(state.getY_TokenType());

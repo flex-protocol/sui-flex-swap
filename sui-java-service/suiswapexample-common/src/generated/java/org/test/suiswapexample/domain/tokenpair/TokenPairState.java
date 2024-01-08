@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
 import java.math.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 
 public interface TokenPairState extends VersionedSuiMoveObject
@@ -20,7 +20,7 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     String getId();
 
-    java.math.BigInteger getX_Reserve();
+    Movescription getX_Reserve();
 
     java.math.BigInteger getY_Reserve();
 
@@ -40,14 +40,12 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
-    String getX_TokenType();
-
     String getY_TokenType();
 
     interface MutableTokenPairState extends TokenPairState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
-        void setX_Reserve(java.math.BigInteger x_Reserve);
+        void setX_Reserve(Movescription x_Reserve);
 
         void setY_Reserve(java.math.BigInteger y_Reserve);
 
@@ -66,8 +64,6 @@ public interface TokenPairState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
-
-        void setX_TokenType(String x_TokenType);
 
         void setY_TokenType(String y_TokenType);
 

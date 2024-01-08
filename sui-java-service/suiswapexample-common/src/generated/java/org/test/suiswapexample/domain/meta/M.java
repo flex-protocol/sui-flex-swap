@@ -72,6 +72,7 @@ public class M {
         clsMap.put("u64", java.math.BigInteger.class);
         clsMap.put("u128", java.math.BigInteger.class);
         clsMap.put("u256", java.math.BigInteger.class);
+        clsMap.put("AsciiString", String.class);
         clsMap.put("vector<u8>", int[].class);
         clsMap.put("int[]", int[].class);
         clsMap.put("blob", java.sql.Blob.class);
@@ -140,7 +141,6 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
-            "x_Reserve",
             "y_Reserve",
             "totalLiquidity",
             "version",
@@ -151,13 +151,16 @@ public class M {
             "updatedAt",
             "active",
             "deleted",
-            "x_TokenType",
             "y_TokenType",
+            "x_Reserve.id",
+            "x_Reserve.amount",
+            "x_Reserve.tick",
+            "x_Reserve.attachCoin",
+            "x_Reserve.acc",
     };
 
     public static final String[] propertyTypes = new String[] {
             "String",
-            "java.math.BigInteger",
             "java.math.BigInteger",
             "BigInteger",
             "BigInteger",
@@ -170,6 +173,10 @@ public class M {
             "Boolean",
             "String",
             "String",
+            "BigInteger",
+            "String",
+            "BigInteger",
+            "java.math.BigInteger",
     };
 
     public static final Map<String, String> propertyTypeMap;
@@ -186,8 +193,6 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
-        aliasMap.put("x_Reserve", "x_Reserve");
-        aliasMap.put("X_Reserve", "x_Reserve");
         aliasMap.put("y_Reserve", "y_Reserve");
         aliasMap.put("Y_Reserve", "y_Reserve");
         aliasMap.put("totalLiquidity", "totalLiquidity");
@@ -208,10 +213,18 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
-        aliasMap.put("x_TokenType", "x_TokenType");
-        aliasMap.put("X_TokenType", "x_TokenType");
         aliasMap.put("y_TokenType", "y_TokenType");
         aliasMap.put("Y_TokenType", "y_TokenType");
+        aliasMap.put("x_Reserve.id", "x_Reserve.id");
+        aliasMap.put("X_Reserve.Id", "x_Reserve.id");
+        aliasMap.put("x_Reserve.amount", "x_Reserve.amount");
+        aliasMap.put("X_Reserve.Amount", "x_Reserve.amount");
+        aliasMap.put("x_Reserve.tick", "x_Reserve.tick");
+        aliasMap.put("X_Reserve.Tick", "x_Reserve.tick");
+        aliasMap.put("x_Reserve.attachCoin", "x_Reserve.attachCoin");
+        aliasMap.put("X_Reserve.AttachCoin", "x_Reserve.attachCoin");
+        aliasMap.put("x_Reserve.acc", "x_Reserve.acc");
+        aliasMap.put("X_Reserve.Acc", "x_Reserve.acc");
     }
 
     private static void initPropertyTypeMap() {
@@ -241,6 +254,7 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
+            "x_TokenType",
             "amount",
             "version",
             "offChainVersion",
@@ -250,11 +264,11 @@ public class M {
             "updatedAt",
             "active",
             "deleted",
-            "x_TokenType",
             "y_TokenType",
     };
 
     public static final String[] propertyTypes = new String[] {
+            "String",
             "String",
             "BigInteger",
             "BigInteger",
@@ -265,7 +279,6 @@ public class M {
             "Date",
             "Boolean",
             "Boolean",
-            "String",
             "String",
     };
 
@@ -283,6 +296,8 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
+        aliasMap.put("x_TokenType", "x_TokenType");
+        aliasMap.put("X_TokenType", "x_TokenType");
         aliasMap.put("amount", "amount");
         aliasMap.put("Amount", "amount");
         aliasMap.put("version", "version");
@@ -301,8 +316,6 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
-        aliasMap.put("x_TokenType", "x_TokenType");
-        aliasMap.put("X_TokenType", "x_TokenType");
         aliasMap.put("y_TokenType", "y_TokenType");
         aliasMap.put("Y_TokenType", "y_TokenType");
     }

@@ -38,6 +38,19 @@ public class LiquidityTokenCommands {
         }
 
         /**
+         * X_ Token Type
+         */
+        private String x_TokenType;
+
+        public String getX_TokenType() {
+            return this.x_TokenType;
+        }
+
+        public void setX_TokenType(String x_TokenType) {
+            this.x_TokenType = x_TokenType;
+        }
+
+        /**
          * Amount
          */
         private BigInteger amount;

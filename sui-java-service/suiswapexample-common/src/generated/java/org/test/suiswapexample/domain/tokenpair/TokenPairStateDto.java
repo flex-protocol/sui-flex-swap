@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
 import java.math.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 
 
@@ -27,14 +27,14 @@ public class TokenPairStateDto {
         this.id = id;
     }
 
-    private java.math.BigInteger x_Reserve;
+    private Movescription x_Reserve;
 
-    public java.math.BigInteger getX_Reserve()
+    public Movescription getX_Reserve()
     {
         return this.x_Reserve;
     }
 
-    public void setX_Reserve(java.math.BigInteger x_Reserve)
+    public void setX_Reserve(Movescription x_Reserve)
     {
         this.x_Reserve = x_Reserve;
     }
@@ -85,18 +85,6 @@ public class TokenPairStateDto {
     public void setActive(Boolean active)
     {
         this.active = active;
-    }
-
-    private String x_TokenType;
-
-    public String getX_TokenType()
-    {
-        return this.x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType)
-    {
-        this.x_TokenType = x_TokenType;
     }
 
     private String y_TokenType;
@@ -217,9 +205,6 @@ public class TokenPairStateDto {
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());
-            }
-            if (returnedFieldsContains("X_TokenType")) {
-                dto.setX_TokenType(state.getX_TokenType());
             }
             if (returnedFieldsContains("Y_TokenType")) {
                 dto.setY_TokenType(state.getY_TokenType());

@@ -6,9 +6,9 @@
 package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 
 public abstract class AbstractTokenPairAggregate extends AbstractAggregate implements TokenPairAggregate {

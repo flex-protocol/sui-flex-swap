@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair.hibernate;
 
 import java.io.Serializable;
 import java.util.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 import org.test.suiswapexample.specialization.hibernate.AbstractHibernateEventStore;
 import org.hibernate.*;

@@ -51,7 +51,7 @@ public abstract class AbstractExchangeApplicationService implements ExchangeAppl
     }
 
     public void when(ExchangeCommands.AddTokenPair c) {
-        update(c, ar -> ar.addTokenPair(c.getTokenPairId(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.addTokenPair(c.getTokenPairId(), c.getX_TokenType(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(ExchangeCommands.Update c) {

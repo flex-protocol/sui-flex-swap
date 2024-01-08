@@ -19,11 +19,11 @@ public class LiquidityToken {
 
     private Long offChainVersion;
 
+    private String x_TokenType;
+
     private BigInteger amount;
 
     private BigInteger version;
-
-    private String x_TokenType;
 
     private String y_TokenType;
 
@@ -43,6 +43,14 @@ public class LiquidityToken {
         this.offChainVersion = offChainVersion;
     }
 
+    public String getX_TokenType() {
+        return x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
+    }
+
     public BigInteger getAmount() {
         return amount;
     }
@@ -59,14 +67,6 @@ public class LiquidityToken {
         this.version = version;
     }
 
-    public String getX_TokenType() {
-        return x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType) {
-        this.x_TokenType = x_TokenType;
-    }
-
     public String getY_TokenType() {
         return y_TokenType;
     }
@@ -80,9 +80,9 @@ public class LiquidityToken {
         return "LiquidityToken{" +
                 "id=" + id +
                 ", offChainVersion=" + offChainVersion +
+                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", amount=" + amount +
                 ", version=" + version +
-                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 '}';
     }

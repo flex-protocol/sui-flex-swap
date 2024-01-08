@@ -39,15 +39,13 @@ public class TokenPair {
 
     private Long offChainVersion;
 
-    private java.math.BigInteger x_Reserve;
+    private Movescription x_Reserve;
 
     private java.math.BigInteger y_Reserve;
 
     private BigInteger totalLiquidity;
 
     private BigInteger version;
-
-    private String x_TokenType;
 
     private String y_TokenType;
 
@@ -67,11 +65,11 @@ public class TokenPair {
         this.offChainVersion = offChainVersion;
     }
 
-    public java.math.BigInteger getX_Reserve() {
+    public Movescription getX_Reserve() {
         return x_Reserve;
     }
 
-    public void setX_Reserve(java.math.BigInteger x_Reserve) {
+    public void setX_Reserve(Movescription x_Reserve) {
         this.x_Reserve = x_Reserve;
     }
 
@@ -99,14 +97,6 @@ public class TokenPair {
         this.version = version;
     }
 
-    public String getX_TokenType() {
-        return x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType) {
-        this.x_TokenType = x_TokenType;
-    }
-
     public String getY_TokenType() {
         return y_TokenType;
     }
@@ -124,7 +114,6 @@ public class TokenPair {
                 ", y_Reserve=" + y_Reserve +
                 ", totalLiquidity=" + totalLiquidity +
                 ", version=" + version +
-                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 '}';
     }

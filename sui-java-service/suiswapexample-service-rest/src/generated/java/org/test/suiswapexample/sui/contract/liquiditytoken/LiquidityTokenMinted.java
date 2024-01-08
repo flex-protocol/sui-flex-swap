@@ -17,6 +17,8 @@ import java.util.*;
 public class LiquidityTokenMinted {
     private String id;
 
+    private String x_TokenType;
+
     private BigInteger amount;
 
     public String getId() {
@@ -25,6 +27,14 @@ public class LiquidityTokenMinted {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getX_TokenType() {
+        return x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
     }
 
     public BigInteger getAmount() {
@@ -39,6 +49,7 @@ public class LiquidityTokenMinted {
     public String toString() {
         return "LiquidityTokenMinted{" +
                 "id=" + '\'' + id + '\'' +
+                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", amount=" + amount +
                 '}';
     }

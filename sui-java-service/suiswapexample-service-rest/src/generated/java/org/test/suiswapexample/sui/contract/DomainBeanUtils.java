@@ -31,6 +31,32 @@ public class DomainBeanUtils {
     private DomainBeanUtils() {
     }
 
+    public static org.test.suiswapexample.domain.Movescription toMovescription(Movescription contractMovescription) {
+        if (contractMovescription == null) {
+            return null;
+        }
+        org.test.suiswapexample.domain.Movescription movescription = new org.test.suiswapexample.domain.Movescription();
+        movescription.setId(contractMovescription.getFields().getId());
+        movescription.setAmount(contractMovescription.getFields().getAmount());
+        movescription.setTick(contractMovescription.getFields().getTick());
+        movescription.setAttachCoin(contractMovescription.getFields().getAttachCoin());
+        movescription.setAcc(contractMovescription.getFields().getAcc());
+        return movescription;
+    }
+
+    public static org.test.suiswapexample.domain.Movescription toMovescription(MovescriptionForEvent contractMovescription) {
+        if (contractMovescription == null) {
+            return null;
+        }
+        org.test.suiswapexample.domain.Movescription movescription = new org.test.suiswapexample.domain.Movescription();
+        movescription.setId(contractMovescription.getId());
+        movescription.setAmount(contractMovescription.getAmount());
+        movescription.setTick(contractMovescription.getTick());
+        movescription.setAttachCoin(contractMovescription.getAttachCoin());
+        movescription.setAcc(contractMovescription.getAcc());
+        return movescription;
+    }
+
 
     public static AbstractTokenPairEvent.LiquidityInitialized toLiquidityInitialized(SuiMoveEventEnvelope<LiquidityInitialized> eventEnvelope) {
         LiquidityInitialized contractEvent = eventEnvelope.getParsedJson();
@@ -162,6 +188,7 @@ public class DomainBeanUtils {
 
         AbstractLiquidityTokenEvent.LiquidityTokenMinted liquidityTokenMinted = new AbstractLiquidityTokenEvent.LiquidityTokenMinted();
         liquidityTokenMinted.setId(contractEvent.getId());
+        liquidityTokenMinted.setX_TokenType(contractEvent.getX_TokenType());
         liquidityTokenMinted.setAmount(contractEvent.getAmount());
         liquidityTokenMinted.setVersion(BigInteger.valueOf(-1));
 

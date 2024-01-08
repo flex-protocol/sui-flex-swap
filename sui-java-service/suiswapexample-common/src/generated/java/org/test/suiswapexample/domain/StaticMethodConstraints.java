@@ -9,9 +9,9 @@ import org.test.suiswapexample.specialization.ReflectUtils;
 import org.test.suiswapexample.specialization.MutationContext;
 import org.test.suiswapexample.specialization.VerificationContext;
 import org.test.suiswapexample.domain.tokenpair.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
 import org.test.suiswapexample.domain.exchange.*;
 
@@ -62,8 +62,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "_", "amount"}
+                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, String.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "x_TokenType", "amount"}
             );
 
 
@@ -86,8 +86,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.exchange.AddTokenPairLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "_", "tokenPairId"}
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "tokenPairId", "x_TokenType"}
             );
 
 
@@ -102,8 +102,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "mutate",
-                    new Class[]{LiquidityTokenState.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "amount", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+                    new Class[]{LiquidityTokenState.class, String.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "x_TokenType", "amount", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

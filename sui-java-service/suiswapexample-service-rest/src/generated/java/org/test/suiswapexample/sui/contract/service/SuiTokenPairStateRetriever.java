@@ -44,11 +44,10 @@ public class SuiTokenPairStateRetriever {
     private TokenPairState toTokenPairState(TokenPair tokenPair , List<String> typeArgs) {
         TokenPairState.MutableTokenPairState tokenPairState = tokenPairStateFactory.apply(tokenPair.getId().getId());
         tokenPairState.setVersion(tokenPair.getVersion());
-        tokenPairState.setX_Reserve(tokenPair.getX_Reserve());
+        tokenPairState.setX_Reserve(DomainBeanUtils.toMovescription(tokenPair.getX_Reserve()));
         tokenPairState.setY_Reserve(tokenPair.getY_Reserve());
         tokenPairState.setTotalLiquidity(tokenPair.getTotalLiquidity());
-        tokenPairState.setX_TokenType(typeArgs.get(0));
-        tokenPairState.setY_TokenType(typeArgs.get(1));
+        tokenPairState.setY_TokenType(typeArgs.get(0));
         return tokenPairState;
     }
 

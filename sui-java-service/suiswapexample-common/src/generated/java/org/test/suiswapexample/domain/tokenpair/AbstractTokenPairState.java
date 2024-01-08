@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
 import java.math.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 import org.test.suiswapexample.domain.tokenpair.TokenPairEvent.*;
 
@@ -25,13 +25,13 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.id = id;
     }
 
-    private java.math.BigInteger x_Reserve;
+    private Movescription x_Reserve;
 
-    public java.math.BigInteger getX_Reserve() {
+    public Movescription getX_Reserve() {
         return this.x_Reserve;
     }
 
-    public void setX_Reserve(java.math.BigInteger x_Reserve) {
+    public void setX_Reserve(Movescription x_Reserve) {
         this.x_Reserve = x_Reserve;
     }
 
@@ -135,16 +135,6 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.deleted = deleted;
     }
 
-    private String x_TokenType;
-
-    public String getX_TokenType() {
-        return this.x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType) {
-        this.x_TokenType = x_TokenType;
-    }
-
     private String y_TokenType;
 
     public String getY_TokenType() {
@@ -233,7 +223,6 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.setTotalLiquidity(s.getTotalLiquidity());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
-        this.setX_TokenType(s.getX_TokenType());
         this.setY_TokenType(s.getY_TokenType());
     }
 
@@ -354,6 +343,65 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
 //
 //public class AddLiquidityLogic {
 //    public static TokenPairState mutate(TokenPairState tokenPairState, String provider, String x_TokenType, String y_TokenType, BigInteger x_Amount, BigInteger y_Amount, BigInteger liquidityAmount, String liquidityTokenId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedTokenPairState) { merge(updatedTokenPairState); } //else do nothing
+
+    }
+
+    public void when(AbstractTokenPairEvent.YSwappedForX e) {
+        throwOnWrongEvent(e);
+
+        BigInteger expectedX_AmountOut = e.getExpectedX_AmountOut();
+        BigInteger ExpectedX_AmountOut = expectedX_AmountOut;
+        String sender = e.getSender();
+        String Sender = sender;
+        String x_TokenType = e.getX_TokenType();
+        String X_TokenType = x_TokenType;
+        String y_TokenType = e.getY_TokenType();
+        String Y_TokenType = y_TokenType;
+        BigInteger x_Amount = e.getX_Amount();
+        BigInteger X_Amount = x_Amount;
+        BigInteger y_Amount = e.getY_Amount();
+        BigInteger Y_Amount = y_Amount;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        TokenPairState updatedTokenPairState = (TokenPairState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.SwapYLogic",
+                    "mutate",
+                    new Class[]{TokenPairState.class, BigInteger.class, String.class, String.class, String.class, BigInteger.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, expectedX_AmountOut, sender, x_TokenType, y_TokenType, x_Amount, y_Amount, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class SwapYLogic {
+//    public static TokenPairState mutate(TokenPairState tokenPairState, BigInteger expectedX_AmountOut, String sender, String x_TokenType, String y_TokenType, BigInteger x_Amount, BigInteger y_Amount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
 //    }
 //}
 

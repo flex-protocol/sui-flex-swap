@@ -8,9 +8,9 @@ package org.test.suiswapexample.domain.tokenpair;
 import java.util.*;
 import java.util.function.Consumer;
 import org.dddml.support.criterion.Criterion;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 
 public abstract class AbstractTokenPairApplicationService implements TokenPairApplicationService {

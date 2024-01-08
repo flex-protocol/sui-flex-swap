@@ -6,9 +6,9 @@
 package org.test.suiswapexample.domain.tokenpair.hibernate;
 
 import java.util.*;
+import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
-import org.test.suiswapexample.domain.*;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -31,7 +31,7 @@ public class HibernateTokenPairStateQueryRepository implements TokenPairStateQue
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "Y_Reserve", "TotalLiquidity", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "Y_Reserve", "TotalLiquidity", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

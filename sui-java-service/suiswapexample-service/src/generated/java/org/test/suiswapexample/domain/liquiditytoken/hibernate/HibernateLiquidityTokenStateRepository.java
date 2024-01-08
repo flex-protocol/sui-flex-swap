@@ -31,7 +31,7 @@ public class HibernateLiquidityTokenStateRepository implements LiquidityTokenSta
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Amount", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_TokenType", "Amount", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
