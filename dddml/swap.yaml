@@ -4,19 +4,20 @@ aggregates:
       IS_MOVE_SCHEMA_VERSIONED: true
       ShouldIssuePublisherObject: true
       TypeParameterOffChainPropertyNameFormats:
-        X: "{0}_TokenType"
+        #X: "{0}_TokenType"
         Y: "{0}_TokenType"
     id:
       name: Id
       type: UID
     typeParameters:
-      X:
-        isPhantom: true
+      #X:
+      #  isPhantom: true
       Y:
         isPhantom: true
     properties:
       X_Reserve:
-        type: "Balance<X>"
+        type: Movescription
+        #type: "Balance<X>"
       Y_Reserve:
         type: "Balance<Y>"
       TotalLiquidity:
@@ -27,18 +28,20 @@ aggregates:
         isCreationCommand: true
         requiredPermission: "__Publisher__"
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
           Exchange:
             referenceType: Exchange
             isMutableReference: true
             eventPropertyName: ExchangeId
-          X_Amount:
-            type: Balance<X>
+          #X_Amount:
+          #  type: Balance<X>
+          X_Movescription:
+            type: Movescription
           Y_Amount:
             type: Balance<Y>
         event:
@@ -65,14 +68,16 @@ aggregates:
       AddLiquidity:
         #shouldCallByReference: true
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
-          X_Amount:
-            type: Balance<X>
+          #X_Amount:
+          #  type: Balance<X>
+          X_Movescription:
+            type: Movescription
           Y_Amount:
             type: Balance<Y>
         event:
@@ -97,17 +102,17 @@ aggregates:
 
       RemoveLiquidity:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
           LiquidityToken:
-            type: LiquidityToken<X, Y>
+            type: LiquidityToken<Y>
             #eventPropertyName: LiquidityTokenId
         result:
-          type: (Balance<X>, Balance<Y>)
+          type: Balance<Y>
         event:
           name: LiquidityRemoved
           properties:
@@ -130,14 +135,16 @@ aggregates:
 
       SwapX:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
-          X_Amount:
-            type: Balance<X>
+          #X_Amount:
+          #  type: Balance<X>
+          X_Movescription:
+            type: Movescription
           ExpectedY_AmountOut:
             type: u64
         result:
@@ -160,18 +167,18 @@ aggregates:
 
       SwapY:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
           Y_Amount:
             type: Balance<Y>
           ExpectedX_AmountOut:
             type: u64
-        result:
-          type: Balance<X>
+        #result:
+        #  type: Balance<X>
         event:
           name: YSwappedForX
           properties:
@@ -200,21 +207,23 @@ aggregates:
       #IS_MOVE_SCHEMA_VERSIONED: true
       ShouldIssuePublisherObject: true
       TypeParameterOffChainPropertyNameFormats:
-        X: "{0}_TokenType"
+        #X: "{0}_TokenType"
         Y: "{0}_TokenType"
     friends:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
       - TokenPair.RemoveLiquidity
     typeParameters:
-      X:
-        isPhantom: true
+      #X:
+      #  isPhantom: true
       Y:
         isPhantom: true
     id:
       name: Id
       type: UID
     properties:
+      X_TokenType:
+        type: String
       Amount:
         type: u64
     methods:
@@ -270,16 +279,18 @@ singletonObjects:
         isInternal: true
         #shouldCallByReference: true
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         parameters:
           TokenPairId:
             type: ID #ObjectID
+          X_TokenType:
+            type: String
         event:
           name: TokenPairAddedToExchange
           properties:
-            X_TokenType:
-              type: String
+            #X_TokenType:
+            #  type: String
             Y_TokenType:
               type: String
 
@@ -296,7 +307,7 @@ services:
     methods:
       InitializeLiquidity:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         parameters:
           Publisher:
@@ -304,10 +315,12 @@ services:
           Exchange:
             referenceType: Exchange
             isMutableReference: true
-          X_Coin:
-            type: Coin<X>
-          X_Amount:
-            type: u64
+          #X_Coin:
+          #  type: Coin<X>
+          #X_Amount:
+          #  type: u64
+          X_Movescription:
+            type: Movescription
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
@@ -315,19 +328,21 @@ services:
 
       AddLiquidity:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         objectTypeArguments:
-          X: X
+          #X: X
           Y: Y
         parameters:
           TokenPair:
-            referenceType: TokenPair<X, Y>
+            referenceType: TokenPair<Y>
             isMutableReference: true
-          X_Coin:
-            type: Coin<X>
-          X_Amount:
-            type: u64
+          #X_Coin:
+          #  type: Coin<X>
+          #X_Amount:
+          #  type: u64
+          X_Movescription:
+            type: Movescription
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
@@ -335,33 +350,35 @@ services:
 
       RemoveLiquidity:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         parameters:
           TokenPair:
-            referenceType: TokenPair<X, Y>
+            referenceType: TokenPair<Y>
             isMutableReference: true
           LiquidityToken:
-            type: LiquidityToken<X, Y>
-          X_Coin:
-            referenceType: Coin<X>
-            isMutableReference: true
+            type: LiquidityToken<Y>
+          #X_Coin:
+          #  referenceType: Coin<X>
+          #  isMutableReference: true
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
 
       SwapX:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         parameters:
           TokenPair:
-            referenceType: TokenPair<X, Y>
+            referenceType: TokenPair<Y>
             isMutableReference: true
-          X_Coin:
-            type: Coin<X>
-          X_Amount:
-            type: u64
+          #X_Coin:
+          #  type: Coin<X>
+          #X_Amount:
+          #  type: u64
+          X_Movescription:
+            type: Movescription
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
@@ -370,18 +387,36 @@ services:
 
       SwapY:
         typeParameters:
-          X: {}
+          #X: {}
           Y: {}
         parameters:
           TokenPair:
-            referenceType: TokenPair<X, Y>
+            referenceType: TokenPair<Y>
             isMutableReference: true
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
             type: u64
-          X_Coin:
-            referenceType: Coin<X>
-            isMutableReference: true
+          #X_Coin:
+          #  referenceType: Coin<X>
+          #  isMutableReference: true
           ExpectedX_AmountOut:
             type: u64
+
+typeDefinitions:
+  Movescription:
+    moveType: "smartinscription::movescription::Movescription"
+    isResource: true
+    dataStruct:
+      properties:
+        Id:
+          type: UID
+        Amount:
+          type: u64
+        Tick:
+          type: AsciiString
+        AttachCoin:
+          type: u64
+        Acc:
+          type: Balance<SUI>
+        #todo Metadata: Option<Metadata>

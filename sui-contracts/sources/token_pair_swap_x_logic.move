@@ -4,37 +4,40 @@ module sui_swap_example::token_pair_swap_x_logic {
     use std::string;
     use sui::balance::{Self, Balance};
     use sui::tx_context::{Self, TxContext};
+    use smartinscription::movescription;
+    use smartinscription::movescription::Movescription;
     use sui_swap_example::swap_util;
     use sui_swap_example::token_pair;
     use sui_swap_example::x_swapped_for_y;
 
     friend sui_swap_example::token_pair_aggregate;
 
-    public(friend) fun verify<X, Y>(
-        x_amount: &Balance<X>,
+    public(friend) fun verify<Y>(
+        x_movescription: &Movescription,
         expected_y_amount_out: u64,
-        token_pair: &token_pair::TokenPair<X, Y>,
+        token_pair: &token_pair::TokenPair<Y>,
         ctx: &TxContext,
     ): token_pair::XSwappedForY {
-        let x_reserve = balance::value(token_pair::borrow_x_reserve(token_pair));
+        let x_reserve = movescription::amount(token_pair::borrow_x_reserve(token_pair));
         let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
-        let x_amount_in = balance::value(x_amount);
+        let x_amount_in = movescription::amount(x_movescription);
         let y_amount_out = swap_util::swap(x_reserve, y_reserve, x_amount_in, expected_y_amount_out);
+        let x_token_type = string::from_ascii(movescription::tick(token_pair::borrow_x_reserve(token_pair)));
         token_pair::new_x_swapped_for_y(
             token_pair,
             expected_y_amount_out,
             tx_context::sender(ctx),
-            string::from_ascii(type_name::into_string(type_name::get<X>())),
+            x_token_type,
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
-            balance::value(x_amount),
+            x_amount_in,
             y_amount_out,
         )
     }
 
-    public(friend) fun mutate<X, Y>(
+    public(friend) fun mutate<Y>(
         x_swapped_for_y: &token_pair::XSwappedForY,
-        x_amount: Balance<X>,
-        token_pair: &mut token_pair::TokenPair<X, Y>,
+        x_movescription: Movescription,
+        token_pair: &mut token_pair::TokenPair<Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {
         //let sender = x_swapped_for_y::sender(x_swapped_for_y);
@@ -44,7 +47,7 @@ module sui_swap_example::token_pair_swap_x_logic {
         let y_amount = x_swapped_for_y::y_amount(x_swapped_for_y);
         //let id = token_pair::id(token_pair);
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);
-        sui::balance::join(x_reserve, x_amount);
+        movescription::merge(x_reserve, x_movescription);
         let y_reserve = token_pair::borrow_mut_y_reserve(token_pair);
         sui::balance::split(y_reserve, y_amount)
     }

@@ -5,6 +5,7 @@
 
 module sui_swap_example::liquidity_token {
     use std::option;
+    use std::string::String;
     use sui::event;
     use sui::object::{Self, UID};
     use sui::transfer;
@@ -23,35 +24,47 @@ module sui_swap_example::liquidity_token {
         sui::package::claim_and_keep(otw, ctx)
     }
 
-    struct LiquidityToken<phantom X, phantom Y> has key, store {
+    struct LiquidityToken<phantom Y> has key, store {
         id: UID,
+        x_token_type: String,
         amount: u64,
     }
 
-    public fun id<X, Y>(liquidity_token: &LiquidityToken<X, Y>): object::ID {
+    public fun id<Y>(liquidity_token: &LiquidityToken<Y>): object::ID {
         object::uid_to_inner(&liquidity_token.id)
     }
 
-    public fun amount<X, Y>(liquidity_token: &LiquidityToken<X, Y>): u64 {
+    public fun x_token_type<Y>(liquidity_token: &LiquidityToken<Y>): String {
+        liquidity_token.x_token_type
+    }
+
+    public(friend) fun set_x_token_type<Y>(liquidity_token: &mut LiquidityToken<Y>, x_token_type: String) {
+        liquidity_token.x_token_type = x_token_type;
+    }
+
+    public fun amount<Y>(liquidity_token: &LiquidityToken<Y>): u64 {
         liquidity_token.amount
     }
 
-    public(friend) fun set_amount<X, Y>(liquidity_token: &mut LiquidityToken<X, Y>, amount: u64) {
+    public(friend) fun set_amount<Y>(liquidity_token: &mut LiquidityToken<Y>, amount: u64) {
         liquidity_token.amount = amount;
     }
 
-    public(friend) fun new_liquidity_token<X, Y>(
+    public(friend) fun new_liquidity_token<Y>(
+        x_token_type: String,
         amount: u64,
         ctx: &mut TxContext,
-    ): LiquidityToken<X, Y> {
+    ): LiquidityToken<Y> {
         LiquidityToken {
             id: object::new(ctx),
+            x_token_type,
             amount,
         }
     }
 
     struct LiquidityTokenMinted has copy, drop {
         id: option::Option<object::ID>,
+        x_token_type: String,
         amount: u64,
     }
 
@@ -63,16 +76,22 @@ module sui_swap_example::liquidity_token {
         liquidity_token_minted.id = option::some(id);
     }
 
+    public fun liquidity_token_minted_x_token_type(liquidity_token_minted: &LiquidityTokenMinted): String {
+        liquidity_token_minted.x_token_type
+    }
+
     public fun liquidity_token_minted_amount(liquidity_token_minted: &LiquidityTokenMinted): u64 {
         liquidity_token_minted.amount
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_minted<X, Y>(
+    public(friend) fun new_liquidity_token_minted<Y>(
+        x_token_type: String,
         amount: u64,
     ): LiquidityTokenMinted {
         LiquidityTokenMinted {
             id: option::none(),
+            x_token_type,
             amount,
         }
     }
@@ -91,8 +110,8 @@ module sui_swap_example::liquidity_token {
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_destroyed<X, Y>(
-        liquidity_token: &LiquidityToken<X, Y>,
+    public(friend) fun new_liquidity_token_destroyed<Y>(
+        liquidity_token: &LiquidityToken<Y>,
         amount: u64,
     ): LiquidityTokenDestroyed {
         LiquidityTokenDestroyed {
@@ -103,23 +122,24 @@ module sui_swap_example::liquidity_token {
 
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun transfer_object<X, Y>(liquidity_token: LiquidityToken<X, Y>, recipient: address) {
+    public(friend) fun transfer_object<Y>(liquidity_token: LiquidityToken<Y>, recipient: address) {
         transfer::transfer(liquidity_token, recipient);
     }
 
     #[lint_allow(share_owned, custom_state_change)]
-    public(friend) fun share_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
+    public(friend) fun share_object<Y>(liquidity_token: LiquidityToken<Y>) {
         transfer::share_object(liquidity_token);
     }
 
     #[lint_allow(custom_state_change)]
-    public(friend) fun freeze_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
+    public(friend) fun freeze_object<Y>(liquidity_token: LiquidityToken<Y>) {
         transfer::freeze_object(liquidity_token);
     }
 
-    public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
+    public(friend) fun drop_liquidity_token<Y>(liquidity_token: LiquidityToken<Y>) {
         let LiquidityToken {
             id,
+            x_token_type: _x_token_type,
             amount: _amount,
         } = liquidity_token;
         object::delete(id);

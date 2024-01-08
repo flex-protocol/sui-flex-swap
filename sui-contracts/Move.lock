@@ -2,20 +2,29 @@
 
 [move]
 version = 0
-manifest_digest = "160E7981790807AF9CF80D4A7CA4EC507FC3C6C9F4A4541CFBC26C766B69C0F8"
-deps_digest = "F8BBB0CCB2491CA29A3DF03D6F92277A4F3574266507ACD77214D37ECA3F3082"
+manifest_digest = "2236C04C4C65E07119FFB0AE47433955B11FEA7E1985B44D76B259092024AE01"
+deps_digest = "3C4103934B1E040BB6B23F1D610B4EF9F2F1166A50A104EADCF77467C004C600"
+
+dependencies = [
+  { name = "SmartInscription" },
+  { name = "Sui" },
+]
+
+[[move.package]]
+name = "MoveStdlib"
+source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/mainnet", subdir = "crates/sui-framework/packages/move-stdlib" }
+
+[[move.package]]
+name = "SmartInscription"
+source = { local = "../../../movescriptions/movescriptions/sui" }
 
 dependencies = [
   { name = "Sui" },
 ]
 
 [[move.package]]
-name = "MoveStdlib"
-source = { git = "https://github.com/MystenLabs/sui.git", rev = "devnet", subdir = "crates/sui-framework/packages/move-stdlib" }
-
-[[move.package]]
 name = "Sui"
-source = { git = "https://github.com/MystenLabs/sui.git", rev = "devnet", subdir = "crates/sui-framework/packages/sui-framework" }
+source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/mainnet", subdir = "crates/sui-framework/packages/sui-framework" }
 
 dependencies = [
   { name = "MoveStdlib" },

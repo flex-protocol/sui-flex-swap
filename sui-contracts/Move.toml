@@ -3,8 +3,9 @@ name = "sui_swap_example"
 version = "0.0.1"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "devnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
 #Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
+SmartInscription = { local = "../../../movescriptions/movescriptions/sui" }
 
 [addresses]
 sui_swap_example = "0x0"
