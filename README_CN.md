@@ -30,6 +30,50 @@
 
 ## 测试应用
 
+### 一些可能需要的准备工作
+
+#### 准备 SUI coin 对象
+
+查看当前账户中的 SUI Coin 对象：
+
+```shell
+sui client gas
+```
+
+如果你的账户只有一个 Sui Coin 对象，可以先给自己的账户转一些 SUI，以达到 split 这个 Sui Coin 对象的目的。
+下面的测试中，我们除了需要使用一个 Sui Coin 对象来付 gas 费之外，还需要使用一个 Sui Coin 对象来添加流动性：
+
+```shell
+sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294 --amounts 1000000000 \
+--recipients 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 --gas-budget 30000000
+```
+
+#### Mint 一些 Movescription 代币
+
+我们已经在 testnet 上部署了一个 movescription 测试合约，它的 package ID：`0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`。
+
+测试铭文 `MOVE` 的 `TickRecord` 的对象 ID：`0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`。
+
+注意使用 Sui CLI 测试时，先切换环境到 testnet：
+
+```shell
+sui client switch --env testnet
+```
+
+Mint 一些 `MOVE` 测试铭文（每次 mint 请间隔一分钟），注意，第三个参数，也就是下面示例的 `0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c` 
+应该改为你的一个 SUI Coin 对象的 Id。
+
+```shell
+sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function mint --args 0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64 \"MOVE\" 0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c \"0x6\" --gas-budget 19000000
+```
+
+Split 一个铭文：
+
+```shell
+sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function split --args  0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c '"1000"' --gas-budget 19000000
+```
+
+
 ### 部署合约
 
 执行以下命令部署合约：
@@ -50,154 +94,20 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 记录下这个交易摘要，比如 `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`。
 在设置链下服务的时候，我们需要用到它。
 
-### 一些可能需要的准备工作
-
-我们可能需要先给自己 mint 一些测试代币。
-
-在本代码库中，包含一个部署测试代币（`EXAMPLE_COIN`）需要的 Move 文件（`example_coin.move`）。你可以单独为它创建一个 Move 项目，然后部署它。
-
-注意，mint 测试币需要传入的第一个参数是一个类型为 `0x0000..0002::coin::TreasuryCap` 的对象的 Id。
-你可以在部署合约时，终端的输出信息中发现它。
-
-假设我们部署的测试币合约的包 Id 是 `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`，
-那么，像下面这样给自己 mint 一些测试币：
-
-
-```shell
-sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d --module example_coin --function mint \
---args 0x3c3a6aba123ab679b634f7cb7904d9c15d311994c5347afb984b508bb6add40a 100000000000 --gas-budget 30000000
-```
-
-输出包含类似下面这样的内容：
-
-```text
-│ Created Objects:                                                                                                                       │
-│  ┌──                                                                                                                                   │
-│  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
-│  │ Sender: 0x...                                                                                                                       │
-│  │ Owner: Account Address ( 0x... )                                                                                                    │
-│  │ ObjectType: 0x2::coin::Coin<0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>         │
-```
-
-记录下创建的测试币的 Coin 对象的 Id，比如 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`：
-
-查看当前账户中的 Sui Coin 对象：
-
-```shell
-sui client gas
-```
-
-如果你的账户只有一个 Sui Coin 对象，可以先给自己的账户转一些 SUI，以达到 split 这个 Sui Coin 对象的目的。
-下面的测试中，我们除了需要使用一个 Sui Coin 对象来付 gas 费之外，还需要使用一个 Sui Coin 对象来添加流动性：
-
-```shell
-sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294 --amounts 1000000000 \
---recipients 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 --gas-budget 30000000
-```
 
 ### 初始化流动性
 
-注意初始化流动性函数所需要的参数，下面的命令假设：
-
-* 模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
-* 假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`，
-* Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`，
-* 测试币（EXAMPLE_COIN）Coin 对象的 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
-
-所以，需要执行的命令类似下面这样：
-
-```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function initialize_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
---args \
-'0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116' \
-'0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"1000"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
---gas-budget 30000000
-```
-
-注意输出的 `TokenPair` 对象的 Id（在添加流动性的时候，我们需要使用它）：
-
-```text
-│  ┌──                                                                                                                                                                                                                               │
-│  │ ObjectID: 0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd                                                                                                                                                    │
-│  │ Sender: 0x...                                                                                                                                                                                                                   │
-│  │ Owner: Shared                                                                                                                                                                                                                   │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::token_pair::TokenPair<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>            │
-```
+[TBD]
 
 ### 添加流动性
 
-添加流动性：
-
-```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function add_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
---args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"1000"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
---gas-budget 30000000
-```
-
-注意输出中的 `LiquidityToken` 对象的 Id：
-
-```text
-│ Created Objects:                                                                                                                                                                                                                   │
-│  ┌──                                                                                                                                                                                                                               │
-│  │ ObjectID: 0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8                                                                                                                                                    │
-│  │ Sender: 0x...                                                                                                                                                                                                                   │
-│  │ Owner: Account Address ( 0x... )                                                                                                                                                                                                │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::liquidity_token::LiquidityToken<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>  │
-```
+[TBD]
 
 ### 移除流动性
 
-移除流动性：
-
-```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function remove_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
---args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
---gas-budget 30000000
-```
+[TBD]
 
 ### 兑换
 
-兑换，以 Token X 换出 Token Y：
-
-```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_x \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
---args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"100"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"9060000"' \
---gas-budget 30000000
-```
-
-反方向兑换，以 Token Y 换出 Token X：
-
-```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_y \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
---args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"9060000"' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"90"' \
---gas-budget 30000000
-```
+[TBD]
 

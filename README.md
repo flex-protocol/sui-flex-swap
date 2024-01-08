@@ -147,57 +147,9 @@ That's the whole programming routine, isn't it simple?
 
 ## Test Application
 
-### Deploy contract
-
-Execute the following command in the directory `sui-contracts` to publish the contracts on chain:
-
-```shell
-sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
-```
-
-If the command is executed successfully, the transaction digest of this publication will be output. For example:
-
-```*shell
-*----- Transaction Digest ----
-267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp
------ Transaction Data ----
-#...
-```
-
-Take note of this transaction digest, for example, `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`.
-When setting up the off-chain service, we will need it.
-
-
 ### Some preparations might be needed
 
-We may need to mint ourselves some test coins first.
-
-Included in this repository is a Move file (`example_coin.move`) that is needed to deploy a test coin (`EXAMPLE_COIN`).
-You can create a separate Move project for it and deploy it.
-
-Note that the first argument that needs to be passed to mint test coin is the ID of an object of type `0x0000..0002::coin::TreasuryCap`.
-You can find it in the output message of the terminal when you deploy the contract.
-
-Let's say the package ID of the test coin contract we deployed is `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`.
-Then, mint yourself some test coins like the following:
-
-```shell
-sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d --module example_coin --function mint \
---args 0x3c3a6aba123ab679b634f7cb7904d9c15d311994c5347afb984b508bb6add40a 100000000000 --gas-budget 30000000
-```
-
-The output contains something like the following:
-
-```text
-│ Created Objects:                                                                                                                       │
-│  ┌──                                                                                                                                   │
-│  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
-│  │ Sender: 0x...                                                                                                                       │
-│  │ Owner: Account Address ( 0x... )                                                                                                    │
-│  │ ObjectType: 0x2::coin::Coin<0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>         │
-```
-
-Record the ID of the test coin object created, for example `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`:
+#### Prepare some SUI coins
 
 View the Sui coin objects in the current account:
 
@@ -209,43 +161,90 @@ If you have only one SUI coin object in your account, you can transfer some SUI 
 In the following test, we need to use a SUI coin object to add liquidity in addition to a SUI coin object to pay gas fee:
 
 ```shell
-sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294 --amounts 1000000000 \
+sui client pay-sui --input-coins 0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1 --amounts 1000000000 \
 --recipients 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 --gas-budget 30000000
 ```
+
+#### Mint some Movescription tokens
+
+We will have deployed a movescription test contract on testnet with package ID: `0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`.
+
+Object ID of the `MOVE` inscription `TickRecord`: `0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`.
+
+Note that when testing with the Sui CLI, switch the environment to testnet first:
+
+```shell
+sui client switch --env testnet
+```
+
+Mint some test inscriptions (please allow one minute between each mint),
+Note that the third parameter, `0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c` 
+in the example below should be changed to the ID of one of your SUI Coin objects.
+
+```shell
+sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function mint --args 0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64 \"MOVE\" 0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c \"0x6\" --gas-budget 19000000
+```
+
+Split an inscription object:
+
+```shell
+sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function split --args  0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c '"1000"' --gas-budget 19000000
+```
+
+
+### Deploy contract
+
+Execute the following command in the directory `sui-contracts` to publish the contracts on chain:
+
+```shell
+sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps
+```
+
+If the command is executed successfully, the transaction digest of this publication will be output. For example:
+
+```*shell
+*----- Transaction Digest ----
+EfxbTRbB1jtXQyhvDf7ZitQoVJiDUGQL65HqEHgBQsP4
+----- Transaction Data ----
+#...
+```
+
+Take note of this transaction digest, for example, `EfxbTRbB1jtXQyhvDf7ZitQoVJiDUGQL65HqEHgBQsP4`.
+When setting up the off-chain service, we will need it.
+
+
 
 ### Initialize liquidity
 
 
 Note the arguments required by "initialize liquidity" function, which are assumed by the following commands:
 
-* The ID of the publisher object for module `liquidity_token` is `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`.
-* Assuming the ID of the `Exchange` object is `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`.
-* SUI coin object ID is `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`.
-* The ID of the test (`EXAMPLE_COIN`) coin object is `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`.
+* The ID of the publisher object for module `liquidity_token` or `token_pair` is `0x6060cea7d955fcf46c57cc9f03f2abd511e7f0eacba8b0954ba4759f95fb0b7c`.
+* Assuming the ID of the `Exchange` object is `0x9da82f9a0dd58805baba51b80b499babd6cb03d45448103932111c5016349f31`.
+* The ID of the `Movescription` object is `0xdb864cc133d055e86d59abe18ffb50c15cfdb7be8ae0876b6a527aeac178415f`.
+* SUI coin object ID is `0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1`.
 
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function initialize_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function initialize_liquidity \
+--type-args '0x2::sui::SUI' \
 --args \
-'0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116' \
-'0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"1000"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
---gas-budget 30000000
+'0x6060cea7d955fcf46c57cc9f03f2abd511e7f0eacba8b0954ba4759f95fb0b7c' \
+'0x9da82f9a0dd58805baba51b80b499babd6cb03d45448103932111c5016349f31' \
+'0xdb864cc133d055e86d59abe18ffb50c15cfdb7be8ae0876b6a527aeac178415f' \
+'0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1' \
+'"10000"' \
+--gas-budget 10000000
 ```
 
 Note the ID of the output `TokenPair` object (we need to use it when adding liquidity):
 
 ```text
-│  ┌──                                                                                                                                                                                                                               │
-│  │ ObjectID: 0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd                                                                                                                                                    │
-│  │ Sender: 0x...                                                                                                                                                                                                                   │
-│  │ Owner: Shared                                                                                                                                                                                                                   │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::token_pair::TokenPair<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>            │
+│  │ ObjectID: 0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac                                                   │
+│  │ Sender: 0x...                                                                                                                  │
+│  │ Owner: Shared                                                                                                                  │
+│  │ ObjectType: 0x2301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97::token_pair::TokenPair<0x2::sui::SUI>            │
 ```
 
 ### Add liquidity
@@ -253,26 +252,25 @@ Note the ID of the output `TokenPair` object (we need to use it when adding liqu
 Add liquidity:
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function add_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function add_liquidity \
+--type-args '0x2::sui::SUI' \
 --args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"1000"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
+'0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac' \
+'0x3c5e0033790b04de817797d6ee77e0a1bfded6be5515efb259ce0346a67ef1d8' \
+'0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1' \
+'"10000"' \
 --gas-budget 30000000
 ```
 
 Note the ID of the `LiquidityToken` object in the output:
 
 ```text
-│ Created Objects:                                                                                                                                                                                                                   │
-│  ┌──                                                                                                                                                                                                                               │
-│  │ ObjectID: 0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8                                                                                                                                                    │
-│  │ Sender: 0x...                                                                                                                                                                                                                   │
-│  │ Owner: Account Address ( 0x... )                                                                                                                                                                                                │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::liquidity_token::LiquidityToken<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>  │
+│ Created Objects:                                                                                                                  │
+│  ┌──                                                                                                                              │
+│  │ ObjectID: 0x97ace24665dfe33478447494364fcc2dd6fc02185989bf6721d4a5a99bea1891                                                   │
+│  │ Sender: 0x...                                                                                                                  │
+│  │ Owner: Account Address ( 0x... )                                                                                               │
+│  │ ObjectType: 0x2301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97::liquidity_token::LiquidityToken<0x2::sui::SUI>  │
 ```
 
 ### Remove liquidity
@@ -280,43 +278,41 @@ Note the ID of the `LiquidityToken` object in the output:
 Remove liquidity:
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function remove_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function remove_liquidity \
+--type-args '0x2::sui::SUI' \
 --args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac' \
+'0x97ace24665dfe33478447494364fcc2dd6fc02185989bf6721d4a5a99bea1891' \
+'0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1' \
 --gas-budget 30000000
 ```
 
 ### Swap tokens
 
-Swap, to exchange Token X for Token Y:
+Swap, to exchange Movescription Token for Token Y.
+The following assumes that the Movescription object ID is `0x6c28bf699fc3ef2cb9cba21d9ccdf883198f822cb52b0dc3878a025d0934ea9e`):
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_x \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function swap_x \
+--type-args '0x2::sui::SUI' \
 --args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
+'0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac' \
+'0x6c28bf699fc3ef2cb9cba21d9ccdf883198f822cb52b0dc3878a025d0934ea9e' \
+'0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1' \
 '"100"' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"9060000"' \
 --gas-budget 30000000
 ```
 
 In the opposite direction, Token Y is exchanged for Token X:
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_y \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function swap_y \
+--type-args '0x2::sui::SUI' \
 --args \
-'0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"9060000"' \
-'0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'"90"' \
+'0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac' \
+'0x79e6fd15db671bdf426166a494f15845353701c742febb66e88fb61a4981a5d1' \
+'"10000"' \
+'"1"' \
 --gas-budget 30000000
 ```
 
@@ -333,7 +329,7 @@ sui:
   contract:
     jsonrpc:
       url: "https://fullnode.devnet.sui.io/"
-    package-publish-transaction: "267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp"
+    package-publish-transaction: "EfxbTRbB1jtXQyhvDf7ZitQoVJiDUGQL65HqEHgBQsP4"
 ```
 
 This is the only place where off-chain service need to be configured, and it's that simple.
