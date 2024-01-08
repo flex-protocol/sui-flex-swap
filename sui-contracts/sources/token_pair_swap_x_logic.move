@@ -12,12 +12,18 @@ module sui_swap_example::token_pair_swap_x_logic {
 
     friend sui_swap_example::token_pair_aggregate;
 
+    const ENotSameTick: u64 = 10;
+
     public(friend) fun verify<Y>(
         x_movescription: &Movescription,
         expected_y_amount_out: u64,
         token_pair: &token_pair::TokenPair<Y>,
         ctx: &TxContext,
     ): token_pair::XSwappedForY {
+        assert!(
+            movescription::tick(x_movescription) == movescription::tick(token_pair::borrow_x_reserve(token_pair)),
+            ENotSameTick
+        );
         let x_reserve = movescription::amount(token_pair::borrow_x_reserve(token_pair));
         let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
         let x_amount_in = movescription::amount(x_movescription);

@@ -10,7 +10,6 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use sui::tx_context::{Self, TxContext};
     use smartinscription::movescription;
     use smartinscription::movescription::Movescription;
-    use sui_swap_example::liquidity_token::x_token_type;
 
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
@@ -18,11 +17,11 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
-    use sui_swap_example::token_util;
 
     friend sui_swap_example::token_pair_aggregate;
 
     const EAddInvalidLiquidity: u64 = 100;
+    const EInconsistentAmount: u64 = 101;
 
     #[lint_allow(self_transfer)]
     public(friend) fun verify<Y>(
@@ -31,13 +30,13 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         y_amount: &Balance<Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
-        //token_util::assert_type_less_than<X, Y>();
         let total_liquidity = 0;
         let x_token_type = string::from_ascii(movescription::tick(x_movescription));
-        let x_amount_i = 0;//todo balance::value(x_amount);
+        let x_amount_i = movescription::amount(x_movescription);
         let y_amount_i = balance::value(y_amount);
         let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
         assert!(liquidity_amount > 0, EAddInvalidLiquidity);
+        //token_util::assert_type_less_than<X, Y>();
 
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<Y>(x_token_type, liquidity_amount, ctx);
@@ -68,13 +67,13 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         let x_token_type = liquidity_initialized::x_token_type(liquidity_initialized);
         //let y_token_type = liquidity_initialized::y_token_type(liquidity_initialized);
         let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
-        //todo assert x_amount == movescription::...;
+        assert!(x_amount == movescription::amount(&x_movescription), EInconsistentAmount);
         // let y_amount = liquidity_initialized::y_amount(liquidity_initialized);
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
 
         let token_pair = token_pair::new_token_pair(
-            liquidity_amount,
             x_movescription,
+            liquidity_amount,
             ctx,
         );
         //

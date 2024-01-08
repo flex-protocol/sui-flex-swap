@@ -95,8 +95,8 @@ module sui_swap_example::token_pair {
     }
 
     public(friend) fun new_token_pair<Y>(
-        total_liquidity: u64,
         x_reserve: Movescription,
+        total_liquidity: u64,
         ctx: &mut TxContext,
     ): TokenPair<Y> {
         let admin_cap = AdminCap {
@@ -489,20 +489,22 @@ module sui_swap_example::token_pair {
         //assert!(token_pair.version != 0, EInappropriateVersion);
     }
 
-    // public(friend) fun drop_token_pair<Y>(token_pair: TokenPair<Y>) {
-    //     let TokenPair {
-    //         id,
-    //         version: _version,
-    //         schema_version: _,
-    //         admin_cap: _,
-    //         x_reserve,
-    //         y_reserve,
-    //         total_liquidity: _total_liquidity,
-    //     } = token_pair;
-    //     object::delete(id);
-    //     // todo drop x_reserve;
-    //     sui::balance::destroy_zero(y_reserve);
-    // }
+    /*
+    public(friend) fun drop_token_pair<Y>(token_pair: TokenPair<Y>) {
+        let TokenPair {
+            id,
+            version: _version,
+            schema_version: _,
+            admin_cap: _,
+            x_reserve,
+            y_reserve,
+            total_liquidity: _total_liquidity,
+        } = token_pair;
+        object::delete(id);
+        // todo drop x_reserve;
+        sui::balance::destroy_zero(y_reserve);
+    }
+    */
 
     public(friend) fun emit_liquidity_initialized(liquidity_initialized: LiquidityInitialized) {
         event::emit(liquidity_initialized);

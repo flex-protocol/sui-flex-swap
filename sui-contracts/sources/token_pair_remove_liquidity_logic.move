@@ -18,7 +18,8 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
 
     friend sui_swap_example::token_pair_aggregate;
 
-    const EInconsistentLiquidityAmount: u64 = 1;
+    const ENotSameTick: u64 = 10;
+    const EInconsistentLiquidityAmount: u64 = 100;
 
     public(friend) fun verify<Y>(
         liquidity_token: &LiquidityToken<Y>,
@@ -26,6 +27,7 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
         ctx: &TxContext,
     ): token_pair::LiquidityRemoved {
         let x_token_type = string::from_ascii(movescription::tick(token_pair::borrow_x_reserve(token_pair)));
+        assert!(x_token_type == liquidity_token::x_token_type(liquidity_token), ENotSameTick);
         let liquidity_amount = liquidity_token::amount(liquidity_token);
         let total_liquidity = token_pair::total_liquidity(token_pair);
         let x_reserve = movescription::amount(token_pair::borrow_x_reserve(token_pair));

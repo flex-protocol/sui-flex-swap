@@ -18,6 +18,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
 
     friend sui_swap_example::token_pair_aggregate;
 
+    const ENotSameTick: u64 = 10;
     const EAddInvalidLiquidity: u64 = 100;
 
     #[lint_allow(self_transfer)]
@@ -27,6 +28,12 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         token_pair: &token_pair::TokenPair<Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityAdded {
+        assert!(
+            movescription::tick(x_movescription) == movescription::tick(token_pair::borrow_x_reserve(token_pair)),
+            ENotSameTick
+        );
+        let x_token_type = string::from_ascii(movescription::tick(x_movescription));
+
         let total_liquidity = token_pair::total_liquidity(token_pair);
         let x_reserve = movescription::amount(token_pair::borrow_x_reserve(token_pair));
         let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
@@ -41,9 +48,6 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         );
         assert!(liquidity_amount_added > 0, EAddInvalidLiquidity);
 
-        let x_token_type = string::from_ascii(movescription::tick(x_movescription));
-        //todo assert x_token_type...
-
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<Y>(x_token_type, liquidity_amount_added, ctx);
         let liquidity_token_id = liquidity_token::id(&liquidity_token);
@@ -52,7 +56,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         token_pair::new_liquidity_added(
             token_pair,
             tx_context::sender(ctx),
-            x_token_type,//string::from_ascii(type_name::into_string(type_name::get<X>())),
+            x_token_type, //string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
             x_amount_i,
             y_amount_i,
