@@ -1,8 +1,8 @@
 # 一个 Sui Swap（DEX）示例应用
 
-## 需求
+注意：本文的中文版本比较相对英文版本 [README.md](./README.md) 要简略，更详细信息请参考英文版本。
 
-可以参考英文版本的 [README.md](./README.md)。
+## 需求
 
 这是一个 Sui Move 的示例项目，用于教学目的。客户是一个 Web3 开发者教育机构。 需求用中文简单说就是：
 
@@ -119,7 +119,7 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 --gas-budget 30000000
 ```
 
-注意输出的 `TokenPair` 对象的 Id：
+注意输出的 `TokenPair` 对象的 Id（在添加流动性的时候，我们需要使用它）：
 
 ```text
 │  ┌──                                                                                                                                                                                                                               │
