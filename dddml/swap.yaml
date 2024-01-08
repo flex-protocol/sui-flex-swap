@@ -21,16 +21,6 @@ aggregates:
         type: "Balance<Y>"
       TotalLiquidity:
         type: u64
-#      Liquidities:
-#        itemType: Liquidity
-#    entities:
-#      Liquidity:
-#        id:
-#          name: Provider
-#          type: address
-#        properties:
-#          Amount:
-#            type: u64
 
     methods:
       InitializeLiquidity:
@@ -234,7 +224,6 @@ aggregates:
           isObjectReturned: true
         event:
           name: LiquidityTokenMinted
-          #isObjectShared: true
           #isObjectFrozen: true
           #properties:
           #  Owner:
@@ -315,7 +304,6 @@ services:
           Exchange:
             referenceType: Exchange
             isMutableReference: true
-            #eventPropertyName: ExchangeId
           X_Coin:
             type: Coin<X>
           X_Amount:
@@ -336,7 +324,6 @@ services:
           TokenPair:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
-            #eventPropertyName: TokenPairId
           X_Coin:
             type: Coin<X>
           X_Amount:
@@ -354,10 +341,8 @@ services:
           TokenPair:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
-            #eventPropertyName: TokenPairId
           LiquidityToken:
             type: LiquidityToken<X, Y>
-            #eventPropertyName: LiquidityTokenId
           X_Coin:
             referenceType: Coin<X>
             isMutableReference: true
@@ -373,7 +358,6 @@ services:
           TokenPair:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
-            #eventPropertyName: TokenPairId
           X_Coin:
             type: Coin<X>
           X_Amount:
@@ -392,7 +376,6 @@ services:
           TokenPair:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
-            #eventPropertyName: TokenPairId
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
