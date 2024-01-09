@@ -6,7 +6,6 @@
 package org.test.suiswapexample.domain;
 
 import java.io.Serializable;
-import java.util.*;
 import org.test.suiswapexample.domain.*;
 
 public class MovescriptionMetadata implements Serializable {
@@ -78,7 +77,7 @@ public class MovescriptionMetadata implements Serializable {
     public String toString() {
         return "MovescriptionMetadata{" +
                 "contentType=" + '\'' + contentType + '\'' +
-                ", content=" + Arrays.toString(content) +
+                ", content=" + java.util.Arrays.toString(content) +
                 '}';
     }
 

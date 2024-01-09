@@ -5,6 +5,9 @@
 
 package org.test.suiswapexample.sui.contract;
 
+import java.util.*;
+import java.math.*;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.wubuku.sui.bean.*;
@@ -78,7 +81,7 @@ public class Movescription extends MoveObject<Movescription.MovescriptionFields>
         @Override
         public String toString() {
             return "MovescriptionFields{" +
-                    "id=" + '\'' + id + '\'' +
+                    "id=" + id +
                     ", amount=" + amount +
                     ", tick=" + '\'' + tick + '\'' +
                     ", attachCoin=" + attachCoin +
