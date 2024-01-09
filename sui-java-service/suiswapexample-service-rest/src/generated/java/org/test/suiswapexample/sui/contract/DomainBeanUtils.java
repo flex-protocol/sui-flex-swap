@@ -200,7 +200,7 @@ public class DomainBeanUtils {
         liquidityTokenMinted.setId(contractEvent.getId());
         liquidityTokenMinted.setX_TokenType(contractEvent.getX_TokenType());
         liquidityTokenMinted.setAmount(contractEvent.getAmount());
-        liquidityTokenMinted.setVersion(BigInteger.valueOf(-1));
+        liquidityTokenMinted.setVersion(BigInteger.valueOf(eventEnvelope.getTimestampMs()));
 
         liquidityTokenMinted.setSuiTimestamp(eventEnvelope.getTimestampMs());
         liquidityTokenMinted.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
@@ -219,7 +219,7 @@ public class DomainBeanUtils {
         AbstractLiquidityTokenEvent.LiquidityTokenDestroyed liquidityTokenDestroyed = new AbstractLiquidityTokenEvent.LiquidityTokenDestroyed();
         liquidityTokenDestroyed.setId(contractEvent.getId());
         liquidityTokenDestroyed.setAmount(contractEvent.getAmount());
-        liquidityTokenDestroyed.setVersion(BigInteger.valueOf(-1));
+        liquidityTokenDestroyed.setVersion(BigInteger.valueOf(eventEnvelope.getTimestampMs()));
 
         liquidityTokenDestroyed.setSuiTimestamp(eventEnvelope.getTimestampMs());
         liquidityTokenDestroyed.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
