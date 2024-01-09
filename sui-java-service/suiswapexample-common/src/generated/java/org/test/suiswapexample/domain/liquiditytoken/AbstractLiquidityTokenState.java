@@ -208,7 +208,7 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         }
     }
 
-    protected void merge(LiquidityTokenState s) {
+    public void merge(LiquidityTokenState s) {
         if (s == this) {
             return;
         }

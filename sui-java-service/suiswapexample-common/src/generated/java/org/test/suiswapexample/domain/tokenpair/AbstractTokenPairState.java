@@ -214,7 +214,7 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         }
     }
 
-    protected void merge(TokenPairState s) {
+    public void merge(TokenPairState s) {
         if (s == this) {
             return;
         }
