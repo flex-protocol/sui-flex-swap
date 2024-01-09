@@ -18,7 +18,7 @@ From the front-end, the dApp would look roughly like this:
 
 * First we would display a list of supported token pairs, TokenX-TokenY, TokenY-TokenZ and so on. Of course, at first, this list is empty.
 
-* Users can "initialize liquidity". i.e. add a new swappable token pair TokenX-TokenY, by providing some amount of TokenX and TokenY.
+* ~~Users~~Only admin can "initialize liquidity". i.e. add a new swappable token pair TokenX-TokenY, by providing some amount of TokenX and TokenY.
 
 * Of course, after the token pair is initialized, users can continue to "add liquidity" to the token pair.
 
@@ -151,7 +151,7 @@ That's the whole programming routine, isn't it simple?
 
 #### Prepare some SUI coins
 
-View the Sui coin objects in the current account:
+View the SUI coin objects in the current account:
 
 ```shell
 sui client gas
@@ -169,7 +169,7 @@ sui client pay-sui --input-coins 0x79e6fd15db671bdf426166a494f15845353701c742feb
 
 We will have deployed a movescription test contract on testnet with package ID: `0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`.
 
-Object ID of the `MOVE` inscription `TickRecord`: `0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`.
+Object ID of the `TickRecord` used to mint the `MOVE` inscription: `0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`.
 
 Note that when testing with the Sui CLI, switch the environment to testnet first:
 
@@ -185,7 +185,7 @@ in the example below should be changed to the ID of one of your SUI Coin objects
 sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function mint --args 0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64 \"MOVE\" 0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c \"0x6\" --gas-budget 19000000
 ```
 
-Split an inscription object:
+Maybe you want to quickly make some more inscription objects for testing, then, you can split an inscription object like this:
 
 ```shell
 sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function split --args  0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c '"1000"' --gas-budget 19000000
@@ -217,7 +217,7 @@ When setting up the off-chain service, we will need it.
 ### Initialize liquidity
 
 
-Note the arguments required by "initialize liquidity" function, which are assumed by the following commands:
+Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
 
 * The ID of the publisher object for module `liquidity_token` or `token_pair` is `0x6060cea7d955fcf46c57cc9f03f2abd511e7f0eacba8b0954ba4759f95fb0b7c`.
 * Assuming the ID of the `Exchange` object is `0x9da82f9a0dd58805baba51b80b499babd6cb03d45448103932111c5016349f31`.
@@ -273,9 +273,12 @@ Note the ID of the `LiquidityToken` object in the output:
 │  │ ObjectType: 0x2301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97::liquidity_token::LiquidityToken<0x2::sui::SUI>  │
 ```
 
+You can add liquidity multiple times, using one of the `LiquidityToken` objects to test removing liquidity.
+
+
 ### Remove liquidity
 
-Remove liquidity:
+Remove liquidity, the following assumes that the ID of the `LiquidityToken` object you want to remove is `0x97ace24665dfe33478447494364fcc2dd6fc02185989bf6721d4a5a99bea1891`:
 
 ```shell
 sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97 --module token_pair_service --function remove_liquidity \
@@ -289,7 +292,7 @@ sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2
 
 ### Swap tokens
 
-Swap, to exchange Movescription Token for Token Y.
+Swap, to exchange Movescription Token  (i.e. Token X)  for Token Y.
 The following assumes that the Movescription object ID is `0x6c28bf699fc3ef2cb9cba21d9ccdf883198f822cb52b0dc3878a025d0934ea9e`):
 
 ```shell
