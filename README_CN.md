@@ -111,3 +111,79 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 [TBD]
 
+### 测试链下服务
+
+#### 链下服务 API
+
+我们的链下服务将链上的对象状态拉取到链下的 SQL 数据库，以提供查询功能。
+
+我们当然可以先使用 Sui 官方提供的 API 服务，见：https://docs.sui.io/references/sui-api 
+但是，有些应用特定的查询需求，Sui 官方的 API 服务可能并不能满足，所以，很多应有都有必要自己搭建或者使用第三方提供的增强的查询或检索服务。 
+
+默认情况下，我们生成的链下服务提供了一些开箱即用的 API。比如：
+
+获取代币对列表：
+
+```text
+http://localhost:1023/api/TokenPairs
+```
+
+你甚至可以使用查询条件：
+
+```text
+http://localhost:1023/api/TokenPairs?totalLiquidity=gt(100)&x_Reserve.tick=MOVE
+```
+
+获取某个代币的信息：
+
+```text
+http://localhost:1023/api/TokenPairs/0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac
+```
+
+获取流动性 Token 的列表：
+
+```text
+http://localhost:1023/api/LiquidityTokens
+```
+
+获取某个流动性 Token 的信息：
+
+```text
+http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
+```
+
+##### 获取列表的查询参数
+
+可以在获取列表的请求 URL 中支持的查询参数，包括：
+
+* sort。用于排序的属性名称。多个属性名称可以英文逗号分隔。属性名称前面有“-”则表示倒序排列。查询参数 `sort` 还可以多次出现，像这样：`sort=fisrtName&sort=lastName,desc`。
+* fields。需要返回的字段（属性）名称。多个名称可以逗号分隔。
+* filter。返回结果的过滤器，后文会进一步解释。
+* firstResult。返回结果中第一条记录的序号，从 0 开始计算。
+* maxResults。返回结果的最大记录数量。
+
+##### 获取列表的 Page 封包
+
+虽然我个人并不喜欢“封包”，但是因为有些开发人员强烈要求，我们还是支持发送 GET 请求到这个 URL 以获取的列表的 Page（分页）封包：
+
+```url
+{BASE_URL}/{Entities}/_page?page={page}
+```
+
+支持的分页相关的查询参数：
+
+* page：获取第几页（从 0 开始）。
+* size：Page size。
+
+比如：
+
+```text
+http://localhost:1023/api/TokenPairs/_page?page=0&size=10
+```
+
+##### 还需要更多的查询功能？
+
+由于链下服务已经将链上的对象状态拉取到链下的 SQL 数据库，所以，我们可以使用任意 SQL 查询语句来查询链下服务的数据库。
+将这些 SQL 查询语句封装成 API，是非常容易的事情。如果你有这样的需求，修改源代码，添加你需要的 API 即可。
+
+

@@ -366,6 +366,84 @@ In the `sui-java-service` directory, run the following command to start the off-
 mvn -pl suiswapexample-service-rest -am spring-boot:run
 ```
 
+#### Off-Chain Service API
+
+Our off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
+
+We can certainly start by using Sui's official API service, see: https://docs.sui.io/references/sui-api
+However, there are some application-specific query requirements that Sui's official API service may not be able to fulfill, 
+so it should be necessary to build your own or use enhanced query or indexer services provided by third parties.
+
+By default, the off-chain services we generate provide some out-of-the-box APIs. for example:
+
+Get a list of token pairs:
+
+```text
+http://localhost:1023/api/TokenPairs
+```
+
+You can use query criteria:
+
+```text
+http://localhost:1023/api/TokenPairs?totalLiquidity=gt(100)&x_Reserve.tick=MOVE
+```
+
+Get the information of a token pair:
+
+```text
+http://localhost:1023/api/TokenPairs/0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac
+```
+
+Get a list of liquidity tokens:
+
+```text
+http://localhost:1023/api/LiquidityTokens
+```
+
+Get the information of a liquidity token:
+
+```text
+http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
+```
+
+##### Query parameters for getting lists
+
+Query parameters that can be supported in the request URL for getting a list, including:
+
+* `sort`. the name of the attribute to be used for sorting. Multiple attribute names can be separated by commas. Multiple attribute names can be separated by a comma. A "-" in front of an attribute name indicates reverse order. The query parameter `sort` can also appear multiple times, like this: `sort=fisrtName&sort=lastName,desc`.
+* `fields`. The names of the fields (attributes) to be returned. Multiple names can be separated by commas.
+* `filter`. The filter to return the result, explained further later.
+* `firstResult`. Returns the number of the first row in the result, counting from `0`.
+* `maxResults`. Returns the maximum number of records in the result.
+
+##### Getting the list's page envelope
+
+I personally don't like page "envelope", 
+but because some developers requested it, 
+we support sending a GET request to a URL to get a page envelope for the list:
+
+```url
+{BASE_URL}/{Entities}/_page?page={page}
+```
+
+Supported paging-related query parameters:
+
+* `page`: Get the first page (starting from 0).
+* `size`: Page size.
+
+For example:
+
+```text
+http://localhost:1023/api/TokenPairs/_page?page=0&size=10
+```
+
+##### Need more query functionality?
+
+Since the off-chain service already pulls the state of the objects on chain to the off-chain SQL database, 
+we can query the off-chain service's database using any SQL query statement.
+It is very easy to encapsulate these SQL query statements into an API. 
+If you have such a need, modify the source code and add the API you need.
+
 
 ##  Further Reading
 
