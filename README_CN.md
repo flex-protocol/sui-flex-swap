@@ -156,11 +156,12 @@ http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad95982
 
 可以在获取列表的请求 URL 中支持的查询参数，包括：
 
-* sort。用于排序的属性名称。多个属性名称可以英文逗号分隔。属性名称前面有“-”则表示倒序排列。查询参数 `sort` 还可以多次出现，像这样：`sort=fisrtName&sort=lastName,desc`。
-* fields。需要返回的字段（属性）名称。多个名称可以逗号分隔。
-* filter。返回结果的过滤器，后文会进一步解释。
-* firstResult。返回结果中第一条记录的序号，从 0 开始计算。
-* maxResults。返回结果的最大记录数量。
+* sort：用于排序的属性名称。多个属性名称可以英文逗号分隔。属性名称前面有“-”则表示倒序排列。
+    查询参数 `sort` 还可以多次出现，像这样：`sort=fisrtName&sort=lastName,desc`。
+* fields：需要返回的字段（属性）名称。多个名称可以逗号分隔。
+* filter：返回结果的过滤器，后文会进一步解释。
+* firstResult：返回结果中第一条记录的序号，从 0 开始计算。
+* maxResults：返回结果的最大记录数量。
 
 #### 获取列表的 Page 封包
 

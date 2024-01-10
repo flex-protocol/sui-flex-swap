@@ -411,11 +411,14 @@ http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad95982
 
 Query parameters that can be supported in the request URL for getting a list, including:
 
-* `sort`. the name of the attribute to be used for sorting. Multiple attribute names can be separated by commas. Multiple attribute names can be separated by a comma. A "-" in front of an attribute name indicates reverse order. The query parameter `sort` can also appear multiple times, like this: `sort=fisrtName&sort=lastName,desc`.
-* `fields`. The names of the fields (attributes) to be returned. Multiple names can be separated by commas.
-* `filter`. The filter to return the result, explained further later.
-* `firstResult`. Returns the number of the first row in the result, counting from `0`.
-* `maxResults`. Returns the maximum number of records in the result.
+* `sort`: The name of the property to be used for sorting. Multiple names can be separated by commas. 
+    A "-" in front of the name indicates reverse order. 
+    The query parameter `sort` can appear multiple times, like this: `sort=fisrtName&sort=lastName,desc`.
+* `fields`: The names of the fields (properties) to be returned. 
+    Multiple names can be separated by commas.
+* `filter`: The filter to return the result, explained further later (TBD).
+* `firstResult`: The ordinal number of the first record returned in the result, starting from `0`.
+* `maxResults`: The maximum number of records returned in the result.
 
 #### Getting the list's page envelope
 
@@ -429,7 +432,7 @@ we support sending a GET request to a URL to get a page envelope for the list:
 
 Supported paging-related query parameters:
 
-* `page`: Get the first page (starting from 0).
+* `page`: Page number, starting from 0.
 * `size`: Page size.
 
 For example:
