@@ -57,6 +57,10 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
     }
 
     interface LiquidityAdded extends TokenPairEvent {
+        BigInteger getExpectedLiquidity();
+
+        void setExpectedLiquidity(BigInteger value);
+
         String getProvider();
 
         void setProvider(String value);

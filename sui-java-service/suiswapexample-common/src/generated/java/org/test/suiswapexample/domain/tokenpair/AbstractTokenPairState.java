@@ -292,6 +292,8 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
     public void when(AbstractTokenPairEvent.LiquidityAdded e) {
         throwOnWrongEvent(e);
 
+        BigInteger expectedLiquidity = e.getExpectedLiquidity();
+        BigInteger ExpectedLiquidity = expectedLiquidity;
         String provider = e.getProvider();
         String Provider = provider;
         String x_TokenType = e.getX_TokenType();
@@ -335,14 +337,14 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         TokenPairState updatedTokenPairState = (TokenPairState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.AddLiquidityLogic",
                     "mutate",
-                    new Class[]{TokenPairState.class, String.class, String.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, provider, x_TokenType, y_TokenType, x_Amount, y_Amount, liquidityAmount, liquidityTokenId, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{TokenPairState.class, BigInteger.class, String.class, String.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, expectedLiquidity, provider, x_TokenType, y_TokenType, x_Amount, y_Amount, liquidityAmount, liquidityTokenId, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class AddLiquidityLogic {
-//    public static TokenPairState mutate(TokenPairState tokenPairState, String provider, String x_TokenType, String y_TokenType, BigInteger x_Amount, BigInteger y_Amount, BigInteger liquidityAmount, String liquidityTokenId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
+//    public static TokenPairState mutate(TokenPairState tokenPairState, BigInteger expectedLiquidity, String provider, String x_TokenType, String y_TokenType, BigInteger x_Amount, BigInteger y_Amount, BigInteger liquidityAmount, String liquidityTokenId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
 //    }
 //}
 

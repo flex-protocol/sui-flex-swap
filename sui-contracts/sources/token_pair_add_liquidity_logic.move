@@ -25,6 +25,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
     public(friend) fun verify<Y>(
         x_movescription: &Movescription,
         y_amount: &Balance<Y>,
+        expected_liquidity: u64,
         token_pair: &token_pair::TokenPair<Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityAdded {
@@ -47,6 +48,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
             y_amount_i
         );
         assert!(liquidity_amount_added > 0, EAddInvalidLiquidity);
+        assert!(liquidity_amount_added >= expected_liquidity, EAddInvalidLiquidity);
 
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<Y>(x_token_type, liquidity_amount_added, ctx);
@@ -55,6 +57,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
 
         token_pair::new_liquidity_added(
             token_pair,
+            expected_liquidity,
             tx_context::sender(ctx),
             x_token_type, //string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),

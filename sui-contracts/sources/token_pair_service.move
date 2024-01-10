@@ -36,6 +36,7 @@ module sui_swap_example::token_pair_service {
         x_movescription: Movescription,
         y_coin: Coin<Y>,
         y_amount: u64,
+        expected_liquidity: u64,
         ctx: &mut tx_context::TxContext,
     ) {
         //let x_amount_b = split_up_and_into_balance(x_coin, x_amount, ctx);
@@ -44,6 +45,7 @@ module sui_swap_example::token_pair_service {
             token_pair,
             x_movescription,
             y_amount_b,
+            expected_liquidity,
             ctx,
         )
     }

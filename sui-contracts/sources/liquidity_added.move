@@ -13,6 +13,10 @@ module sui_swap_example::liquidity_added {
         token_pair::liquidity_added_id(liquidity_added)
     }
 
+    public fun expected_liquidity(liquidity_added: &LiquidityAdded): u64 {
+        token_pair::liquidity_added_expected_liquidity(liquidity_added)
+    }
+
     public fun provider(liquidity_added: &LiquidityAdded): address {
         token_pair::liquidity_added_provider(liquidity_added)
     }

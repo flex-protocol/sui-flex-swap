@@ -371,6 +371,7 @@ mvn -pl suiswapexample-service-rest -am spring-boot:run
 Our off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
 
 We can certainly start by using Sui's official API service, see: https://docs.sui.io/references/sui-api
+
 However, there are some application-specific query requirements that Sui's official API service may not be able to fulfill, 
 so it should be necessary to build your own or use enhanced query or indexer services provided by third parties.
 

@@ -80,6 +80,9 @@ aggregates:
             type: Movescription
           Y_Amount:
             type: Balance<Y>
+          ExpectedLiquidity:
+            type: u64
+            description: "The expected amount of added liquidity should not be less than this."
         event:
           name: LiquidityAdded
           properties:
@@ -111,6 +114,9 @@ aggregates:
           LiquidityToken:
             type: LiquidityToken<Y>
             #eventPropertyName: LiquidityTokenId
+          #Amount:
+          #  type: u64
+          #todo Support removing partial liquidity?
         result:
           type: Balance<Y>
         event:
@@ -347,6 +353,8 @@ services:
             type: Coin<Y>
           Y_Amount:
             type: u64
+          ExpectedLiquidity:
+            type: u64
 
       RemoveLiquidity:
         typeParameters:
@@ -364,6 +372,8 @@ services:
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
+          #Amount:
+          #  type: u64
 
       SwapX:
         typeParameters:

@@ -89,6 +89,19 @@ public class TokenPairCommands {
         }
 
         /**
+         * The expected amount of added liquidity should not be less than this.
+         */
+        private BigInteger expectedLiquidity;
+
+        public BigInteger getExpectedLiquidity() {
+            return this.expectedLiquidity;
+        }
+
+        public void setExpectedLiquidity(BigInteger expectedLiquidity) {
+            this.expectedLiquidity = expectedLiquidity;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;

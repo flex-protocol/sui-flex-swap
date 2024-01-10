@@ -200,6 +200,7 @@ module sui_swap_example::token_pair {
     struct LiquidityAdded has copy, drop {
         id: object::ID,
         version: u64,
+        expected_liquidity: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -211,6 +212,10 @@ module sui_swap_example::token_pair {
 
     public fun liquidity_added_id(liquidity_added: &LiquidityAdded): object::ID {
         liquidity_added.id
+    }
+
+    public fun liquidity_added_expected_liquidity(liquidity_added: &LiquidityAdded): u64 {
+        liquidity_added.expected_liquidity
     }
 
     public fun liquidity_added_provider(liquidity_added: &LiquidityAdded): address {
@@ -244,6 +249,7 @@ module sui_swap_example::token_pair {
     #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_added<Y>(
         token_pair: &TokenPair<Y>,
+        expected_liquidity: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -255,6 +261,7 @@ module sui_swap_example::token_pair {
         LiquidityAdded {
             id: id(token_pair),
             version: version(token_pair),
+            expected_liquidity,
             provider,
             x_token_type,
             y_token_type,

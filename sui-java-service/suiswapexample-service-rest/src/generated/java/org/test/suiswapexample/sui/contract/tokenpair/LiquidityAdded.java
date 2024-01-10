@@ -19,6 +19,8 @@ public class LiquidityAdded {
 
     private BigInteger version;
 
+    private BigInteger expectedLiquidity;
+
     private String provider;
 
     private String x_TokenType;
@@ -47,6 +49,14 @@ public class LiquidityAdded {
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public BigInteger getExpectedLiquidity() {
+        return expectedLiquidity;
+    }
+
+    public void setExpectedLiquidity(BigInteger expectedLiquidity) {
+        this.expectedLiquidity = expectedLiquidity;
     }
 
     public String getProvider() {
@@ -110,6 +120,7 @@ public class LiquidityAdded {
         return "LiquidityAdded{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
+                ", expectedLiquidity=" + expectedLiquidity +
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

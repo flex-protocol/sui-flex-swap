@@ -52,12 +52,14 @@ module sui_swap_example::token_pair_aggregate {
         token_pair: &mut token_pair::TokenPair<Y>,
         x_movescription: Movescription,
         y_amount: Balance<Y>,
+        expected_liquidity: u64,
         ctx: &mut tx_context::TxContext,
     ) {
         token_pair::assert_schema_version(token_pair);
         let liquidity_added = token_pair_add_liquidity_logic::verify<Y>(
             &x_movescription,
             &y_amount,
+            expected_liquidity,
             token_pair,
             ctx,
         );

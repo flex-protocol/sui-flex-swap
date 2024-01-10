@@ -99,6 +99,7 @@ public class DomainBeanUtils {
 
         AbstractTokenPairEvent.LiquidityAdded liquidityAdded = new AbstractTokenPairEvent.LiquidityAdded();
         liquidityAdded.setId(contractEvent.getId());
+        liquidityAdded.setExpectedLiquidity(contractEvent.getExpectedLiquidity());
         liquidityAdded.setProvider(contractEvent.getProvider());
         liquidityAdded.setX_TokenType(contractEvent.getX_TokenType());
         liquidityAdded.setY_TokenType(contractEvent.getY_TokenType());

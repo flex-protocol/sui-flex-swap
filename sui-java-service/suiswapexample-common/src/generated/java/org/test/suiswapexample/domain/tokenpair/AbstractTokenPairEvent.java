@@ -324,6 +324,18 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             return "LiquidityAdded";
         }
 
+        public BigInteger getExpectedLiquidity() {
+            Object val = getDynamicProperties().get("expectedLiquidity");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExpectedLiquidity(BigInteger value) {
+            getDynamicProperties().put("expectedLiquidity", value);
+        }
+
         public String getProvider() {
             Object val = getDynamicProperties().get("provider");
             if (val instanceof String) {
