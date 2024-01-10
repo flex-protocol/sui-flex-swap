@@ -113,7 +113,7 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 ### 测试链下服务
 
-#### 链下服务 API
+### 链下服务 API
 
 我们的链下服务将链上的对象状态拉取到链下的 SQL 数据库，以提供查询功能。
 
@@ -152,7 +152,7 @@ http://localhost:1023/api/LiquidityTokens
 http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
 ```
 
-##### 获取列表的查询参数
+#### 获取列表的查询参数
 
 可以在获取列表的请求 URL 中支持的查询参数，包括：
 
@@ -162,7 +162,7 @@ http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad95982
 * firstResult。返回结果中第一条记录的序号，从 0 开始计算。
 * maxResults。返回结果的最大记录数量。
 
-##### 获取列表的 Page 封包
+#### 获取列表的 Page 封包
 
 虽然我个人并不喜欢“封包”，但是因为有些开发人员强烈要求，我们还是支持发送 GET 请求到这个 URL 以获取的列表的 Page（分页）封包：
 
@@ -181,7 +181,7 @@ http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad95982
 http://localhost:1023/api/TokenPairs/_page?page=0&size=10
 ```
 
-##### 还需要更多的查询功能？
+#### 还需要更多的查询功能？
 
 由于链下服务已经将链上的对象状态拉取到链下的 SQL 数据库，所以，我们可以使用任意 SQL 查询语句来查询链下服务的数据库。
 将这些 SQL 查询语句封装成 API，是非常容易的事情。如果你有这样的需求，修改源代码，添加你需要的 API 即可。

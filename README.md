@@ -366,7 +366,7 @@ In the `sui-java-service` directory, run the following command to start the off-
 mvn -pl suiswapexample-service-rest -am spring-boot:run
 ```
 
-#### Off-Chain Service API
+### Off-chain service API
 
 Our off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
 
@@ -407,7 +407,7 @@ Get the information of a liquidity token:
 http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
 ```
 
-##### Query parameters for getting lists
+#### Query parameters for getting lists
 
 Query parameters that can be supported in the request URL for getting a list, including:
 
@@ -417,7 +417,7 @@ Query parameters that can be supported in the request URL for getting a list, in
 * `firstResult`. Returns the number of the first row in the result, counting from `0`.
 * `maxResults`. Returns the maximum number of records in the result.
 
-##### Getting the list's page envelope
+#### Getting the list's page envelope
 
 I personally don't like page "envelope", 
 but because some developers requested it, 
@@ -438,7 +438,7 @@ For example:
 http://localhost:1023/api/TokenPairs/_page?page=0&size=10
 ```
 
-##### Need more query functionality?
+#### Need more query functionality?
 
 Since the off-chain service already pulls the state of the objects on chain to the off-chain SQL database, 
 we can query the off-chain service's database using any SQL query statement.
