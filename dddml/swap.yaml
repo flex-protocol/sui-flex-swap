@@ -114,9 +114,6 @@ aggregates:
           LiquidityToken:
             type: LiquidityToken<Y>
             #eventPropertyName: LiquidityTokenId
-          #Amount:
-          #  type: u64
-          #todo Support removing partial liquidity?
         result:
           type: Balance<Y>
         event:
@@ -384,8 +381,9 @@ services:
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
-          #Amount:
-          #  type: u64
+          Amount:
+            type: u64
+            description: Support removing partial liquidity.
 
       SwapX:
         typeParameters:

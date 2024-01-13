@@ -8,7 +8,9 @@ module sui_swap_example::token_pair_service {
     use smartinscription::movescription::Movescription;
 
     use sui_swap_example::exchange::Exchange;
+    use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
+    use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::token_pair::TokenPair;
     use sui_swap_example::token_pair_aggregate;
 
@@ -54,11 +56,18 @@ module sui_swap_example::token_pair_service {
         token_pair: &mut TokenPair<Y>,
         liquidity_token: LiquidityToken<Y>,
         y_coin: &mut Coin<Y>,
+        amount: u64,
         ctx: &mut tx_context::TxContext,
     ) {
+        let liquidity_token_r =
+            if (amount != 0 && amount < liquidity_token::amount(&liquidity_token)) {
+                liquidity_token_aggregate::split(liquidity_token, amount, ctx)
+            } else {
+                liquidity_token
+            };
         let y_balance = token_pair_aggregate::remove_liquidity(
             token_pair,
-            liquidity_token,
+            liquidity_token_r,
             ctx,
         );
         //coin::join(x_coin, coin::from_balance(x_balance, ctx));
