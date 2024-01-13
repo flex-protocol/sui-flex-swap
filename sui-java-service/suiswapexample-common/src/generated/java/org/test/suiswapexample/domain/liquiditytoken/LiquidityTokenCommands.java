@@ -116,5 +116,56 @@ public class LiquidityTokenCommands {
 
     }
 
+    public static class Split extends AbstractLiquidityTokenCommand implements LiquidityTokenCommand {
+
+        public String getCommandType() {
+            return "Split";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Amount
+         */
+        private BigInteger amount;
+
+        public BigInteger getAmount() {
+            return this.amount;
+        }
+
+        public void setAmount(BigInteger amount) {
+            this.amount = amount;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
 }
 

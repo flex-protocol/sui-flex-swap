@@ -17,4 +17,6 @@ public interface LiquidityTokenEventRepository extends JpaRepository<AbstractLiq
 
     AbstractLiquidityTokenEvent.LiquidityTokenDestroyed findFirstLiquidityTokenDestroyedByOrderBySuiTimestampDesc();
 
+    AbstractLiquidityTokenEvent.LiquidityTokenSplit findFirstLiquidityTokenSplitByOrderBySuiTimestampDesc();
+
 }

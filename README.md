@@ -321,7 +321,7 @@ sui client call --package 0x02301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2
 
 ### Test off-chain service
 
-#### Configuring off-chain Service
+#### Configuring off-chain service
 
 Open the `application-test.yml` file located in the directory `sui-java-service/suiswapexample-service-rest/src/main/resources` and set the published transaction digest.
 
@@ -358,7 +358,7 @@ Then, run a command-line tool to initialize the database:
 java -jar ./suiswapexample-service-cli/target/suiswapexample-service-cli-0.0.1-SNAPSHOT.jar ddl -d "./scripts" -c "jdbc:mysql://127.0.0.1:3306/test5?enabledTLSProtocols=TLSv1.2&characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false" -u root -p 123456
 ```
 
-#### Starting off-chain Service
+#### Starting off-chain service
 
 In the `sui-java-service` directory, run the following command to start the off-chain service:
 

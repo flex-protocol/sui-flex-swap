@@ -76,6 +76,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.liquiditytoken.SplitLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "amount"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.exchange.__Init__Logic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, ExchangeState.class, VerificationContext.class},

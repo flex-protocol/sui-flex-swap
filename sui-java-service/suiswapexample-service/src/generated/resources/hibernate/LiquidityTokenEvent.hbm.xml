@@ -45,6 +45,7 @@
       </property>
       <subclass name="AbstractLiquidityTokenEvent$LiquidityTokenMinted" discriminator-value="LiquidityTokenMinted" />
       <subclass name="AbstractLiquidityTokenEvent$LiquidityTokenDestroyed" discriminator-value="LiquidityTokenDestroyed" />
+      <subclass name="AbstractLiquidityTokenEvent$LiquidityTokenSplit" discriminator-value="LiquidityTokenSplit" />
     </subclass>
   </class>
 </hibernate-mapping>

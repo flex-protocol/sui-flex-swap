@@ -6,9 +6,10 @@
 module sui_swap_example::liquidity_token_aggregate {
     use std::string::String;
     use sui::tx_context;
-    use sui_swap_example::liquidity_token;
+    use sui_swap_example::liquidity_token::{Self, LiquidityToken};
     use sui_swap_example::liquidity_token_destroy_logic;
     use sui_swap_example::liquidity_token_mint_logic;
+    use sui_swap_example::liquidity_token_split_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
@@ -51,6 +52,27 @@ module sui_swap_example::liquidity_token_aggregate {
         );
         liquidity_token::drop_liquidity_token(updated_liquidity_token);
         liquidity_token::emit_liquidity_token_destroyed(liquidity_token_destroyed);
+    }
+
+    #[allow(unused_mut_parameter)]
+    public fun split<Y>(
+        liquidity_token: liquidity_token::LiquidityToken<Y>,
+        amount: u64,
+        ctx: &mut tx_context::TxContext,
+    ): LiquidityToken<Y> {
+        let liquidity_token_split = liquidity_token_split_logic::verify<Y>(
+            amount,
+            &liquidity_token,
+            ctx,
+        );
+        let (updated_liquidity_token, split_return) = liquidity_token_split_logic::mutate<Y>(
+            &liquidity_token_split,
+            liquidity_token,
+            ctx,
+        );
+        liquidity_token::transfer_object(updated_liquidity_token, tx_context::sender(ctx));
+        liquidity_token::emit_liquidity_token_split(liquidity_token_split);
+        split_return
     }
 
 }

@@ -19,6 +19,7 @@ import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
 import org.test.suiswapexample.domain.liquiditytoken.AbstractLiquidityTokenEvent;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenMinted;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenDestroyed;
+import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenSplit;
 import org.test.suiswapexample.domain.exchange.AbstractExchangeEvent;
 import org.test.suiswapexample.sui.contract.exchange.InitExchangeEvent;
 import org.test.suiswapexample.sui.contract.exchange.TokenPairAddedToExchange;
@@ -231,6 +232,25 @@ public class DomainBeanUtils {
         liquidityTokenDestroyed.setSuiSender(eventEnvelope.getSender());
 
         return liquidityTokenDestroyed;
+    }
+
+    public static AbstractLiquidityTokenEvent.LiquidityTokenSplit toLiquidityTokenSplit(SuiMoveEventEnvelope<LiquidityTokenSplit> eventEnvelope) {
+        LiquidityTokenSplit contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractLiquidityTokenEvent.LiquidityTokenSplit liquidityTokenSplit = new AbstractLiquidityTokenEvent.LiquidityTokenSplit();
+        liquidityTokenSplit.setId(contractEvent.getId());
+        liquidityTokenSplit.setAmount(contractEvent.getAmount());
+        liquidityTokenSplit.setVersion(BigInteger.valueOf(eventEnvelope.getTimestampMs()));
+
+        liquidityTokenSplit.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        liquidityTokenSplit.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        liquidityTokenSplit.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        liquidityTokenSplit.setSuiPackageId(eventEnvelope.getPackageId());
+        liquidityTokenSplit.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        liquidityTokenSplit.setSuiSender(eventEnvelope.getSender());
+
+        return liquidityTokenSplit;
     }
 
     public static AbstractExchangeEvent.InitExchangeEvent toInitExchangeEvent(SuiMoveEventEnvelope<InitExchangeEvent> eventEnvelope) {

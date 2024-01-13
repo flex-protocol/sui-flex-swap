@@ -15,6 +15,7 @@ module sui_swap_example::liquidity_token {
 
     friend sui_swap_example::liquidity_token_mint_logic;
     friend sui_swap_example::liquidity_token_destroy_logic;
+    friend sui_swap_example::liquidity_token_split_logic;
     friend sui_swap_example::liquidity_token_aggregate;
 
     #[allow(unused_const)]
@@ -120,6 +121,30 @@ module sui_swap_example::liquidity_token {
         }
     }
 
+    struct LiquidityTokenSplit has copy, drop {
+        id: object::ID,
+        amount: u64,
+    }
+
+    public fun liquidity_token_split_id(liquidity_token_split: &LiquidityTokenSplit): object::ID {
+        liquidity_token_split.id
+    }
+
+    public fun liquidity_token_split_amount(liquidity_token_split: &LiquidityTokenSplit): u64 {
+        liquidity_token_split.amount
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_liquidity_token_split<Y>(
+        liquidity_token: &LiquidityToken<Y>,
+        amount: u64,
+    ): LiquidityTokenSplit {
+        LiquidityTokenSplit {
+            id: id(liquidity_token),
+            amount,
+        }
+    }
+
 
     #[lint_allow(custom_state_change)]
     public(friend) fun transfer_object<Y>(liquidity_token: LiquidityToken<Y>, recipient: address) {
@@ -151,6 +176,10 @@ module sui_swap_example::liquidity_token {
 
     public(friend) fun emit_liquidity_token_destroyed(liquidity_token_destroyed: LiquidityTokenDestroyed) {
         event::emit(liquidity_token_destroyed);
+    }
+
+    public(friend) fun emit_liquidity_token_split(liquidity_token_split: LiquidityTokenSplit) {
+        event::emit(liquidity_token_split);
     }
 
 }

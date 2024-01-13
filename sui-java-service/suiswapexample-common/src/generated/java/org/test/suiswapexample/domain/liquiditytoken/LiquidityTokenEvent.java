@@ -39,6 +39,13 @@ public interface LiquidityTokenEvent extends Event, SuiEventEnvelope, SuiMoveEve
 
     }
 
+    interface LiquidityTokenSplit extends LiquidityTokenEvent {
+        BigInteger getAmount();
+
+        void setAmount(BigInteger value);
+
+    }
+
     String getId();
 
     //void setId(String id);

@@ -250,6 +250,18 @@ aggregates:
           properties:
             Amount:
               type: u64
+      Split:
+        typeParameters:
+          Y: {}
+        objectTypeArguments:
+          Y: Y
+        parameters:
+          Amount:
+            type: u64
+        result:
+          type: LiquidityToken<Y>
+        event:
+          name: LiquidityTokenSplit
 
 singletonObjects:
   Exchange:
