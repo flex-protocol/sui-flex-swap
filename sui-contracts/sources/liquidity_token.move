@@ -20,6 +20,7 @@ module sui_swap_example::liquidity_token {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    const EEmptyObjectID: u64 = 107;
 
     fun init(otw: LIQUIDITY_TOKEN, ctx: &mut TxContext) {
         sui::package::claim_and_keep(otw, ctx)
@@ -171,6 +172,7 @@ module sui_swap_example::liquidity_token {
     }
 
     public(friend) fun emit_liquidity_token_minted(liquidity_token_minted: LiquidityTokenMinted) {
+        assert!(std::option::is_some(&liquidity_token_minted.id), EEmptyObjectID);
         event::emit(liquidity_token_minted);
     }
 

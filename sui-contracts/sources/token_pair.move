@@ -25,6 +25,7 @@ module sui_swap_example::token_pair {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
+    const EEmptyObjectID: u64 = 107;
 
     /// Not the right admin for the object
     const ENotAdmin: u64 = 0;
@@ -514,6 +515,7 @@ module sui_swap_example::token_pair {
     */
 
     public(friend) fun emit_liquidity_initialized(liquidity_initialized: LiquidityInitialized) {
+        assert!(std::option::is_some(&liquidity_initialized.id), EEmptyObjectID);
         event::emit(liquidity_initialized);
     }
 
