@@ -67,7 +67,7 @@ module sui_swap_example::token_pair {
         token_pair.version
     }
 
-    public(friend) fun borrow_x_reserve<Y>(token_pair: &TokenPair<Y>): &Movescription {
+    public fun borrow_x_reserve<Y>(token_pair: &TokenPair<Y>): &Movescription {
         &token_pair.x_reserve
     }
 
@@ -75,7 +75,7 @@ module sui_swap_example::token_pair {
         &mut token_pair.x_reserve
     }
 
-    public(friend) fun borrow_y_reserve<Y>(token_pair: &TokenPair<Y>): &Balance<Y> {
+    public fun borrow_y_reserve<Y>(token_pair: &TokenPair<Y>): &Balance<Y> {
         &token_pair.y_reserve
     }
 

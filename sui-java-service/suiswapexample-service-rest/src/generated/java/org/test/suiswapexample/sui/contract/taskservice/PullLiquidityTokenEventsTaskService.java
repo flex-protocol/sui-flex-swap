@@ -26,4 +26,9 @@ public class PullLiquidityTokenEventsTaskService {
         liquidityTokenEventService.pullLiquidityTokenDestroyedEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-liquidity-token-events.liquidity-token-split.fixed-delay:5000}")
+    public void pullLiquidityTokenSplitEvents() {
+        liquidityTokenEventService.pullLiquidityTokenSplitEvents();
+    }
+
 }
