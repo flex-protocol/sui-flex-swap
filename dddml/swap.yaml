@@ -235,6 +235,8 @@ aggregates:
     typeParameters:
       X:
         isPhantom: true
+        keyable: true
+        storable: true
       Y:
         isPhantom: true
     id:
@@ -310,7 +312,9 @@ singletonObjects:
         isInternal: true
         #shouldCallByReference: true
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
         parameters:
           TokenPairId:
@@ -338,7 +342,9 @@ services:
     methods:
       InitializeLiquidity:
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
         parameters:
           #Publisher:
@@ -359,11 +365,10 @@ services:
 
       AddLiquidity:
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           TokenPair:
             referenceType: TokenPair<X, Y>
@@ -385,7 +390,9 @@ services:
 
       RemoveLiquidity:
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
         parameters:
           TokenPair:
@@ -404,7 +411,9 @@ services:
 
       SwapX:
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
         parameters:
           TokenPair:
@@ -420,7 +429,9 @@ services:
 
       SwapY:
         typeParameters:
-          X: {}
+          X:
+            keyable: true
+            storable: true
           Y: {}
         parameters:
           TokenPair:

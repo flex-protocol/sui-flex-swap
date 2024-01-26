@@ -17,15 +17,15 @@ module sui_swap_example::liquidity_token {
     const EDataTooLong: u64 = 102;
     const EEmptyObjectID: u64 = 107;
 
-    struct LiquidityToken<phantom X, phantom Y> has key, store {
+    struct LiquidityToken<phantom X: key + store, phantom Y> has key, store {
         id: UID,
     }
 
-    public fun id<X, Y>(liquidity_token: &LiquidityToken<X, Y>): object::ID {
+    public fun id<X: key + store, Y>(liquidity_token: &LiquidityToken<X, Y>): object::ID {
         object::uid_to_inner(&liquidity_token.id)
     }
 
-    public(friend) fun new_liquidity_token<X, Y>(
+    public(friend) fun new_liquidity_token<X: key + store, Y>(
         ctx: &mut TxContext,
     ): LiquidityToken<X, Y> {
         LiquidityToken {
@@ -46,7 +46,7 @@ module sui_swap_example::liquidity_token {
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_minted<X, Y>(
+    public(friend) fun new_liquidity_token_minted<X: key + store, Y>(
     ): LiquidityTokenMinted {
         LiquidityTokenMinted {
             id: option::none(),
@@ -62,7 +62,7 @@ module sui_swap_example::liquidity_token {
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun new_liquidity_token_destroyed<X, Y>(
+    public(friend) fun new_liquidity_token_destroyed<X: key + store, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
     ): LiquidityTokenDestroyed {
         LiquidityTokenDestroyed {
@@ -86,7 +86,7 @@ module sui_swap_example::liquidity_token {
         transfer::freeze_object(liquidity_token);
     }
 
-    public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
+    public(friend) fun drop_liquidity_token<X: key + store, Y>(liquidity_token: LiquidityToken<X, Y>) {
         let LiquidityToken {
             id,
         } = liquidity_token;
