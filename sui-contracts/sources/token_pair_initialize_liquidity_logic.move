@@ -31,13 +31,13 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         y_amount: &Balance<Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
+        let _ = x;
         let total_liquidity = 0;
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         //let x_amount_i = movescription::amount(x_movescription);
         let y_amount_i = balance::value(y_amount);
         let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount, y_amount_i);
         assert!(liquidity_amount > 0, EAddInvalidLiquidity);
-        //token_util::assert_type_less_than<X, Y>();
 
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
@@ -91,8 +91,6 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         //
         exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
         //
-        //let x_reserve = token_pair::borrow_mut_x_reserve(&mut token_pair);
-        //sui::balance::join(x_reserve, x_amount);
         let y_reserve = token_pair::borrow_mut_y_reserve(&mut token_pair);
         sui::balance::join(y_reserve, y_amount);
         token_pair
