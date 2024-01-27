@@ -37,7 +37,7 @@ module sui_swap_example::token_pair_swap_x_logic {
             x_token_type,
             y_token_type,
             y_amount_out,
-            //todo emit x_id?
+            object::id(x),
         )
     }
 

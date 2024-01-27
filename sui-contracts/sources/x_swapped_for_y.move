@@ -6,7 +6,7 @@
 module sui_swap_example::x_swapped_for_y {
 
     use std::string::String;
-    use sui::object;
+    use sui::object::{Self, ID};
     use sui_swap_example::token_pair::{Self, XSwappedForY};
 
     public fun id(x_swapped_for_y: &XSwappedForY): object::ID {
@@ -35,6 +35,10 @@ module sui_swap_example::x_swapped_for_y {
 
     public fun y_amount(x_swapped_for_y: &XSwappedForY): u64 {
         token_pair::x_swapped_for_y_y_amount(x_swapped_for_y)
+    }
+
+    public fun x_id(x_swapped_for_y: &XSwappedForY): ID {
+        token_pair::x_swapped_for_y_x_id(x_swapped_for_y)
     }
 
 }

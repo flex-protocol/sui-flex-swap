@@ -71,6 +71,8 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+            X_Id:
+              type: ID
 
       AddLiquidity:
         isInternal: true
@@ -113,6 +115,8 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+            X_Id:
+              type: ID
 
       RemoveLiquidity:
         typeParameters:
@@ -183,6 +187,8 @@ aggregates:
               type: u64
             Y_Amount:
               type: u64
+            X_Id:
+              type: ID
 
       SwapY:
         typeParameters:

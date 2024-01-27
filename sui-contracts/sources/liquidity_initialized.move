@@ -46,4 +46,8 @@ module sui_swap_example::liquidity_initialized {
         token_pair::liquidity_initialized_liquidity_token_id(liquidity_initialized)
     }
 
+    public fun x_id(liquidity_initialized: &LiquidityInitialized): ID {
+        token_pair::liquidity_initialized_x_id(liquidity_initialized)
+    }
+
 }

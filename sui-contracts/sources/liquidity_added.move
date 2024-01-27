@@ -41,4 +41,8 @@ module sui_swap_example::liquidity_added {
         token_pair::liquidity_added_liquidity_amount(liquidity_added)
     }
 
+    public fun x_id(liquidity_added: &LiquidityAdded): ID {
+        token_pair::liquidity_added_x_id(liquidity_added)
+    }
+
 }

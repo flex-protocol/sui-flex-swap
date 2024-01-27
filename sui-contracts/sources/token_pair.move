@@ -166,6 +166,7 @@ module sui_swap_example::token_pair {
         y_amount: u64,
         liquidity_amount: u64,
         liquidity_token_id: ID,
+        x_id: ID,
     }
 
     public fun liquidity_initialized_id(liquidity_initialized: &LiquidityInitialized): option::Option<object::ID> {
@@ -208,6 +209,10 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_token_id
     }
 
+    public fun liquidity_initialized_x_id(liquidity_initialized: &LiquidityInitialized): ID {
+        liquidity_initialized.x_id
+    }
+
     #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X: key + store, Y>(
         exchange_id: ID,
@@ -218,6 +223,7 @@ module sui_swap_example::token_pair {
         y_amount: u64,
         liquidity_amount: u64,
         liquidity_token_id: ID,
+        x_id: ID,
     ): LiquidityInitialized {
         LiquidityInitialized {
             id: option::none(),
@@ -229,6 +235,7 @@ module sui_swap_example::token_pair {
             y_amount,
             liquidity_amount,
             liquidity_token_id,
+            x_id,
         }
     }
 
@@ -242,6 +249,7 @@ module sui_swap_example::token_pair {
         y_token_type: String,
         y_amount: u64,
         liquidity_amount: u64,
+        x_id: ID,
     }
 
     public fun liquidity_added_id(liquidity_added: &LiquidityAdded): object::ID {
@@ -276,6 +284,10 @@ module sui_swap_example::token_pair {
         liquidity_added.liquidity_amount
     }
 
+    public fun liquidity_added_x_id(liquidity_added: &LiquidityAdded): ID {
+        liquidity_added.x_id
+    }
+
     #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_added<X: key + store, Y>(
         token_pair: &TokenPair<X, Y>,
@@ -286,6 +298,7 @@ module sui_swap_example::token_pair {
         y_token_type: String,
         y_amount: u64,
         liquidity_amount: u64,
+        x_id: ID,
     ): LiquidityAdded {
         LiquidityAdded {
             id: id(token_pair),
@@ -297,6 +310,7 @@ module sui_swap_example::token_pair {
             y_token_type,
             y_amount,
             liquidity_amount,
+            x_id,
         }
     }
 
@@ -384,6 +398,7 @@ module sui_swap_example::token_pair {
         x_token_type: String,
         y_token_type: String,
         y_amount: u64,
+        x_id: ID,
     }
 
     public fun x_swapped_for_y_id(x_swapped_for_y: &XSwappedForY): object::ID {
@@ -414,6 +429,10 @@ module sui_swap_example::token_pair {
         x_swapped_for_y.y_amount
     }
 
+    public fun x_swapped_for_y_x_id(x_swapped_for_y: &XSwappedForY): ID {
+        x_swapped_for_y.x_id
+    }
+
     #[allow(unused_type_parameter)]
     public(friend) fun new_x_swapped_for_y<X: key + store, Y>(
         token_pair: &TokenPair<X, Y>,
@@ -423,6 +442,7 @@ module sui_swap_example::token_pair {
         x_token_type: String,
         y_token_type: String,
         y_amount: u64,
+        x_id: ID,
     ): XSwappedForY {
         XSwappedForY {
             id: id(token_pair),
@@ -433,6 +453,7 @@ module sui_swap_example::token_pair {
             x_token_type,
             y_token_type,
             y_amount,
+            x_id,
         }
     }
 

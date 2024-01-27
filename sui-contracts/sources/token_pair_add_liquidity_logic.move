@@ -55,6 +55,7 @@ module sui_swap_example::token_pair_add_liquidity_logic {
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
             y_amount_i,
             liquidity_amount_added,
+            object::id(x),
         )
     }
 

@@ -52,6 +52,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             y_amount_i,
             liquidity_amount,
             liquidity_token_id,
+            object::id(x),
         )
     }
 
