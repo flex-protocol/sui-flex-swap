@@ -56,6 +56,102 @@ module sui_swap_example::token_pair_service_process {
         internal_initialize_liquidity(exchange, x, x_amount, y_coin, y_amount, _ctx)
     }
 
+    struct AddLiquidityGetX_AmountContext<phantom Y> {
+        token_pair_id: ID,
+        liquidity_token_id: ID,
+        y_coin: Coin<Y>,
+        y_amount: u64,
+    }
+
+    public fun add_liquidity<X: key + store, Y>(
+        token_pair: &TokenPair<X, Y>,
+        liquidity_token: &LiquidityToken<X, Y>,
+        x: X,
+        y_coin: Coin<Y>,
+        y_amount: u64,
+        _ctx: &TxContext,
+    ): nft_service::GetAmountRequest<X, AddLiquidityGetX_AmountContext<Y>> {
+        let token_pair_id = object::id(token_pair);
+        let liquidity_token_id = object::id(liquidity_token);
+        let get_x_amount_context = AddLiquidityGetX_AmountContext {
+            token_pair_id,
+            liquidity_token_id,
+            y_coin,
+            y_amount,
+        };
+        let get_x_amount_request = nft_service::new_get_amount_request<X, AddLiquidityGetX_AmountContext<Y>>(
+            x,
+            get_x_amount_context,
+        );
+        get_x_amount_request
+    }
+
+    #[allow(unused_assignment)]
+    public fun add_liquidity_get_x_amount_callback<X: key + store, Y, NS>(
+        token_pair: &mut TokenPair<X, Y>,
+        liquidity_token: &LiquidityToken<X, Y>,
+        get_x_amount_response: nft_service::GetAmountResponse<X, NS, AddLiquidityGetX_AmountContext<Y>>,
+        _ctx: &mut TxContext,
+    ) {
+        let (x_amount, get_x_amount_request) = nft_service::unpack_get_amount_respone(get_x_amount_response);
+        let (x, get_x_amount_context) = nft_service::unpack_get_amount_request(get_x_amount_request);
+        let AddLiquidityGetX_AmountContext {
+            token_pair_id,
+            liquidity_token_id,
+            y_coin,
+            y_amount,
+        } = get_x_amount_context;
+        assert!(object::id(token_pair) == token_pair_id, EMismatchedObjectId);
+        assert!(object::id(liquidity_token) == liquidity_token_id, EMismatchedObjectId);
+        internal_add_liquidity(token_pair, liquidity_token, x, x_amount, y_coin, y_amount, _ctx);
+    }
+
+    struct SwapXGetX_AmountContext<phantom Y> {
+        token_pair_id: ID,
+        y_coin_id: ID,
+        expected_y_amount_out: u64,
+    }
+
+    public fun swap_x<X: key + store, Y>(
+        token_pair: &TokenPair<X, Y>,
+        x: X,
+        y_coin: &Coin<Y>,
+        expected_y_amount_out: u64,
+        _ctx: &TxContext,
+    ): nft_service::GetAmountRequest<X, SwapXGetX_AmountContext<Y>> {
+        let token_pair_id = object::id(token_pair);
+        let y_coin_id = object::id(y_coin);
+        let get_x_amount_context = SwapXGetX_AmountContext {
+            token_pair_id,
+            y_coin_id,
+            expected_y_amount_out,
+        };
+        let get_x_amount_request = nft_service::new_get_amount_request<X, SwapXGetX_AmountContext<Y>>(
+            x,
+            get_x_amount_context,
+        );
+        get_x_amount_request
+    }
+
+    #[allow(unused_assignment)]
+    public fun swap_x_get_x_amount_callback<X: key + store, Y, NS>(
+        token_pair: &mut TokenPair<X, Y>,
+        y_coin: &mut Coin<Y>,
+        get_x_amount_response: nft_service::GetAmountResponse<X, NS, SwapXGetX_AmountContext<Y>>,
+        _ctx: &mut TxContext,
+    ) {
+        let (x_amount, get_x_amount_request) = nft_service::unpack_get_amount_respone(get_x_amount_response);
+        let (x, get_x_amount_context) = nft_service::unpack_get_amount_request(get_x_amount_request);
+        let SwapXGetX_AmountContext {
+            token_pair_id,
+            y_coin_id,
+            expected_y_amount_out,
+        } = get_x_amount_context;
+        assert!(object::id(token_pair) == token_pair_id, EMismatchedObjectId);
+        assert!(object::id(y_coin) == y_coin_id, EMismatchedObjectId);
+        internal_swap_x(token_pair, x, x_amount, y_coin, expected_y_amount_out, _ctx);
+    }
+
     fun internal_initialize_liquidity<X: key + store, Y>(
         exchange: &mut Exchange,
         x: X,

@@ -442,6 +442,16 @@ services:
             type: u64
           #ExpectedLiquidity:
           #  type: u64
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "&X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
 
       SwapX:
         typeParameters:
@@ -460,6 +470,16 @@ services:
             isMutableReference: true
           ExpectedY_AmountOut:
             type: u64
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "&X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
 
   NftService:
     abstract: true
