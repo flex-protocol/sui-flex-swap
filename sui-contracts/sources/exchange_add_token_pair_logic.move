@@ -1,7 +1,6 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::exchange_add_token_pair_logic {
     use std::string;
-    use std::string::String;
     use std::type_name;
     use std::vector;
 
@@ -18,7 +17,6 @@ module sui_swap_example::exchange_add_token_pair_logic {
 
     public(friend) fun verify<X: key + store, Y>(
         token_pair_id: ID,
-        //x_token_type: String,
         exchange: &exchange::Exchange,
         _ctx: &TxContext,
     ): exchange::TokenPairAddedToExchange {

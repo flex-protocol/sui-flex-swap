@@ -3,18 +3,17 @@ module sui_swap_example::token_pair_add_liquidity_logic {
     use std::string;
     use std::type_name;
 
-    use sui::balance;
-    use sui::balance::Balance;
+    use sui::balance::{Self, Balance};
     use sui::object;
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::liquidity_added;
-    use sui_swap_example::liquidity_token;
-    use sui_swap_example::liquidity_token::LiquidityToken;
+    use sui_swap_example::liquidity_token::{Self, LiquidityToken};
     use sui_swap_example::liquidity_util;
     use sui_swap_example::token_pair;
+    use sui_swap_example::token_pair::TokenPair;
 
     friend sui_swap_example::token_pair_aggregate;
 
@@ -35,13 +34,13 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         assert!(token_pair::liquidity_token_id(token_pair) == liquidity_token_id, EInvalidLiquidityToken);
 
         let total_liquidity = token_pair::total_liquidity(token_pair);
-        let x_reserve = token_pair::x_total_amount(token_pair);
-        let y_reserve = balance::value(token_pair::borrow_y_reserve(token_pair));
+        let x_reserve_amount = token_pair::x_total_amount(token_pair);
+        let y_reserve_amount = balance::value(token_pair::borrow_y_reserve(token_pair));
         let y_amount_i = balance::value(y_amount);
         let liquidity_amount_added = liquidity_util::calculate_liquidity(
             total_liquidity,
-            x_reserve,
-            y_reserve,
+            x_reserve_amount,
+            y_reserve_amount,
             x_amount,
             y_amount_i
         );
@@ -71,6 +70,12 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         //let y_token_type = liquidity_added::y_token_type(liquidity_added);
         let x_amount = liquidity_added::x_amount(liquidity_added);
         // let y_amount = liquidity_added::y_amount(liquidity_added);
+
+        let _x_total_amount = add_x_token(token_pair, x, x_amount);
+
+        let y_reserve = token_pair::borrow_mut_y_reserve(token_pair);
+        sui::balance::join(y_reserve, y_amount);
+
         let liquidity_amount_added = liquidity_added::liquidity_amount(liquidity_added);
 
         //let id = token_pair::id(token_pair);
@@ -79,7 +84,9 @@ module sui_swap_example::token_pair_add_liquidity_logic {
             token_pair,
             total_liquidity + liquidity_amount_added,
         );
+    }
 
+    fun add_x_token<X: key + store, Y>(token_pair: &mut TokenPair<X, Y>, x: X, x_amount: u64): u64 {
         let x_id = object::id(&x);
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);
         object_table::add(x_reserve, x_id, x);
@@ -87,8 +94,6 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         table::add(x_amounts, x_id, x_amount);
         let x_total_amount = token_pair::x_total_amount(token_pair) + x_amount;
         token_pair::set_x_total_amount(token_pair, x_total_amount);
-
-        let y_reserve = token_pair::borrow_mut_y_reserve(token_pair);
-        sui::balance::join(y_reserve, y_amount);
+        x_total_amount
     }
 }

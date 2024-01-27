@@ -3,8 +3,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use std::string;
     use std::type_name;
 
-    use sui::balance;
-    use sui::balance::Balance;
+    use sui::balance::{Self, Balance};
     use sui::object::{Self, ID};
     use sui::object_table;
     use sui::table;
@@ -21,7 +20,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EAddInvalidLiquidity: u64 = 100;
-    const EInconsistentAmount: u64 = 101;
+    //const EInconsistentAmount: u64 = 101;
 
     #[lint_allow(self_transfer)]
     public(friend) fun verify<X: key + store, Y>(
@@ -34,7 +33,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         let _ = x;
         let total_liquidity = 0;
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
-        //let x_amount_i = movescription::amount(x_movescription);
+        let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
         let y_amount_i = balance::value(y_amount);
         let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount, y_amount_i);
         assert!(liquidity_amount > 0, EAddInvalidLiquidity);
@@ -49,7 +48,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             x_amount,
             tx_context::sender(ctx),
             x_token_type,
-            string::from_ascii(type_name::into_string(type_name::get<Y>())),
+            y_token_type,
             y_amount_i,
             liquidity_amount,
             liquidity_token_id,
@@ -63,14 +62,9 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         exchange: &mut Exchange,
         ctx: &mut TxContext,
     ): token_pair::TokenPair<X, Y> {
-        //let exchange_id = liquidity_initialized::exchange_id(liquidity_initialized);
-        //let provider = liquidity_initialized::provider(liquidity_initialized);
-        let x_token_type = liquidity_initialized::x_token_type(liquidity_initialized);
-        //let y_token_type = liquidity_initialized::y_token_type(liquidity_initialized);
         let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
-        //assert!(x_amount == movescription::amount(&x_movescription), EInconsistentAmount);
-        // let y_amount = liquidity_initialized::y_amount(liquidity_initialized);
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
+
         let x_id = object::id(&x);
         let x_reserve = object_table::new<ID, X>(ctx);
         object_table::add(&mut x_reserve, x_id, x);
@@ -88,9 +82,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             liquidity_token_id,
             ctx,
         );
-        //
         exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
-        //
+
         let y_reserve = token_pair::borrow_mut_y_reserve(&mut token_pair);
         sui::balance::join(y_reserve, y_amount);
         token_pair
