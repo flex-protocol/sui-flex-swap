@@ -140,7 +140,7 @@ This makes these methods very combinable - as a developer of Move, a "resource-o
 you will already know this.
 
 However, it's not easy to call them directly from clients.
-So, we added this file [token_pair_service.move](./sui-contracts/sources/token_pair_service.move).
+So, we added this file [token_pair_service.move](sui-contracts/core/sources/token_pair_service.move).
 In this file, some entry functions are provided to facilitate clients to use the corresponding features directly.
 
 That's the whole programming routine, isn't it simple?
