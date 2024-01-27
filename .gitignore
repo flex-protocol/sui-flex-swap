@@ -2,3 +2,5 @@ sui-contracts/build
 sui-java-service/*/target
 sui-java-service/scripts
 sui-contracts/core/build
+sui-contracts/di/build
+sui-contracts/nft-service-impl/build

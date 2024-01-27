@@ -1,12 +1,14 @@
 [package]
-name = "sui_swap_example"
+name = "sui_swap_di"
 version = "0.0.1"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
 #Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
-#SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
+SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
+sui_swap_example = { local = "../core" }
+nft_service_impl = { local = "../nft-service-impl" }
 
 [addresses]
-sui_swap_example = "0x0"
+sui_swap_di = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
