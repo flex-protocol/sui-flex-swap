@@ -340,6 +340,51 @@ singletonObjects:
 services:
   TokenPairService:
     methods:
+      RemoveLiquidity:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          X_Id:
+            type: ID
+          Y_Coin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+          #Amount:
+          #  type: u64
+          #  description: Support removing partial liquidity.
+
+      SwapY:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+          Y_Coin:
+            type: Coin<Y>
+          Y_Amount:
+            type: u64
+          X_Id:
+            type: ID
+          #ExpectedX_AmountOut:
+          #  type: u64
+
+  TokenPairServiceProcess:
+    requiredComponents:
+      NS:
+        type: NftService
+    methods:
       InitializeLiquidity:
         typeParameters:
           X:
@@ -362,6 +407,16 @@ services:
             type: Coin<Y>
           Y_Amount:
             type: u64
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "&X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
 
       AddLiquidity:
         typeParameters:
@@ -388,27 +443,6 @@ services:
           #ExpectedLiquidity:
           #  type: u64
 
-      RemoveLiquidity:
-        typeParameters:
-          X:
-            keyable: true
-            storable: true
-          Y: {}
-        parameters:
-          TokenPair:
-            referenceType: TokenPair<X, Y>
-            isMutableReference: true
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-          X_Id:
-            type: ID
-          Y_Coin:
-            referenceType: Coin<Y>
-            isMutableReference: true
-          #Amount:
-          #  type: u64
-          #  description: Support removing partial liquidity.
-
       SwapX:
         typeParameters:
           X:
@@ -427,24 +461,22 @@ services:
           ExpectedY_AmountOut:
             type: u64
 
-      SwapY:
+  NftService:
+    abstract: true
+    metadata:
+      MoveExternalConfiguration: "NftServiceConfig"
+    methods:
+      GetAmount:
         typeParameters:
           X:
             keyable: true
             storable: true
-          Y: {}
         parameters:
-          TokenPair:
-            referenceType: TokenPair<X, Y>
-            isMutableReference: true
-          Y_Coin:
-            type: Coin<Y>
-          Y_Amount:
-            type: u64
-          X_Id:
-            type: ID
-          #ExpectedX_AmountOut:
-          #  type: u64
+          X:
+            referenceType: X
+        result:
+          type: u64
+
 
 typeDefinitions:
   ObjectTable:

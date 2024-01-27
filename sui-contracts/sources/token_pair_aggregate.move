@@ -17,6 +17,8 @@ module sui_swap_example::token_pair_aggregate {
     use sui_swap_example::token_pair_swap_y_logic;
 
     friend sui_swap_example::token_pair_service;
+    friend sui_swap_example::token_pair_service_process;
+    friend sui_swap_example::nft_service;
 
     #[allow(unused_mut_parameter)]
     public(friend) fun initialize_liquidity<X: key + store, Y>(
