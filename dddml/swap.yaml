@@ -417,7 +417,7 @@ services:
           GetX_Amount:
             invokeParticipant: "NS.GetAmount"
             arguments:
-              X: "&X"
+              X: "X"
             exportVariable: X_Amount
           InvokeInternal:
             expression:
@@ -452,7 +452,7 @@ services:
           GetX_Amount:
             invokeParticipant: "NS.GetAmount"
             arguments:
-              X: "&X"
+              X: "X"
             exportVariable: X_Amount
           InvokeInternal:
             expression:
@@ -480,7 +480,7 @@ services:
           GetX_Amount:
             invokeParticipant: "NS.GetAmount"
             arguments:
-              X: "&X"
+              X: "X"
             exportVariable: X_Amount
           InvokeInternal:
             expression:

@@ -8,17 +8,17 @@ module sui_swap_example::nft_service {
 
     friend sui_swap_example::token_pair_service_process;
 
-    struct GetAmountRequest<X, C> {
+    struct GetAmountRequest<X: key + store, C> {
         x: X,
         _get_amount_context: C,
     }
 
-    struct GetAmountResponse<X, phantom WT, C> {
+    struct GetAmountResponse<X: key + store, phantom WT, C> {
         result: u64,
         _get_amount_request: GetAmountRequest<X, C>,
     }
 
-    public(friend) fun new_get_amount_request<X, C>(
+    public(friend) fun new_get_amount_request<X: key + store, C>(
         x: X,
         _get_amount_context: C,
     ): GetAmountRequest<X, C> {
@@ -28,11 +28,11 @@ module sui_swap_example::nft_service {
         }
     }
 
-    public fun get_get_amount_request_all_parameters<X, C>(request: &GetAmountRequest<X, C>): &X {
+    public fun get_get_amount_request_all_parameters<X: key + store, C>(request: &GetAmountRequest<X, C>): &X {
         &request.x
     }
 
-    public(friend) fun unpack_get_amount_request<X, C>(
+    public(friend) fun unpack_get_amount_request<X: key + store, C>(
         _get_amount_request: GetAmountRequest<X, C>,
     ): (X, C) {
         let GetAmountRequest {
@@ -42,7 +42,7 @@ module sui_swap_example::nft_service {
         (x, _get_amount_context)
     }
 
-    public fun new_get_amount_response<X, WT: drop, C>(
+    public fun new_get_amount_response<X: key + store, WT: drop, C>(
         config: &NftServiceConfig,
         _impl_witness: WT,
         result: u64,
@@ -55,7 +55,7 @@ module sui_swap_example::nft_service {
         }
     }
 
-    public(friend) fun unpack_get_amount_respone<X, WT, C>(
+    public(friend) fun unpack_get_amount_respone<X: key + store, WT, C>(
         _get_amount_response: GetAmountResponse<X, WT, C>,
     ): (u64, GetAmountRequest<X, C>) {
         let GetAmountResponse {
@@ -76,7 +76,7 @@ module xxx_package_id::xxx_nft_service_impl {
 
     struct XxxNftServiceImpl has drop {}
 
-    public fun get_amount<C>(config: &NftServiceConfig, get_amount_request: nft_service::GetAmountRequest<C>): nft_service::GetAmountResponse<XxxNftServiceImpl, C> {
+    public fun get_amount<X: key + store, C>(config: &NftServiceConfig, get_amount_request: nft_service::GetAmountRequest<X, C>): nft_service::GetAmountResponse<X, XxxNftServiceImpl, C> {
         let x = nft_service::get_get_amount_request_all_parameters(&get_amount_request);
         //todo let result: u64 = ...
         nft_service::new_get_amount_response(
