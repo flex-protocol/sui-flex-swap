@@ -1,6 +1,7 @@
 [package]
 name = "nft_service_impl"
 version = "0.0.1"
+published-at = "0x04267e947c0e3ba12a1882aa2b6da72544b680a526e8a1835fc36969f5aaa357"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
@@ -9,5 +10,6 @@ SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
 sui_swap_example = { local = "../core" }
 
 [addresses]
-nft_service_impl = "0x0"
+nft_service_impl = "0x04267e947c0e3ba12a1882aa2b6da72544b680a526e8a1835fc36969f5aaa357"
+#nft_service_impl = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
