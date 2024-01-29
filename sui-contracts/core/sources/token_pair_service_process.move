@@ -14,7 +14,7 @@ module sui_swap_example::token_pair_service_process {
     const EMismatchedObjectId: u64 = 10;
 
     struct InitializeLiquidityGetX_AmountContext<phantom Y> {
-        exchange_id: ID,
+        exchange_id: sui::object::ID,
         y_coin: Coin<Y>,
         y_amount: u64,
     }
@@ -24,7 +24,7 @@ module sui_swap_example::token_pair_service_process {
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
-        _ctx: &TxContext,
+        _ctx: &mut TxContext,
     ): nft_service::GetAmountRequest<X, InitializeLiquidityGetX_AmountContext<Y>> {
         let exchange_id = object::id(exchange);
         let get_x_amount_context = InitializeLiquidityGetX_AmountContext {
@@ -57,19 +57,19 @@ module sui_swap_example::token_pair_service_process {
     }
 
     struct AddLiquidityGetX_AmountContext<phantom Y> {
-        token_pair_id: ID,
-        liquidity_token_id: ID,
+        token_pair_id: sui::object::ID,
+        liquidity_token_id: sui::object::ID,
         y_coin: Coin<Y>,
         y_amount: u64,
     }
 
     public fun add_liquidity<X: key + store, Y>(
-        token_pair: &TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         liquidity_token: &LiquidityToken<X, Y>,
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
-        _ctx: &TxContext,
+        _ctx: &mut TxContext,
     ): nft_service::GetAmountRequest<X, AddLiquidityGetX_AmountContext<Y>> {
         let token_pair_id = object::id(token_pair);
         let liquidity_token_id = object::id(liquidity_token);
@@ -106,19 +106,19 @@ module sui_swap_example::token_pair_service_process {
         internal_add_liquidity(token_pair, liquidity_token, x, x_amount, y_coin, y_amount, _ctx);
     }
 
-    struct SwapXGetX_AmountContext<phantom Y> {
-        token_pair_id: ID,
-        y_coin_id: ID,
+    struct SwapXGetX_AmountContext {
+        token_pair_id: sui::object::ID,
+        y_coin_id: sui::object::ID,
         expected_y_amount_out: u64,
     }
 
     public fun swap_x<X: key + store, Y>(
-        token_pair: &TokenPair<X, Y>,
+        token_pair: &mut TokenPair<X, Y>,
         x: X,
-        y_coin: &Coin<Y>,
+        y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
-        _ctx: &TxContext,
-    ): nft_service::GetAmountRequest<X, SwapXGetX_AmountContext<Y>> {
+        _ctx: &mut TxContext,
+    ): nft_service::GetAmountRequest<X, SwapXGetX_AmountContext> {
         let token_pair_id = object::id(token_pair);
         let y_coin_id = object::id(y_coin);
         let get_x_amount_context = SwapXGetX_AmountContext {
@@ -126,7 +126,7 @@ module sui_swap_example::token_pair_service_process {
             y_coin_id,
             expected_y_amount_out,
         };
-        let get_x_amount_request = nft_service::new_get_amount_request<X, SwapXGetX_AmountContext<Y>>(
+        let get_x_amount_request = nft_service::new_get_amount_request<X, SwapXGetX_AmountContext>(
             x,
             get_x_amount_context,
         );
@@ -137,7 +137,7 @@ module sui_swap_example::token_pair_service_process {
     public fun swap_x_get_x_amount_callback<X: key + store, Y, NS>(
         token_pair: &mut TokenPair<X, Y>,
         y_coin: &mut Coin<Y>,
-        get_x_amount_response: nft_service::GetAmountResponse<X, NS, SwapXGetX_AmountContext<Y>>,
+        get_x_amount_response: nft_service::GetAmountResponse<X, NS, SwapXGetX_AmountContext>,
         _ctx: &mut TxContext,
     ) {
         let (x_amount, get_x_amount_request) = nft_service::unpack_get_amount_respone(get_x_amount_response);
@@ -218,9 +218,9 @@ module xxx_di_package_id::token_pair_service_process {
     use sui_swap_example::nft_service_config::NftServiceConfig;
     use ns_impl_package_id::ns_nft_service_impl as ns;
 
-    public fun initialize_liquidity(
+    public fun initialize_liquidity<X: key + store, Y>(
         _nft_service_config: &NftServiceConfig,
-        exchange: UID,
+        exchange: &mut Exchange,
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
@@ -231,25 +231,31 @@ module xxx_di_package_id::token_pair_service_process {
         token_pair_service_process::initialize_liquidity_get_x_amount_callback(get_x_amount_rsp, _ctx)
     }
 
-    public fun add_liquidity(
-        token_pair: &TokenPair<X, Y>,
+    public fun add_liquidity<X: key + store, Y>(
+        _nft_service_config: &NftServiceConfig,
+        token_pair: &mut TokenPair<X, Y>,
         liquidity_token: &LiquidityToken<X, Y>,
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
         _ctx: &TxContext,
     ) {
-        token_pair_service_process::add_liquidity(token_pair, liquidity_token, x, y_coin, y_amount, _ctx)
+        let get_x_amount_req = token_pair_service_process::add_liquidity(token_pair, liquidity_token, x, y_coin, y_amount, _ctx);
+        let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
+        token_pair_service_process::add_liquidity_get_x_amount_callback(get_x_amount_rsp, _ctx)
     }
 
-    public fun swap_x(
-        token_pair: &TokenPair<X, Y>,
+    public fun swap_x<X: key + store, Y>(
+        _nft_service_config: &NftServiceConfig,
+        token_pair: &mut TokenPair<X, Y>,
         x: X,
-        y_coin: &Coin<Y>,
+        y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
         _ctx: &TxContext,
     ) {
-        token_pair_service_process::swap_x(token_pair, x, y_coin, expected_y_amount_out, _ctx)
+        let get_x_amount_req = token_pair_service_process::swap_x(token_pair, x, y_coin, expected_y_amount_out, _ctx);
+        let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
+        token_pair_service_process::swap_x_get_x_amount_callback(get_x_amount_rsp, _ctx)
     }
 
 }
