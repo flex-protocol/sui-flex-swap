@@ -228,7 +228,7 @@ module xxx_di_package_id::token_pair_service_process {
     ) {
         let get_x_amount_req = token_pair_service_process::initialize_liquidity(exchange, x, y_coin, y_amount, _ctx);
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
-        token_pair_service_process::initialize_liquidity_get_x_amount_callback(get_x_amount_rsp, _ctx)
+        token_pair_service_process::initialize_liquidity_get_x_amount_callback(exchange, get_x_amount_rsp, _ctx)
     }
 
     public fun add_liquidity<X: key + store, Y>(
@@ -242,7 +242,7 @@ module xxx_di_package_id::token_pair_service_process {
     ) {
         let get_x_amount_req = token_pair_service_process::add_liquidity(token_pair, liquidity_token, x, y_coin, y_amount, _ctx);
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
-        token_pair_service_process::add_liquidity_get_x_amount_callback(get_x_amount_rsp, _ctx)
+        token_pair_service_process::add_liquidity_get_x_amount_callback(token_pair, liquidity_token, get_x_amount_rsp, _ctx)
     }
 
     public fun swap_x<X: key + store, Y>(
@@ -255,7 +255,7 @@ module xxx_di_package_id::token_pair_service_process {
     ) {
         let get_x_amount_req = token_pair_service_process::swap_x(token_pair, x, y_coin, expected_y_amount_out, _ctx);
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
-        token_pair_service_process::swap_x_get_x_amount_callback(get_x_amount_rsp, _ctx)
+        token_pair_service_process::swap_x_get_x_amount_callback(token_pair, y_coin, get_x_amount_rsp, _ctx)
     }
 
 }
