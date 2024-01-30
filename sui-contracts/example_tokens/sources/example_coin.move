@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /// Example coin with a trusted owner responsible for minting/burning (e.g., a stablecoin)
-module sui_swap_example::example_coin {
+module example_tokens::example_coin {
     use std::option;
     use sui::coin::{Self, TreasuryCap};
     use sui::transfer;

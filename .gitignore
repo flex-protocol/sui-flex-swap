@@ -4,3 +4,5 @@ sui-java-service/scripts
 sui-contracts/core/build
 sui-contracts/di/build
 sui-contracts/nft-service-impl/build
+Move.lock
+sui-contracts/example_tokens/build
