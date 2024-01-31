@@ -7,12 +7,6 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
-    <property name="x_TokenType">
-      <column name="x_token_type" />
-    </property>
-    <property name="amount">
-      <column name="amount" sql-type="DECIMAL(20,0)" />
-    </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
     </property>
@@ -27,6 +21,9 @@
     </property>
     <property name="deleted">
       <column name="deleted" />
+    </property>
+    <property name="x_TokenType">
+      <column name="x_token_type" length="255" />
     </property>
     <property name="y_TokenType">
       <column name="y_token_type" length="255" />

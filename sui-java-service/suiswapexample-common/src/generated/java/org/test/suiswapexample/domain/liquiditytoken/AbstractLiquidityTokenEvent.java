@@ -219,30 +219,6 @@ public abstract class AbstractLiquidityTokenEvent extends AbstractEvent implemen
             return "LiquidityTokenMinted";
         }
 
-        public String getX_TokenType() {
-            Object val = getDynamicProperties().get("x_TokenType");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setX_TokenType(String value) {
-            getDynamicProperties().put("x_TokenType", value);
-        }
-
-        public BigInteger getAmount() {
-            Object val = getDynamicProperties().get("amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setAmount(BigInteger value) {
-            getDynamicProperties().put("amount", value);
-        }
-
     }
 
     public static class LiquidityTokenDestroyed extends LiquidityTokenClobEvent implements LiquidityTokenEvent.LiquidityTokenDestroyed {
@@ -250,39 +226,6 @@ public abstract class AbstractLiquidityTokenEvent extends AbstractEvent implemen
         @Override
         public String getEventType() {
             return "LiquidityTokenDestroyed";
-        }
-
-        public BigInteger getAmount() {
-            Object val = getDynamicProperties().get("amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setAmount(BigInteger value) {
-            getDynamicProperties().put("amount", value);
-        }
-
-    }
-
-    public static class LiquidityTokenSplit extends LiquidityTokenClobEvent implements LiquidityTokenEvent.LiquidityTokenSplit {
-
-        @Override
-        public String getEventType() {
-            return "LiquidityTokenSplit";
-        }
-
-        public BigInteger getAmount() {
-            Object val = getDynamicProperties().get("amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setAmount(BigInteger value) {
-            getDynamicProperties().put("amount", value);
         }
 
     }

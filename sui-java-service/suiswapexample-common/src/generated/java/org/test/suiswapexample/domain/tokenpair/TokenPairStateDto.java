@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
 import java.math.*;
-import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
+import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 
 
@@ -27,16 +27,40 @@ public class TokenPairStateDto {
         this.id = id;
     }
 
-    private Movescription x_Reserve;
+    private ObjectTable x_Reserve;
 
-    public Movescription getX_Reserve()
+    public ObjectTable getX_Reserve()
     {
         return this.x_Reserve;
     }
 
-    public void setX_Reserve(Movescription x_Reserve)
+    public void setX_Reserve(ObjectTable x_Reserve)
     {
         this.x_Reserve = x_Reserve;
+    }
+
+    private Table x_Amounts;
+
+    public Table getX_Amounts()
+    {
+        return this.x_Amounts;
+    }
+
+    public void setX_Amounts(Table x_Amounts)
+    {
+        this.x_Amounts = x_Amounts;
+    }
+
+    private BigInteger x_TotalAmount;
+
+    public BigInteger getX_TotalAmount()
+    {
+        return this.x_TotalAmount;
+    }
+
+    public void setX_TotalAmount(BigInteger x_TotalAmount)
+    {
+        this.x_TotalAmount = x_TotalAmount;
     }
 
     private java.math.BigInteger y_Reserve;
@@ -63,6 +87,18 @@ public class TokenPairStateDto {
         this.totalLiquidity = totalLiquidity;
     }
 
+    private String liquidityTokenId;
+
+    public String getLiquidityTokenId()
+    {
+        return this.liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId)
+    {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -85,6 +121,18 @@ public class TokenPairStateDto {
     public void setActive(Boolean active)
     {
         this.active = active;
+    }
+
+    private String x_TokenType;
+
+    public String getX_TokenType()
+    {
+        return this.x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType)
+    {
+        this.x_TokenType = x_TokenType;
     }
 
     private String y_TokenType;
@@ -194,17 +242,29 @@ public class TokenPairStateDto {
             if (returnedFieldsContains("X_Reserve")) {
                 dto.setX_Reserve(state.getX_Reserve());
             }
+            if (returnedFieldsContains("X_Amounts")) {
+                dto.setX_Amounts(state.getX_Amounts());
+            }
+            if (returnedFieldsContains("X_TotalAmount")) {
+                dto.setX_TotalAmount(state.getX_TotalAmount());
+            }
             if (returnedFieldsContains("Y_Reserve")) {
                 dto.setY_Reserve(state.getY_Reserve());
             }
             if (returnedFieldsContains("TotalLiquidity")) {
                 dto.setTotalLiquidity(state.getTotalLiquidity());
             }
+            if (returnedFieldsContains("LiquidityTokenId")) {
+                dto.setLiquidityTokenId(state.getLiquidityTokenId());
+            }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());
+            }
+            if (returnedFieldsContains("X_TokenType")) {
+                dto.setX_TokenType(state.getX_TokenType());
             }
             if (returnedFieldsContains("Y_TokenType")) {
                 dto.setY_TokenType(state.getY_TokenType());

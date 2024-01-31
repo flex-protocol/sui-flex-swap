@@ -25,26 +25,6 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         this.id = id;
     }
 
-    private String x_TokenType;
-
-    public String getX_TokenType() {
-        return this.x_TokenType;
-    }
-
-    public void setX_TokenType(String x_TokenType) {
-        this.x_TokenType = x_TokenType;
-    }
-
-    private BigInteger amount;
-
-    public BigInteger getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(BigInteger amount) {
-        this.amount = amount;
-    }
-
     private BigInteger version;
 
     public BigInteger getVersion() {
@@ -123,6 +103,16 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    private String x_TokenType;
+
+    public String getX_TokenType() {
+        return this.x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
     }
 
     private String y_TokenType;
@@ -212,20 +202,15 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         if (s == this) {
             return;
         }
-        this.setX_TokenType(s.getX_TokenType());
-        this.setAmount(s.getAmount());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
+        this.setX_TokenType(s.getX_TokenType());
         this.setY_TokenType(s.getY_TokenType());
     }
 
     public void when(AbstractLiquidityTokenEvent.LiquidityTokenMinted e) {
         throwOnWrongEvent(e);
 
-        String x_TokenType = e.getX_TokenType();
-        String X_TokenType = x_TokenType;
-        BigInteger amount = e.getAmount();
-        BigInteger Amount = amount;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -255,14 +240,14 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         LiquidityTokenState updatedLiquidityTokenState = (LiquidityTokenState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "mutate",
-                    new Class[]{LiquidityTokenState.class, String.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, x_TokenType, amount, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{LiquidityTokenState.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.liquiditytoken;
 //
 //public class MintLogic {
-//    public static LiquidityTokenState mutate(LiquidityTokenState liquidityTokenState, String x_TokenType, BigInteger amount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<LiquidityTokenState, LiquidityTokenState.MutableLiquidityTokenState> mutationContext) {
+//    public static LiquidityTokenState mutate(LiquidityTokenState liquidityTokenState, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<LiquidityTokenState, LiquidityTokenState.MutableLiquidityTokenState> mutationContext) {
 //    }
 //}
 
@@ -273,8 +258,6 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
     public void when(AbstractLiquidityTokenEvent.LiquidityTokenDestroyed e) {
         throwOnWrongEvent(e);
 
-        BigInteger amount = e.getAmount();
-        BigInteger Amount = amount;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -304,14 +287,14 @@ public abstract class AbstractLiquidityTokenState implements LiquidityTokenState
         LiquidityTokenState updatedLiquidityTokenState = (LiquidityTokenState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.liquiditytoken.DestroyLogic",
                     "mutate",
-                    new Class[]{LiquidityTokenState.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, amount, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{LiquidityTokenState.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.liquiditytoken;
 //
 //public class DestroyLogic {
-//    public static LiquidityTokenState mutate(LiquidityTokenState liquidityTokenState, BigInteger amount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<LiquidityTokenState, LiquidityTokenState.MutableLiquidityTokenState> mutationContext) {
+//    public static LiquidityTokenState mutate(LiquidityTokenState liquidityTokenState, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<LiquidityTokenState, LiquidityTokenState.MutableLiquidityTokenState> mutationContext) {
 //    }
 //}
 

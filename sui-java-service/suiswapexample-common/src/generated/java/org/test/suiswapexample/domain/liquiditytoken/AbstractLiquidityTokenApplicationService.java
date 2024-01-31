@@ -51,7 +51,7 @@ public abstract class AbstractLiquidityTokenApplicationService implements Liquid
     }
 
     public void when(LiquidityTokenCommands.Mint c) {
-        update(c, ar -> ar.mint(c.getX_TokenType(), c.getAmount(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.mint(c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(LiquidityTokenCommands.Destroy c) {

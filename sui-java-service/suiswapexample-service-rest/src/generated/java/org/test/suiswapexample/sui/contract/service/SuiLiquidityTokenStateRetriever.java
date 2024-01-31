@@ -44,9 +44,8 @@ public class SuiLiquidityTokenStateRetriever {
     private LiquidityTokenState toLiquidityTokenState(LiquidityToken liquidityToken , List<String> typeArgs) {
         LiquidityTokenState.MutableLiquidityTokenState liquidityTokenState = liquidityTokenStateFactory.apply(liquidityToken.getId().getId());
         liquidityTokenState.setVersion(BigInteger.valueOf(-1));
-        liquidityTokenState.setX_TokenType(liquidityToken.getX_TokenType());
-        liquidityTokenState.setAmount(liquidityToken.getAmount());
-        liquidityTokenState.setY_TokenType(typeArgs.get(0));
+        liquidityTokenState.setX_TokenType(typeArgs.get(0));
+        liquidityTokenState.setY_TokenType(typeArgs.get(1));
         return liquidityTokenState;
     }
 

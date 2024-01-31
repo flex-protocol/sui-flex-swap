@@ -19,8 +19,6 @@ public class LiquidityTokenDestroyed {
 
     private BigInteger version;
 
-    private BigInteger amount;
-
     public String getId() {
         return id;
     }
@@ -37,20 +35,11 @@ public class LiquidityTokenDestroyed {
         this.version = version;
     }
 
-    public BigInteger getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigInteger amount) {
-        this.amount = amount;
-    }
-
     @Override
     public String toString() {
         return "LiquidityTokenDestroyed{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", amount=" + amount +
                 '}';
     }
 

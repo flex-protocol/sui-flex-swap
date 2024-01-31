@@ -39,13 +39,21 @@ public class TokenPair {
 
     private Long offChainVersion;
 
-    private Movescription x_Reserve;
+    private ObjectTable x_Reserve;
+
+    private Table x_Amounts;
+
+    private BigInteger x_TotalAmount;
 
     private java.math.BigInteger y_Reserve;
 
     private BigInteger totalLiquidity;
 
+    private String liquidityTokenId;
+
     private BigInteger version;
+
+    private String x_TokenType;
 
     private String y_TokenType;
 
@@ -65,12 +73,28 @@ public class TokenPair {
         this.offChainVersion = offChainVersion;
     }
 
-    public Movescription getX_Reserve() {
+    public ObjectTable getX_Reserve() {
         return x_Reserve;
     }
 
-    public void setX_Reserve(Movescription x_Reserve) {
+    public void setX_Reserve(ObjectTable x_Reserve) {
         this.x_Reserve = x_Reserve;
+    }
+
+    public Table getX_Amounts() {
+        return x_Amounts;
+    }
+
+    public void setX_Amounts(Table x_Amounts) {
+        this.x_Amounts = x_Amounts;
+    }
+
+    public BigInteger getX_TotalAmount() {
+        return x_TotalAmount;
+    }
+
+    public void setX_TotalAmount(BigInteger x_TotalAmount) {
+        this.x_TotalAmount = x_TotalAmount;
     }
 
     public java.math.BigInteger getY_Reserve() {
@@ -89,12 +113,28 @@ public class TokenPair {
         this.totalLiquidity = totalLiquidity;
     }
 
+    public String getLiquidityTokenId() {
+        return liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId) {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(BigInteger version) {
         this.version = version;
+    }
+
+    public String getX_TokenType() {
+        return x_TokenType;
+    }
+
+    public void setX_TokenType(String x_TokenType) {
+        this.x_TokenType = x_TokenType;
     }
 
     public String getY_TokenType() {
@@ -111,9 +151,13 @@ public class TokenPair {
                 "id=" + id +
                 ", offChainVersion=" + offChainVersion +
                 ", x_Reserve=" + x_Reserve +
+                ", x_Amounts=" + x_Amounts +
+                ", x_TotalAmount=" + x_TotalAmount +
                 ", y_Reserve=" + y_Reserve +
                 ", totalLiquidity=" + totalLiquidity +
+                ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 ", version=" + version +
+                ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 '}';
     }

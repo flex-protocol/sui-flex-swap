@@ -19,7 +19,7 @@ public class YSwappedForX {
 
     private BigInteger version;
 
-    private BigInteger expectedX_AmountOut;
+    private String x_Id;
 
     private String sender;
 
@@ -47,12 +47,12 @@ public class YSwappedForX {
         this.version = version;
     }
 
-    public BigInteger getExpectedX_AmountOut() {
-        return expectedX_AmountOut;
+    public String getX_Id() {
+        return x_Id;
     }
 
-    public void setExpectedX_AmountOut(BigInteger expectedX_AmountOut) {
-        this.expectedX_AmountOut = expectedX_AmountOut;
+    public void setX_Id(String x_Id) {
+        this.x_Id = x_Id;
     }
 
     public String getSender() {
@@ -100,7 +100,7 @@ public class YSwappedForX {
         return "YSwappedForX{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", expectedX_AmountOut=" + expectedX_AmountOut +
+                ", x_Id=" + '\'' + x_Id + '\'' +
                 ", sender=" + '\'' + sender + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

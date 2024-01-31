@@ -47,11 +47,11 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
         }
 
         @Override
-        public void addTokenPair(String tokenPairId, String x_TokenType, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c) {
-            java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory = () -> newTokenPairAddedToExchange(tokenPairId, x_TokenType, offChainVersion, commandId, requesterId);
+        public void addTokenPair(String tokenPairId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c) {
+            java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory = () -> newTokenPairAddedToExchange(tokenPairId, offChainVersion, commandId, requesterId);
             ExchangeEvent.TokenPairAddedToExchange e;
             try {
-                e = verifyAddTokenPair(eventFactory, tokenPairId, x_TokenType, c);
+                e = verifyAddTokenPair(eventFactory, tokenPairId, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
@@ -92,21 +92,20 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
         }
            
 
-        protected ExchangeEvent.TokenPairAddedToExchange verifyAddTokenPair(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, String tokenPairId, String x_TokenType, ExchangeCommands.AddTokenPair c) {
+        protected ExchangeEvent.TokenPairAddedToExchange verifyAddTokenPair(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, String tokenPairId, ExchangeCommands.AddTokenPair c) {
             String TokenPairId = tokenPairId;
-            String X_TokenType = x_TokenType;
 
             ExchangeEvent.TokenPairAddedToExchange e = (ExchangeEvent.TokenPairAddedToExchange) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.exchange.AddTokenPairLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, String.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), tokenPairId, x_TokenType, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), tokenPairId, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.exchange;
 //
 //public class AddTokenPairLogic {
-//    public static ExchangeEvent.TokenPairAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, ExchangeState exchangeState, String tokenPairId, String x_TokenType, VerificationContext verificationContext) {
+//    public static ExchangeEvent.TokenPairAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, ExchangeState exchangeState, String tokenPairId, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -156,12 +155,12 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             return e;
         }
 
-        protected AbstractExchangeEvent.TokenPairAddedToExchange newTokenPairAddedToExchange(String tokenPairId, String x_TokenType, Long offChainVersion, String commandId, String requesterId) {
+        protected AbstractExchangeEvent.TokenPairAddedToExchange newTokenPairAddedToExchange(String tokenPairId, Long offChainVersion, String commandId, String requesterId) {
             ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
             AbstractExchangeEvent.TokenPairAddedToExchange e = new AbstractExchangeEvent.TokenPairAddedToExchange();
 
             e.setTokenPairId(tokenPairId);
-            e.setX_TokenType(x_TokenType);
+            e.setX_TokenType(null);
             e.setY_TokenType(null);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);

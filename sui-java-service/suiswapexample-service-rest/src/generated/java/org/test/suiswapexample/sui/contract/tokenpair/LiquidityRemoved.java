@@ -19,11 +19,9 @@ public class LiquidityRemoved {
 
     private BigInteger version;
 
-    private String liquidityToken;
-
-    private BigInteger liquidityAmount;
-
     private String liquidityTokenId;
+
+    private String x_Id;
 
     private String provider;
 
@@ -34,6 +32,8 @@ public class LiquidityRemoved {
     private BigInteger x_Amount;
 
     private BigInteger y_Amount;
+
+    private BigInteger liquidityAmount;
 
     public String getId() {
         return id;
@@ -51,28 +51,20 @@ public class LiquidityRemoved {
         this.version = version;
     }
 
-    public String getLiquidityToken() {
-        return liquidityToken;
-    }
-
-    public void setLiquidityToken(String liquidityToken) {
-        this.liquidityToken = liquidityToken;
-    }
-
-    public BigInteger getLiquidityAmount() {
-        return liquidityAmount;
-    }
-
-    public void setLiquidityAmount(BigInteger liquidityAmount) {
-        this.liquidityAmount = liquidityAmount;
-    }
-
     public String getLiquidityTokenId() {
         return liquidityTokenId;
     }
 
     public void setLiquidityTokenId(String liquidityTokenId) {
         this.liquidityTokenId = liquidityTokenId;
+    }
+
+    public String getX_Id() {
+        return x_Id;
+    }
+
+    public void setX_Id(String x_Id) {
+        this.x_Id = x_Id;
     }
 
     public String getProvider() {
@@ -115,19 +107,27 @@ public class LiquidityRemoved {
         this.y_Amount = y_Amount;
     }
 
+    public BigInteger getLiquidityAmount() {
+        return liquidityAmount;
+    }
+
+    public void setLiquidityAmount(BigInteger liquidityAmount) {
+        this.liquidityAmount = liquidityAmount;
+    }
+
     @Override
     public String toString() {
         return "LiquidityRemoved{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", liquidityToken=" + '\'' + liquidityToken + '\'' +
-                ", liquidityAmount=" + liquidityAmount +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
+                ", x_Id=" + '\'' + x_Id + '\'' +
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
+                ", liquidityAmount=" + liquidityAmount +
                 '}';
     }
 

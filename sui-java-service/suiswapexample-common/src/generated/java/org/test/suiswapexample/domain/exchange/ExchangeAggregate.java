@@ -17,7 +17,7 @@ public interface ExchangeAggregate {
 
     List<Event> getChanges();
 
-    void addTokenPair(String tokenPairId, String x_TokenType, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c);
+    void addTokenPair(String tokenPairId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c);
 
     void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c);
 

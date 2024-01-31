@@ -504,26 +504,7 @@ services:
           type: u64
 
 
-typeDefinitions:
-  ObjectTable:
-    moveType: "sui::object_table::ObjectTable"
-    isResource: true
-    javaType: Object # todo
-  Table:
-    moveType: "sui::table::Table"
-    isResource: true
-    javaType: Object # todo
-
-#  Coin:
-#    moveType: "sui::coin::Coin"
-#    isResource: true
-#    keyable: true
-#    storable: true
-#    typeParameters:
-#      T:
-#        isPhantom: true
-#    javaType: Object
-
+#typeDefinitions:
 #  Movescription:
 #    moveType: "smartinscription::movescription::Movescription"
 #    isResource: true

@@ -7,9 +7,9 @@ package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
 import java.math.*;
-import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
+import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 
 public interface TokenPairState extends VersionedSuiMoveObject
@@ -20,11 +20,17 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     String getId();
 
-    Movescription getX_Reserve();
+    ObjectTable getX_Reserve();
+
+    Table getX_Amounts();
+
+    BigInteger getX_TotalAmount();
 
     java.math.BigInteger getY_Reserve();
 
     BigInteger getTotalLiquidity();
+
+    String getLiquidityTokenId();
 
     Long getOffChainVersion();
 
@@ -40,16 +46,24 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    String getX_TokenType();
+
     String getY_TokenType();
 
     interface MutableTokenPairState extends TokenPairState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
-        void setX_Reserve(Movescription x_Reserve);
+        void setX_Reserve(ObjectTable x_Reserve);
+
+        void setX_Amounts(Table x_Amounts);
+
+        void setX_TotalAmount(BigInteger x_TotalAmount);
 
         void setY_Reserve(java.math.BigInteger y_Reserve);
 
         void setTotalLiquidity(BigInteger totalLiquidity);
+
+        void setLiquidityTokenId(String liquidityTokenId);
 
         void setOffChainVersion(Long offChainVersion);
 
@@ -64,6 +78,8 @@ public interface TokenPairState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setX_TokenType(String x_TokenType);
 
         void setY_TokenType(String y_TokenType);
 

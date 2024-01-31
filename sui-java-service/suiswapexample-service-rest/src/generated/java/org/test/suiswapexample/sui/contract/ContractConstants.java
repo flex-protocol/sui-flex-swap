@@ -22,8 +22,6 @@ public class ContractConstants {
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_DESTROYED = "liquidity_token::LiquidityTokenDestroyed";
 
-    public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_SPLIT = "liquidity_token::LiquidityTokenSplit";
-
     public static final String EXCHANGE_MODULE_INIT_EXCHANGE_EVENT = "exchange::InitExchangeEvent";
 
     public static final String EXCHANGE_MODULE_TOKEN_PAIR_ADDED_TO_EXCHANGE = "exchange::TokenPairAddedToExchange";

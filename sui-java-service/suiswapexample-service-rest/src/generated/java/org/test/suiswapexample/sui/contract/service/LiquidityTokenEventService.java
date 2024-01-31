@@ -16,7 +16,6 @@ import org.test.suiswapexample.sui.contract.DomainBeanUtils;
 import org.test.suiswapexample.sui.contract.SuiPackage;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenMinted;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenDestroyed;
-import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenSplit;
 import org.test.suiswapexample.sui.contract.repository.LiquidityTokenEventRepository;
 import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,46 +131,6 @@ public class LiquidityTokenEventService {
             return;
         }
         liquidityTokenEventRepository.save(liquidityTokenDestroyed);
-    }
-
-    @Transactional
-    public void pullLiquidityTokenSplitEvents() {
-        String packageId = getDefaultSuiPackageId();
-        if (packageId == null) {
-            return;
-        }
-        int limit = 1;
-        EventId cursor = getLiquidityTokenSplitEventNextCursor();
-        while (true) {
-            PaginatedMoveEvents<LiquidityTokenSplit> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_SPLIT,
-                    cursor, limit, false, LiquidityTokenSplit.class);
-
-            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
-                cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<LiquidityTokenSplit> eventEnvelope : eventPage.getData()) {
-                    saveLiquidityTokenSplit(eventEnvelope);
-                }
-            } else {
-                break;
-            }
-            if (!Page.hasNextPage(eventPage)) {
-                break;
-            }
-        }
-    }
-
-    private EventId getLiquidityTokenSplitEventNextCursor() {
-        AbstractLiquidityTokenEvent lastEvent = liquidityTokenEventRepository.findFirstLiquidityTokenSplitByOrderBySuiTimestampDesc();
-        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
-    }
-
-    private void saveLiquidityTokenSplit(SuiMoveEventEnvelope<LiquidityTokenSplit> eventEnvelope) {
-        AbstractLiquidityTokenEvent.LiquidityTokenSplit liquidityTokenSplit = DomainBeanUtils.toLiquidityTokenSplit(eventEnvelope);
-        if (liquidityTokenEventRepository.findById(liquidityTokenSplit.getLiquidityTokenEventId()).isPresent()) {
-            return;
-        }
-        liquidityTokenEventRepository.save(liquidityTokenSplit);
     }
 
 

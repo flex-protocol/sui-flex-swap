@@ -20,10 +20,6 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
 
     String getId();
 
-    String getX_TokenType();
-
-    BigInteger getAmount();
-
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -38,14 +34,12 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    String getX_TokenType();
+
     String getY_TokenType();
 
     interface MutableLiquidityTokenState extends LiquidityTokenState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
-
-        void setX_TokenType(String x_TokenType);
-
-        void setAmount(BigInteger amount);
 
         void setOffChainVersion(Long offChainVersion);
 
@@ -60,6 +54,8 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setX_TokenType(String x_TokenType);
 
         void setY_TokenType(String y_TokenType);
 

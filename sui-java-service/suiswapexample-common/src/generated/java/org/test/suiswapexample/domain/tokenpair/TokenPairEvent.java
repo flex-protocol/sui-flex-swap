@@ -6,9 +6,9 @@
 package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
-import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
+import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 
 public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, HasStatus {
@@ -26,6 +26,10 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setExchangeId(String value);
 
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
+
         String getProvider();
 
         void setProvider(String value);
@@ -38,10 +42,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setY_TokenType(String value);
 
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         BigInteger getY_Amount();
 
         void setY_Amount(BigInteger value);
@@ -53,13 +53,21 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
         String getLiquidityTokenId();
 
         void setLiquidityTokenId(String value);
+
+        String getX_Id();
+
+        void setX_Id(String value);
 
     }
 
     interface LiquidityAdded extends TokenPairEvent {
-        BigInteger getExpectedLiquidity();
+        String getLiquidityTokenId();
 
-        void setExpectedLiquidity(BigInteger value);
+        void setLiquidityTokenId(String value);
+
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
 
         String getProvider();
 
@@ -73,10 +81,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setY_TokenType(String value);
 
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         BigInteger getY_Amount();
 
         void setY_Amount(BigInteger value);
@@ -85,24 +89,20 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setLiquidityAmount(BigInteger value);
 
-        String getLiquidityTokenId();
+        String getX_Id();
 
-        void setLiquidityTokenId(String value);
+        void setX_Id(String value);
 
     }
 
     interface LiquidityRemoved extends TokenPairEvent {
-        String getLiquidityToken();
-
-        void setLiquidityToken(String value);
-
-        BigInteger getLiquidityAmount();
-
-        void setLiquidityAmount(BigInteger value);
-
         String getLiquidityTokenId();
 
         void setLiquidityTokenId(String value);
+
+        String getX_Id();
+
+        void setX_Id(String value);
 
         String getProvider();
 
@@ -124,9 +124,17 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setY_Amount(BigInteger value);
 
+        BigInteger getLiquidityAmount();
+
+        void setLiquidityAmount(BigInteger value);
+
     }
 
     interface XSwappedForY extends TokenPairEvent {
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
+
         BigInteger getExpectedY_AmountOut();
 
         void setExpectedY_AmountOut(BigInteger value);
@@ -143,20 +151,20 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setY_TokenType(String value);
 
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         BigInteger getY_Amount();
 
         void setY_Amount(BigInteger value);
 
+        String getX_Id();
+
+        void setX_Id(String value);
+
     }
 
     interface YSwappedForX extends TokenPairEvent {
-        BigInteger getExpectedX_AmountOut();
+        String getX_Id();
 
-        void setExpectedX_AmountOut(BigInteger value);
+        void setX_Id(String value);
 
         String getSender();
 

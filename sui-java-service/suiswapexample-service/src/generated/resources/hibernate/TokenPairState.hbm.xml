@@ -7,34 +7,33 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
-    <component name="x_Reserve" class="org.test.suiswapexample.domain.Movescription">
+    <component name="x_Reserve" class="org.test.suiswapexample.domain.ObjectTable">
       <property name="id">
         <column name="x_reserve_id" sql-type="VARCHAR(66)" />
       </property>
-      <property name="amount">
-        <column name="x_reserve_amount" sql-type="DECIMAL(20,0)" />
-      </property>
-      <property name="tick">
-        <column name="x_reserve_tick" />
-      </property>
-      <property name="attachCoin">
-        <column name="x_reserve_attach_coin" sql-type="DECIMAL(20,0)" />
-      </property>
-      <property name="acc">
-        <column name="x_reserve_acc" />
-      </property>
-      <property name="metadataContentType">
-        <column name="x_reserve_metadata_content_type" />
-      </property>
-      <property name="metadataContent">
-        <column name="x_reserve_metadata_content" />
+      <property name="size">
+        <column name="x_reserve_size" />
       </property>
     </component>
+    <component name="x_Amounts" class="org.test.suiswapexample.domain.Table">
+      <property name="id">
+        <column name="x_amounts_id" sql-type="VARCHAR(66)" />
+      </property>
+      <property name="size">
+        <column name="x_amounts_size" />
+      </property>
+    </component>
+    <property name="x_TotalAmount">
+      <column name="x_total_amount" sql-type="DECIMAL(20,0)" />
+    </property>
     <property name="y_Reserve">
       <column name="y_reserve" />
     </property>
     <property name="totalLiquidity">
       <column name="total_liquidity" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="liquidityTokenId">
+      <column name="liquidity_token_id" sql-type="VARCHAR(66)" />
     </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
@@ -50,6 +49,9 @@
     </property>
     <property name="deleted">
       <column name="deleted" />
+    </property>
+    <property name="x_TokenType">
+      <column name="x_token_type" length="255" />
     </property>
     <property name="y_TokenType">
       <column name="y_token_type" length="255" />

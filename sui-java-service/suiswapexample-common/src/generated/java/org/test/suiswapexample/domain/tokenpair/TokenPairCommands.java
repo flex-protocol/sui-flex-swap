@@ -6,9 +6,9 @@
 package org.test.suiswapexample.domain.tokenpair;
 
 import java.util.*;
-import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
+import org.test.suiswapexample.domain.*;
 
 public class TokenPairCommands {
     private TokenPairCommands() {
@@ -51,6 +51,19 @@ public class TokenPairCommands {
         }
 
         /**
+         * X_ Amount
+         */
+        private BigInteger x_Amount;
+
+        public BigInteger getX_Amount() {
+            return this.x_Amount;
+        }
+
+        public void setX_Amount(BigInteger x_Amount) {
+            this.x_Amount = x_Amount;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;
@@ -89,16 +102,29 @@ public class TokenPairCommands {
         }
 
         /**
-         * The expected amount of added liquidity should not be less than this.
+         * Liquidity Token
          */
-        private BigInteger expectedLiquidity;
+        private String liquidityToken;
 
-        public BigInteger getExpectedLiquidity() {
-            return this.expectedLiquidity;
+        public String getLiquidityToken() {
+            return this.liquidityToken;
         }
 
-        public void setExpectedLiquidity(BigInteger expectedLiquidity) {
-            this.expectedLiquidity = expectedLiquidity;
+        public void setLiquidityToken(String liquidityToken) {
+            this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * X_ Amount
+         */
+        private BigInteger x_Amount;
+
+        public BigInteger getX_Amount() {
+            return this.x_Amount;
+        }
+
+        public void setX_Amount(BigInteger x_Amount) {
+            this.x_Amount = x_Amount;
         }
 
         /**
@@ -153,6 +179,19 @@ public class TokenPairCommands {
         }
 
         /**
+         * X_ Id
+         */
+        private String x_Id;
+
+        public String getX_Id() {
+            return this.x_Id;
+        }
+
+        public void setX_Id(String x_Id) {
+            this.x_Id = x_Id;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;
@@ -188,6 +227,19 @@ public class TokenPairCommands {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        /**
+         * X_ Amount
+         */
+        private BigInteger x_Amount;
+
+        public BigInteger getX_Amount() {
+            return this.x_Amount;
+        }
+
+        public void setX_Amount(BigInteger x_Amount) {
+            this.x_Amount = x_Amount;
         }
 
         /**
@@ -242,16 +294,16 @@ public class TokenPairCommands {
         }
 
         /**
-         * Expected X_ Amount Out
+         * X_ Id
          */
-        private BigInteger expectedX_AmountOut;
+        private String x_Id;
 
-        public BigInteger getExpectedX_AmountOut() {
-            return this.expectedX_AmountOut;
+        public String getX_Id() {
+            return this.x_Id;
         }
 
-        public void setExpectedX_AmountOut(BigInteger expectedX_AmountOut) {
-            this.expectedX_AmountOut = expectedX_AmountOut;
+        public void setX_Id(String x_Id) {
+            this.x_Id = x_Id;
         }
 
         /**

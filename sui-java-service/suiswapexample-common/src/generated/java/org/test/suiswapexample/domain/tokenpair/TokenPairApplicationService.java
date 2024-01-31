@@ -8,9 +8,9 @@ package org.test.suiswapexample.domain.tokenpair;
 import java.util.Map;
 import java.util.List;
 import org.dddml.support.criterion.Criterion;
-import org.test.suiswapexample.domain.*;
 import java.math.BigInteger;
 import java.util.Date;
+import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 import org.test.suiswapexample.domain.Command;
 

@@ -47,11 +47,11 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
         }
 
         @Override
-        public void mint(String x_TokenType, BigInteger amount, Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c) {
-            java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory = () -> newLiquidityTokenMinted(x_TokenType, amount, offChainVersion, commandId, requesterId);
+        public void mint(Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c) {
+            java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory = () -> newLiquidityTokenMinted(offChainVersion, commandId, requesterId);
             LiquidityTokenEvent.LiquidityTokenMinted e;
             try {
-                e = verifyMint(eventFactory, x_TokenType, amount, c);
+                e = verifyMint(eventFactory, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
@@ -72,21 +72,19 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
             apply(e);
         }
 
-        protected LiquidityTokenEvent.LiquidityTokenMinted verifyMint(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, String x_TokenType, BigInteger amount, LiquidityTokenCommands.Mint c) {
-            String X_TokenType = x_TokenType;
-            BigInteger Amount = amount;
+        protected LiquidityTokenEvent.LiquidityTokenMinted verifyMint(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenCommands.Mint c) {
 
             LiquidityTokenEvent.LiquidityTokenMinted e = (LiquidityTokenEvent.LiquidityTokenMinted) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, String.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), x_TokenType, amount, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.liquiditytoken;
 //
 //public class MintLogic {
-//    public static LiquidityTokenEvent.LiquidityTokenMinted verify(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenState liquidityTokenState, String x_TokenType, BigInteger amount, VerificationContext verificationContext) {
+//    public static LiquidityTokenEvent.LiquidityTokenMinted verify(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenState liquidityTokenState, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -114,33 +112,10 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
         }
            
 
-        protected LiquidityTokenEvent.LiquidityTokenSplit verifySplit(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenSplit> eventFactory, BigInteger amount, LiquidityTokenCommands.Split c) {
-            BigInteger Amount = amount;
-
-            LiquidityTokenEvent.LiquidityTokenSplit e = (LiquidityTokenEvent.LiquidityTokenSplit) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.liquiditytoken.SplitLogic",
-                    "verify",
-                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), amount, VerificationContext.forCommand(c)}
-            );
-
-//package org.test.suiswapexample.domain.liquiditytoken;
-//
-//public class SplitLogic {
-//    public static LiquidityTokenEvent.LiquidityTokenSplit verify(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenSplit> eventFactory, LiquidityTokenState liquidityTokenState, BigInteger amount, VerificationContext verificationContext) {
-//    }
-//}
-
-            return e;
-        }
-           
-
-        protected AbstractLiquidityTokenEvent.LiquidityTokenMinted newLiquidityTokenMinted(String x_TokenType, BigInteger amount, Long offChainVersion, String commandId, String requesterId) {
+        protected AbstractLiquidityTokenEvent.LiquidityTokenMinted newLiquidityTokenMinted(Long offChainVersion, String commandId, String requesterId) {
             LiquidityTokenEventId eventId = new LiquidityTokenEventId(getState().getId(), null);
             AbstractLiquidityTokenEvent.LiquidityTokenMinted e = new AbstractLiquidityTokenEvent.LiquidityTokenMinted();
 
-            e.setX_TokenType(x_TokenType);
-            e.setAmount(amount);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);
@@ -162,7 +137,6 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
             LiquidityTokenEventId eventId = new LiquidityTokenEventId(getState().getId(), null);
             AbstractLiquidityTokenEvent.LiquidityTokenDestroyed e = new AbstractLiquidityTokenEvent.LiquidityTokenDestroyed();
 
-            e.setAmount(null);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);
