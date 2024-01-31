@@ -69,11 +69,14 @@ sudo docker run -p 3306:3306 --name mysql \
 
 In the `dddml` directory in the root of the repository, create a DDDML file like [this](./dddml/swap.yaml).
 
+It's worth noting that in the current version of the `nft` branch, 
+the `LiquidityToken` degenerates into a "capability" object. 
+We use it to control access to "add liquidity" and "remove liquidity".
+The account that owns it can be thought of as the owner of the `TokenPair` (pool).
 
 > **Tip**
 >
 > About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md).
-
 
 ### Run dddappp project creation tool
 
