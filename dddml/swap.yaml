@@ -513,15 +513,16 @@ typeDefinitions:
     moveType: "sui::table::Table"
     isResource: true
     javaType: Object # todo
-  Coin:
-    moveType: "sui::coin::Coin"
-    isResource: true
-    keyable: true
-    storable: true
-    typeParameters:
-      T:
-        isPhantom: true
-    javaType: Object # todo
+
+#  Coin:
+#    moveType: "sui::coin::Coin"
+#    isResource: true
+#    keyable: true
+#    storable: true
+#    typeParameters:
+#      T:
+#        isPhantom: true
+#    javaType: Object
 
 #  Movescription:
 #    moveType: "smartinscription::movescription::Movescription"
