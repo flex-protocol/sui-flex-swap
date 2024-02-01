@@ -24,7 +24,9 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     java.math.BigInteger getY_Reserve();
 
-    BigInteger getTotalLiquidity();
+    BigInteger getExchangeRateNumerator();
+
+    BigInteger getExchangeRateDenominator();
 
     Long getOffChainVersion();
 
@@ -51,7 +53,9 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
         void setY_Reserve(java.math.BigInteger y_Reserve);
 
-        void setTotalLiquidity(BigInteger totalLiquidity);
+        void setExchangeRateNumerator(BigInteger exchangeRateNumerator);
+
+        void setExchangeRateDenominator(BigInteger exchangeRateDenominator);
 
         void setOffChainVersion(Long offChainVersion);
 

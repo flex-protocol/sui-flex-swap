@@ -72,6 +72,7 @@ public class M {
         clsMap.put("u64", java.math.BigInteger.class);
         clsMap.put("u128", java.math.BigInteger.class);
         clsMap.put("u256", java.math.BigInteger.class);
+        clsMap.put("AsciiString", String.class);
         clsMap.put("vector<u8>", int[].class);
         clsMap.put("int[]", int[].class);
         clsMap.put("blob", java.sql.Blob.class);
@@ -142,7 +143,8 @@ public class M {
             "id",
             "x_Reserve",
             "y_Reserve",
-            "totalLiquidity",
+            "exchangeRateNumerator",
+            "exchangeRateDenominator",
             "version",
             "offChainVersion",
             "createdBy",
@@ -159,6 +161,7 @@ public class M {
             "String",
             "java.math.BigInteger",
             "java.math.BigInteger",
+            "BigInteger",
             "BigInteger",
             "BigInteger",
             "Long",
@@ -190,8 +193,10 @@ public class M {
         aliasMap.put("X_Reserve", "x_Reserve");
         aliasMap.put("y_Reserve", "y_Reserve");
         aliasMap.put("Y_Reserve", "y_Reserve");
-        aliasMap.put("totalLiquidity", "totalLiquidity");
-        aliasMap.put("TotalLiquidity", "totalLiquidity");
+        aliasMap.put("exchangeRateNumerator", "exchangeRateNumerator");
+        aliasMap.put("ExchangeRateNumerator", "exchangeRateNumerator");
+        aliasMap.put("exchangeRateDenominator", "exchangeRateDenominator");
+        aliasMap.put("ExchangeRateDenominator", "exchangeRateDenominator");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");
@@ -241,7 +246,6 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
-            "amount",
             "version",
             "offChainVersion",
             "createdBy",
@@ -256,7 +260,6 @@ public class M {
 
     public static final String[] propertyTypes = new String[] {
             "String",
-            "BigInteger",
             "BigInteger",
             "Long",
             "String",
@@ -283,8 +286,6 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
-        aliasMap.put("amount", "amount");
-        aliasMap.put("Amount", "amount");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");

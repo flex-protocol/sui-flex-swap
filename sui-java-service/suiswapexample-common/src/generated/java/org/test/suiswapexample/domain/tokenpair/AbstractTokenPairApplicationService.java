@@ -50,6 +50,10 @@ public abstract class AbstractTokenPairApplicationService implements TokenPairAp
         this.stateQueryRepository = stateQueryRepository;
     }
 
+    public void when(TokenPairCommands.UpdateExchangeRate c) {
+        update(c, ar -> ar.updateExchangeRate(c.getLiquidityToken(), c.getExchangeRateNumerator(), c.getExchangeRateDenominator(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
     public TokenPairState get(String id) {
         TokenPairState state = getStateRepository().get(id, true);
         return state;

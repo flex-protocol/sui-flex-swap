@@ -14,12 +14,16 @@ import java.math.*;
 import java.util.*;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class XSwappedForY {
+public class TokenPairInitialized {
     private String id;
 
-    private BigInteger version;
+    private String exchangeId;
 
-    private String sender;
+    private BigInteger exchangeRateNumerator;
+
+    private BigInteger exchangeRateDenominator;
+
+    private String provider;
 
     private String x_TokenType;
 
@@ -29,6 +33,8 @@ public class XSwappedForY {
 
     private BigInteger y_Amount;
 
+    private String liquidityTokenId;
+
     public String getId() {
         return id;
     }
@@ -37,20 +43,36 @@ public class XSwappedForY {
         this.id = id;
     }
 
-    public BigInteger getVersion() {
-        return version;
+    public String getExchangeId() {
+        return exchangeId;
     }
 
-    public void setVersion(BigInteger version) {
-        this.version = version;
+    public void setExchangeId(String exchangeId) {
+        this.exchangeId = exchangeId;
     }
 
-    public String getSender() {
-        return sender;
+    public BigInteger getExchangeRateNumerator() {
+        return exchangeRateNumerator;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setExchangeRateNumerator(BigInteger exchangeRateNumerator) {
+        this.exchangeRateNumerator = exchangeRateNumerator;
+    }
+
+    public BigInteger getExchangeRateDenominator() {
+        return exchangeRateDenominator;
+    }
+
+    public void setExchangeRateDenominator(BigInteger exchangeRateDenominator) {
+        this.exchangeRateDenominator = exchangeRateDenominator;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public String getX_TokenType() {
@@ -85,16 +107,27 @@ public class XSwappedForY {
         this.y_Amount = y_Amount;
     }
 
+    public String getLiquidityTokenId() {
+        return liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId) {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     @Override
     public String toString() {
-        return "XSwappedForY{" +
+        return "TokenPairInitialized{" +
                 "id=" + '\'' + id + '\'' +
-                ", version=" + version +
-                ", sender=" + '\'' + sender + '\'' +
+                ", exchangeId=" + '\'' + exchangeId + '\'' +
+                ", exchangeRateNumerator=" + exchangeRateNumerator +
+                ", exchangeRateDenominator=" + exchangeRateDenominator +
+                ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
+                ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 '}';
     }
 

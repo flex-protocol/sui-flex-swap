@@ -19,8 +19,6 @@ public class LiquidityToken {
 
     private Long offChainVersion;
 
-    private BigInteger amount;
-
     private BigInteger version;
 
     private String x_TokenType;
@@ -41,14 +39,6 @@ public class LiquidityToken {
 
     public void setOffChainVersion(Long offChainVersion) {
         this.offChainVersion = offChainVersion;
-    }
-
-    public BigInteger getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigInteger amount) {
-        this.amount = amount;
     }
 
     public BigInteger getVersion() {
@@ -80,7 +70,6 @@ public class LiquidityToken {
         return "LiquidityToken{" +
                 "id=" + id +
                 ", offChainVersion=" + offChainVersion +
-                ", amount=" + amount +
                 ", version=" + version +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

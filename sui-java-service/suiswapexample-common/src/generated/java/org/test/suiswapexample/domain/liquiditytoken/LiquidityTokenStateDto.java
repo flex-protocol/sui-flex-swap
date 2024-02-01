@@ -27,18 +27,6 @@ public class LiquidityTokenStateDto {
         this.id = id;
     }
 
-    private BigInteger amount;
-
-    public BigInteger getAmount()
-    {
-        return this.amount;
-    }
-
-    public void setAmount(BigInteger amount)
-    {
-        this.amount = amount;
-    }
-
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -178,9 +166,6 @@ public class LiquidityTokenStateDto {
             LiquidityTokenStateDto dto = new LiquidityTokenStateDto();
             if (returnedFieldsContains("Id")) {
                 dto.setId(state.getId());
-            }
-            if (returnedFieldsContains("Amount")) {
-                dto.setAmount(state.getAmount());
             }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());

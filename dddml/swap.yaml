@@ -19,13 +19,17 @@ aggregates:
         type: "Balance<X>"
       Y_Reserve:
         type: "Balance<Y>"
-      TotalLiquidity:
+      ExchangeRateNumerator:
         type: u64
+      ExchangeRateDenominator:
+        type: u64
+      #TotalLiquidity:
+      #  type: u64
 
     methods:
-      InitializeLiquidity:
+      InitializeTokenPair:
         isCreationCommand: true
-        requiredPermission: "__Publisher__"
+        #requiredPermission: "__Publisher__"
         typeParameters:
           X: {}
           Y: {}
@@ -37,12 +41,16 @@ aggregates:
             referenceType: Exchange
             isMutableReference: true
             eventPropertyName: ExchangeId
-          X_Amount:
-            type: Balance<X>
+          #X_Amount:
+          #  type: Balance<X>
           Y_Amount:
             type: Balance<Y>
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
         event:
-          name: LiquidityInitialized
+          name: TokenPairInitialized
           isObjectShared: true # Share the object after created.
           properties:
             Provider:
@@ -57,45 +65,13 @@ aggregates:
               type: u64
             Y_Amount:
               type: u64
-            LiquidityAmount:
-              type: u64
+            #LiquidityAmount:
+            #  type: u64
             LiquidityTokenId:
               type: ID #ObjectID
 
-      AddLiquidity:
-        #shouldCallByReference: true
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
-        parameters:
-          X_Amount:
-            type: Balance<X>
-          Y_Amount:
-            type: Balance<Y>
-        event:
-          name: LiquidityAdded
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            Y_Amount:
-              type: u64
-            LiquidityAmount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
-
-      RemoveLiquidity:
+      UpdateExchangeRate:
+        description: "Update the exchange rate of token X to token Y"
         typeParameters:
           X: {}
           Y: {}
@@ -104,17 +80,15 @@ aggregates:
           Y: Y
         parameters:
           LiquidityToken:
-            type: LiquidityToken<X, Y>
-            #eventPropertyName: LiquidityTokenId
-        result:
-          type: (Balance<X>, Balance<Y>)
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
         event:
-          name: LiquidityRemoved
+          name: ExchangeRateUpdated
           properties:
-            LiquidityAmount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
             Provider:
               type: address
             X_TokenType:
@@ -123,10 +97,99 @@ aggregates:
             Y_TokenType:
               type: String
               length: 200
-            X_Amount:
-              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      DepositY_Reserve:
+        #shouldCallByReference: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          #X_Amount:
+          #  type: Balance<X>
+          Y_Amount:
+            type: Balance<Y>
+        event:
+          name: Y_ReserveDeposited
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            #X_Amount:
+            #  type: u64
             Y_Amount:
               type: u64
+            #LiquidityAmount:
+            #  type: u64
+            #LiquidityTokenId:
+            #  type: ID #ObjectID
+
+      WithdrawX_Reserve:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          X_Amount:
+            type: u64
+          #Y_Amount:
+          #  type: u64
+        result:
+          type: Balance<X>
+        event:
+          name: X_ReserveWithdrawn
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      WithdrawY_Reserve:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          #X_Amount:
+          #  type: u64
+          Y_Amount:
+            type: u64
+        result:
+          type: Balance<Y>
+        event:
+          name: Y_ReserveWithdrawn
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
 
       SwapX:
         typeParameters:
@@ -138,8 +201,8 @@ aggregates:
         parameters:
           X_Amount:
             type: Balance<X>
-          ExpectedY_AmountOut:
-            type: u64
+          #ExpectedY_AmountOut:
+          #  type: u64
         result:
           type: Balance<Y>
         event:
@@ -158,35 +221,35 @@ aggregates:
             Y_Amount:
               type: u64
 
-      SwapY:
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
-        parameters:
-          Y_Amount:
-            type: Balance<Y>
-          ExpectedX_AmountOut:
-            type: u64
-        result:
-          type: Balance<X>
-        event:
-          name: YSwappedForX
-          properties:
-            Sender:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            Y_Amount:
-              type: u64
+#      SwapY:
+#        typeParameters:
+#          X: {}
+#          Y: {}
+#        objectTypeArguments:
+#          X: X
+#          Y: Y
+#        parameters:
+#          Y_Amount:
+#            type: Balance<Y>
+#          ExpectedX_AmountOut:
+#            type: u64
+#        result:
+#          type: Balance<X>
+#        event:
+#          name: YSwappedForX
+#          properties:
+#            Sender:
+#              type: address
+#            X_TokenType:
+#              type: String
+#              length: 200
+#            Y_TokenType:
+#              type: String
+#              length: 200
+#            X_Amount:
+#              type: u64
+#            Y_Amount:
+#              type: u64
 
   LiquidityToken:
     metadata:
@@ -203,9 +266,7 @@ aggregates:
         X: "{0}_TokenType"
         Y: "{0}_TokenType"
     friends:
-      - TokenPair.InitializeLiquidity
-      - TokenPair.AddLiquidity
-      - TokenPair.RemoveLiquidity
+      - TokenPair.InitializeTokenPair
     typeParameters:
       X:
         isPhantom: true
@@ -215,8 +276,8 @@ aggregates:
       name: Id
       type: UID
     properties:
-      Amount:
-        type: u64
+      #Amount:
+      #  type: u64
     methods:
       Mint:
         isInternal: true
@@ -233,12 +294,12 @@ aggregates:
         event:
           name: LiquidityTokenDestroyed
           properties:
-            Amount:
-              type: u64
+            #Amount:
+            #  type: u64
 
 singletonObjects:
   Exchange:
-    friends: [ "TokenPair.InitializeLiquidity" ]
+    friends: [ "TokenPair.InitializeTokenPair" ]
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -294,26 +355,26 @@ singletonObjects:
 services:
   TokenPairService:
     methods:
-      InitializeLiquidity:
+      InitializeTokenPair:
         typeParameters:
           X: {}
           Y: {}
         parameters:
-          Publisher:
-            referenceType: "sui::package::Publisher"
+          #Publisher:
+          #  referenceType: "sui::package::Publisher"
           Exchange:
             referenceType: Exchange
             isMutableReference: true
-          X_Coin:
-            type: Coin<X>
-          X_Amount:
-            type: u64
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
             type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
 
-      AddLiquidity:
+      DepositY_Reserve:
         typeParameters:
           X: {}
           Y: {}
@@ -324,16 +385,16 @@ services:
           TokenPair:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
-          X_Coin:
-            type: Coin<X>
-          X_Amount:
-            type: u64
+          #X_Coin:
+          #  type: Coin<X>
+          #X_Amount:
+          #  type: u64
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
             type: u64
 
-      RemoveLiquidity:
+      WithdrawX_Reserve:
         typeParameters:
           X: {}
           Y: {}
@@ -342,10 +403,25 @@ services:
             referenceType: TokenPair<X, Y>
             isMutableReference: true
           LiquidityToken:
-            type: LiquidityToken<X, Y>
+            referenceType: LiquidityToken<X, Y>
+          X_Amount:
+            type: u64
           X_Coin:
             referenceType: Coin<X>
             isMutableReference: true
+
+      WithdrawY_Reserve:
+        typeParameters:
+          X: {}
+          Y: {}
+        parameters:
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          Y_Amount:
+            type: u64
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
@@ -365,23 +441,23 @@ services:
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
-          ExpectedY_AmountOut:
-            type: u64
+          #ExpectedY_AmountOut:
+          #  type: u64
 
-      SwapY:
-        typeParameters:
-          X: {}
-          Y: {}
-        parameters:
-          TokenPair:
-            referenceType: TokenPair<X, Y>
-            isMutableReference: true
-          Y_Coin:
-            type: Coin<Y>
-          Y_Amount:
-            type: u64
-          X_Coin:
-            referenceType: Coin<X>
-            isMutableReference: true
-          ExpectedX_AmountOut:
-            type: u64
+#      SwapY:
+#        typeParameters:
+#          X: {}
+#          Y: {}
+#        parameters:
+#          TokenPair:
+#            referenceType: TokenPair<X, Y>
+#            isMutableReference: true
+#          Y_Coin:
+#            type: Coin<Y>
+#          Y_Amount:
+#            type: u64
+#          X_Coin:
+#            referenceType: Coin<X>
+#            isMutableReference: true
+#          ExpectedX_AmountOut:
+#            type: u64

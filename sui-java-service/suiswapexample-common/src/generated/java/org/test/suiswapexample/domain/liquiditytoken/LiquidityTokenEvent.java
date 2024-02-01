@@ -22,17 +22,9 @@ public interface LiquidityTokenEvent extends Event, SuiEventEnvelope, SuiMoveEve
     }
 
     interface LiquidityTokenMinted extends LiquidityTokenEvent {
-        BigInteger getAmount();
-
-        void setAmount(BigInteger value);
-
     }
 
     interface LiquidityTokenDestroyed extends LiquidityTokenEvent {
-        BigInteger getAmount();
-
-        void setAmount(BigInteger value);
-
     }
 
     String getId();

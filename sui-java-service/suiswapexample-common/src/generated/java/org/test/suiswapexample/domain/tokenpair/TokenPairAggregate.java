@@ -17,6 +17,8 @@ public interface TokenPairAggregate {
 
     List<Event> getChanges();
 
+    void updateExchangeRate(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.UpdateExchangeRate c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 

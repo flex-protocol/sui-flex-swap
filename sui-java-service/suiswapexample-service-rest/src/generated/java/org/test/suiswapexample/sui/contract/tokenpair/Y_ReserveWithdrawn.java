@@ -14,20 +14,18 @@ import java.math.*;
 import java.util.*;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class XSwappedForY {
+public class Y_ReserveWithdrawn {
     private String id;
 
     private BigInteger version;
 
-    private String sender;
+    private String liquidityTokenId;
+
+    private BigInteger y_Amount;
 
     private String x_TokenType;
 
     private String y_TokenType;
-
-    private BigInteger x_Amount;
-
-    private BigInteger y_Amount;
 
     public String getId() {
         return id;
@@ -45,12 +43,20 @@ public class XSwappedForY {
         this.version = version;
     }
 
-    public String getSender() {
-        return sender;
+    public String getLiquidityTokenId() {
+        return liquidityTokenId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setLiquidityTokenId(String liquidityTokenId) {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
+    public BigInteger getY_Amount() {
+        return y_Amount;
+    }
+
+    public void setY_Amount(BigInteger y_Amount) {
+        this.y_Amount = y_Amount;
     }
 
     public String getX_TokenType() {
@@ -69,32 +75,15 @@ public class XSwappedForY {
         this.y_TokenType = y_TokenType;
     }
 
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
-    }
-
-    public BigInteger getY_Amount() {
-        return y_Amount;
-    }
-
-    public void setY_Amount(BigInteger y_Amount) {
-        this.y_Amount = y_Amount;
-    }
-
     @Override
     public String toString() {
-        return "XSwappedForY{" +
+        return "Y_ReserveWithdrawn{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", sender=" + '\'' + sender + '\'' +
+                ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
+                ", y_Amount=" + y_Amount +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
-                ", x_Amount=" + x_Amount +
-                ", y_Amount=" + y_Amount +
                 '}';
     }
 

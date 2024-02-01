@@ -8,15 +8,17 @@ package org.test.suiswapexample.sui.contract;
 public class ContractConstants {
     public static final String DEFAULT_SUI_PACKAGE_NAME = "DEFAULT_SUI_PACKAGE";
 
-    public static final String TOKEN_PAIR_MODULE_LIQUIDITY_INITIALIZED = "token_pair::LiquidityInitialized";
+    public static final String TOKEN_PAIR_MODULE_TOKEN_PAIR_INITIALIZED = "token_pair::TokenPairInitialized";
 
-    public static final String TOKEN_PAIR_MODULE_LIQUIDITY_ADDED = "token_pair::LiquidityAdded";
+    public static final String TOKEN_PAIR_MODULE_EXCHANGE_RATE_UPDATED = "token_pair::ExchangeRateUpdated";
 
-    public static final String TOKEN_PAIR_MODULE_LIQUIDITY_REMOVED = "token_pair::LiquidityRemoved";
+    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_DEPOSITED = "token_pair::Y_ReserveDeposited";
+
+    public static final String TOKEN_PAIR_MODULE_X_RESERVE_WITHDRAWN = "token_pair::X_ReserveWithdrawn";
+
+    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_WITHDRAWN = "token_pair::Y_ReserveWithdrawn";
 
     public static final String TOKEN_PAIR_MODULE_X_SWAPPED_FOR_Y = "token_pair::XSwappedForY";
-
-    public static final String TOKEN_PAIR_MODULE_Y_SWAPPED_FOR_X = "token_pair::YSwappedForX";
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_MINTED = "liquidity_token::LiquidityTokenMinted";
 

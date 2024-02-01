@@ -7,9 +7,6 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
-    <property name="amount">
-      <column name="amount" sql-type="DECIMAL(20,0)" />
-    </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
     </property>

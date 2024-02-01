@@ -47,11 +47,11 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
         }
 
         @Override
-        public void mint(BigInteger amount, Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c) {
-            java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory = () -> newLiquidityTokenMinted(amount, offChainVersion, commandId, requesterId);
+        public void mint(Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c) {
+            java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory = () -> newLiquidityTokenMinted(offChainVersion, commandId, requesterId);
             LiquidityTokenEvent.LiquidityTokenMinted e;
             try {
-                e = verifyMint(eventFactory, amount, c);
+                e = verifyMint(eventFactory, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
@@ -72,20 +72,19 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
             apply(e);
         }
 
-        protected LiquidityTokenEvent.LiquidityTokenMinted verifyMint(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, BigInteger amount, LiquidityTokenCommands.Mint c) {
-            BigInteger Amount = amount;
+        protected LiquidityTokenEvent.LiquidityTokenMinted verifyMint(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenCommands.Mint c) {
 
             LiquidityTokenEvent.LiquidityTokenMinted e = (LiquidityTokenEvent.LiquidityTokenMinted) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), amount, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.liquiditytoken;
 //
 //public class MintLogic {
-//    public static LiquidityTokenEvent.LiquidityTokenMinted verify(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenState liquidityTokenState, BigInteger amount, VerificationContext verificationContext) {
+//    public static LiquidityTokenEvent.LiquidityTokenMinted verify(java.util.function.Supplier<LiquidityTokenEvent.LiquidityTokenMinted> eventFactory, LiquidityTokenState liquidityTokenState, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -113,11 +112,10 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
         }
            
 
-        protected AbstractLiquidityTokenEvent.LiquidityTokenMinted newLiquidityTokenMinted(BigInteger amount, Long offChainVersion, String commandId, String requesterId) {
+        protected AbstractLiquidityTokenEvent.LiquidityTokenMinted newLiquidityTokenMinted(Long offChainVersion, String commandId, String requesterId) {
             LiquidityTokenEventId eventId = new LiquidityTokenEventId(getState().getId(), null);
             AbstractLiquidityTokenEvent.LiquidityTokenMinted e = new AbstractLiquidityTokenEvent.LiquidityTokenMinted();
 
-            e.setAmount(amount);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);
@@ -139,7 +137,6 @@ public abstract class AbstractLiquidityTokenAggregate extends AbstractAggregate 
             LiquidityTokenEventId eventId = new LiquidityTokenEventId(getState().getId(), null);
             AbstractLiquidityTokenEvent.LiquidityTokenDestroyed e = new AbstractLiquidityTokenEvent.LiquidityTokenDestroyed();
 
-            e.setAmount(null);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);

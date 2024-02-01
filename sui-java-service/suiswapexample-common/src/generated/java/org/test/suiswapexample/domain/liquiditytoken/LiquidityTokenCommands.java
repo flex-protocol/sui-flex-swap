@@ -38,19 +38,6 @@ public class LiquidityTokenCommands {
         }
 
         /**
-         * Amount
-         */
-        private BigInteger amount;
-
-        public BigInteger getAmount() {
-            return this.amount;
-        }
-
-        public void setAmount(BigInteger amount) {
-            this.amount = amount;
-        }
-
-        /**
          * Off Chain Version
          */
         private Long offChainVersion;

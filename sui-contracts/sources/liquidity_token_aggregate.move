@@ -9,18 +9,14 @@ module sui_swap_example::liquidity_token_aggregate {
     use sui_swap_example::liquidity_token_destroy_logic;
     use sui_swap_example::liquidity_token_mint_logic;
 
-    friend sui_swap_example::token_pair_initialize_liquidity_logic;
-    friend sui_swap_example::token_pair_add_liquidity_logic;
-    friend sui_swap_example::token_pair_remove_liquidity_logic;
+    friend sui_swap_example::token_pair_initialize_token_pair_logic;
     friend sui_swap_example::token_pair_service;
 
     #[allow(unused_mut_parameter)]
     public(friend) fun mint<X, Y>(
-        amount: u64,
         ctx: &mut tx_context::TxContext,
     ): liquidity_token::LiquidityToken<X, Y> {
         let liquidity_token_minted = liquidity_token_mint_logic::verify<X, Y>(
-            amount,
             ctx,
         );
         let liquidity_token = liquidity_token_mint_logic::mutate<X, Y>(

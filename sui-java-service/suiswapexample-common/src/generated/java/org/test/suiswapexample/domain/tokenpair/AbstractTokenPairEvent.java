@@ -212,11 +212,11 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
-    public static class LiquidityInitialized extends TokenPairClobEvent implements TokenPairEvent.LiquidityInitialized {
+    public static class TokenPairInitialized extends TokenPairClobEvent implements TokenPairEvent.TokenPairInitialized {
 
         @Override
         public String getEventType() {
-            return "LiquidityInitialized";
+            return "TokenPairInitialized";
         }
 
         public String getExchangeId() {
@@ -231,6 +231,30 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             getDynamicProperties().put("exchangeId", value);
         }
 
+        public BigInteger getExchangeRateNumerator() {
+            Object val = getDynamicProperties().get("exchangeRateNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateNumerator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateNumerator", value);
+        }
+
+        public BigInteger getExchangeRateDenominator() {
+            Object val = getDynamicProperties().get("exchangeRateDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateDenominator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateDenominator", value);
+        }
+
         public String getProvider() {
             Object val = getDynamicProperties().get("provider");
             if (val instanceof String) {
@@ -289,18 +313,6 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
         public void setY_Amount(BigInteger value) {
             getDynamicProperties().put("y_Amount", value);
-        }
-
-        public BigInteger getLiquidityAmount() {
-            Object val = getDynamicProperties().get("liquidityAmount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setLiquidityAmount(BigInteger value) {
-            getDynamicProperties().put("liquidityAmount", value);
         }
 
         public String getLiquidityTokenId() {
@@ -317,11 +329,47 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
-    public static class LiquidityAdded extends TokenPairClobEvent implements TokenPairEvent.LiquidityAdded {
+    public static class ExchangeRateUpdated extends TokenPairClobEvent implements TokenPairEvent.ExchangeRateUpdated {
 
         @Override
         public String getEventType() {
-            return "LiquidityAdded";
+            return "ExchangeRateUpdated";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
+        public BigInteger getExchangeRateNumerator() {
+            Object val = getDynamicProperties().get("exchangeRateNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateNumerator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateNumerator", value);
+        }
+
+        public BigInteger getExchangeRateDenominator() {
+            Object val = getDynamicProperties().get("exchangeRateDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateDenominator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateDenominator", value);
         }
 
         public String getProvider() {
@@ -358,99 +406,15 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
         public void setY_TokenType(String value) {
             getDynamicProperties().put("y_TokenType", value);
-        }
-
-        public BigInteger getX_Amount() {
-            Object val = getDynamicProperties().get("x_Amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setX_Amount(BigInteger value) {
-            getDynamicProperties().put("x_Amount", value);
-        }
-
-        public BigInteger getY_Amount() {
-            Object val = getDynamicProperties().get("y_Amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setY_Amount(BigInteger value) {
-            getDynamicProperties().put("y_Amount", value);
-        }
-
-        public BigInteger getLiquidityAmount() {
-            Object val = getDynamicProperties().get("liquidityAmount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setLiquidityAmount(BigInteger value) {
-            getDynamicProperties().put("liquidityAmount", value);
-        }
-
-        public String getLiquidityTokenId() {
-            Object val = getDynamicProperties().get("liquidityTokenId");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setLiquidityTokenId(String value) {
-            getDynamicProperties().put("liquidityTokenId", value);
         }
 
     }
 
-    public static class LiquidityRemoved extends TokenPairClobEvent implements TokenPairEvent.LiquidityRemoved {
+    public static class Y_ReserveDeposited extends TokenPairClobEvent implements TokenPairEvent.Y_ReserveDeposited {
 
         @Override
         public String getEventType() {
-            return "LiquidityRemoved";
-        }
-
-        public String getLiquidityToken() {
-            Object val = getDynamicProperties().get("liquidityToken");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setLiquidityToken(String value) {
-            getDynamicProperties().put("liquidityToken", value);
-        }
-
-        public BigInteger getLiquidityAmount() {
-            Object val = getDynamicProperties().get("liquidityAmount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setLiquidityAmount(BigInteger value) {
-            getDynamicProperties().put("liquidityAmount", value);
-        }
-
-        public String getLiquidityTokenId() {
-            Object val = getDynamicProperties().get("liquidityTokenId");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setLiquidityTokenId(String value) {
-            getDynamicProperties().put("liquidityTokenId", value);
+            return "Y_ReserveDeposited";
         }
 
         public String getProvider() {
@@ -489,6 +453,39 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             getDynamicProperties().put("y_TokenType", value);
         }
 
+        public BigInteger getY_Amount() {
+            Object val = getDynamicProperties().get("y_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setY_Amount(BigInteger value) {
+            getDynamicProperties().put("y_Amount", value);
+        }
+
+    }
+
+    public static class X_ReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.X_ReserveWithdrawn {
+
+        @Override
+        public String getEventType() {
+            return "X_ReserveWithdrawn";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
         public BigInteger getX_Amount() {
             Object val = getDynamicProperties().get("x_Amount");
             if (val instanceof BigInteger) {
@@ -501,6 +498,51 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             getDynamicProperties().put("x_Amount", value);
         }
 
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
+        }
+
+    }
+
+    public static class Y_ReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.Y_ReserveWithdrawn {
+
+        @Override
+        public String getEventType() {
+            return "Y_ReserveWithdrawn";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
         public BigInteger getY_Amount() {
             Object val = getDynamicProperties().get("y_Amount");
             if (val instanceof BigInteger) {
@@ -511,6 +553,30 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
         public void setY_Amount(BigInteger value) {
             getDynamicProperties().put("y_Amount", value);
+        }
+
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
         }
 
     }
@@ -520,99 +586,6 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
         @Override
         public String getEventType() {
             return "XSwappedForY";
-        }
-
-        public BigInteger getExpectedY_AmountOut() {
-            Object val = getDynamicProperties().get("expectedY_AmountOut");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setExpectedY_AmountOut(BigInteger value) {
-            getDynamicProperties().put("expectedY_AmountOut", value);
-        }
-
-        public String getSender() {
-            Object val = getDynamicProperties().get("sender");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setSender(String value) {
-            getDynamicProperties().put("sender", value);
-        }
-
-        public String getX_TokenType() {
-            Object val = getDynamicProperties().get("x_TokenType");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setX_TokenType(String value) {
-            getDynamicProperties().put("x_TokenType", value);
-        }
-
-        public String getY_TokenType() {
-            Object val = getDynamicProperties().get("y_TokenType");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setY_TokenType(String value) {
-            getDynamicProperties().put("y_TokenType", value);
-        }
-
-        public BigInteger getX_Amount() {
-            Object val = getDynamicProperties().get("x_Amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setX_Amount(BigInteger value) {
-            getDynamicProperties().put("x_Amount", value);
-        }
-
-        public BigInteger getY_Amount() {
-            Object val = getDynamicProperties().get("y_Amount");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setY_Amount(BigInteger value) {
-            getDynamicProperties().put("y_Amount", value);
-        }
-
-    }
-
-    public static class YSwappedForX extends TokenPairClobEvent implements TokenPairEvent.YSwappedForX {
-
-        @Override
-        public String getEventType() {
-            return "YSwappedForX";
-        }
-
-        public BigInteger getExpectedX_AmountOut() {
-            Object val = getDynamicProperties().get("expectedX_AmountOut");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setExpectedX_AmountOut(BigInteger value) {
-            getDynamicProperties().put("expectedX_AmountOut", value);
         }
 
         public String getSender() {

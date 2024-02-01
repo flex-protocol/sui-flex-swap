@@ -43,11 +43,12 @@
       <property name="dynamicPropertiesLob">
         <column name="dynamic_properties_lob" sql-type="VARCHAR(2000)" />
       </property>
-      <subclass name="AbstractTokenPairEvent$LiquidityInitialized" discriminator-value="LiquidityInitialized" />
-      <subclass name="AbstractTokenPairEvent$LiquidityAdded" discriminator-value="LiquidityAdded" />
-      <subclass name="AbstractTokenPairEvent$LiquidityRemoved" discriminator-value="LiquidityRemoved" />
+      <subclass name="AbstractTokenPairEvent$TokenPairInitialized" discriminator-value="TokenPairInitialized" />
+      <subclass name="AbstractTokenPairEvent$ExchangeRateUpdated" discriminator-value="ExchangeRateUpdated" />
+      <subclass name="AbstractTokenPairEvent$Y_ReserveDeposited" discriminator-value="Y_ReserveDeposited" />
+      <subclass name="AbstractTokenPairEvent$X_ReserveWithdrawn" discriminator-value="X_ReserveWithdrawn" />
+      <subclass name="AbstractTokenPairEvent$Y_ReserveWithdrawn" discriminator-value="Y_ReserveWithdrawn" />
       <subclass name="AbstractTokenPairEvent$XSwappedForY" discriminator-value="XSwappedForY" />
-      <subclass name="AbstractTokenPairEvent$YSwappedForX" discriminator-value="YSwappedForX" />
     </subclass>
   </class>
 </hibernate-mapping>

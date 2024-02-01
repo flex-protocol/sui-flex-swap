@@ -14,18 +14,16 @@ import java.math.*;
 import java.util.*;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class XSwappedForY {
+public class Y_ReserveDeposited {
     private String id;
 
     private BigInteger version;
 
-    private String sender;
+    private String provider;
 
     private String x_TokenType;
 
     private String y_TokenType;
-
-    private BigInteger x_Amount;
 
     private BigInteger y_Amount;
 
@@ -45,12 +43,12 @@ public class XSwappedForY {
         this.version = version;
     }
 
-    public String getSender() {
-        return sender;
+    public String getProvider() {
+        return provider;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
     public String getX_TokenType() {
@@ -69,14 +67,6 @@ public class XSwappedForY {
         this.y_TokenType = y_TokenType;
     }
 
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
-    }
-
     public BigInteger getY_Amount() {
         return y_Amount;
     }
@@ -87,13 +77,12 @@ public class XSwappedForY {
 
     @Override
     public String toString() {
-        return "XSwappedForY{" +
+        return "Y_ReserveDeposited{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", sender=" + '\'' + sender + '\'' +
+                ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
-                ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
                 '}';
     }

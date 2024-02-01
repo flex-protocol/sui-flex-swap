@@ -13,14 +13,16 @@ public interface TokenPairEventRepository extends JpaRepository<AbstractTokenPai
 
     List<AbstractTokenPairEvent> findByStatusIsNull();
 
-    AbstractTokenPairEvent.LiquidityInitialized findFirstLiquidityInitializedByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.TokenPairInitialized findFirstTokenPairInitializedByOrderBySuiTimestampDesc();
 
-    AbstractTokenPairEvent.LiquidityAdded findFirstLiquidityAddedByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.ExchangeRateUpdated findFirstExchangeRateUpdatedByOrderBySuiTimestampDesc();
 
-    AbstractTokenPairEvent.LiquidityRemoved findFirstLiquidityRemovedByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.Y_ReserveDeposited findFirstY_ReserveDepositedByOrderBySuiTimestampDesc();
+
+    AbstractTokenPairEvent.X_ReserveWithdrawn findFirstX_ReserveWithdrawnByOrderBySuiTimestampDesc();
+
+    AbstractTokenPairEvent.Y_ReserveWithdrawn findFirstY_ReserveWithdrawnByOrderBySuiTimestampDesc();
 
     AbstractTokenPairEvent.XSwappedForY findFirstXSwappedForYByOrderBySuiTimestampDesc();
-
-    AbstractTokenPairEvent.YSwappedForX findFirstYSwappedForXByOrderBySuiTimestampDesc();
 
 }

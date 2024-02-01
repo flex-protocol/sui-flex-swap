@@ -13,8 +13,11 @@
     <property name="y_Reserve">
       <column name="y_reserve" />
     </property>
-    <property name="totalLiquidity">
-      <column name="total_liquidity" sql-type="DECIMAL(20,0)" />
+    <property name="exchangeRateNumerator">
+      <column name="exchange_rate_numerator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="exchangeRateDenominator">
+      <column name="exchange_rate_denominator" sql-type="DECIMAL(20,0)" />
     </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />

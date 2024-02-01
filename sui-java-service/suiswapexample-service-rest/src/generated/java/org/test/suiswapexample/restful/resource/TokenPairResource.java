@@ -170,6 +170,24 @@ public class TokenPairResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
+
+    @PutMapping("{id}/_commands/UpdateExchangeRate")
+    public void updateExchangeRate(@PathVariable("id") String id, @RequestBody TokenPairCommands.UpdateExchangeRate content) {
+        try {
+
+            TokenPairCommands.UpdateExchangeRate cmd = content;//.toUpdateExchangeRate();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            tokenPairApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
     @GetMapping("_metadata/filteringFields")
     public List<PropertyMetadataDto> getMetadataFilteringFields() {
         try {

@@ -14,11 +14,12 @@ import org.test.suiswapexample.domain.tokenpair.AbstractTokenPairEvent;
 import org.test.suiswapexample.sui.contract.ContractConstants;
 import org.test.suiswapexample.sui.contract.DomainBeanUtils;
 import org.test.suiswapexample.sui.contract.SuiPackage;
-import org.test.suiswapexample.sui.contract.tokenpair.LiquidityInitialized;
-import org.test.suiswapexample.sui.contract.tokenpair.LiquidityAdded;
-import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
+import org.test.suiswapexample.sui.contract.tokenpair.TokenPairInitialized;
+import org.test.suiswapexample.sui.contract.tokenpair.ExchangeRateUpdated;
+import org.test.suiswapexample.sui.contract.tokenpair.Y_ReserveDeposited;
+import org.test.suiswapexample.sui.contract.tokenpair.X_ReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.tokenpair.Y_ReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
-import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
 import org.test.suiswapexample.sui.contract.repository.TokenPairEventRepository;
 import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,22 +45,22 @@ public class TokenPairEventService {
     }
 
     @Transactional
-    public void pullLiquidityInitializedEvents() {
+    public void pullTokenPairInitializedEvents() {
         String packageId = getDefaultSuiPackageId();
         if (packageId == null) {
             return;
         }
         int limit = 1;
-        EventId cursor = getLiquidityInitializedEventNextCursor();
+        EventId cursor = getTokenPairInitializedEventNextCursor();
         while (true) {
-            PaginatedMoveEvents<LiquidityInitialized> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_LIQUIDITY_INITIALIZED,
-                    cursor, limit, false, LiquidityInitialized.class);
+            PaginatedMoveEvents<TokenPairInitialized> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_TOKEN_PAIR_INITIALIZED,
+                    cursor, limit, false, TokenPairInitialized.class);
 
             if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
                 cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<LiquidityInitialized> eventEnvelope : eventPage.getData()) {
-                    saveLiquidityInitialized(eventEnvelope);
+                for (SuiMoveEventEnvelope<TokenPairInitialized> eventEnvelope : eventPage.getData()) {
+                    saveTokenPairInitialized(eventEnvelope);
                 }
             } else {
                 break;
@@ -70,36 +71,36 @@ public class TokenPairEventService {
         }
     }
 
-    private EventId getLiquidityInitializedEventNextCursor() {
-        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstLiquidityInitializedByOrderBySuiTimestampDesc();
+    private EventId getTokenPairInitializedEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstTokenPairInitializedByOrderBySuiTimestampDesc();
         return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
     }
 
-    private void saveLiquidityInitialized(SuiMoveEventEnvelope<LiquidityInitialized> eventEnvelope) {
-        AbstractTokenPairEvent.LiquidityInitialized liquidityInitialized = DomainBeanUtils.toLiquidityInitialized(eventEnvelope);
-        if (tokenPairEventRepository.findById(liquidityInitialized.getTokenPairEventId()).isPresent()) {
+    private void saveTokenPairInitialized(SuiMoveEventEnvelope<TokenPairInitialized> eventEnvelope) {
+        AbstractTokenPairEvent.TokenPairInitialized tokenPairInitialized = DomainBeanUtils.toTokenPairInitialized(eventEnvelope);
+        if (tokenPairEventRepository.findById(tokenPairInitialized.getTokenPairEventId()).isPresent()) {
             return;
         }
-        tokenPairEventRepository.save(liquidityInitialized);
+        tokenPairEventRepository.save(tokenPairInitialized);
     }
 
     @Transactional
-    public void pullLiquidityAddedEvents() {
+    public void pullExchangeRateUpdatedEvents() {
         String packageId = getDefaultSuiPackageId();
         if (packageId == null) {
             return;
         }
         int limit = 1;
-        EventId cursor = getLiquidityAddedEventNextCursor();
+        EventId cursor = getExchangeRateUpdatedEventNextCursor();
         while (true) {
-            PaginatedMoveEvents<LiquidityAdded> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_LIQUIDITY_ADDED,
-                    cursor, limit, false, LiquidityAdded.class);
+            PaginatedMoveEvents<ExchangeRateUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_EXCHANGE_RATE_UPDATED,
+                    cursor, limit, false, ExchangeRateUpdated.class);
 
             if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
                 cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<LiquidityAdded> eventEnvelope : eventPage.getData()) {
-                    saveLiquidityAdded(eventEnvelope);
+                for (SuiMoveEventEnvelope<ExchangeRateUpdated> eventEnvelope : eventPage.getData()) {
+                    saveExchangeRateUpdated(eventEnvelope);
                 }
             } else {
                 break;
@@ -110,36 +111,36 @@ public class TokenPairEventService {
         }
     }
 
-    private EventId getLiquidityAddedEventNextCursor() {
-        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstLiquidityAddedByOrderBySuiTimestampDesc();
+    private EventId getExchangeRateUpdatedEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstExchangeRateUpdatedByOrderBySuiTimestampDesc();
         return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
     }
 
-    private void saveLiquidityAdded(SuiMoveEventEnvelope<LiquidityAdded> eventEnvelope) {
-        AbstractTokenPairEvent.LiquidityAdded liquidityAdded = DomainBeanUtils.toLiquidityAdded(eventEnvelope);
-        if (tokenPairEventRepository.findById(liquidityAdded.getTokenPairEventId()).isPresent()) {
+    private void saveExchangeRateUpdated(SuiMoveEventEnvelope<ExchangeRateUpdated> eventEnvelope) {
+        AbstractTokenPairEvent.ExchangeRateUpdated exchangeRateUpdated = DomainBeanUtils.toExchangeRateUpdated(eventEnvelope);
+        if (tokenPairEventRepository.findById(exchangeRateUpdated.getTokenPairEventId()).isPresent()) {
             return;
         }
-        tokenPairEventRepository.save(liquidityAdded);
+        tokenPairEventRepository.save(exchangeRateUpdated);
     }
 
     @Transactional
-    public void pullLiquidityRemovedEvents() {
+    public void pullY_ReserveDepositedEvents() {
         String packageId = getDefaultSuiPackageId();
         if (packageId == null) {
             return;
         }
         int limit = 1;
-        EventId cursor = getLiquidityRemovedEventNextCursor();
+        EventId cursor = getY_ReserveDepositedEventNextCursor();
         while (true) {
-            PaginatedMoveEvents<LiquidityRemoved> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_LIQUIDITY_REMOVED,
-                    cursor, limit, false, LiquidityRemoved.class);
+            PaginatedMoveEvents<Y_ReserveDeposited> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_Y_RESERVE_DEPOSITED,
+                    cursor, limit, false, Y_ReserveDeposited.class);
 
             if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
                 cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<LiquidityRemoved> eventEnvelope : eventPage.getData()) {
-                    saveLiquidityRemoved(eventEnvelope);
+                for (SuiMoveEventEnvelope<Y_ReserveDeposited> eventEnvelope : eventPage.getData()) {
+                    saveY_ReserveDeposited(eventEnvelope);
                 }
             } else {
                 break;
@@ -150,17 +151,97 @@ public class TokenPairEventService {
         }
     }
 
-    private EventId getLiquidityRemovedEventNextCursor() {
-        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstLiquidityRemovedByOrderBySuiTimestampDesc();
+    private EventId getY_ReserveDepositedEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstY_ReserveDepositedByOrderBySuiTimestampDesc();
         return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
     }
 
-    private void saveLiquidityRemoved(SuiMoveEventEnvelope<LiquidityRemoved> eventEnvelope) {
-        AbstractTokenPairEvent.LiquidityRemoved liquidityRemoved = DomainBeanUtils.toLiquidityRemoved(eventEnvelope);
-        if (tokenPairEventRepository.findById(liquidityRemoved.getTokenPairEventId()).isPresent()) {
+    private void saveY_ReserveDeposited(SuiMoveEventEnvelope<Y_ReserveDeposited> eventEnvelope) {
+        AbstractTokenPairEvent.Y_ReserveDeposited y_ReserveDeposited = DomainBeanUtils.toY_ReserveDeposited(eventEnvelope);
+        if (tokenPairEventRepository.findById(y_ReserveDeposited.getTokenPairEventId()).isPresent()) {
             return;
         }
-        tokenPairEventRepository.save(liquidityRemoved);
+        tokenPairEventRepository.save(y_ReserveDeposited);
+    }
+
+    @Transactional
+    public void pullX_ReserveWithdrawnEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getX_ReserveWithdrawnEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<X_ReserveWithdrawn> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_X_RESERVE_WITHDRAWN,
+                    cursor, limit, false, X_ReserveWithdrawn.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<X_ReserveWithdrawn> eventEnvelope : eventPage.getData()) {
+                    saveX_ReserveWithdrawn(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getX_ReserveWithdrawnEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstX_ReserveWithdrawnByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveX_ReserveWithdrawn(SuiMoveEventEnvelope<X_ReserveWithdrawn> eventEnvelope) {
+        AbstractTokenPairEvent.X_ReserveWithdrawn x_ReserveWithdrawn = DomainBeanUtils.toX_ReserveWithdrawn(eventEnvelope);
+        if (tokenPairEventRepository.findById(x_ReserveWithdrawn.getTokenPairEventId()).isPresent()) {
+            return;
+        }
+        tokenPairEventRepository.save(x_ReserveWithdrawn);
+    }
+
+    @Transactional
+    public void pullY_ReserveWithdrawnEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getY_ReserveWithdrawnEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<Y_ReserveWithdrawn> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_Y_RESERVE_WITHDRAWN,
+                    cursor, limit, false, Y_ReserveWithdrawn.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<Y_ReserveWithdrawn> eventEnvelope : eventPage.getData()) {
+                    saveY_ReserveWithdrawn(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getY_ReserveWithdrawnEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstY_ReserveWithdrawnByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveY_ReserveWithdrawn(SuiMoveEventEnvelope<Y_ReserveWithdrawn> eventEnvelope) {
+        AbstractTokenPairEvent.Y_ReserveWithdrawn y_ReserveWithdrawn = DomainBeanUtils.toY_ReserveWithdrawn(eventEnvelope);
+        if (tokenPairEventRepository.findById(y_ReserveWithdrawn.getTokenPairEventId()).isPresent()) {
+            return;
+        }
+        tokenPairEventRepository.save(y_ReserveWithdrawn);
     }
 
     @Transactional
@@ -201,46 +282,6 @@ public class TokenPairEventService {
             return;
         }
         tokenPairEventRepository.save(xSwappedForY);
-    }
-
-    @Transactional
-    public void pullYSwappedForXEvents() {
-        String packageId = getDefaultSuiPackageId();
-        if (packageId == null) {
-            return;
-        }
-        int limit = 1;
-        EventId cursor = getYSwappedForXEventNextCursor();
-        while (true) {
-            PaginatedMoveEvents<YSwappedForX> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_Y_SWAPPED_FOR_X,
-                    cursor, limit, false, YSwappedForX.class);
-
-            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
-                cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<YSwappedForX> eventEnvelope : eventPage.getData()) {
-                    saveYSwappedForX(eventEnvelope);
-                }
-            } else {
-                break;
-            }
-            if (!Page.hasNextPage(eventPage)) {
-                break;
-            }
-        }
-    }
-
-    private EventId getYSwappedForXEventNextCursor() {
-        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstYSwappedForXByOrderBySuiTimestampDesc();
-        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
-    }
-
-    private void saveYSwappedForX(SuiMoveEventEnvelope<YSwappedForX> eventEnvelope) {
-        AbstractTokenPairEvent.YSwappedForX ySwappedForX = DomainBeanUtils.toYSwappedForX(eventEnvelope);
-        if (tokenPairEventRepository.findById(ySwappedForX.getTokenPairEventId()).isPresent()) {
-            return;
-        }
-        tokenPairEventRepository.save(ySwappedForX);
     }
 
 

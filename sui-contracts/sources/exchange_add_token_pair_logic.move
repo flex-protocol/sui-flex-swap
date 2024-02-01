@@ -22,7 +22,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
     ): exchange::TokenPairAddedToExchange {
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
-        assert_token_pair_not_exists(exchange, x_token_type, y_token_type);
+        //assert_token_pair_not_exists(exchange, x_token_type, y_token_type);
         exchange::new_token_pair_added_to_exchange(
             exchange,
             token_pair_id,

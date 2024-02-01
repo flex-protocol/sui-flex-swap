@@ -17,7 +17,7 @@ public interface LiquidityTokenAggregate {
 
     List<Event> getChanges();
 
-    void mint(BigInteger amount, Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c);
+    void mint(Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Mint c);
 
     void destroy(Long offChainVersion, String commandId, String requesterId, LiquidityTokenCommands.Destroy c);
 

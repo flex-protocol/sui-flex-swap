@@ -17,8 +17,6 @@ import java.util.*;
 public class LiquidityTokenMinted {
     private String id;
 
-    private BigInteger amount;
-
     public String getId() {
         return id;
     }
@@ -27,19 +25,10 @@ public class LiquidityTokenMinted {
         this.id = id;
     }
 
-    public BigInteger getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigInteger amount) {
-        this.amount = amount;
-    }
-
     @Override
     public String toString() {
         return "LiquidityTokenMinted{" +
                 "id=" + '\'' + id + '\'' +
-                ", amount=" + amount +
                 '}';
     }
 

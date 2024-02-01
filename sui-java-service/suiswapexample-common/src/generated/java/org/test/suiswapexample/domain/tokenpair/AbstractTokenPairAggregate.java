@@ -46,20 +46,35 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             super(state);
         }
 
-        protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, String exchange, TokenPairCommands.InitializeLiquidity c) {
-            String Exchange = exchange;
+        @Override
+        public void updateExchangeRate(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.UpdateExchangeRate c) {
+            java.util.function.Supplier<TokenPairEvent.ExchangeRateUpdated> eventFactory = () -> newExchangeRateUpdated(liquidityToken, exchangeRateNumerator, exchangeRateDenominator, offChainVersion, commandId, requesterId);
+            TokenPairEvent.ExchangeRateUpdated e;
+            try {
+                e = verifyUpdateExchangeRate(eventFactory, exchangeRateNumerator, exchangeRateDenominator, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
 
-            TokenPairEvent.LiquidityInitialized e = (TokenPairEvent.LiquidityInitialized) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.InitializeLiquidityLogic",
+            apply(e);
+        }
+
+        protected TokenPairEvent.TokenPairInitialized verifyInitializeTokenPair(java.util.function.Supplier<TokenPairEvent.TokenPairInitialized> eventFactory, String exchange, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, TokenPairCommands.InitializeTokenPair c) {
+            String Exchange = exchange;
+            BigInteger ExchangeRateNumerator = exchangeRateNumerator;
+            BigInteger ExchangeRateDenominator = exchangeRateDenominator;
+
+            TokenPairEvent.TokenPairInitialized e = (TokenPairEvent.TokenPairInitialized) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.InitializeTokenPairLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), exchange, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), exchange, exchangeRateNumerator, exchangeRateDenominator, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class InitializeLiquidityLogic {
-//    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, String exchange, VerificationContext verificationContext) {
+//public class InitializeTokenPairLogic {
+//    public static TokenPairEvent.TokenPairInitialized verify(java.util.function.Supplier<TokenPairEvent.TokenPairInitialized> eventFactory, TokenPairState tokenPairState, String exchange, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -67,10 +82,32 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.LiquidityAdded verifyAddLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, TokenPairCommands.AddLiquidity c) {
+        protected TokenPairEvent.ExchangeRateUpdated verifyUpdateExchangeRate(java.util.function.Supplier<TokenPairEvent.ExchangeRateUpdated> eventFactory, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, TokenPairCommands.UpdateExchangeRate c) {
+            BigInteger ExchangeRateNumerator = exchangeRateNumerator;
+            BigInteger ExchangeRateDenominator = exchangeRateDenominator;
 
-            TokenPairEvent.LiquidityAdded e = (TokenPairEvent.LiquidityAdded) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.AddLiquidityLogic",
+            TokenPairEvent.ExchangeRateUpdated e = (TokenPairEvent.ExchangeRateUpdated) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateExchangeRateLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), exchangeRateNumerator, exchangeRateDenominator, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class UpdateExchangeRateLogic {
+//    public static TokenPairEvent.ExchangeRateUpdated verify(java.util.function.Supplier<TokenPairEvent.ExchangeRateUpdated> eventFactory, TokenPairState tokenPairState, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected TokenPairEvent.Y_ReserveDeposited verifyDepositY_Reserve(java.util.function.Supplier<TokenPairEvent.Y_ReserveDeposited> eventFactory, TokenPairCommands.DepositY_Reserve c) {
+
+            TokenPairEvent.Y_ReserveDeposited e = (TokenPairEvent.Y_ReserveDeposited) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.DepositY_ReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
                     new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
@@ -78,8 +115,8 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class AddLiquidityLogic {
-//    public static TokenPairEvent.LiquidityAdded verify(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
+//public class DepositY_ReserveLogic {
+//    public static TokenPairEvent.Y_ReserveDeposited verify(java.util.function.Supplier<TokenPairEvent.Y_ReserveDeposited> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -87,20 +124,20 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.LiquidityRemoved verifyRemoveLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, String liquidityToken, TokenPairCommands.RemoveLiquidity c) {
-            String LiquidityToken = liquidityToken;
+        protected TokenPairEvent.X_ReserveWithdrawn verifyWithdrawX_Reserve(java.util.function.Supplier<TokenPairEvent.X_ReserveWithdrawn> eventFactory, BigInteger x_Amount, TokenPairCommands.WithdrawX_Reserve c) {
+            BigInteger X_Amount = x_Amount;
 
-            TokenPairEvent.LiquidityRemoved e = (TokenPairEvent.LiquidityRemoved) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.RemoveLiquidityLogic",
+            TokenPairEvent.X_ReserveWithdrawn e = (TokenPairEvent.X_ReserveWithdrawn) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawX_ReserveLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), liquidityToken, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), x_Amount, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class RemoveLiquidityLogic {
-//    public static TokenPairEvent.LiquidityRemoved verify(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, TokenPairState tokenPairState, String liquidityToken, VerificationContext verificationContext) {
+//public class WithdrawX_ReserveLogic {
+//    public static TokenPairEvent.X_ReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.X_ReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger x_Amount, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -108,20 +145,40 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.XSwappedForY verifySwapX(java.util.function.Supplier<TokenPairEvent.XSwappedForY> eventFactory, BigInteger expectedY_AmountOut, TokenPairCommands.SwapX c) {
-            BigInteger ExpectedY_AmountOut = expectedY_AmountOut;
+        protected TokenPairEvent.Y_ReserveWithdrawn verifyWithdrawY_Reserve(java.util.function.Supplier<TokenPairEvent.Y_ReserveWithdrawn> eventFactory, BigInteger y_Amount, TokenPairCommands.WithdrawY_Reserve c) {
+            BigInteger Y_Amount = y_Amount;
+
+            TokenPairEvent.Y_ReserveWithdrawn e = (TokenPairEvent.Y_ReserveWithdrawn) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawY_ReserveLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), y_Amount, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class WithdrawY_ReserveLogic {
+//    public static TokenPairEvent.Y_ReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.Y_ReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger y_Amount, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected TokenPairEvent.XSwappedForY verifySwapX(java.util.function.Supplier<TokenPairEvent.XSwappedForY> eventFactory, TokenPairCommands.SwapX c) {
 
             TokenPairEvent.XSwappedForY e = (TokenPairEvent.XSwappedForY) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.SwapXLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), expectedY_AmountOut, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class SwapXLogic {
-//    public static TokenPairEvent.XSwappedForY verify(java.util.function.Supplier<TokenPairEvent.XSwappedForY> eventFactory, TokenPairState tokenPairState, BigInteger expectedY_AmountOut, VerificationContext verificationContext) {
+//    public static TokenPairEvent.XSwappedForY verify(java.util.function.Supplier<TokenPairEvent.XSwappedForY> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -129,26 +186,32 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.YSwappedForX verifySwapY(java.util.function.Supplier<TokenPairEvent.YSwappedForX> eventFactory, BigInteger expectedX_AmountOut, TokenPairCommands.SwapY c) {
-            BigInteger ExpectedX_AmountOut = expectedX_AmountOut;
+        protected AbstractTokenPairEvent.ExchangeRateUpdated newExchangeRateUpdated(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Long offChainVersion, String commandId, String requesterId) {
+            TokenPairEventId eventId = new TokenPairEventId(getState().getId(), null);
+            AbstractTokenPairEvent.ExchangeRateUpdated e = new AbstractTokenPairEvent.ExchangeRateUpdated();
 
-            TokenPairEvent.YSwappedForX e = (TokenPairEvent.YSwappedForX) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.SwapYLogic",
-                    "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), expectedX_AmountOut, VerificationContext.forCommand(c)}
-            );
+            e.setLiquidityTokenId(null);
+            e.setExchangeRateNumerator(exchangeRateNumerator);
+            e.setExchangeRateDenominator(exchangeRateDenominator);
+            e.setProvider(null);
+            e.setX_TokenType(null);
+            e.setY_TokenType(null);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
-//package org.test.suiswapexample.domain.tokenpair;
-//
-//public class SwapYLogic {
-//    public static TokenPairEvent.YSwappedForX verify(java.util.function.Supplier<TokenPairEvent.YSwappedForX> eventFactory, TokenPairState tokenPairState, BigInteger expectedX_AmountOut, VerificationContext verificationContext) {
-//    }
-//}
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
 
+            e.setTokenPairEventId(eventId);
             return e;
         }
-           
 
     }
 

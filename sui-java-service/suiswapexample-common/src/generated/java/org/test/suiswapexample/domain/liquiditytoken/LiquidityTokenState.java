@@ -20,8 +20,6 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
 
     String getId();
 
-    BigInteger getAmount();
-
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -42,8 +40,6 @@ public interface LiquidityTokenState extends VersionedSuiMoveObject
 
     interface MutableLiquidityTokenState extends LiquidityTokenState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
-
-        void setAmount(BigInteger amount);
 
         void setOffChainVersion(Long offChainVersion);
 

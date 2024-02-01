@@ -7,12 +7,10 @@ module sui_swap_example::liquidity_token_mint_logic {
 
     #[allow(unused_mut_parameter)]
     public(friend) fun verify<X, Y>(
-        amount: u64,
         ctx: &mut TxContext,
     ): liquidity_token::LiquidityTokenMinted {
         let _ = ctx;
         liquidity_token::new_liquidity_token_minted<X, Y>(
-            amount,
         )
     }
 
@@ -20,9 +18,8 @@ module sui_swap_example::liquidity_token_mint_logic {
         liquidity_token_minted: &liquidity_token::LiquidityTokenMinted,
         ctx: &mut TxContext,
     ): liquidity_token::LiquidityToken<X, Y> {
-        let amount = liquidity_token_minted::amount(liquidity_token_minted);
+        //let amount = liquidity_token_minted::amount(liquidity_token_minted);
         liquidity_token::new_liquidity_token(
-            amount,
             ctx,
         )
     }

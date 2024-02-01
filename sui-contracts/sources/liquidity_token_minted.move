@@ -13,8 +13,4 @@ module sui_swap_example::liquidity_token_minted {
         liquidity_token::liquidity_token_minted_id(liquidity_token_minted)
     }
 
-    public fun amount(liquidity_token_minted: &LiquidityTokenMinted): u64 {
-        liquidity_token::liquidity_token_minted_amount(liquidity_token_minted)
-    }
-
 }

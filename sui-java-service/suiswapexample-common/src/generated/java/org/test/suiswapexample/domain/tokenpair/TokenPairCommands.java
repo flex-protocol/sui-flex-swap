@@ -14,10 +14,10 @@ public class TokenPairCommands {
     private TokenPairCommands() {
     }
 
-    public static class InitializeLiquidity extends AbstractTokenPairCommand implements TokenPairCommand {
+    public static class InitializeTokenPair extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {
-            return "InitializeLiquidity";
+            return "InitializeTokenPair";
         }
 
         public void setCommandType(String commandType) {
@@ -51,41 +51,29 @@ public class TokenPairCommands {
         }
 
         /**
-         * Off Chain Version
+         * Exchange Rate Numerator
          */
-        private Long offChainVersion;
+        private BigInteger exchangeRateNumerator;
 
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
+        public BigInteger getExchangeRateNumerator() {
+            return this.exchangeRateNumerator;
         }
 
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class AddLiquidity extends AbstractTokenPairCommand implements TokenPairCommand {
-
-        public String getCommandType() {
-            return "AddLiquidity";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
+        public void setExchangeRateNumerator(BigInteger exchangeRateNumerator) {
+            this.exchangeRateNumerator = exchangeRateNumerator;
         }
 
         /**
-         * Id
+         * Exchange Rate Denominator
          */
-        private String id;
+        private BigInteger exchangeRateDenominator;
 
-        public String getId() {
-            return this.id;
+        public BigInteger getExchangeRateDenominator() {
+            return this.exchangeRateDenominator;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setExchangeRateDenominator(BigInteger exchangeRateDenominator) {
+            this.exchangeRateDenominator = exchangeRateDenominator;
         }
 
         /**
@@ -103,10 +91,10 @@ public class TokenPairCommands {
 
     }
 
-    public static class RemoveLiquidity extends AbstractTokenPairCommand implements TokenPairCommand {
+    public static class UpdateExchangeRate extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {
-            return "RemoveLiquidity";
+            return "UpdateExchangeRate";
         }
 
         public void setCommandType(String commandType) {
@@ -137,6 +125,198 @@ public class TokenPairCommands {
 
         public void setLiquidityToken(String liquidityToken) {
             this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * Exchange Rate Numerator
+         */
+        private BigInteger exchangeRateNumerator;
+
+        public BigInteger getExchangeRateNumerator() {
+            return this.exchangeRateNumerator;
+        }
+
+        public void setExchangeRateNumerator(BigInteger exchangeRateNumerator) {
+            this.exchangeRateNumerator = exchangeRateNumerator;
+        }
+
+        /**
+         * Exchange Rate Denominator
+         */
+        private BigInteger exchangeRateDenominator;
+
+        public BigInteger getExchangeRateDenominator() {
+            return this.exchangeRateDenominator;
+        }
+
+        public void setExchangeRateDenominator(BigInteger exchangeRateDenominator) {
+            this.exchangeRateDenominator = exchangeRateDenominator;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class DepositY_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+
+        public String getCommandType() {
+            return "DepositY_Reserve";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class WithdrawX_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+
+        public String getCommandType() {
+            return "WithdrawX_Reserve";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Liquidity Token
+         */
+        private String liquidityToken;
+
+        public String getLiquidityToken() {
+            return this.liquidityToken;
+        }
+
+        public void setLiquidityToken(String liquidityToken) {
+            this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * X_ Amount
+         */
+        private BigInteger x_Amount;
+
+        public BigInteger getX_Amount() {
+            return this.x_Amount;
+        }
+
+        public void setX_Amount(BigInteger x_Amount) {
+            this.x_Amount = x_Amount;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class WithdrawY_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+
+        public String getCommandType() {
+            return "WithdrawY_Reserve";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Liquidity Token
+         */
+        private String liquidityToken;
+
+        public String getLiquidityToken() {
+            return this.liquidityToken;
+        }
+
+        public void setLiquidityToken(String liquidityToken) {
+            this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * Y_ Amount
+         */
+        private BigInteger y_Amount;
+
+        public BigInteger getY_Amount() {
+            return this.y_Amount;
+        }
+
+        public void setY_Amount(BigInteger y_Amount) {
+            this.y_Amount = y_Amount;
         }
 
         /**
@@ -175,70 +355,6 @@ public class TokenPairCommands {
 
         public void setId(String id) {
             this.id = id;
-        }
-
-        /**
-         * Expected Y_ Amount Out
-         */
-        private BigInteger expectedY_AmountOut;
-
-        public BigInteger getExpectedY_AmountOut() {
-            return this.expectedY_AmountOut;
-        }
-
-        public void setExpectedY_AmountOut(BigInteger expectedY_AmountOut) {
-            this.expectedY_AmountOut = expectedY_AmountOut;
-        }
-
-        /**
-         * Off Chain Version
-         */
-        private Long offChainVersion;
-
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
-        }
-
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class SwapY extends AbstractTokenPairCommand implements TokenPairCommand {
-
-        public String getCommandType() {
-            return "SwapY";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
-        }
-
-        /**
-         * Id
-         */
-        private String id;
-
-        public String getId() {
-            return this.id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * Expected X_ Amount Out
-         */
-        private BigInteger expectedX_AmountOut;
-
-        public BigInteger getExpectedX_AmountOut() {
-            return this.expectedX_AmountOut;
-        }
-
-        public void setExpectedX_AmountOut(BigInteger expectedX_AmountOut) {
-            this.expectedX_AmountOut = expectedX_AmountOut;
         }
 
         /**

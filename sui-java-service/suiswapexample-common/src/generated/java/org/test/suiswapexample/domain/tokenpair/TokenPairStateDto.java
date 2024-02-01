@@ -51,16 +51,28 @@ public class TokenPairStateDto {
         this.y_Reserve = y_Reserve;
     }
 
-    private BigInteger totalLiquidity;
+    private BigInteger exchangeRateNumerator;
 
-    public BigInteger getTotalLiquidity()
+    public BigInteger getExchangeRateNumerator()
     {
-        return this.totalLiquidity;
+        return this.exchangeRateNumerator;
     }
 
-    public void setTotalLiquidity(BigInteger totalLiquidity)
+    public void setExchangeRateNumerator(BigInteger exchangeRateNumerator)
     {
-        this.totalLiquidity = totalLiquidity;
+        this.exchangeRateNumerator = exchangeRateNumerator;
+    }
+
+    private BigInteger exchangeRateDenominator;
+
+    public BigInteger getExchangeRateDenominator()
+    {
+        return this.exchangeRateDenominator;
+    }
+
+    public void setExchangeRateDenominator(BigInteger exchangeRateDenominator)
+    {
+        this.exchangeRateDenominator = exchangeRateDenominator;
     }
 
     private BigInteger version;
@@ -209,8 +221,11 @@ public class TokenPairStateDto {
             if (returnedFieldsContains("Y_Reserve")) {
                 dto.setY_Reserve(state.getY_Reserve());
             }
-            if (returnedFieldsContains("TotalLiquidity")) {
-                dto.setTotalLiquidity(state.getTotalLiquidity());
+            if (returnedFieldsContains("ExchangeRateNumerator")) {
+                dto.setExchangeRateNumerator(state.getExchangeRateNumerator());
+            }
+            if (returnedFieldsContains("ExchangeRateDenominator")) {
+                dto.setExchangeRateDenominator(state.getExchangeRateDenominator());
             }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());
