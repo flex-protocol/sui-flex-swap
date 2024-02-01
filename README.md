@@ -2,43 +2,14 @@
 
 ## Requirements
 
-This is a Sui Move sample project for teaching purposes. The client is a Web3 developer education institution, and the requirements are brief:
-
-> Build a Simple Token Swap dApp using Sui Move
->
-> **Overview**: We are creating a basic dApp to allow users to trade one cryptocurrency for another on the Sui blockchain. We need two main components: a smart contract and a simple frontend.
->
-> * The token swap dApp contract should be straightforward, focusing only on the swapping feature. We don't need the other DEX features.
-> * The smart contract code must include comments to explain how it works.
-> * A basic frontend should be provided for users to interact with the dApp.
-
-Let's further clarify the requirements so that we can better determine the workload in the next step.
-
-From the front-end, the dApp would look roughly like this:
-
-* First we would display a list of supported token pairs, TokenX-TokenY, TokenY-TokenZ and so on. Of course, at first, this list is empty.
-
-* ~~Users~~Only admin can "initialize liquidity". i.e. add a new swappable token pair TokenX-TokenY, by providing some amount of TokenX and TokenY.
-
-* Of course, after the token pair is initialized, users can continue to "add liquidity" to the token pair.
-
-* The front-end displays the current account's share of liquidity in the current token pair where appropriate. Of course, at this point the user should already have connected a wallet.
-
-* The front-end has a place to show the "token reserves" in a token pair. That is, the amount of TokenX and TokenY are in the pair TokenX-TokenY.
-
-* For already supported token pair, e.g. TokenX-TokenY, user can "swap" TokenX for TokenY, or vice versa. A fee of 0.3% will be charged for each transaction.
-
-* Users can "remove liquidity". This means that by destroying their share of TokenX-TokenY liquidity, they can get a certain amount of TokenX and TokenY back.
-
-* The revenue that the user receives for providing liquidity comes from the fee and nothing else.
-
-From a front-end UX perspective, the main features are those above.
-
-The internal implementation of the smart contract will be kept as simple as possible, as long as it is sufficient to illustrate the basic principles of the DEX using the AMM model.
-
-Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.
+It's worth noting that in the current version of the `nft` branch, token X refers to NFT.
+And the `LiquidityToken` degenerates into a "capability" object.
+We use it to control access to "add liquidity" and "remove liquidity".
+The account that owns it can be thought of as the owner of the `TokenPair` (pool).
 
 ## Prerequisites
+
+Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.
 
 Currently, the dddappp low-code tool is published as a Docker image for developers to experience.
 
@@ -68,11 +39,6 @@ sudo docker run -p 3306:3306 --name mysql \
 ### Write DDDML model file
 
 In the `dddml` directory in the root of the repository, create a DDDML file like [this](./dddml/swap.yaml).
-
-It's worth noting that in the current version of the `nft` branch, 
-the `LiquidityToken` degenerates into a "capability" object. 
-We use it to control access to "add liquidity" and "remove liquidity".
-The account that owns it can be thought of as the owner of the `TokenPair` (pool).
 
 > **Tip**
 >
@@ -170,7 +136,9 @@ sui client pay-sui --input-coins 0x79e6fd15db671bdf426166a494f15845353701c742feb
 
 #### Mint some Movescription tokens
 
-We will have deployed a movescription test contract on testnet with package ID: `0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`.
+We use Movescription token `MOVE` as test NFT. Movescription is a community-driven inscription protocol on Move.
+
+We have deployed a movescription test contract on testnet with package ID: `0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`.
 
 Object ID of the `TickRecord` used to mint the `MOVE` inscription: `0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`.
 
