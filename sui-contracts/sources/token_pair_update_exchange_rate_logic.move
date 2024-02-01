@@ -13,6 +13,8 @@ module sui_swap_example::token_pair_update_exchange_rate_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
+    const EInvalidExchangeRateNumerator: u64 = 11;
+    const EInvalidExchangeRateDenominator: u64 = 12;
 
     public(friend) fun verify<X, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
@@ -23,7 +25,8 @@ module sui_swap_example::token_pair_update_exchange_rate_logic {
     ): token_pair::ExchangeRateUpdated {
         let liquidity_token_id = liquidity_token::id(liquidity_token);
         assert!(token_pair::liquidity_token_id(token_pair) == liquidity_token_id, EInvalidLiquidityToken);
-
+        assert!(exchange_rate_numerator > 0, EInvalidExchangeRateNumerator);
+        assert!(exchange_rate_denominator > 0, EInvalidExchangeRateDenominator);
         token_pair::new_exchange_rate_updated(
             token_pair,
             liquidity_token_id,
@@ -38,15 +41,15 @@ module sui_swap_example::token_pair_update_exchange_rate_logic {
     public(friend) fun mutate<X, Y>(
         exchange_rate_updated: &token_pair::ExchangeRateUpdated,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let liquidity_token_id = exchange_rate_updated::liquidity_token_id(exchange_rate_updated);
+        //let liquidity_token_id = exchange_rate_updated::liquidity_token_id(exchange_rate_updated);
         let exchange_rate_numerator = exchange_rate_updated::exchange_rate_numerator(exchange_rate_updated);
         let exchange_rate_denominator = exchange_rate_updated::exchange_rate_denominator(exchange_rate_updated);
-        let provider = exchange_rate_updated::provider(exchange_rate_updated);
-        let x_token_type = exchange_rate_updated::x_token_type(exchange_rate_updated);
-        let y_token_type = exchange_rate_updated::y_token_type(exchange_rate_updated);
-        let id = token_pair::id(token_pair);
+        //let provider = exchange_rate_updated::provider(exchange_rate_updated);
+        //let x_token_type = exchange_rate_updated::x_token_type(exchange_rate_updated);
+        //let y_token_type = exchange_rate_updated::y_token_type(exchange_rate_updated);
+        //let id = token_pair::id(token_pair);
         token_pair::set_exchange_rate_numerator(token_pair, exchange_rate_numerator);
         token_pair::set_exchange_rate_denominator(token_pair, exchange_rate_denominator);
     }

@@ -13,13 +13,15 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
     use sui_swap_example::exchange_aggregate;
     use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::token_pair;
-    use sui_swap_example::token_util;
 
     friend sui_swap_example::token_pair_aggregate;
 
-    const EAddInvalidLiquidity: u64 = 100;
+    const EInvalidExchangeRateNumerator: u64 = 11;
+    const EInvalidExchangeRateDenominator: u64 = 12;
+    //const EAddInvalidLiquidity: u64 = 100;
     const EInconsistentXAmount: u64 = 101;
 
+    #[lint_allow(self_transfer)]
     public(friend) fun verify<X, Y>(
         exchange: &mut Exchange,
         y_amount: &Balance<Y>,
@@ -31,6 +33,8 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
         let y_amount_i = balance::value(y_amount);
         //let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
         //assert!(liquidity_amount > 0, EAddInvalidLiquidity);
+        assert!(exchange_rate_numerator > 0, EInvalidExchangeRateNumerator);
+        assert!(exchange_rate_denominator > 0, EInvalidExchangeRateDenominator);
 
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<X, Y>(

@@ -8,12 +8,11 @@ module sui_swap_example::exchange_add_token_pair_logic {
     use sui::tx_context::TxContext;
 
     use sui_swap_example::exchange;
-    use sui_swap_example::exchange::Exchange;
     use sui_swap_example::token_pair_added_to_exchange;
 
     friend sui_swap_example::exchange_aggregate;
 
-    const ETokenPairExists: u64 = 100;
+    //const ETokenPairExists: u64 = 100;
 
     public(friend) fun verify<X, Y>(
         token_pair_id: ID,
@@ -31,6 +30,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
         )
     }
 
+    /*
     fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
         let exists: bool = false;
         let x_len = vector::length(&exchange::x_token_types(exchange));
@@ -48,6 +48,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
         };
         assert!(!exists, ETokenPairExists);
     }
+    */
 
     #[allow(unused_type_parameter)]
     public(friend) fun mutate<X, Y>(

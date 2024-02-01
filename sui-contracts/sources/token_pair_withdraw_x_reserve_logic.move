@@ -15,15 +15,18 @@ module sui_swap_example::token_pair_withdraw_x_reserve_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
+    const EInsufficientXReserve: u64 = 11;
 
     public(friend) fun verify<X, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
         x_amount: u64,
         token_pair: &token_pair::TokenPair<X, Y>,
-        ctx: &TxContext,
+        _ctx: &TxContext,
     ): token_pair::X_ReserveWithdrawn {
         let liquidity_token_id = liquidity_token::id(liquidity_token);
         assert!(token_pair::liquidity_token_id(token_pair) == liquidity_token_id, EInvalidLiquidityToken);
+        let x_reserve_amount = balance::value(token_pair::borrow_x_reserve(token_pair));
+        assert!(x_reserve_amount >= x_amount, EInsufficientXReserve);
 
         token_pair::new_x_reserve_withdrawn(
             token_pair,
@@ -37,7 +40,7 @@ module sui_swap_example::token_pair_withdraw_x_reserve_logic {
     public(friend) fun mutate<X, Y>(
         x_reserve_withdrawn: &token_pair::X_ReserveWithdrawn,
         token_pair: &mut token_pair::TokenPair<X, Y>,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        _ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<X> {
         //let liquidity_token_id = x_reserve_withdrawn::liquidity_token_id(x_reserve_withdrawn);
         let x_amount = x_reserve_withdrawn::x_amount(x_reserve_withdrawn);
