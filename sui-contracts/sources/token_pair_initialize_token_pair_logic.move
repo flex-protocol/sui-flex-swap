@@ -27,7 +27,7 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
         exchange_rate_denominator: u64,
         ctx: &mut TxContext,
     ): token_pair::TokenPairInitialized {
-        token_util::assert_type_less_than<X, Y>();
+        //token_util::assert_type_less_than<X, Y>();
         let y_amount_i = balance::value(y_amount);
         //let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount_i, y_amount_i);
         //assert!(liquidity_amount > 0, EAddInvalidLiquidity);
