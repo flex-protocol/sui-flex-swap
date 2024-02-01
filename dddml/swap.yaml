@@ -23,8 +23,8 @@ aggregates:
         type: u64
       ExchangeRateDenominator:
         type: u64
-      #TotalLiquidity:
-      #  type: u64
+      LiquidityTokenId:
+        type: ID #ObjectID
 
     methods:
       InitializeTokenPair:

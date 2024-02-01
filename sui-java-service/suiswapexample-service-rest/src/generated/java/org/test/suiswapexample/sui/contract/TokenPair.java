@@ -47,6 +47,8 @@ public class TokenPair {
 
     private BigInteger exchangeRateDenominator;
 
+    private String liquidityTokenId;
+
     private BigInteger version;
 
     private String x_TokenType;
@@ -101,6 +103,14 @@ public class TokenPair {
         this.exchangeRateDenominator = exchangeRateDenominator;
     }
 
+    public String getLiquidityTokenId() {
+        return liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId) {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
@@ -134,6 +144,7 @@ public class TokenPair {
                 ", y_Reserve=" + y_Reserve +
                 ", exchangeRateNumerator=" + exchangeRateNumerator +
                 ", exchangeRateDenominator=" + exchangeRateDenominator +
+                ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 ", version=" + version +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

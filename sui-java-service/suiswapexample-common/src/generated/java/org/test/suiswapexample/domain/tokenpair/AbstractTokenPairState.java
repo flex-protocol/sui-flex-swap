@@ -65,6 +65,16 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.exchangeRateDenominator = exchangeRateDenominator;
     }
 
+    private String liquidityTokenId;
+
+    public String getLiquidityTokenId() {
+        return this.liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId) {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion() {
@@ -244,6 +254,7 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.setY_Reserve(s.getY_Reserve());
         this.setExchangeRateNumerator(s.getExchangeRateNumerator());
         this.setExchangeRateDenominator(s.getExchangeRateDenominator());
+        this.setLiquidityTokenId(s.getLiquidityTokenId());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
         this.setX_TokenType(s.getX_TokenType());

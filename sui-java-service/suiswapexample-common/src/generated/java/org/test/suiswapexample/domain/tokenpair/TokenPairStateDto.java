@@ -75,6 +75,18 @@ public class TokenPairStateDto {
         this.exchangeRateDenominator = exchangeRateDenominator;
     }
 
+    private String liquidityTokenId;
+
+    public String getLiquidityTokenId()
+    {
+        return this.liquidityTokenId;
+    }
+
+    public void setLiquidityTokenId(String liquidityTokenId)
+    {
+        this.liquidityTokenId = liquidityTokenId;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -226,6 +238,9 @@ public class TokenPairStateDto {
             }
             if (returnedFieldsContains("ExchangeRateDenominator")) {
                 dto.setExchangeRateDenominator(state.getExchangeRateDenominator());
+            }
+            if (returnedFieldsContains("LiquidityTokenId")) {
+                dto.setLiquidityTokenId(state.getLiquidityTokenId());
             }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());

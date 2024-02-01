@@ -3,14 +3,16 @@ module sui_swap_example::token_pair_update_exchange_rate_logic {
     use std::string;
     use std::type_name;
 
-    use sui::object;
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::exchange_rate_updated;
+    use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
 
     friend sui_swap_example::token_pair_aggregate;
+
+    const EInvalidLiquidityToken: u64 = 10;
 
     public(friend) fun verify<X, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
@@ -19,9 +21,9 @@ module sui_swap_example::token_pair_update_exchange_rate_logic {
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
     ): token_pair::ExchangeRateUpdated {
-        let liquidity_token_id = object::id(liquidity_token);
+        let liquidity_token_id = liquidity_token::id(liquidity_token);
+        assert!(token_pair::liquidity_token_id(token_pair) == liquidity_token_id, EInvalidLiquidityToken);
 
-        //todo verify liq token Id
         token_pair::new_exchange_rate_updated(
             token_pair,
             liquidity_token_id,

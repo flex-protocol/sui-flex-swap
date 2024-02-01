@@ -28,6 +28,8 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     BigInteger getExchangeRateDenominator();
 
+    String getLiquidityTokenId();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -56,6 +58,8 @@ public interface TokenPairState extends VersionedSuiMoveObject
         void setExchangeRateNumerator(BigInteger exchangeRateNumerator);
 
         void setExchangeRateDenominator(BigInteger exchangeRateDenominator);
+
+        void setLiquidityTokenId(String liquidityTokenId);
 
         void setOffChainVersion(Long offChainVersion);
 

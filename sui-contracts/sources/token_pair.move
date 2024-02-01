@@ -58,6 +58,7 @@ module sui_swap_example::token_pair {
         y_reserve: Balance<Y>,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
+        liquidity_token_id: ID,
     }
 
     public fun id<X, Y>(token_pair: &TokenPair<X, Y>): object::ID {
@@ -100,6 +101,14 @@ module sui_swap_example::token_pair {
         token_pair.exchange_rate_denominator = exchange_rate_denominator;
     }
 
+    public fun liquidity_token_id<X, Y>(token_pair: &TokenPair<X, Y>): ID {
+        token_pair.liquidity_token_id
+    }
+
+    public(friend) fun set_liquidity_token_id<X, Y>(token_pair: &mut TokenPair<X, Y>, liquidity_token_id: ID) {
+        token_pair.liquidity_token_id = liquidity_token_id;
+    }
+
     public fun admin_cap<X, Y>(token_pair: &TokenPair<X, Y>): ID {
         token_pair.admin_cap
     }
@@ -107,6 +116,7 @@ module sui_swap_example::token_pair {
     public(friend) fun new_token_pair<X, Y>(
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
+        liquidity_token_id: ID,
         ctx: &mut TxContext,
     ): TokenPair<X, Y> {
         let admin_cap = AdminCap {
@@ -123,6 +133,7 @@ module sui_swap_example::token_pair {
             y_reserve: sui::balance::zero(),
             exchange_rate_numerator,
             exchange_rate_denominator,
+            liquidity_token_id,
         }
     }
 
@@ -513,6 +524,7 @@ module sui_swap_example::token_pair {
             y_reserve,
             exchange_rate_numerator: _exchange_rate_numerator,
             exchange_rate_denominator: _exchange_rate_denominator,
+            liquidity_token_id: _liquidity_token_id,
         } = token_pair;
         object::delete(id);
         sui::balance::destroy_zero(x_reserve);

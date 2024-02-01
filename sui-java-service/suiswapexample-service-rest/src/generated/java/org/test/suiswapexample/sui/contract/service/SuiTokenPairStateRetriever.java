@@ -48,6 +48,7 @@ public class SuiTokenPairStateRetriever {
         tokenPairState.setY_Reserve(tokenPair.getY_Reserve());
         tokenPairState.setExchangeRateNumerator(tokenPair.getExchangeRateNumerator());
         tokenPairState.setExchangeRateDenominator(tokenPair.getExchangeRateDenominator());
+        tokenPairState.setLiquidityTokenId(tokenPair.getLiquidityTokenId());
         tokenPairState.setX_TokenType(typeArgs.get(0));
         tokenPairState.setY_TokenType(typeArgs.get(1));
         return tokenPairState;

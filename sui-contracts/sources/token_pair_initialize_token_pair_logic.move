@@ -8,7 +8,6 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
     use sui::object::Self;
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_example::token_pair_initialized;
 
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
@@ -19,6 +18,7 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EAddInvalidLiquidity: u64 = 100;
+    const EInconsistentXAmount: u64 = 101;
 
     public(friend) fun verify<X, Y>(
         exchange: &mut Exchange,
@@ -59,19 +59,29 @@ module sui_swap_example::token_pair_initialize_token_pair_logic {
         exchange: &mut Exchange,
         ctx: &mut TxContext,
     ): token_pair::TokenPair<X, Y> {
-        let exchange_rate_numerator = token_pair::token_pair_initialized_exchange_rate_numerator(token_pair_initialized);
-        let exchange_rate_denominator = token_pair::token_pair_initialized_exchange_rate_denominator(token_pair_initialized);
+        let exchange_rate_numerator = token_pair::token_pair_initialized_exchange_rate_numerator(
+            token_pair_initialized
+        );
+        let exchange_rate_denominator = token_pair::token_pair_initialized_exchange_rate_denominator(
+            token_pair_initialized
+        );
+        let liquidity_token_id = token_pair::token_pair_initialized_liquidity_token_id(token_pair_initialized);
 
         let token_pair = token_pair::new_token_pair(
             exchange_rate_numerator,
             exchange_rate_denominator,
+            liquidity_token_id,
             ctx,
         );
         //
         exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
         //
-        //let x_reserve = token_pair::borrow_mut_x_reserve(&mut token_pair);
-        //sui::balance::join(x_reserve, x_amount);
+        let x_reserve = token_pair::borrow_mut_x_reserve(&mut token_pair);
+        assert!(
+            balance::value(x_reserve) == token_pair::token_pair_initialized_x_amount(token_pair_initialized),
+            EInconsistentXAmount
+        );
+
         let y_reserve = token_pair::borrow_mut_y_reserve(&mut token_pair);
         sui::balance::join(y_reserve, y_amount);
         token_pair
