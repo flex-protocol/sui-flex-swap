@@ -1,7 +1,7 @@
 module sui_swap_example::token_pair_service_process {
     use sui::coin;
     use sui::coin::Coin;
-    use sui::object::{Self, ID};
+    use sui::object;
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::coin_util;
@@ -13,6 +13,7 @@ module sui_swap_example::token_pair_service_process {
 
     const EMismatchedObjectId: u64 = 10;
 
+    #[lint_allow(coin_field)]
     struct InitializeLiquidityGetX_AmountContext<phantom Y> {
         exchange_id: sui::object::ID,
         y_coin: Coin<Y>,
@@ -56,6 +57,7 @@ module sui_swap_example::token_pair_service_process {
         internal_initialize_liquidity(exchange, x, x_amount, y_coin, y_amount, _ctx)
     }
 
+    #[lint_allow(coin_field)]
     struct AddLiquidityGetX_AmountContext<phantom Y> {
         token_pair_id: sui::object::ID,
         liquidity_token_id: sui::object::ID,

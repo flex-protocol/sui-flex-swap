@@ -31,6 +31,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
         )
     }
 
+    #[allow(unused_function)]
     fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
         let exists: bool = false;
         let x_len = vector::length(&exchange::x_token_types(exchange));
