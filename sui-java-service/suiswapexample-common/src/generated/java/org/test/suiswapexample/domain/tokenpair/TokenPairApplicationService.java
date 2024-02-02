@@ -15,6 +15,8 @@ import org.test.suiswapexample.specialization.Event;
 import org.test.suiswapexample.domain.Command;
 
 public interface TokenPairApplicationService {
+    void when(TokenPairCommands.Destroy c);
+
     TokenPairState get(String id);
 
     Iterable<TokenPairState> getAll(Integer firstResult, Integer maxResults);

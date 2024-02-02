@@ -19,6 +19,7 @@ module sui_swap_example::token_pair {
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
+    friend sui_swap_example::token_pair_destroy_logic;
     friend sui_swap_example::token_pair_swap_x_logic;
     friend sui_swap_example::token_pair_swap_y_logic;
     friend sui_swap_example::token_pair_aggregate;
@@ -389,6 +390,32 @@ module sui_swap_example::token_pair {
         }
     }
 
+    struct TokenPairDestroyed has copy, drop {
+        id: object::ID,
+        version: u64,
+        liquidity_token_id: ID,
+    }
+
+    public fun token_pair_destroyed_id(token_pair_destroyed: &TokenPairDestroyed): object::ID {
+        token_pair_destroyed.id
+    }
+
+    public fun token_pair_destroyed_liquidity_token_id(token_pair_destroyed: &TokenPairDestroyed): ID {
+        token_pair_destroyed.liquidity_token_id
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_token_pair_destroyed<X: key + store, Y>(
+        token_pair: &TokenPair<X, Y>,
+        liquidity_token_id: ID,
+    ): TokenPairDestroyed {
+        TokenPairDestroyed {
+            id: id(token_pair),
+            version: version(token_pair),
+            liquidity_token_id,
+        }
+    }
+
     struct XSwappedForY has copy, drop {
         id: object::ID,
         version: u64,
@@ -552,7 +579,6 @@ module sui_swap_example::token_pair {
         //assert!(token_pair.version != 0, EInappropriateVersion);
     }
 
-    /*
     public(friend) fun drop_token_pair<X: key + store, Y>(token_pair: TokenPair<X, Y>) {
         let TokenPair {
             id,
@@ -567,11 +593,10 @@ module sui_swap_example::token_pair {
             liquidity_token_id: _liquidity_token_id,
         } = token_pair;
         object::delete(id);
-        // todo drop x_reserve;
-        // todo drop x_amounts;
+        sui::object_table::destroy_empty(x_reserve);
+        sui::table::destroy_empty(x_amounts);
         sui::balance::destroy_zero(y_reserve);
     }
-    */
 
     public(friend) fun emit_liquidity_initialized(liquidity_initialized: LiquidityInitialized) {
         assert!(std::option::is_some(&liquidity_initialized.id), EEmptyObjectID);
@@ -584,6 +609,10 @@ module sui_swap_example::token_pair {
 
     public(friend) fun emit_liquidity_removed(liquidity_removed: LiquidityRemoved) {
         event::emit(liquidity_removed);
+    }
+
+    public(friend) fun emit_token_pair_destroyed(token_pair_destroyed: TokenPairDestroyed) {
+        event::emit(token_pair_destroyed);
     }
 
     public(friend) fun emit_x_swapped_for_y(x_swapped_for_y: XSwappedForY) {

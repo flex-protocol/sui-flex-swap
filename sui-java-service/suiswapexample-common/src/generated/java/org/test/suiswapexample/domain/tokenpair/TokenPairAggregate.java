@@ -17,6 +17,8 @@ public interface TokenPairAggregate {
 
     List<Event> getChanges();
 
+    void destroy(String liquidityToken, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.Destroy c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 

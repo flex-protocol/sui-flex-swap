@@ -44,5 +44,14 @@ public class SuiTokenPairService {
         tokenPairStateRepository.merge(tokenPairState);
     }
 
+    @Transactional
+    public void deleteTokenPair(String objectId) {
+        TokenPairState.MutableTokenPairState s = (TokenPairState.MutableTokenPairState) tokenPairStateRepository.get(objectId, true);
+        if (s != null) {
+            s.setDeleted(true);
+            tokenPairStateRepository.merge(s);
+        }
+    }
+
 }
 

@@ -4,6 +4,15 @@
 
 ## TokenPair aggregate
 
+### Destroy method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function destroy \
+--type-args 'X' 'Y' \
+--args token_pair_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \
+--gas-budget 100000
+```
+
 ## LiquidityToken aggregate
 
 ## Exchange singleton object

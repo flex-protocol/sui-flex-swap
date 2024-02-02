@@ -29,7 +29,11 @@ public class UpdateTokenPairStateTaskService {
     public void updateTokenPairStates() {
         tokenPairEventRepository.findByStatusIsNull().forEach(e -> {
             String objectId = e.getId();
-            suiTokenPairService.updateTokenPairState(objectId);
+            if (TokenPairEventService.isDeletionCommand(e)) {
+                suiTokenPairService.deleteTokenPair(objectId);
+            } else {
+                suiTokenPairService.updateTokenPairState(objectId);
+            }
             tokenPairEventService.updateStatusToProcessed(e);
         });
     }

@@ -249,6 +249,8 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         setStateReadOnly(false);
         if (false) { 
             ;
+        } else if (e instanceof AbstractTokenPairEvent.TokenPairDestroyed) {
+            when((AbstractTokenPairEvent.TokenPairDestroyed)e);
         } else {
             throw new UnsupportedOperationException(String.format("Unsupported event type: %1$s", e.getClass().getName()));
         }
@@ -454,6 +456,55 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
 //
 //public class RemoveLiquidityLogic {
 //    public static TokenPairState mutate(TokenPairState tokenPairState, String liquidityTokenId, String x_Id, String provider, String x_TokenType, String y_TokenType, BigInteger x_Amount, BigInteger y_Amount, BigInteger liquidityAmount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedTokenPairState) { merge(updatedTokenPairState); } //else do nothing
+
+    }
+
+    public void when(AbstractTokenPairEvent.TokenPairDestroyed e) {
+        throwOnWrongEvent(e);
+
+        String liquidityTokenId = e.getLiquidityTokenId();
+        String LiquidityTokenId = liquidityTokenId;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        TokenPairState updatedTokenPairState = (TokenPairState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.DestroyLogic",
+                    "mutate",
+                    new Class[]{TokenPairState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, liquidityTokenId, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class DestroyLogic {
+//    public static TokenPairState mutate(TokenPairState tokenPairState, String liquidityTokenId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
 //    }
 //}
 

@@ -11,6 +11,7 @@ module sui_swap_example::token_pair_aggregate {
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_add_liquidity_logic;
+    use sui_swap_example::token_pair_destroy_logic;
     use sui_swap_example::token_pair_initialize_liquidity_logic;
     use sui_swap_example::token_pair_remove_liquidity_logic;
     use sui_swap_example::token_pair_swap_x_logic;
@@ -98,6 +99,27 @@ module sui_swap_example::token_pair_aggregate {
         token_pair::update_object_version(token_pair);
         token_pair::emit_liquidity_removed(liquidity_removed);
         (remove_liquidity_return_1, remove_liquidity_return_2)
+    }
+
+    #[allow(unused_mut_parameter)]
+    public entry fun destroy<X: key + store, Y>(
+        token_pair: token_pair::TokenPair<X, Y>,
+        liquidity_token: &LiquidityToken<X, Y>,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        token_pair::assert_schema_version(&token_pair);
+        let token_pair_destroyed = token_pair_destroy_logic::verify<X, Y>(
+            liquidity_token,
+            &token_pair,
+            ctx,
+        );
+        let updated_token_pair = token_pair_destroy_logic::mutate<X, Y>(
+            &token_pair_destroyed,
+            token_pair,
+            ctx,
+        );
+        token_pair::drop_token_pair(updated_token_pair);
+        token_pair::emit_token_pair_destroyed(token_pair_destroyed);
     }
 
     #[allow(unused_mut_parameter)]

@@ -14,6 +14,8 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_LIQUIDITY_REMOVED = "token_pair::LiquidityRemoved";
 
+    public static final String TOKEN_PAIR_MODULE_TOKEN_PAIR_DESTROYED = "token_pair::TokenPairDestroyed";
+
     public static final String TOKEN_PAIR_MODULE_X_SWAPPED_FOR_Y = "token_pair::XSwappedForY";
 
     public static final String TOKEN_PAIR_MODULE_Y_SWAPPED_FOR_X = "token_pair::YSwappedForX";

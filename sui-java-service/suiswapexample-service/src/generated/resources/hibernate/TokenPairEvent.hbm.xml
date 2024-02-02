@@ -46,6 +46,7 @@
       <subclass name="AbstractTokenPairEvent$LiquidityInitialized" discriminator-value="LiquidityInitialized" />
       <subclass name="AbstractTokenPairEvent$LiquidityAdded" discriminator-value="LiquidityAdded" />
       <subclass name="AbstractTokenPairEvent$LiquidityRemoved" discriminator-value="LiquidityRemoved" />
+      <subclass name="AbstractTokenPairEvent$TokenPairDestroyed" discriminator-value="TokenPairDestroyed" />
       <subclass name="AbstractTokenPairEvent$XSwappedForY" discriminator-value="XSwappedForY" />
       <subclass name="AbstractTokenPairEvent$YSwappedForX" discriminator-value="YSwappedForX" />
     </subclass>

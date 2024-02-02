@@ -46,6 +46,19 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             super(state);
         }
 
+        @Override
+        public void destroy(String liquidityToken, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.Destroy c) {
+            java.util.function.Supplier<TokenPairEvent.TokenPairDestroyed> eventFactory = () -> newTokenPairDestroyed(liquidityToken, offChainVersion, commandId, requesterId);
+            TokenPairEvent.TokenPairDestroyed e;
+            try {
+                e = verifyDestroy(eventFactory, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
         protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, String exchange, BigInteger x_Amount, TokenPairCommands.InitializeLiquidity c) {
             String Exchange = exchange;
             BigInteger X_Amount = x_Amount;
@@ -110,6 +123,26 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
+        protected TokenPairEvent.TokenPairDestroyed verifyDestroy(java.util.function.Supplier<TokenPairEvent.TokenPairDestroyed> eventFactory, TokenPairCommands.Destroy c) {
+
+            TokenPairEvent.TokenPairDestroyed e = (TokenPairEvent.TokenPairDestroyed) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.DestroyLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class DestroyLogic {
+//    public static TokenPairEvent.TokenPairDestroyed verify(java.util.function.Supplier<TokenPairEvent.TokenPairDestroyed> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
         protected TokenPairEvent.XSwappedForY verifySwapX(java.util.function.Supplier<TokenPairEvent.XSwappedForY> eventFactory, BigInteger x_Amount, BigInteger expectedY_AmountOut, TokenPairCommands.SwapX c) {
             BigInteger X_Amount = x_Amount;
             BigInteger ExpectedY_AmountOut = expectedY_AmountOut;
@@ -152,6 +185,28 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             return e;
         }
            
+
+        protected AbstractTokenPairEvent.TokenPairDestroyed newTokenPairDestroyed(String liquidityToken, Long offChainVersion, String commandId, String requesterId) {
+            TokenPairEventId eventId = new TokenPairEventId(getState().getId(), null);
+            AbstractTokenPairEvent.TokenPairDestroyed e = new AbstractTokenPairEvent.TokenPairDestroyed();
+
+            e.setLiquidityTokenId(null);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setTokenPairEventId(eventId);
+            return e;
+        }
 
     }
 

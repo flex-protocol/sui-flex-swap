@@ -130,6 +130,13 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
+    interface TokenPairDestroyed extends TokenPairEvent {
+        String getLiquidityTokenId();
+
+        void setLiquidityTokenId(String value);
+
+    }
+
     interface XSwappedForY extends TokenPairEvent {
         BigInteger getX_Amount();
 

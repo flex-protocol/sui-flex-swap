@@ -16,6 +16,7 @@ import org.test.suiswapexample.domain.tokenpair.AbstractTokenPairEvent;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityInitialized;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityAdded;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
+import org.test.suiswapexample.sui.contract.tokenpair.TokenPairDestroyed;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
 import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
 import org.test.suiswapexample.domain.liquiditytoken.AbstractLiquidityTokenEvent;
@@ -131,6 +132,25 @@ public class DomainBeanUtils {
         liquidityRemoved.setSuiSender(eventEnvelope.getSender());
 
         return liquidityRemoved;
+    }
+
+    public static AbstractTokenPairEvent.TokenPairDestroyed toTokenPairDestroyed(SuiMoveEventEnvelope<TokenPairDestroyed> eventEnvelope) {
+        TokenPairDestroyed contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTokenPairEvent.TokenPairDestroyed tokenPairDestroyed = new AbstractTokenPairEvent.TokenPairDestroyed();
+        tokenPairDestroyed.setId(contractEvent.getId());
+        tokenPairDestroyed.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        tokenPairDestroyed.setVersion(contractEvent.getVersion());
+
+        tokenPairDestroyed.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        tokenPairDestroyed.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        tokenPairDestroyed.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        tokenPairDestroyed.setSuiPackageId(eventEnvelope.getPackageId());
+        tokenPairDestroyed.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        tokenPairDestroyed.setSuiSender(eventEnvelope.getSender());
+
+        return tokenPairDestroyed;
     }
 
     public static AbstractTokenPairEvent.XSwappedForY toXSwappedForY(SuiMoveEventEnvelope<XSwappedForY> eventEnvelope) {

@@ -206,6 +206,57 @@ public class TokenPairCommands {
 
     }
 
+    public static class Destroy extends AbstractTokenPairCommand implements TokenPairCommand {
+
+        public String getCommandType() {
+            return "Destroy";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Liquidity Token
+         */
+        private String liquidityToken;
+
+        public String getLiquidityToken() {
+            return this.liquidityToken;
+        }
+
+        public void setLiquidityToken(String liquidityToken) {
+            this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
     public static class SwapX extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {

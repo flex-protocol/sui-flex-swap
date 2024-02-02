@@ -539,6 +539,27 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
+    public static class TokenPairDestroyed extends TokenPairClobEvent implements TokenPairEvent.TokenPairDestroyed {
+
+        @Override
+        public String getEventType() {
+            return "TokenPairDestroyed";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
+    }
+
     public static class XSwappedForY extends TokenPairClobEvent implements TokenPairEvent.XSwappedForY {
 
         @Override

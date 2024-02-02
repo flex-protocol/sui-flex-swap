@@ -17,6 +17,7 @@ import org.test.suiswapexample.sui.contract.SuiPackage;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityInitialized;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityAdded;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
+import org.test.suiswapexample.sui.contract.tokenpair.TokenPairDestroyed;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
 import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
 import org.test.suiswapexample.sui.contract.repository.TokenPairEventRepository;
@@ -27,6 +28,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TokenPairEventService {
+
+    public static final java.util.Set<String> DELETION_COMMAND_EVENTS = new java.util.HashSet<>(java.util.Arrays.asList("TokenPairDestroyed"));
+
+    public static boolean isDeletionCommand(String eventType) {
+        return DELETION_COMMAND_EVENTS.contains(eventType);
+    }
+
+    public static boolean isDeletionCommand(AbstractTokenPairEvent e) {
+        if (isDeletionCommand(e.getEventType())) {
+            return true;
+        }
+        return false;
+    }
 
     @Autowired
     private SuiPackageRepository suiPackageRepository;
@@ -161,6 +175,46 @@ public class TokenPairEventService {
             return;
         }
         tokenPairEventRepository.save(liquidityRemoved);
+    }
+
+    @Transactional
+    public void pullTokenPairDestroyedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getTokenPairDestroyedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<TokenPairDestroyed> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_TOKEN_PAIR_DESTROYED,
+                    cursor, limit, false, TokenPairDestroyed.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<TokenPairDestroyed> eventEnvelope : eventPage.getData()) {
+                    saveTokenPairDestroyed(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getTokenPairDestroyedEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstTokenPairDestroyedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveTokenPairDestroyed(SuiMoveEventEnvelope<TokenPairDestroyed> eventEnvelope) {
+        AbstractTokenPairEvent.TokenPairDestroyed tokenPairDestroyed = DomainBeanUtils.toTokenPairDestroyed(eventEnvelope);
+        if (tokenPairEventRepository.findById(tokenPairDestroyed.getTokenPairEventId()).isPresent()) {
+            return;
+        }
+        tokenPairEventRepository.save(tokenPairDestroyed);
     }
 
     @Transactional

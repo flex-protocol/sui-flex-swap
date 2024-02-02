@@ -31,6 +31,11 @@ public class PullTokenPairEventsTaskService {
         tokenPairEventService.pullLiquidityRemovedEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.token-pair-destroyed.fixed-delay:5000}")
+    public void pullTokenPairDestroyedEvents() {
+        tokenPairEventService.pullTokenPairDestroyedEvents();
+    }
+
     @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.x-swapped-for-y.fixed-delay:5000}")
     public void pullXSwappedForYEvents() {
         tokenPairEventService.pullXSwappedForYEvents();

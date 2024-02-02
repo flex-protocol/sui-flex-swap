@@ -155,6 +155,24 @@ aggregates:
             LiquidityTokenId:
               type: ID #ObjectID
 
+      Destroy:
+        isDeletionCommand: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+        event:
+          name: TokenPairDestroyed
+          properties:
+            LiquidityTokenId:
+              type: ID #ObjectID
+
       SwapX:
         isInternal: true
         typeParameters:
