@@ -168,10 +168,10 @@ public class TokenPairCommands {
 
     }
 
-    public static class DepositY_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+    public static class DepositYReserve extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {
-            return "DepositY_Reserve";
+            return "DepositYReserve";
         }
 
         public void setCommandType(String commandType) {
@@ -206,10 +206,10 @@ public class TokenPairCommands {
 
     }
 
-    public static class WithdrawX_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+    public static class WithdrawXReserve extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {
-            return "WithdrawX_Reserve";
+            return "WithdrawXReserve";
         }
 
         public void setCommandType(String commandType) {
@@ -270,10 +270,10 @@ public class TokenPairCommands {
 
     }
 
-    public static class WithdrawY_Reserve extends AbstractTokenPairCommand implements TokenPairCommand {
+    public static class WithdrawYReserve extends AbstractTokenPairCommand implements TokenPairCommand {
 
         public String getCommandType() {
-            return "WithdrawY_Reserve";
+            return "WithdrawYReserve";
         }
 
         public void setCommandType(String commandType) {

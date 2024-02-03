@@ -7,25 +7,25 @@ module sui_swap_example::y_reserve_withdrawn {
 
     use std::string::String;
     use sui::object::{Self, ID};
-    use sui_swap_example::token_pair::{Self, Y_ReserveWithdrawn};
+    use sui_swap_example::token_pair::{Self, YReserveWithdrawn};
 
-    public fun id(y_reserve_withdrawn: &Y_ReserveWithdrawn): object::ID {
+    public fun id(y_reserve_withdrawn: &YReserveWithdrawn): object::ID {
         token_pair::y_reserve_withdrawn_id(y_reserve_withdrawn)
     }
 
-    public fun liquidity_token_id(y_reserve_withdrawn: &Y_ReserveWithdrawn): ID {
+    public fun liquidity_token_id(y_reserve_withdrawn: &YReserveWithdrawn): ID {
         token_pair::y_reserve_withdrawn_liquidity_token_id(y_reserve_withdrawn)
     }
 
-    public fun y_amount(y_reserve_withdrawn: &Y_ReserveWithdrawn): u64 {
+    public fun y_amount(y_reserve_withdrawn: &YReserveWithdrawn): u64 {
         token_pair::y_reserve_withdrawn_y_amount(y_reserve_withdrawn)
     }
 
-    public fun x_token_type(y_reserve_withdrawn: &Y_ReserveWithdrawn): String {
+    public fun x_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
         token_pair::y_reserve_withdrawn_x_token_type(y_reserve_withdrawn)
     }
 
-    public fun y_token_type(y_reserve_withdrawn: &Y_ReserveWithdrawn): String {
+    public fun y_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
         token_pair::y_reserve_withdrawn_y_token_type(y_reserve_withdrawn)
     }
 

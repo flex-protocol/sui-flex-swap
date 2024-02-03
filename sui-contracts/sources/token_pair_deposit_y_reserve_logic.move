@@ -14,7 +14,7 @@ module sui_swap_example::token_pair_deposit_y_reserve_logic {
         y_amount: &Balance<Y>,
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
-    ): token_pair::Y_ReserveDeposited {
+    ): token_pair::YReserveDeposited {
         token_pair::new_y_reserve_deposited(
             token_pair,
             tx_context::sender(ctx),
@@ -25,7 +25,7 @@ module sui_swap_example::token_pair_deposit_y_reserve_logic {
     }
 
     public(friend) fun mutate<X, Y>(
-        y_reserve_deposited: &token_pair::Y_ReserveDeposited,
+        y_reserve_deposited: &token_pair::YReserveDeposited,
         y_amount: Balance<Y>,
         token_pair: &mut token_pair::TokenPair<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed

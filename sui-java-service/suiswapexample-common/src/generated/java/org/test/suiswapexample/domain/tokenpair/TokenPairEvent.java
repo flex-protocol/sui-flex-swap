@@ -87,7 +87,7 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
-    interface Y_ReserveDeposited extends TokenPairEvent {
+    interface YReserveDeposited extends TokenPairEvent {
         String getProvider();
 
         void setProvider(String value);
@@ -106,7 +106,7 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
-    interface X_ReserveWithdrawn extends TokenPairEvent {
+    interface XReserveWithdrawn extends TokenPairEvent {
         String getLiquidityTokenId();
 
         void setLiquidityTokenId(String value);
@@ -125,7 +125,7 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
-    interface Y_ReserveWithdrawn extends TokenPairEvent {
+    interface YReserveWithdrawn extends TokenPairEvent {
         String getLiquidityTokenId();
 
         void setLiquidityTokenId(String value);

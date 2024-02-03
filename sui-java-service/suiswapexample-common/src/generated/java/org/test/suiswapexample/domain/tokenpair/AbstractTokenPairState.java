@@ -385,7 +385,7 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
 
     }
 
-    public void when(AbstractTokenPairEvent.Y_ReserveDeposited e) {
+    public void when(AbstractTokenPairEvent.YReserveDeposited e) {
         throwOnWrongEvent(e);
 
         String provider = e.getProvider();
@@ -423,7 +423,7 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.setUpdatedAt(e.getCreatedAt());
 
         TokenPairState updatedTokenPairState = (TokenPairState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.DepositY_ReserveLogic",
+                    "org.test.suiswapexample.domain.tokenpair.DepositYReserveLogic",
                     "mutate",
                     new Class[]{TokenPairState.class, String.class, String.class, String.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new Object[]{this, provider, x_TokenType, y_TokenType, y_Amount, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
@@ -431,7 +431,7 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class DepositY_ReserveLogic {
+//public class DepositYReserveLogic {
 //    public static TokenPairState mutate(TokenPairState tokenPairState, String provider, String x_TokenType, String y_TokenType, BigInteger y_Amount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
 //    }
 //}

@@ -12,11 +12,11 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_EXCHANGE_RATE_UPDATED = "token_pair::ExchangeRateUpdated";
 
-    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_DEPOSITED = "token_pair::Y_ReserveDeposited";
+    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_DEPOSITED = "token_pair::YReserveDeposited";
 
-    public static final String TOKEN_PAIR_MODULE_X_RESERVE_WITHDRAWN = "token_pair::X_ReserveWithdrawn";
+    public static final String TOKEN_PAIR_MODULE_X_RESERVE_WITHDRAWN = "token_pair::XReserveWithdrawn";
 
-    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_WITHDRAWN = "token_pair::Y_ReserveWithdrawn";
+    public static final String TOKEN_PAIR_MODULE_Y_RESERVE_WITHDRAWN = "token_pair::YReserveWithdrawn";
 
     public static final String TOKEN_PAIR_MODULE_X_SWAPPED_FOR_Y = "token_pair::XSwappedForY";
 

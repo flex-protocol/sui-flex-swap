@@ -27,18 +27,18 @@ public class PullTokenPairEventsTaskService {
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.y-reserve-deposited.fixed-delay:5000}")
-    public void pullY_ReserveDepositedEvents() {
-        tokenPairEventService.pullY_ReserveDepositedEvents();
+    public void pullYReserveDepositedEvents() {
+        tokenPairEventService.pullYReserveDepositedEvents();
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.x-reserve-withdrawn.fixed-delay:5000}")
-    public void pullX_ReserveWithdrawnEvents() {
-        tokenPairEventService.pullX_ReserveWithdrawnEvents();
+    public void pullXReserveWithdrawnEvents() {
+        tokenPairEventService.pullXReserveWithdrawnEvents();
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.y-reserve-withdrawn.fixed-delay:5000}")
-    public void pullY_ReserveWithdrawnEvents() {
-        tokenPairEventService.pullY_ReserveWithdrawnEvents();
+    public void pullYReserveWithdrawnEvents() {
+        tokenPairEventService.pullYReserveWithdrawnEvents();
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.x-swapped-for-y.fixed-delay:5000}")

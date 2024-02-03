@@ -45,9 +45,9 @@
       </property>
       <subclass name="AbstractTokenPairEvent$TokenPairInitialized" discriminator-value="TokenPairInitialized" />
       <subclass name="AbstractTokenPairEvent$ExchangeRateUpdated" discriminator-value="ExchangeRateUpdated" />
-      <subclass name="AbstractTokenPairEvent$Y_ReserveDeposited" discriminator-value="Y_ReserveDeposited" />
-      <subclass name="AbstractTokenPairEvent$X_ReserveWithdrawn" discriminator-value="X_ReserveWithdrawn" />
-      <subclass name="AbstractTokenPairEvent$Y_ReserveWithdrawn" discriminator-value="Y_ReserveWithdrawn" />
+      <subclass name="AbstractTokenPairEvent$YReserveDeposited" discriminator-value="YReserveDeposited" />
+      <subclass name="AbstractTokenPairEvent$XReserveWithdrawn" discriminator-value="XReserveWithdrawn" />
+      <subclass name="AbstractTokenPairEvent$YReserveWithdrawn" discriminator-value="YReserveWithdrawn" />
       <subclass name="AbstractTokenPairEvent$XSwappedForY" discriminator-value="XSwappedForY" />
     </subclass>
   </class>

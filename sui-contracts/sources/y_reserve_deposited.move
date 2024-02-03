@@ -7,25 +7,25 @@ module sui_swap_example::y_reserve_deposited {
 
     use std::string::String;
     use sui::object;
-    use sui_swap_example::token_pair::{Self, Y_ReserveDeposited};
+    use sui_swap_example::token_pair::{Self, YReserveDeposited};
 
-    public fun id(y_reserve_deposited: &Y_ReserveDeposited): object::ID {
+    public fun id(y_reserve_deposited: &YReserveDeposited): object::ID {
         token_pair::y_reserve_deposited_id(y_reserve_deposited)
     }
 
-    public fun provider(y_reserve_deposited: &Y_ReserveDeposited): address {
+    public fun provider(y_reserve_deposited: &YReserveDeposited): address {
         token_pair::y_reserve_deposited_provider(y_reserve_deposited)
     }
 
-    public fun x_token_type(y_reserve_deposited: &Y_ReserveDeposited): String {
+    public fun x_token_type(y_reserve_deposited: &YReserveDeposited): String {
         token_pair::y_reserve_deposited_x_token_type(y_reserve_deposited)
     }
 
-    public fun y_token_type(y_reserve_deposited: &Y_ReserveDeposited): String {
+    public fun y_token_type(y_reserve_deposited: &YReserveDeposited): String {
         token_pair::y_reserve_deposited_y_token_type(y_reserve_deposited)
     }
 
-    public fun y_amount(y_reserve_deposited: &Y_ReserveDeposited): u64 {
+    public fun y_amount(y_reserve_deposited: &YReserveDeposited): u64 {
         token_pair::y_reserve_deposited_y_amount(y_reserve_deposited)
     }
 

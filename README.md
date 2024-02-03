@@ -51,11 +51,15 @@ sudo docker run -p 3306:3306 --name mysql \
 
 In the `dddml` directory in the root of the repository, create a DDDML file like [this](./dddml/swap.yaml).
 
-
 > **Tip**
 >
 > About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md).
 
+There is one thing worth noting: why do we use property names like `X_Amount` in DDDML files.
+
+Java Bean, in a way, can't handle property names like `XAmount` "correctly" - that is,
+cases where one of the components of the property name is a "single letter".
+To get around this problem, we decided to use property names like `X_Amount` instead of `XAmount`.
 
 ### Run dddappp project creation tool
 

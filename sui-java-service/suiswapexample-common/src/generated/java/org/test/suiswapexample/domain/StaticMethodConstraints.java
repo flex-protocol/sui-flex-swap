@@ -36,7 +36,7 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.tokenpair.DepositY_ReserveLogic",
+                    "org.test.suiswapexample.domain.tokenpair.DepositYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
                     new String[]{"_", "_"}
@@ -44,7 +44,7 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.tokenpair.WithdrawX_ReserveLogic",
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawXReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
                     new String[]{"_", "_", "x_Amount"}
@@ -52,7 +52,7 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.tokenpair.WithdrawY_ReserveLogic",
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
                     new String[]{"_", "_", "y_Amount"}

@@ -104,10 +104,10 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.Y_ReserveDeposited verifyDepositY_Reserve(java.util.function.Supplier<TokenPairEvent.Y_ReserveDeposited> eventFactory, TokenPairCommands.DepositY_Reserve c) {
+        protected TokenPairEvent.YReserveDeposited verifyDepositYReserve(java.util.function.Supplier<TokenPairEvent.YReserveDeposited> eventFactory, TokenPairCommands.DepositYReserve c) {
 
-            TokenPairEvent.Y_ReserveDeposited e = (TokenPairEvent.Y_ReserveDeposited) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.DepositY_ReserveLogic",
+            TokenPairEvent.YReserveDeposited e = (TokenPairEvent.YReserveDeposited) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.DepositYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
                     new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
@@ -115,8 +115,8 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class DepositY_ReserveLogic {
-//    public static TokenPairEvent.Y_ReserveDeposited verify(java.util.function.Supplier<TokenPairEvent.Y_ReserveDeposited> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
+//public class DepositYReserveLogic {
+//    public static TokenPairEvent.YReserveDeposited verify(java.util.function.Supplier<TokenPairEvent.YReserveDeposited> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -124,11 +124,11 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.X_ReserveWithdrawn verifyWithdrawX_Reserve(java.util.function.Supplier<TokenPairEvent.X_ReserveWithdrawn> eventFactory, BigInteger x_Amount, TokenPairCommands.WithdrawX_Reserve c) {
+        protected TokenPairEvent.XReserveWithdrawn verifyWithdrawXReserve(java.util.function.Supplier<TokenPairEvent.XReserveWithdrawn> eventFactory, BigInteger x_Amount, TokenPairCommands.WithdrawXReserve c) {
             BigInteger X_Amount = x_Amount;
 
-            TokenPairEvent.X_ReserveWithdrawn e = (TokenPairEvent.X_ReserveWithdrawn) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.WithdrawX_ReserveLogic",
+            TokenPairEvent.XReserveWithdrawn e = (TokenPairEvent.XReserveWithdrawn) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawXReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
                     new Object[]{eventFactory, getState(), x_Amount, VerificationContext.forCommand(c)}
@@ -136,8 +136,8 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class WithdrawX_ReserveLogic {
-//    public static TokenPairEvent.X_ReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.X_ReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger x_Amount, VerificationContext verificationContext) {
+//public class WithdrawXReserveLogic {
+//    public static TokenPairEvent.XReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.XReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger x_Amount, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -145,11 +145,11 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.Y_ReserveWithdrawn verifyWithdrawY_Reserve(java.util.function.Supplier<TokenPairEvent.Y_ReserveWithdrawn> eventFactory, BigInteger y_Amount, TokenPairCommands.WithdrawY_Reserve c) {
+        protected TokenPairEvent.YReserveWithdrawn verifyWithdrawYReserve(java.util.function.Supplier<TokenPairEvent.YReserveWithdrawn> eventFactory, BigInteger y_Amount, TokenPairCommands.WithdrawYReserve c) {
             BigInteger Y_Amount = y_Amount;
 
-            TokenPairEvent.Y_ReserveWithdrawn e = (TokenPairEvent.Y_ReserveWithdrawn) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.tokenpair.WithdrawY_ReserveLogic",
+            TokenPairEvent.YReserveWithdrawn e = (TokenPairEvent.YReserveWithdrawn) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.WithdrawYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, VerificationContext.class},
                     new Object[]{eventFactory, getState(), y_Amount, VerificationContext.forCommand(c)}
@@ -157,8 +157,8 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
-//public class WithdrawY_ReserveLogic {
-//    public static TokenPairEvent.Y_ReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.Y_ReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger y_Amount, VerificationContext verificationContext) {
+//public class WithdrawYReserveLogic {
+//    public static TokenPairEvent.YReserveWithdrawn verify(java.util.function.Supplier<TokenPairEvent.YReserveWithdrawn> eventFactory, TokenPairState tokenPairState, BigInteger y_Amount, VerificationContext verificationContext) {
 //    }
 //}
 

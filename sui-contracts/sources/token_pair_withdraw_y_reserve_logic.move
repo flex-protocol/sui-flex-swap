@@ -22,7 +22,7 @@ module sui_swap_example::token_pair_withdraw_y_reserve_logic {
         y_amount: u64,
         token_pair: &token_pair::TokenPair<X, Y>,
         _ctx: &TxContext,
-    ): token_pair::Y_ReserveWithdrawn {
+    ): token_pair::YReserveWithdrawn {
         let liquidity_token_id = liquidity_token::id(liquidity_token);
         assert!(token_pair::liquidity_token_id(token_pair) == liquidity_token_id, EInvalidLiquidityToken);
         let y_reserve_amount = balance::value(token_pair::borrow_y_reserve(token_pair));
@@ -38,7 +38,7 @@ module sui_swap_example::token_pair_withdraw_y_reserve_logic {
     }
 
     public(friend) fun mutate<X, Y>(
-        y_reserve_withdrawn: &token_pair::Y_ReserveWithdrawn,
+        y_reserve_withdrawn: &token_pair::YReserveWithdrawn,
         token_pair: &mut token_pair::TokenPair<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {

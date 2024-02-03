@@ -15,9 +15,9 @@ import com.github.wubuku.sui.bean.ObjectTable;
 import org.test.suiswapexample.domain.tokenpair.AbstractTokenPairEvent;
 import org.test.suiswapexample.sui.contract.tokenpair.TokenPairInitialized;
 import org.test.suiswapexample.sui.contract.tokenpair.ExchangeRateUpdated;
-import org.test.suiswapexample.sui.contract.tokenpair.Y_ReserveDeposited;
-import org.test.suiswapexample.sui.contract.tokenpair.X_ReserveWithdrawn;
-import org.test.suiswapexample.sui.contract.tokenpair.Y_ReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.tokenpair.YReserveDeposited;
+import org.test.suiswapexample.sui.contract.tokenpair.XReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.tokenpair.YReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
 import org.test.suiswapexample.domain.liquiditytoken.AbstractLiquidityTokenEvent;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenMinted;
@@ -106,70 +106,70 @@ public class DomainBeanUtils {
         return exchangeRateUpdated;
     }
 
-    public static AbstractTokenPairEvent.Y_ReserveDeposited toY_ReserveDeposited(SuiMoveEventEnvelope<Y_ReserveDeposited> eventEnvelope) {
-        Y_ReserveDeposited contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractTokenPairEvent.YReserveDeposited toYReserveDeposited(SuiMoveEventEnvelope<YReserveDeposited> eventEnvelope) {
+        YReserveDeposited contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractTokenPairEvent.Y_ReserveDeposited y_ReserveDeposited = new AbstractTokenPairEvent.Y_ReserveDeposited();
-        y_ReserveDeposited.setId(contractEvent.getId());
-        y_ReserveDeposited.setProvider(contractEvent.getProvider());
-        y_ReserveDeposited.setX_TokenType(contractEvent.getX_TokenType());
-        y_ReserveDeposited.setY_TokenType(contractEvent.getY_TokenType());
-        y_ReserveDeposited.setY_Amount(contractEvent.getY_Amount());
-        y_ReserveDeposited.setVersion(contractEvent.getVersion());
+        AbstractTokenPairEvent.YReserveDeposited yReserveDeposited = new AbstractTokenPairEvent.YReserveDeposited();
+        yReserveDeposited.setId(contractEvent.getId());
+        yReserveDeposited.setProvider(contractEvent.getProvider());
+        yReserveDeposited.setX_TokenType(contractEvent.getX_TokenType());
+        yReserveDeposited.setY_TokenType(contractEvent.getY_TokenType());
+        yReserveDeposited.setY_Amount(contractEvent.getY_Amount());
+        yReserveDeposited.setVersion(contractEvent.getVersion());
 
-        y_ReserveDeposited.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        y_ReserveDeposited.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        y_ReserveDeposited.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        yReserveDeposited.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        yReserveDeposited.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        yReserveDeposited.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        y_ReserveDeposited.setSuiPackageId(eventEnvelope.getPackageId());
-        y_ReserveDeposited.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        y_ReserveDeposited.setSuiSender(eventEnvelope.getSender());
+        yReserveDeposited.setSuiPackageId(eventEnvelope.getPackageId());
+        yReserveDeposited.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        yReserveDeposited.setSuiSender(eventEnvelope.getSender());
 
-        return y_ReserveDeposited;
+        return yReserveDeposited;
     }
 
-    public static AbstractTokenPairEvent.X_ReserveWithdrawn toX_ReserveWithdrawn(SuiMoveEventEnvelope<X_ReserveWithdrawn> eventEnvelope) {
-        X_ReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractTokenPairEvent.XReserveWithdrawn toXReserveWithdrawn(SuiMoveEventEnvelope<XReserveWithdrawn> eventEnvelope) {
+        XReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractTokenPairEvent.X_ReserveWithdrawn x_ReserveWithdrawn = new AbstractTokenPairEvent.X_ReserveWithdrawn();
-        x_ReserveWithdrawn.setId(contractEvent.getId());
-        x_ReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
-        x_ReserveWithdrawn.setX_Amount(contractEvent.getX_Amount());
-        x_ReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
-        x_ReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
-        x_ReserveWithdrawn.setVersion(contractEvent.getVersion());
+        AbstractTokenPairEvent.XReserveWithdrawn xReserveWithdrawn = new AbstractTokenPairEvent.XReserveWithdrawn();
+        xReserveWithdrawn.setId(contractEvent.getId());
+        xReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        xReserveWithdrawn.setX_Amount(contractEvent.getX_Amount());
+        xReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
+        xReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
+        xReserveWithdrawn.setVersion(contractEvent.getVersion());
 
-        x_ReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        x_ReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        x_ReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        xReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        xReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        xReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        x_ReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
-        x_ReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        x_ReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
+        xReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
+        xReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        xReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
 
-        return x_ReserveWithdrawn;
+        return xReserveWithdrawn;
     }
 
-    public static AbstractTokenPairEvent.Y_ReserveWithdrawn toY_ReserveWithdrawn(SuiMoveEventEnvelope<Y_ReserveWithdrawn> eventEnvelope) {
-        Y_ReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractTokenPairEvent.YReserveWithdrawn toYReserveWithdrawn(SuiMoveEventEnvelope<YReserveWithdrawn> eventEnvelope) {
+        YReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractTokenPairEvent.Y_ReserveWithdrawn y_ReserveWithdrawn = new AbstractTokenPairEvent.Y_ReserveWithdrawn();
-        y_ReserveWithdrawn.setId(contractEvent.getId());
-        y_ReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
-        y_ReserveWithdrawn.setY_Amount(contractEvent.getY_Amount());
-        y_ReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
-        y_ReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
-        y_ReserveWithdrawn.setVersion(contractEvent.getVersion());
+        AbstractTokenPairEvent.YReserveWithdrawn yReserveWithdrawn = new AbstractTokenPairEvent.YReserveWithdrawn();
+        yReserveWithdrawn.setId(contractEvent.getId());
+        yReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        yReserveWithdrawn.setY_Amount(contractEvent.getY_Amount());
+        yReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
+        yReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
+        yReserveWithdrawn.setVersion(contractEvent.getVersion());
 
-        y_ReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        y_ReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        y_ReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        yReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        yReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        yReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        y_ReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
-        y_ReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        y_ReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
+        yReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
+        yReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        yReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
 
-        return y_ReserveWithdrawn;
+        return yReserveWithdrawn;
     }
 
     public static AbstractTokenPairEvent.XSwappedForY toXSwappedForY(SuiMoveEventEnvelope<XSwappedForY> eventEnvelope) {

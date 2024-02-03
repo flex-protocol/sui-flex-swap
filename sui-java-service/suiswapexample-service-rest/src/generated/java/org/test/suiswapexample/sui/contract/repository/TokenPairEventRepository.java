@@ -17,11 +17,11 @@ public interface TokenPairEventRepository extends JpaRepository<AbstractTokenPai
 
     AbstractTokenPairEvent.ExchangeRateUpdated findFirstExchangeRateUpdatedByOrderBySuiTimestampDesc();
 
-    AbstractTokenPairEvent.Y_ReserveDeposited findFirstY_ReserveDepositedByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.YReserveDeposited findFirstYReserveDepositedByOrderBySuiTimestampDesc();
 
-    AbstractTokenPairEvent.X_ReserveWithdrawn findFirstX_ReserveWithdrawnByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.XReserveWithdrawn findFirstXReserveWithdrawnByOrderBySuiTimestampDesc();
 
-    AbstractTokenPairEvent.Y_ReserveWithdrawn findFirstY_ReserveWithdrawnByOrderBySuiTimestampDesc();
+    AbstractTokenPairEvent.YReserveWithdrawn findFirstYReserveWithdrawnByOrderBySuiTimestampDesc();
 
     AbstractTokenPairEvent.XSwappedForY findFirstXSwappedForYByOrderBySuiTimestampDesc();
 

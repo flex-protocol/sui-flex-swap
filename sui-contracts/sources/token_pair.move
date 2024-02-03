@@ -287,7 +287,7 @@ module sui_swap_example::token_pair {
         }
     }
 
-    struct Y_ReserveDeposited has copy, drop {
+    struct YReserveDeposited has copy, drop {
         id: object::ID,
         version: u64,
         provider: address,
@@ -296,23 +296,23 @@ module sui_swap_example::token_pair {
         y_amount: u64,
     }
 
-    public fun y_reserve_deposited_id(y_reserve_deposited: &Y_ReserveDeposited): object::ID {
+    public fun y_reserve_deposited_id(y_reserve_deposited: &YReserveDeposited): object::ID {
         y_reserve_deposited.id
     }
 
-    public fun y_reserve_deposited_provider(y_reserve_deposited: &Y_ReserveDeposited): address {
+    public fun y_reserve_deposited_provider(y_reserve_deposited: &YReserveDeposited): address {
         y_reserve_deposited.provider
     }
 
-    public fun y_reserve_deposited_x_token_type(y_reserve_deposited: &Y_ReserveDeposited): String {
+    public fun y_reserve_deposited_x_token_type(y_reserve_deposited: &YReserveDeposited): String {
         y_reserve_deposited.x_token_type
     }
 
-    public fun y_reserve_deposited_y_token_type(y_reserve_deposited: &Y_ReserveDeposited): String {
+    public fun y_reserve_deposited_y_token_type(y_reserve_deposited: &YReserveDeposited): String {
         y_reserve_deposited.y_token_type
     }
 
-    public fun y_reserve_deposited_y_amount(y_reserve_deposited: &Y_ReserveDeposited): u64 {
+    public fun y_reserve_deposited_y_amount(y_reserve_deposited: &YReserveDeposited): u64 {
         y_reserve_deposited.y_amount
     }
 
@@ -323,8 +323,8 @@ module sui_swap_example::token_pair {
         x_token_type: String,
         y_token_type: String,
         y_amount: u64,
-    ): Y_ReserveDeposited {
-        Y_ReserveDeposited {
+    ): YReserveDeposited {
+        YReserveDeposited {
             id: id(token_pair),
             version: version(token_pair),
             provider,
@@ -334,7 +334,7 @@ module sui_swap_example::token_pair {
         }
     }
 
-    struct X_ReserveWithdrawn has copy, drop {
+    struct XReserveWithdrawn has copy, drop {
         id: object::ID,
         version: u64,
         liquidity_token_id: ID,
@@ -343,23 +343,23 @@ module sui_swap_example::token_pair {
         y_token_type: String,
     }
 
-    public fun x_reserve_withdrawn_id(x_reserve_withdrawn: &X_ReserveWithdrawn): object::ID {
+    public fun x_reserve_withdrawn_id(x_reserve_withdrawn: &XReserveWithdrawn): object::ID {
         x_reserve_withdrawn.id
     }
 
-    public fun x_reserve_withdrawn_liquidity_token_id(x_reserve_withdrawn: &X_ReserveWithdrawn): ID {
+    public fun x_reserve_withdrawn_liquidity_token_id(x_reserve_withdrawn: &XReserveWithdrawn): ID {
         x_reserve_withdrawn.liquidity_token_id
     }
 
-    public fun x_reserve_withdrawn_x_amount(x_reserve_withdrawn: &X_ReserveWithdrawn): u64 {
+    public fun x_reserve_withdrawn_x_amount(x_reserve_withdrawn: &XReserveWithdrawn): u64 {
         x_reserve_withdrawn.x_amount
     }
 
-    public fun x_reserve_withdrawn_x_token_type(x_reserve_withdrawn: &X_ReserveWithdrawn): String {
+    public fun x_reserve_withdrawn_x_token_type(x_reserve_withdrawn: &XReserveWithdrawn): String {
         x_reserve_withdrawn.x_token_type
     }
 
-    public fun x_reserve_withdrawn_y_token_type(x_reserve_withdrawn: &X_ReserveWithdrawn): String {
+    public fun x_reserve_withdrawn_y_token_type(x_reserve_withdrawn: &XReserveWithdrawn): String {
         x_reserve_withdrawn.y_token_type
     }
 
@@ -370,8 +370,8 @@ module sui_swap_example::token_pair {
         x_amount: u64,
         x_token_type: String,
         y_token_type: String,
-    ): X_ReserveWithdrawn {
-        X_ReserveWithdrawn {
+    ): XReserveWithdrawn {
+        XReserveWithdrawn {
             id: id(token_pair),
             version: version(token_pair),
             liquidity_token_id,
@@ -381,7 +381,7 @@ module sui_swap_example::token_pair {
         }
     }
 
-    struct Y_ReserveWithdrawn has copy, drop {
+    struct YReserveWithdrawn has copy, drop {
         id: object::ID,
         version: u64,
         liquidity_token_id: ID,
@@ -390,23 +390,23 @@ module sui_swap_example::token_pair {
         y_token_type: String,
     }
 
-    public fun y_reserve_withdrawn_id(y_reserve_withdrawn: &Y_ReserveWithdrawn): object::ID {
+    public fun y_reserve_withdrawn_id(y_reserve_withdrawn: &YReserveWithdrawn): object::ID {
         y_reserve_withdrawn.id
     }
 
-    public fun y_reserve_withdrawn_liquidity_token_id(y_reserve_withdrawn: &Y_ReserveWithdrawn): ID {
+    public fun y_reserve_withdrawn_liquidity_token_id(y_reserve_withdrawn: &YReserveWithdrawn): ID {
         y_reserve_withdrawn.liquidity_token_id
     }
 
-    public fun y_reserve_withdrawn_y_amount(y_reserve_withdrawn: &Y_ReserveWithdrawn): u64 {
+    public fun y_reserve_withdrawn_y_amount(y_reserve_withdrawn: &YReserveWithdrawn): u64 {
         y_reserve_withdrawn.y_amount
     }
 
-    public fun y_reserve_withdrawn_x_token_type(y_reserve_withdrawn: &Y_ReserveWithdrawn): String {
+    public fun y_reserve_withdrawn_x_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
         y_reserve_withdrawn.x_token_type
     }
 
-    public fun y_reserve_withdrawn_y_token_type(y_reserve_withdrawn: &Y_ReserveWithdrawn): String {
+    public fun y_reserve_withdrawn_y_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
         y_reserve_withdrawn.y_token_type
     }
 
@@ -417,8 +417,8 @@ module sui_swap_example::token_pair {
         y_amount: u64,
         x_token_type: String,
         y_token_type: String,
-    ): Y_ReserveWithdrawn {
-        Y_ReserveWithdrawn {
+    ): YReserveWithdrawn {
+        YReserveWithdrawn {
             id: id(token_pair),
             version: version(token_pair),
             liquidity_token_id,
@@ -499,11 +499,13 @@ module sui_swap_example::token_pair {
         transfer::share_object(token_pair);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::freeze_object(token_pair);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun update_version_and_freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
         update_object_version(&mut token_pair);
         transfer::freeze_object(token_pair);
@@ -540,15 +542,15 @@ module sui_swap_example::token_pair {
         event::emit(exchange_rate_updated);
     }
 
-    public(friend) fun emit_y_reserve_deposited(y_reserve_deposited: Y_ReserveDeposited) {
+    public(friend) fun emit_y_reserve_deposited(y_reserve_deposited: YReserveDeposited) {
         event::emit(y_reserve_deposited);
     }
 
-    public(friend) fun emit_x_reserve_withdrawn(x_reserve_withdrawn: X_ReserveWithdrawn) {
+    public(friend) fun emit_x_reserve_withdrawn(x_reserve_withdrawn: XReserveWithdrawn) {
         event::emit(x_reserve_withdrawn);
     }
 
-    public(friend) fun emit_y_reserve_withdrawn(y_reserve_withdrawn: Y_ReserveWithdrawn) {
+    public(friend) fun emit_y_reserve_withdrawn(y_reserve_withdrawn: YReserveWithdrawn) {
         event::emit(y_reserve_withdrawn);
     }
 

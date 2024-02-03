@@ -410,11 +410,11 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
-    public static class Y_ReserveDeposited extends TokenPairClobEvent implements TokenPairEvent.Y_ReserveDeposited {
+    public static class YReserveDeposited extends TokenPairClobEvent implements TokenPairEvent.YReserveDeposited {
 
         @Override
         public String getEventType() {
-            return "Y_ReserveDeposited";
+            return "YReserveDeposited";
         }
 
         public String getProvider() {
@@ -467,11 +467,11 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
-    public static class X_ReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.X_ReserveWithdrawn {
+    public static class XReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.XReserveWithdrawn {
 
         @Override
         public String getEventType() {
-            return "X_ReserveWithdrawn";
+            return "XReserveWithdrawn";
         }
 
         public String getLiquidityTokenId() {
@@ -524,11 +524,11 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
-    public static class Y_ReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.Y_ReserveWithdrawn {
+    public static class YReserveWithdrawn extends TokenPairClobEvent implements TokenPairEvent.YReserveWithdrawn {
 
         @Override
         public String getEventType() {
-            return "Y_ReserveWithdrawn";
+            return "YReserveWithdrawn";
         }
 
         public String getLiquidityTokenId() {
