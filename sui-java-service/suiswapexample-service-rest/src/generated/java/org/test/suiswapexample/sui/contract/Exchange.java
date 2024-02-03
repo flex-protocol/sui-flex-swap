@@ -47,6 +47,12 @@ public class Exchange {
 
     private String[] tokenPairY_TokenTypes;
 
+    private String[] sellPools;
+
+    private String[] sellPoolX_TokenTypes;
+
+    private String[] sellPoolY_TokenTypes;
+
     private BigInteger version;
 
     public UID getId() {
@@ -97,6 +103,30 @@ public class Exchange {
         this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
     }
 
+    public String[] getSellPools() {
+        return sellPools;
+    }
+
+    public void setSellPools(String[] sellPools) {
+        this.sellPools = sellPools;
+    }
+
+    public String[] getSellPoolX_TokenTypes() {
+        return sellPoolX_TokenTypes;
+    }
+
+    public void setSellPoolX_TokenTypes(String[] sellPoolX_TokenTypes) {
+        this.sellPoolX_TokenTypes = sellPoolX_TokenTypes;
+    }
+
+    public String[] getSellPoolY_TokenTypes() {
+        return sellPoolY_TokenTypes;
+    }
+
+    public void setSellPoolY_TokenTypes(String[] sellPoolY_TokenTypes) {
+        this.sellPoolY_TokenTypes = sellPoolY_TokenTypes;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
@@ -114,6 +144,9 @@ public class Exchange {
                 ", tokenPairs=" + Arrays.toString(tokenPairs) +
                 ", tokenPairX_TokenTypes=" + Arrays.toString(tokenPairX_TokenTypes) +
                 ", tokenPairY_TokenTypes=" + Arrays.toString(tokenPairY_TokenTypes) +
+                ", sellPools=" + Arrays.toString(sellPools) +
+                ", sellPoolX_TokenTypes=" + Arrays.toString(sellPoolX_TokenTypes) +
+                ", sellPoolY_TokenTypes=" + Arrays.toString(sellPoolY_TokenTypes) +
                 ", version=" + version +
                 '}';
     }

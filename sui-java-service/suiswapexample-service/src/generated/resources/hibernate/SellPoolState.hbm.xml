@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"[]>
+<hibernate-mapping package="org.test.suiswapexample.domain.sellpool">
+  <class name="org.test.suiswapexample.domain.sellpool.AbstractSellPoolState$SimpleSellPoolState" table="sell_pool">
+    <id name="id" length="66">
+      <column name="id" sql-type="VARCHAR(66)" />
+      <generator class="assigned" />
+    </id>
+    <version name="offChainVersion" column="off_chain_version" type="long" />
+    <component name="x_Reserve" class="org.test.suiswapexample.domain.ObjectTable">
+      <property name="id">
+        <column name="x_reserve_id" sql-type="VARCHAR(66)" />
+      </property>
+      <property name="size">
+        <column name="x_reserve_size" />
+      </property>
+    </component>
+    <component name="x_Amounts" class="org.test.suiswapexample.domain.Table">
+      <property name="id">
+        <column name="x_amounts_id" sql-type="VARCHAR(66)" />
+      </property>
+      <property name="size">
+        <column name="x_amounts_size" />
+      </property>
+    </component>
+    <property name="x_TotalAmount">
+      <column name="x_total_amount" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="y_Reserve">
+      <column name="y_reserve" />
+    </property>
+    <property name="liquidityTokenId">
+      <column name="liquidity_token_id" sql-type="VARCHAR(66)" />
+    </property>
+    <property name="x_SoldAmount">
+      <column name="x_sold_amount" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="exchangeRateNumerator">
+      <column name="exchange_rate_numerator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="exchangeRateDenominator">
+      <column name="exchange_rate_denominator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="priceCurveType">
+      <column name="price_curve_type" />
+    </property>
+    <property name="priceDeltaX_Amount">
+      <column name="price_delta_x_amount" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="priceDeltaNumerator">
+      <column name="price_delta_numerator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="priceDeltaDenominator">
+      <column name="price_delta_denominator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="version">
+      <column name="version" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="createdBy">
+      <column name="created_by" />
+    </property>
+    <property name="updatedBy">
+      <column name="updated_by" />
+    </property>
+    <property name="active">
+      <column name="active" />
+    </property>
+    <property name="deleted">
+      <column name="deleted" />
+    </property>
+    <property name="x_TokenType">
+      <column name="x_token_type" length="255" />
+    </property>
+    <property name="y_TokenType">
+      <column name="y_token_type" length="255" />
+    </property>
+    <property name="createdAt" column="created_at" />
+    <property name="updatedAt" column="updated_at" />
+  </class>
+</hibernate-mapping>

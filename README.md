@@ -7,6 +7,22 @@ And the `LiquidityToken` degenerates into a "capability" object.
 We use it to control access to "add liquidity" and "remove liquidity".
 The account that owns it can be thought of as the owner of the `TokenPair` (pool).
 
+### Sell Pool
+
+The `SellPool` entity has some similarity to `TokenPair`.
+
+* It has `ExchangeRateNumerator` and `ExchangeRateDenominator` properties, 
+    which represent the "exchange rate" of NFT (X Token) to Token Y. (Similar to `fixed-exchange-rate` branch version.)
+* Implement a linear price curve (exponential curve will be implemented later). 
+    To do this, the pool needs a couple of properties: 
+    for every `PriceDeltaX_Amount` sold, the price of X Token increases by `PriceDeltaNumerator` / `PriceDeltaDenominator`.
+* Anyone can create a Sell Pool.
+* The owner of the pool can modify the NFT price related settings of the pool; 
+    can add X Token (NFT); can take out X Token; can take out Y Token (FT) reserve.
+    The owner of the pool can destroy the pool.
+* Methods of sell pool for general users include `BuyX`, i.e. "Swap-Y-For-X".
+
+
 ## Prerequisites
 
 Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.

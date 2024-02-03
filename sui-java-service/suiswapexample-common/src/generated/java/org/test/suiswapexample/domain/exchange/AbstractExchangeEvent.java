@@ -266,6 +266,51 @@ public abstract class AbstractExchangeEvent extends AbstractEvent implements Exc
 
     }
 
+    public static class SellPoolAddedToExchange extends ExchangeClobEvent implements ExchangeEvent.SellPoolAddedToExchange {
+
+        @Override
+        public String getEventType() {
+            return "SellPoolAddedToExchange";
+        }
+
+        public String getSellPoolId() {
+            Object val = getDynamicProperties().get("sellPoolId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setSellPoolId(String value) {
+            getDynamicProperties().put("sellPoolId", value);
+        }
+
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
+        }
+
+    }
+
     public static class ExchangeUpdated extends ExchangeClobEvent implements ExchangeEvent.ExchangeUpdated {
 
         @Override

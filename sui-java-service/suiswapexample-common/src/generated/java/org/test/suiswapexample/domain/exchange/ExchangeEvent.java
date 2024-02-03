@@ -39,6 +39,21 @@ public interface ExchangeEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
     }
 
+    interface SellPoolAddedToExchange extends ExchangeEvent {
+        String getSellPoolId();
+
+        void setSellPoolId(String value);
+
+        String getX_TokenType();
+
+        void setX_TokenType(String value);
+
+        String getY_TokenType();
+
+        void setY_TokenType(String value);
+
+    }
+
     interface ExchangeUpdated extends ExchangeEvent {
         String getName();
 

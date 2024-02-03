@@ -13,7 +13,7 @@ module sui_swap_example::exchange_add_token_pair_logic {
 
     friend sui_swap_example::exchange_aggregate;
 
-    const ETokenPairExists: u64 = 100;
+    //const ETokenPairExists: u64 = 100;
 
     public(friend) fun verify<X: key + store, Y>(
         token_pair_id: ID,
@@ -29,25 +29,6 @@ module sui_swap_example::exchange_add_token_pair_logic {
             x_token_type,
             y_token_type,
         )
-    }
-
-    #[allow(unused_function)]
-    fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
-        let exists: bool = false;
-        let x_len = vector::length(&exchange::token_pair_x_token_types(exchange));
-        let i = 0;
-        while (i < x_len) {
-            let x = vector::borrow(&exchange::token_pair_x_token_types(exchange), i);
-            if (*x == x_token_type) {
-                let y = vector::borrow(&exchange::token_pair_y_token_types(exchange), i);
-                if (*y == y_token_type) {
-                    exists = true;
-                    break
-                };
-            };
-            i = i + 1;
-        };
-        assert!(!exists, ETokenPairExists);
     }
 
     #[allow(unused_type_parameter)]
@@ -69,4 +50,26 @@ module sui_swap_example::exchange_add_token_pair_logic {
         exchange::set_token_pair_x_token_types(exchange, x_token_types);
         exchange::set_token_pair_y_token_types(exchange, y_token_types);
     }
+
+
+    /*
+    #[allow(unused_function)]
+    fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
+        let exists: bool = false;
+        let x_len = vector::length(&exchange::token_pair_x_token_types(exchange));
+        let i = 0;
+        while (i < x_len) {
+            let x = vector::borrow(&exchange::token_pair_x_token_types(exchange), i);
+            if (*x == x_token_type) {
+                let y = vector::borrow(&exchange::token_pair_y_token_types(exchange), i);
+                if (*y == y_token_type) {
+                    exists = true;
+                    break
+                };
+            };
+            i = i + 1;
+        };
+        assert!(!exists, ETokenPairExists);
+    }
+    */
 }

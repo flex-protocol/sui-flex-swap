@@ -13,6 +13,7 @@ module sui_swap_example::exchange {
     struct EXCHANGE has drop {}
 
     friend sui_swap_example::exchange_add_token_pair_logic;
+    friend sui_swap_example::exchange_add_sell_pool_logic;
     friend sui_swap_example::exchange_update_logic;
     friend sui_swap_example::exchange_aggregate;
 
@@ -56,6 +57,9 @@ module sui_swap_example::exchange {
         token_pairs: vector<ID>,
         token_pair_x_token_types: vector<String>,
         token_pair_y_token_types: vector<String>,
+        sell_pools: vector<ID>,
+        sell_pool_x_token_types: vector<String>,
+        sell_pool_y_token_types: vector<String>,
     }
 
     public fun id(exchange: &Exchange): object::ID {
@@ -99,6 +103,30 @@ module sui_swap_example::exchange {
         exchange.token_pair_y_token_types = token_pair_y_token_types;
     }
 
+    public fun sell_pools(exchange: &Exchange): vector<ID> {
+        exchange.sell_pools
+    }
+
+    public(friend) fun set_sell_pools(exchange: &mut Exchange, sell_pools: vector<ID>) {
+        exchange.sell_pools = sell_pools;
+    }
+
+    public fun sell_pool_x_token_types(exchange: &Exchange): vector<String> {
+        exchange.sell_pool_x_token_types
+    }
+
+    public(friend) fun set_sell_pool_x_token_types(exchange: &mut Exchange, sell_pool_x_token_types: vector<String>) {
+        exchange.sell_pool_x_token_types = sell_pool_x_token_types;
+    }
+
+    public fun sell_pool_y_token_types(exchange: &Exchange): vector<String> {
+        exchange.sell_pool_y_token_types
+    }
+
+    public(friend) fun set_sell_pool_y_token_types(exchange: &mut Exchange, sell_pool_y_token_types: vector<String>) {
+        exchange.sell_pool_y_token_types = sell_pool_y_token_types;
+    }
+
     public fun admin_cap(exchange: &Exchange): ID {
         exchange.admin_cap
     }
@@ -121,6 +149,9 @@ module sui_swap_example::exchange {
             token_pairs: std::vector::empty(),
             token_pair_x_token_types: std::vector::empty(),
             token_pair_y_token_types: std::vector::empty(),
+            sell_pools: std::vector::empty(),
+            sell_pool_x_token_types: std::vector::empty(),
+            sell_pool_y_token_types: std::vector::empty(),
         }
     }
 
@@ -180,6 +211,45 @@ module sui_swap_example::exchange {
             id: id(exchange),
             version: version(exchange),
             token_pair_id,
+            x_token_type,
+            y_token_type,
+        }
+    }
+
+    struct SellPoolAddedToExchange has copy, drop {
+        id: object::ID,
+        version: u64,
+        sell_pool_id: ID,
+        x_token_type: String,
+        y_token_type: String,
+    }
+
+    public fun sell_pool_added_to_exchange_id(sell_pool_added_to_exchange: &SellPoolAddedToExchange): object::ID {
+        sell_pool_added_to_exchange.id
+    }
+
+    public fun sell_pool_added_to_exchange_sell_pool_id(sell_pool_added_to_exchange: &SellPoolAddedToExchange): ID {
+        sell_pool_added_to_exchange.sell_pool_id
+    }
+
+    public fun sell_pool_added_to_exchange_x_token_type(sell_pool_added_to_exchange: &SellPoolAddedToExchange): String {
+        sell_pool_added_to_exchange.x_token_type
+    }
+
+    public fun sell_pool_added_to_exchange_y_token_type(sell_pool_added_to_exchange: &SellPoolAddedToExchange): String {
+        sell_pool_added_to_exchange.y_token_type
+    }
+
+    public(friend) fun new_sell_pool_added_to_exchange(
+        exchange: &Exchange,
+        sell_pool_id: ID,
+        x_token_type: String,
+        y_token_type: String,
+    ): SellPoolAddedToExchange {
+        SellPoolAddedToExchange {
+            id: id(exchange),
+            version: version(exchange),
+            sell_pool_id,
             x_token_type,
             y_token_type,
         }
@@ -252,12 +322,19 @@ module sui_swap_example::exchange {
             token_pairs: _token_pairs,
             token_pair_x_token_types: _token_pair_x_token_types,
             token_pair_y_token_types: _token_pair_y_token_types,
+            sell_pools: _sell_pools,
+            sell_pool_x_token_types: _sell_pool_x_token_types,
+            sell_pool_y_token_types: _sell_pool_y_token_types,
         } = exchange;
         object::delete(id);
     }
 
     public(friend) fun emit_token_pair_added_to_exchange(token_pair_added_to_exchange: TokenPairAddedToExchange) {
         event::emit(token_pair_added_to_exchange);
+    }
+
+    public(friend) fun emit_sell_pool_added_to_exchange(sell_pool_added_to_exchange: SellPoolAddedToExchange) {
+        event::emit(sell_pool_added_to_exchange);
     }
 
     public(friend) fun emit_exchange_updated(exchange_updated: ExchangeUpdated) {

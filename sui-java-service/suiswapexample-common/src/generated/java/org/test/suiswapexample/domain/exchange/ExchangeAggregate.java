@@ -19,6 +19,8 @@ public interface ExchangeAggregate {
 
     void addTokenPair(String tokenPairId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c);
 
+    void addSellPool(String sellPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddSellPool c);
+
     void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c);
 
     void throwOnInvalidStateTransition(Command c);

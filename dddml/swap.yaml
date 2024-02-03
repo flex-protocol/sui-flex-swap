@@ -238,6 +238,279 @@ aggregates:
             Y_Amount:
               type: u64
 
+  SellPool:
+    metadata:
+      IS_MOVE_SCHEMA_VERSIONED: true
+      ShouldIssuePublisherObject: true
+      TypeParameterOffChainPropertyNameFormats:
+        X: "{0}_TokenType"
+        Y: "{0}_TokenType"
+    id:
+      name: Id
+      type: UID
+    typeParameters:
+      X:
+        isPhantom: true
+        keyable: true
+        storable: true
+      Y:
+        isPhantom: true
+    properties:
+      X_Reserve:
+        type: "ObjectTable<ID, X>"
+      X_Amounts:
+        type: "Table<ID, u64>"
+      X_TotalAmount:
+        type: u64
+      Y_Reserve:
+        type: "Balance<Y>"
+      LiquidityTokenId:
+        type: ID
+      X_SoldAmount:
+        type: u64
+      ExchangeRateNumerator:
+        type: u64
+      ExchangeRateDenominator:
+        type: u64
+      PriceCurveType:
+        type: u8
+      PriceDeltaX_Amount:
+        type: u64
+        description: 'For every "PriceDeltaX_Amount" sold, the price of X_Token increases by "PriceDeltaNumerator / PriceDeltaDenominator"'
+      PriceDeltaNumerator:
+        type: u64
+      PriceDeltaDenominator:
+        type: u64
+    methods:
+      InitializeSellPool:
+        isInternal: true
+        isCreationCommand: true
+        #requiredPermission: "__Publisher__"
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        event:
+          name: SellPoolInitialized
+          isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+            X_Id:
+              type: ID
+
+      UpdateExchangeRate:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        event:
+          name: SellPoolExchangeRateUpdated
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      AddXToken:
+        isInternal: true
+        #shouldCallByReference: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+        event:
+          name: SellPoolXTokenAdded
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+            X_Id:
+              type: ID
+
+      RemoveXToken:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          X_Id:
+            type: ID
+        result:
+          type: X
+        event:
+          name: SellPoolXTokenRemoved
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      WithdrawYReserve:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          Y_Amount:
+            type: u64
+        result:
+          type: Balance<Y>
+        event:
+          name: YReserveWithdrawn
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      Destroy:
+        isDeletionCommand: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+        event:
+          name: SellPoolDestroyed
+          properties:
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      BuyX:
+        description: "i.e. Swap Y for X"
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          Y_Amount:
+            type: Balance<Y>
+          X_Id:
+            type: ID
+        result:
+          type: X
+        event:
+          name: SellPoolYSwappedForX
+          properties:
+            Sender:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            Y_Amount:
+              type: u64
+            NewExchangeRateNumerator:
+              type: u64
+
   LiquidityToken:
     metadata:
       HasStoreAbility: true
@@ -256,6 +529,7 @@ aggregates:
       - TokenPair.InitializeLiquidity
       - TokenPair.AddLiquidity
       - TokenPair.RemoveLiquidity
+      - SellPool.InitializeSellPool
     typeParameters:
       X:
         isPhantom: true
@@ -304,7 +578,9 @@ aggregates:
 
 singletonObjects:
   Exchange:
-    friends: [ "TokenPair.InitializeLiquidity" ]
+    friends:
+      - TokenPair.InitializeLiquidity
+      - SellPool.InitializeSellPool
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -324,6 +600,15 @@ singletonObjects:
         itemType: String
         isList: true
       TokenPairY_TokenTypes:
+        itemType: String
+        isList: true
+      SellPools:
+        itemType: ID #ObjectID
+        isList: true
+      SellPoolX_TokenTypes:
+        itemType: String
+        isList: true
+      SellPoolY_TokenTypes:
         itemType: String
         isList: true
 
@@ -347,6 +632,24 @@ singletonObjects:
           #  type: String
         event:
           name: TokenPairAddedToExchange
+          properties:
+            X_TokenType:
+              type: String
+            Y_TokenType:
+              type: String
+
+      AddSellPool:
+        isInternal: true
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          SellPoolId:
+            type: ID #ObjectID
+        event:
+          name: SellPoolAddedToExchange
           properties:
             X_TokenType:
               type: String

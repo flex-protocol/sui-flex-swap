@@ -20,6 +20,20 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_Y_SWAPPED_FOR_X = "token_pair::YSwappedForX";
 
+    public static final String SELL_POOL_MODULE_SELL_POOL_INITIALIZED = "sell_pool::SellPoolInitialized";
+
+    public static final String SELL_POOL_MODULE_SELL_POOL_EXCHANGE_RATE_UPDATED = "sell_pool::SellPoolExchangeRateUpdated";
+
+    public static final String SELL_POOL_MODULE_SELL_POOL_X_TOKEN_ADDED = "sell_pool::SellPoolXTokenAdded";
+
+    public static final String SELL_POOL_MODULE_SELL_POOL_X_TOKEN_REMOVED = "sell_pool::SellPoolXTokenRemoved";
+
+    public static final String SELL_POOL_MODULE_Y_RESERVE_WITHDRAWN = "sell_pool::YReserveWithdrawn";
+
+    public static final String SELL_POOL_MODULE_SELL_POOL_DESTROYED = "sell_pool::SellPoolDestroyed";
+
+    public static final String SELL_POOL_MODULE_SELL_POOL_Y_SWAPPED_FOR_X = "sell_pool::SellPoolYSwappedForX";
+
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_MINTED = "liquidity_token::LiquidityTokenMinted";
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_DESTROYED = "liquidity_token::LiquidityTokenDestroyed";
@@ -27,6 +41,8 @@ public class ContractConstants {
     public static final String EXCHANGE_MODULE_INIT_EXCHANGE_EVENT = "exchange::InitExchangeEvent";
 
     public static final String EXCHANGE_MODULE_TOKEN_PAIR_ADDED_TO_EXCHANGE = "exchange::TokenPairAddedToExchange";
+
+    public static final String EXCHANGE_MODULE_SELL_POOL_ADDED_TO_EXCHANGE = "exchange::SellPoolAddedToExchange";
 
     public static final String EXCHANGE_MODULE_EXCHANGE_UPDATED = "exchange::ExchangeUpdated";
 

@@ -14,16 +14,19 @@ module sui_swap_example::price_curve {
         EXPONENTIAL_CURVE
     }
 
+    public fun is_valid_curve_type(curve_type: u8): bool {
+        curve_type == LINEAR_CURVE //|| curve_type == EXPONENTIAL_CURVE
+    }
+
     public fun get_buy_info(
         curve_type: u8,
         number_numerator: u64,
         number_denominator: u64,
         spot_price: u64,
-        price_numerator_delta: u64,
-        price_denominator: u64
+        price_delta_numerator: u64,
+        price_delta_denominator: u64
     ): (u64, u64) {
-        assert!(curve_type == LINEAR_CURVE //|| curve_type == EXPONENTIAL_CURVE
-            , EInvalidCurveType);
+        assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
 
         let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
 
@@ -31,8 +34,8 @@ module sui_swap_example::price_curve {
         // new_spot_price = spot_price + delta * number_of_items
         //
         let delta = fixed_point32::multiply_u64(spot_price, fixed_point32::create_from_rational(
-            price_numerator_delta,
-            price_denominator
+            price_delta_numerator,
+            price_delta_denominator
         ));
         let new_spot_price = spot_price + fixed_point32::multiply_u64(delta, number_of_items);
 

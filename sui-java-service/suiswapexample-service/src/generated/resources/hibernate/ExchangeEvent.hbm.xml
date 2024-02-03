@@ -45,6 +45,7 @@
       </property>
       <subclass name="AbstractExchangeEvent$InitExchangeEvent" discriminator-value="InitExchangeEvent" />
       <subclass name="AbstractExchangeEvent$TokenPairAddedToExchange" discriminator-value="TokenPairAddedToExchange" />
+      <subclass name="AbstractExchangeEvent$SellPoolAddedToExchange" discriminator-value="SellPoolAddedToExchange" />
       <subclass name="AbstractExchangeEvent$ExchangeUpdated" discriminator-value="ExchangeUpdated" />
     </subclass>
   </class>

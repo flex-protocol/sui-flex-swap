@@ -17,6 +17,8 @@ import org.test.suiswapexample.domain.Command;
 public interface ExchangeApplicationService {
     void when(ExchangeCommands.AddTokenPair c);
 
+    void when(ExchangeCommands.AddSellPool c);
+
     void when(ExchangeCommands.Update c);
 
     ExchangeState get(String id);

@@ -42,5 +42,20 @@
       <index column="token_pair_y_token_types_index" />
       <element column="token_pair_y_token_types_item" type="string" not-null="true" />
     </list>
+    <list name="sellPools" table="exchange_sell_pools" lazy="false">
+      <key column="Id" />
+      <index column="sell_pools_index" />
+      <element column="sell_pools_item" type="string" not-null="true" />
+    </list>
+    <list name="sellPoolX_TokenTypes" table="exchange_sell_pool_x_token_types" lazy="false">
+      <key column="Id" />
+      <index column="sell_pool_x_token_types_index" />
+      <element column="sell_pool_x_token_types_item" type="string" not-null="true" />
+    </list>
+    <list name="sellPoolY_TokenTypes" table="exchange_sell_pool_y_token_types" lazy="false">
+      <key column="Id" />
+      <index column="sell_pool_y_token_types_index" />
+      <element column="sell_pool_y_token_types_item" type="string" not-null="true" />
+    </list>
   </class>
 </hibernate-mapping>

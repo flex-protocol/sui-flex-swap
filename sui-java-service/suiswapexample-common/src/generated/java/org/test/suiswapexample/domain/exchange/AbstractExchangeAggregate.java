@@ -60,6 +60,19 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
         }
 
         @Override
+        public void addSellPool(String sellPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddSellPool c) {
+            java.util.function.Supplier<ExchangeEvent.SellPoolAddedToExchange> eventFactory = () -> newSellPoolAddedToExchange(sellPoolId, offChainVersion, commandId, requesterId);
+            ExchangeEvent.SellPoolAddedToExchange e;
+            try {
+                e = verifyAddSellPool(eventFactory, sellPoolId, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
+        @Override
         public void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c) {
             java.util.function.Supplier<ExchangeEvent.ExchangeUpdated> eventFactory = () -> newExchangeUpdated(name, offChainVersion, commandId, requesterId);
             ExchangeEvent.ExchangeUpdated e;
@@ -106,6 +119,27 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
 //
 //public class AddTokenPairLogic {
 //    public static ExchangeEvent.TokenPairAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, ExchangeState exchangeState, String tokenPairId, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.SellPoolAddedToExchange verifyAddSellPool(java.util.function.Supplier<ExchangeEvent.SellPoolAddedToExchange> eventFactory, String sellPoolId, ExchangeCommands.AddSellPool c) {
+            String SellPoolId = sellPoolId;
+
+            ExchangeEvent.SellPoolAddedToExchange e = (ExchangeEvent.SellPoolAddedToExchange) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.AddSellPoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), sellPoolId, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class AddSellPoolLogic {
+//    public static ExchangeEvent.SellPoolAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.SellPoolAddedToExchange> eventFactory, ExchangeState exchangeState, String sellPoolId, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -160,6 +194,30 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             AbstractExchangeEvent.TokenPairAddedToExchange e = new AbstractExchangeEvent.TokenPairAddedToExchange();
 
             e.setTokenPairId(tokenPairId);
+            e.setX_TokenType(null);
+            e.setY_TokenType(null);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.SellPoolAddedToExchange newSellPoolAddedToExchange(String sellPoolId, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.SellPoolAddedToExchange e = new AbstractExchangeEvent.SellPoolAddedToExchange();
+
+            e.setSellPoolId(sellPoolId);
             e.setX_TokenType(null);
             e.setY_TokenType(null);
             e.setSuiTimestamp(null);
