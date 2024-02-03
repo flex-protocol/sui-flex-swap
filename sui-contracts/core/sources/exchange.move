@@ -54,8 +54,8 @@ module sui_swap_example::exchange {
         admin_cap: ID,
         name: String,
         token_pairs: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
+        token_pair_x_token_types: vector<String>,
+        token_pair_y_token_types: vector<String>,
     }
 
     public fun id(exchange: &Exchange): object::ID {
@@ -83,20 +83,20 @@ module sui_swap_example::exchange {
         exchange.token_pairs = token_pairs;
     }
 
-    public fun x_token_types(exchange: &Exchange): vector<String> {
-        exchange.x_token_types
+    public fun token_pair_x_token_types(exchange: &Exchange): vector<String> {
+        exchange.token_pair_x_token_types
     }
 
-    public(friend) fun set_x_token_types(exchange: &mut Exchange, x_token_types: vector<String>) {
-        exchange.x_token_types = x_token_types;
+    public(friend) fun set_token_pair_x_token_types(exchange: &mut Exchange, token_pair_x_token_types: vector<String>) {
+        exchange.token_pair_x_token_types = token_pair_x_token_types;
     }
 
-    public fun y_token_types(exchange: &Exchange): vector<String> {
-        exchange.y_token_types
+    public fun token_pair_y_token_types(exchange: &Exchange): vector<String> {
+        exchange.token_pair_y_token_types
     }
 
-    public(friend) fun set_y_token_types(exchange: &mut Exchange, y_token_types: vector<String>) {
-        exchange.y_token_types = y_token_types;
+    public(friend) fun set_token_pair_y_token_types(exchange: &mut Exchange, token_pair_y_token_types: vector<String>) {
+        exchange.token_pair_y_token_types = token_pair_y_token_types;
     }
 
     public fun admin_cap(exchange: &Exchange): ID {
@@ -119,8 +119,8 @@ module sui_swap_example::exchange {
             admin_cap: admin_cap_id,
             name: std::string::utf8(b"sui-dddappp-dex"),
             token_pairs: std::vector::empty(),
-            x_token_types: std::vector::empty(),
-            y_token_types: std::vector::empty(),
+            token_pair_x_token_types: std::vector::empty(),
+            token_pair_y_token_types: std::vector::empty(),
         }
     }
 
@@ -250,8 +250,8 @@ module sui_swap_example::exchange {
             admin_cap: _,
             name: _name,
             token_pairs: _token_pairs,
-            x_token_types: _x_token_types,
-            y_token_types: _y_token_types,
+            token_pair_x_token_types: _token_pair_x_token_types,
+            token_pair_y_token_types: _token_pair_y_token_types,
         } = exchange;
         object::delete(id);
     }

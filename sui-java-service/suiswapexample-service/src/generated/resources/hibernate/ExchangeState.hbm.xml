@@ -32,15 +32,15 @@
       <index column="token_pairs_index" />
       <element column="token_pairs_item" type="string" not-null="true" />
     </list>
-    <list name="x_TokenTypes" table="exchange_x_token_types" lazy="false">
+    <list name="tokenPairX_TokenTypes" table="exchange_token_pair_x_token_types" lazy="false">
       <key column="Id" />
-      <index column="x_token_types_index" />
-      <element column="x_token_types_item" type="string" not-null="true" />
+      <index column="token_pair_x_token_types_index" />
+      <element column="token_pair_x_token_types_item" type="string" not-null="true" />
     </list>
-    <list name="y_TokenTypes" table="exchange_y_token_types" lazy="false">
+    <list name="tokenPairY_TokenTypes" table="exchange_token_pair_y_token_types" lazy="false">
       <key column="Id" />
-      <index column="y_token_types_index" />
-      <element column="y_token_types_item" type="string" not-null="true" />
+      <index column="token_pair_y_token_types_index" />
+      <element column="token_pair_y_token_types_item" type="string" not-null="true" />
     </list>
   </class>
 </hibernate-mapping>

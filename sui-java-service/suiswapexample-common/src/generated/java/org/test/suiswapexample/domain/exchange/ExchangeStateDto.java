@@ -133,24 +133,24 @@ public class ExchangeStateDto {
         this.tokenPairs = tokenPairs;
     }
 
-    private String[] x_TokenTypes;
+    private String[] tokenPairX_TokenTypes;
 
-    public String[] getX_TokenTypes() {
-        return this.x_TokenTypes;
+    public String[] getTokenPairX_TokenTypes() {
+        return this.tokenPairX_TokenTypes;
     }
 
-    public void setX_TokenTypes(String[] x_TokenTypes) {
-        this.x_TokenTypes = x_TokenTypes;
+    public void setTokenPairX_TokenTypes(String[] tokenPairX_TokenTypes) {
+        this.tokenPairX_TokenTypes = tokenPairX_TokenTypes;
     }
 
-    private String[] y_TokenTypes;
+    private String[] tokenPairY_TokenTypes;
 
-    public String[] getY_TokenTypes() {
-        return this.y_TokenTypes;
+    public String[] getTokenPairY_TokenTypes() {
+        return this.tokenPairY_TokenTypes;
     }
 
-    public void setY_TokenTypes(String[] y_TokenTypes) {
-        this.y_TokenTypes = y_TokenTypes;
+    public void setTokenPairY_TokenTypes(String[] tokenPairY_TokenTypes) {
+        this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
     }
 
 
@@ -218,23 +218,23 @@ public class ExchangeStateDto {
                 }
                 dto.setTokenPairs(arrayList.toArray(new String[0]));
             }
-            if (returnedFieldsContains("X_TokenTypes")) {
+            if (returnedFieldsContains("TokenPairX_TokenTypes")) {
                 ArrayList<String> arrayList = new ArrayList();
-                if (state.getX_TokenTypes() != null) {
-                    for (String s : state.getX_TokenTypes()) {
+                if (state.getTokenPairX_TokenTypes() != null) {
+                    for (String s : state.getTokenPairX_TokenTypes()) {
                         arrayList.add(s);
                     }
                 }
-                dto.setX_TokenTypes(arrayList.toArray(new String[0]));
+                dto.setTokenPairX_TokenTypes(arrayList.toArray(new String[0]));
             }
-            if (returnedFieldsContains("Y_TokenTypes")) {
+            if (returnedFieldsContains("TokenPairY_TokenTypes")) {
                 ArrayList<String> arrayList = new ArrayList();
-                if (state.getY_TokenTypes() != null) {
-                    for (String s : state.getY_TokenTypes()) {
+                if (state.getTokenPairY_TokenTypes() != null) {
+                    for (String s : state.getTokenPairY_TokenTypes()) {
                         arrayList.add(s);
                     }
                 }
-                dto.setY_TokenTypes(arrayList.toArray(new String[0]));
+                dto.setTokenPairY_TokenTypes(arrayList.toArray(new String[0]));
             }
             return dto;
         }

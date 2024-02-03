@@ -320,10 +320,10 @@ singletonObjects:
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
-      X_TokenTypes:
+      TokenPairX_TokenTypes:
         itemType: String
         isList: true
-      Y_TokenTypes:
+      TokenPairY_TokenTypes:
         itemType: String
         isList: true
 

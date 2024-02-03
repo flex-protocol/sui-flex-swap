@@ -4,8 +4,8 @@ version = "0.0.1"
 published-at = "0xf832b7f9d47e64f08347637fd0a4864486248c266c405f9db18541722b4cb78a"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
-#Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
+#Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
+Sui = { local = "../../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 #SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
 
 [addresses]

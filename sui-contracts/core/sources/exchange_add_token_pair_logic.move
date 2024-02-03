@@ -34,12 +34,12 @@ module sui_swap_example::exchange_add_token_pair_logic {
     #[allow(unused_function)]
     fun assert_token_pair_not_exists(exchange: &Exchange, x_token_type: string::String, y_token_type: string::String) {
         let exists: bool = false;
-        let x_len = vector::length(&exchange::x_token_types(exchange));
+        let x_len = vector::length(&exchange::token_pair_x_token_types(exchange));
         let i = 0;
         while (i < x_len) {
-            let x = vector::borrow(&exchange::x_token_types(exchange), i);
+            let x = vector::borrow(&exchange::token_pair_x_token_types(exchange), i);
             if (*x == x_token_type) {
-                let y = vector::borrow(&exchange::y_token_types(exchange), i);
+                let y = vector::borrow(&exchange::token_pair_y_token_types(exchange), i);
                 if (*y == y_token_type) {
                     exists = true;
                     break
@@ -60,13 +60,13 @@ module sui_swap_example::exchange_add_token_pair_logic {
         let x_token_type = token_pair_added_to_exchange::x_token_type(token_pair_added_to_exchange);
         let y_token_type = token_pair_added_to_exchange::y_token_type(token_pair_added_to_exchange);
         let ids = exchange::token_pairs(exchange);
-        let x_token_types = exchange::x_token_types(exchange);
-        let y_token_types = exchange::y_token_types(exchange);
+        let x_token_types = exchange::token_pair_x_token_types(exchange);
+        let y_token_types = exchange::token_pair_y_token_types(exchange);
         vector::push_back(&mut ids, token_pair_id);
         vector::push_back(&mut x_token_types, x_token_type);
         vector::push_back(&mut y_token_types, y_token_type);
         exchange::set_token_pairs(exchange, ids);
-        exchange::set_x_token_types(exchange, x_token_types);
-        exchange::set_y_token_types(exchange, y_token_types);
+        exchange::set_token_pair_x_token_types(exchange, x_token_types);
+        exchange::set_token_pair_y_token_types(exchange, y_token_types);
     }
 }

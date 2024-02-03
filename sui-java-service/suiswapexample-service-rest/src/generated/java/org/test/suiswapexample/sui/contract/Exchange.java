@@ -43,9 +43,9 @@ public class Exchange {
 
     private String[] tokenPairs;
 
-    private String[] x_TokenTypes;
+    private String[] tokenPairX_TokenTypes;
 
-    private String[] y_TokenTypes;
+    private String[] tokenPairY_TokenTypes;
 
     private BigInteger version;
 
@@ -81,20 +81,20 @@ public class Exchange {
         this.tokenPairs = tokenPairs;
     }
 
-    public String[] getX_TokenTypes() {
-        return x_TokenTypes;
+    public String[] getTokenPairX_TokenTypes() {
+        return tokenPairX_TokenTypes;
     }
 
-    public void setX_TokenTypes(String[] x_TokenTypes) {
-        this.x_TokenTypes = x_TokenTypes;
+    public void setTokenPairX_TokenTypes(String[] tokenPairX_TokenTypes) {
+        this.tokenPairX_TokenTypes = tokenPairX_TokenTypes;
     }
 
-    public String[] getY_TokenTypes() {
-        return y_TokenTypes;
+    public String[] getTokenPairY_TokenTypes() {
+        return tokenPairY_TokenTypes;
     }
 
-    public void setY_TokenTypes(String[] y_TokenTypes) {
-        this.y_TokenTypes = y_TokenTypes;
+    public void setTokenPairY_TokenTypes(String[] tokenPairY_TokenTypes) {
+        this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
     }
 
     public BigInteger getVersion() {
@@ -112,8 +112,8 @@ public class Exchange {
                 ", offChainVersion=" + offChainVersion +
                 ", name=" + '\'' + name + '\'' +
                 ", tokenPairs=" + Arrays.toString(tokenPairs) +
-                ", x_TokenTypes=" + Arrays.toString(x_TokenTypes) +
-                ", y_TokenTypes=" + Arrays.toString(y_TokenTypes) +
+                ", tokenPairX_TokenTypes=" + Arrays.toString(tokenPairX_TokenTypes) +
+                ", tokenPairY_TokenTypes=" + Arrays.toString(tokenPairY_TokenTypes) +
                 ", version=" + version +
                 '}';
     }

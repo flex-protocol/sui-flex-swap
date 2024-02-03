@@ -125,24 +125,24 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         this.tokenPairs = tokenPairs;
     }
 
-    private List<String> x_TokenTypes;
+    private List<String> tokenPairX_TokenTypes;
 
-    public List<String> getX_TokenTypes() {
-        return this.x_TokenTypes;
+    public List<String> getTokenPairX_TokenTypes() {
+        return this.tokenPairX_TokenTypes;
     }
 
-    public void setX_TokenTypes(List<String> x_TokenTypes) {
-        this.x_TokenTypes = x_TokenTypes;
+    public void setTokenPairX_TokenTypes(List<String> tokenPairX_TokenTypes) {
+        this.tokenPairX_TokenTypes = tokenPairX_TokenTypes;
     }
 
-    private List<String> y_TokenTypes;
+    private List<String> tokenPairY_TokenTypes;
 
-    public List<String> getY_TokenTypes() {
-        return this.y_TokenTypes;
+    public List<String> getTokenPairY_TokenTypes() {
+        return this.tokenPairY_TokenTypes;
     }
 
-    public void setY_TokenTypes(List<String> y_TokenTypes) {
-        this.y_TokenTypes = y_TokenTypes;
+    public void setTokenPairY_TokenTypes(List<String> tokenPairY_TokenTypes) {
+        this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
     }
 
     public boolean isStateUnsaved() {
@@ -226,8 +226,8 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         }
         this.setName(s.getName());
         this.setTokenPairs(s.getTokenPairs());
-        this.setX_TokenTypes(s.getX_TokenTypes());
-        this.setY_TokenTypes(s.getY_TokenTypes());
+        this.setTokenPairX_TokenTypes(s.getTokenPairX_TokenTypes());
+        this.setTokenPairY_TokenTypes(s.getTokenPairY_TokenTypes());
         this.setActive(s.getActive());
         this.setVersion(s.getVersion());
     }
