@@ -22,6 +22,14 @@ module sui_swap_example::liquidity_initialized {
         token_pair::liquidity_initialized_x_amount(liquidity_initialized)
     }
 
+    public fun fee_numerator(liquidity_initialized: &LiquidityInitialized): u64 {
+        token_pair::liquidity_initialized_fee_numerator(liquidity_initialized)
+    }
+
+    public fun fee_denominator(liquidity_initialized: &LiquidityInitialized): u64 {
+        token_pair::liquidity_initialized_fee_denominator(liquidity_initialized)
+    }
+
     public fun provider(liquidity_initialized: &LiquidityInitialized): address {
         token_pair::liquidity_initialized_provider(liquidity_initialized)
     }

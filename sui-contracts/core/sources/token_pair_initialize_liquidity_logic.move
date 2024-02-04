@@ -21,6 +21,10 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
 
     const EAddInvalidLiquidity: u64 = 100;
     //const EInconsistentAmount: u64 = 101;
+    const EInvalidFeeRate: u64 = 102;
+
+    const DEFAULT_FEE_NUMERATOR: u64 = 3;
+    const DEFAULT_FEE_DENOMINATOR: u64 = 1000;
 
     #[lint_allow(self_transfer)]
     public(friend) fun verify<X: key + store, Y>(
@@ -28,6 +32,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         x: &X,
         x_amount: u64,
         y_amount: &Balance<Y>,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
         let _ = x;
@@ -43,9 +49,14 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         let liquidity_token_id = object::id(&liquidity_token);
         transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
+        let fee_numerator = if (fee_denominator == 0) { DEFAULT_FEE_NUMERATOR } else { fee_numerator };
+        let fee_denominator = if (fee_denominator == 0) { DEFAULT_FEE_DENOMINATOR } else { fee_denominator };
+        assert!(fee_denominator > fee_numerator, EInvalidFeeRate);
         token_pair::new_liquidity_initialized<X, Y>(
             object::id(exchange),
             x_amount,
+            fee_numerator,
+            fee_denominator,
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
@@ -81,6 +92,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             x_total_amount,
             liquidity_amount,
             liquidity_token_id,
+            liquidity_initialized::fee_numerator(liquidity_initialized),
+            liquidity_initialized::fee_denominator(liquidity_initialized),
             ctx,
         );
         exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);

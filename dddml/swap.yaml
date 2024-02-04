@@ -29,6 +29,10 @@ aggregates:
         type: u64
       LiquidityTokenId:
         type: ID
+      FeeNumerator:
+        type: u64
+      FeeDenominator:
+        type: u64
     methods:
       InitializeLiquidity:
         isInternal: true
@@ -51,6 +55,10 @@ aggregates:
             type: u64
           Y_Amount:
             type: Balance<Y>
+          FeeNumerator:
+            type: u64
+          FeeDenominator:
+            type: u64
         event:
           name: LiquidityInitialized
           isObjectShared: true # Share the object after created.
@@ -733,6 +741,10 @@ services:
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
+            type: u64
+          FeeNumerator:
+            type: u64
+          FeeDenominator:
             type: u64
         steps:
           GetX_Amount:

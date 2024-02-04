@@ -99,6 +99,30 @@ public class TokenPairStateDto {
         this.liquidityTokenId = liquidityTokenId;
     }
 
+    private BigInteger feeNumerator;
+
+    public BigInteger getFeeNumerator()
+    {
+        return this.feeNumerator;
+    }
+
+    public void setFeeNumerator(BigInteger feeNumerator)
+    {
+        this.feeNumerator = feeNumerator;
+    }
+
+    private BigInteger feeDenominator;
+
+    public BigInteger getFeeDenominator()
+    {
+        return this.feeDenominator;
+    }
+
+    public void setFeeDenominator(BigInteger feeDenominator)
+    {
+        this.feeDenominator = feeDenominator;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -256,6 +280,12 @@ public class TokenPairStateDto {
             }
             if (returnedFieldsContains("LiquidityTokenId")) {
                 dto.setLiquidityTokenId(state.getLiquidityTokenId());
+            }
+            if (returnedFieldsContains("FeeNumerator")) {
+                dto.setFeeNumerator(state.getFeeNumerator());
+            }
+            if (returnedFieldsContains("FeeDenominator")) {
+                dto.setFeeDenominator(state.getFeeDenominator());
             }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());

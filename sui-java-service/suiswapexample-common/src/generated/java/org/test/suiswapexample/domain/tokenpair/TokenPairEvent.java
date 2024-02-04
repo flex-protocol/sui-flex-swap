@@ -30,6 +30,14 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setX_Amount(BigInteger value);
 
+        BigInteger getFeeNumerator();
+
+        void setFeeNumerator(BigInteger value);
+
+        BigInteger getFeeDenominator();
+
+        void setFeeDenominator(BigInteger value);
+
         String getProvider();
 
         void setProvider(String value);

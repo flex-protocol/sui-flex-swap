@@ -32,6 +32,10 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     String getLiquidityTokenId();
 
+    BigInteger getFeeNumerator();
+
+    BigInteger getFeeDenominator();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -64,6 +68,10 @@ public interface TokenPairState extends VersionedSuiMoveObject
         void setTotalLiquidity(BigInteger totalLiquidity);
 
         void setLiquidityTokenId(String liquidityTokenId);
+
+        void setFeeNumerator(BigInteger feeNumerator);
+
+        void setFeeDenominator(BigInteger feeDenominator);
 
         void setOffChainVersion(Long offChainVersion);
 

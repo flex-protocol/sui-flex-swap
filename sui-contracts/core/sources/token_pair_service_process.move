@@ -18,6 +18,8 @@ module sui_swap_example::token_pair_service_process {
         exchange_id: sui::object::ID,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
     }
 
     public fun initialize_liquidity<X: key + store, Y>(
@@ -25,6 +27,8 @@ module sui_swap_example::token_pair_service_process {
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         _ctx: &mut TxContext,
     ): nft_service::GetAmountRequest<X, InitializeLiquidityGetX_AmountContext<Y>> {
         let exchange_id = object::id(exchange);
@@ -32,6 +36,8 @@ module sui_swap_example::token_pair_service_process {
             exchange_id,
             y_coin,
             y_amount,
+            fee_numerator,
+            fee_denominator,
         };
         let get_x_amount_request = nft_service::new_get_amount_request<X, InitializeLiquidityGetX_AmountContext<Y>>(
             x,
@@ -52,9 +58,11 @@ module sui_swap_example::token_pair_service_process {
             exchange_id,
             y_coin,
             y_amount,
+            fee_numerator,
+            fee_denominator,
         } = get_x_amount_context;
         assert!(object::id(exchange) == exchange_id, EMismatchedObjectId);
-        internal_initialize_liquidity(exchange, x, x_amount, y_coin, y_amount, _ctx)
+        internal_initialize_liquidity(exchange, x, x_amount, y_coin, y_amount, fee_numerator, fee_denominator, _ctx)
     }
 
     #[lint_allow(coin_field)]
@@ -160,6 +168,8 @@ module sui_swap_example::token_pair_service_process {
         x_amount: u64,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut tx_context::TxContext,
     ) {
         let y_amount_b = coin_util::split_up_and_into_balance(y_coin, y_amount, ctx);
@@ -168,6 +178,8 @@ module sui_swap_example::token_pair_service_process {
             x,
             x_amount,
             y_amount_b,
+            fee_numerator,
+            fee_denominator,
             ctx,
         )
     }
@@ -226,9 +238,11 @@ module xxx_di_package_id::token_pair_service_process {
         x: X,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         _ctx: &TxContext,
     ) {
-        let get_x_amount_req = token_pair_service_process::initialize_liquidity(exchange, x, y_coin, y_amount, _ctx);
+        let get_x_amount_req = token_pair_service_process::initialize_liquidity(exchange, x, y_coin, y_amount, fee_numerator, fee_denominator, _ctx);
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
         token_pair_service_process::initialize_liquidity_get_x_amount_callback(exchange, get_x_amount_rsp, _ctx)
     }

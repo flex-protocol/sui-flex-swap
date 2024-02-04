@@ -243,6 +243,30 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             getDynamicProperties().put("x_Amount", value);
         }
 
+        public BigInteger getFeeNumerator() {
+            Object val = getDynamicProperties().get("feeNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setFeeNumerator(BigInteger value) {
+            getDynamicProperties().put("feeNumerator", value);
+        }
+
+        public BigInteger getFeeDenominator() {
+            Object val = getDynamicProperties().get("feeDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setFeeDenominator(BigInteger value) {
+            getDynamicProperties().put("feeDenominator", value);
+        }
+
         public String getProvider() {
             Object val = getDynamicProperties().get("provider");
             if (val instanceof String) {

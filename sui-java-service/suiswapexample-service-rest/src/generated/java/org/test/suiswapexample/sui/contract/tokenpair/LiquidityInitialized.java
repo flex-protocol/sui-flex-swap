@@ -21,6 +21,10 @@ public class LiquidityInitialized {
 
     private BigInteger x_Amount;
 
+    private BigInteger feeNumerator;
+
+    private BigInteger feeDenominator;
+
     private String provider;
 
     private String x_TokenType;
@@ -57,6 +61,22 @@ public class LiquidityInitialized {
 
     public void setX_Amount(BigInteger x_Amount) {
         this.x_Amount = x_Amount;
+    }
+
+    public BigInteger getFeeNumerator() {
+        return feeNumerator;
+    }
+
+    public void setFeeNumerator(BigInteger feeNumerator) {
+        this.feeNumerator = feeNumerator;
+    }
+
+    public BigInteger getFeeDenominator() {
+        return feeDenominator;
+    }
+
+    public void setFeeDenominator(BigInteger feeDenominator) {
+        this.feeDenominator = feeDenominator;
     }
 
     public String getProvider() {
@@ -121,6 +141,8 @@ public class LiquidityInitialized {
                 "id=" + '\'' + id + '\'' +
                 ", exchangeId=" + '\'' + exchangeId + '\'' +
                 ", x_Amount=" + x_Amount +
+                ", feeNumerator=" + feeNumerator +
+                ", feeDenominator=" + feeDenominator +
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

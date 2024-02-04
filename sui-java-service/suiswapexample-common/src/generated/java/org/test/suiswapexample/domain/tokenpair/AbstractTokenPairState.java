@@ -85,6 +85,26 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.liquidityTokenId = liquidityTokenId;
     }
 
+    private BigInteger feeNumerator;
+
+    public BigInteger getFeeNumerator() {
+        return this.feeNumerator;
+    }
+
+    public void setFeeNumerator(BigInteger feeNumerator) {
+        this.feeNumerator = feeNumerator;
+    }
+
+    private BigInteger feeDenominator;
+
+    public BigInteger getFeeDenominator() {
+        return this.feeDenominator;
+    }
+
+    public void setFeeDenominator(BigInteger feeDenominator) {
+        this.feeDenominator = feeDenominator;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion() {
@@ -266,6 +286,8 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.setY_Reserve(s.getY_Reserve());
         this.setTotalLiquidity(s.getTotalLiquidity());
         this.setLiquidityTokenId(s.getLiquidityTokenId());
+        this.setFeeNumerator(s.getFeeNumerator());
+        this.setFeeDenominator(s.getFeeDenominator());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
         this.setX_TokenType(s.getX_TokenType());
@@ -279,6 +301,10 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         String ExchangeId = exchangeId;
         BigInteger x_Amount = e.getX_Amount();
         BigInteger X_Amount = x_Amount;
+        BigInteger feeNumerator = e.getFeeNumerator();
+        BigInteger FeeNumerator = feeNumerator;
+        BigInteger feeDenominator = e.getFeeDenominator();
+        BigInteger FeeDenominator = feeDenominator;
         String provider = e.getProvider();
         String Provider = provider;
         String x_TokenType = e.getX_TokenType();
@@ -322,14 +348,14 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         TokenPairState updatedTokenPairState = (TokenPairState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.InitializeLiquidityLogic",
                     "mutate",
-                    new Class[]{TokenPairState.class, String.class, BigInteger.class, String.class, String.class, String.class, BigInteger.class, BigInteger.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, exchangeId, x_Amount, provider, x_TokenType, y_TokenType, y_Amount, liquidityAmount, liquidityTokenId, x_Id, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{TokenPairState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, BigInteger.class, BigInteger.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, exchangeId, x_Amount, feeNumerator, feeDenominator, provider, x_TokenType, y_TokenType, y_Amount, liquidityAmount, liquidityTokenId, x_Id, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class InitializeLiquidityLogic {
-//    public static TokenPairState mutate(TokenPairState tokenPairState, String exchangeId, BigInteger x_Amount, String provider, String x_TokenType, String y_TokenType, BigInteger y_Amount, BigInteger liquidityAmount, String liquidityTokenId, String x_Id, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
+//    public static TokenPairState mutate(TokenPairState tokenPairState, String exchangeId, BigInteger x_Amount, BigInteger feeNumerator, BigInteger feeDenominator, String provider, String x_TokenType, String y_TokenType, BigInteger y_Amount, BigInteger liquidityAmount, String liquidityTokenId, String x_Id, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TokenPairState, TokenPairState.MutableTokenPairState> mutationContext) {
 //    }
 //}
 

@@ -15,9 +15,11 @@ module sui_swap_di::movescription_swap_service {
         x: Movescription,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         _ctx: &mut TxContext,
     ) {
-        let get_x_amount_req = token_pair_service_process::initialize_liquidity(exchange, x, y_coin, y_amount, _ctx);
+        let get_x_amount_req = token_pair_service_process::initialize_liquidity(exchange, x, y_coin, y_amount, fee_numerator, fee_denominator, _ctx);
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
         token_pair_service_process::initialize_liquidity_get_x_amount_callback(exchange, get_x_amount_rsp, _ctx)
     }

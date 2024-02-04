@@ -34,7 +34,16 @@ module sui_swap_example::token_pair_swap_y_logic {
         let y_reserve_amount = balance::value(token_pair::borrow_y_reserve(token_pair));
         let y_amount_in = balance::value(y_amount);
         //let expected_x_amount_out = x_amount;
-        let _max_x_amount_out = swap_util::swap(y_reserve_amount, x_reserve_amount, y_amount_in, x_amount);
+        let fee_numerator = token_pair::fee_numerator(token_pair);
+        let fee_denominator = token_pair::fee_denominator(token_pair);
+        let _max_x_amount_out = swap_util::swap(
+            y_reserve_amount,
+            x_reserve_amount,
+            y_amount_in,
+            x_amount,
+            fee_numerator,
+            fee_denominator
+        );
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));

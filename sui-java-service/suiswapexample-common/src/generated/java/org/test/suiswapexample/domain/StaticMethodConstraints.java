@@ -23,8 +23,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.tokenpair.InitializeLiquidityLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "_", "exchange", "x_Amount"}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "exchange", "x_Amount", "feeNumerator", "feeDenominator"}
             );
 
 

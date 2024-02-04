@@ -31,7 +31,7 @@ public class HibernateTokenPairStateQueryRepository implements TokenPairStateQue
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

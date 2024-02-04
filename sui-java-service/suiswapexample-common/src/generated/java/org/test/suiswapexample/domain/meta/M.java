@@ -148,6 +148,8 @@ public class M {
             "y_Reserve",
             "totalLiquidity",
             "liquidityTokenId",
+            "feeNumerator",
+            "feeDenominator",
             "version",
             "offChainVersion",
             "createdBy",
@@ -168,6 +170,8 @@ public class M {
             "java.math.BigInteger",
             "BigInteger",
             "String",
+            "BigInteger",
+            "BigInteger",
             "BigInteger",
             "Long",
             "String",
@@ -206,6 +210,10 @@ public class M {
         aliasMap.put("TotalLiquidity", "totalLiquidity");
         aliasMap.put("liquidityTokenId", "liquidityTokenId");
         aliasMap.put("LiquidityTokenId", "liquidityTokenId");
+        aliasMap.put("feeNumerator", "feeNumerator");
+        aliasMap.put("FeeNumerator", "feeNumerator");
+        aliasMap.put("feeDenominator", "feeDenominator");
+        aliasMap.put("FeeDenominator", "feeDenominator");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");

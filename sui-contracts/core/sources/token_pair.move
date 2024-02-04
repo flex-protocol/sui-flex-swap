@@ -62,6 +62,8 @@ module sui_swap_example::token_pair {
         y_reserve: Balance<Y>,
         total_liquidity: u64,
         liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
     }
 
     public fun id<X: key + store, Y>(token_pair: &TokenPair<X, Y>): object::ID {
@@ -120,6 +122,22 @@ module sui_swap_example::token_pair {
         token_pair.liquidity_token_id = liquidity_token_id;
     }
 
+    public fun fee_numerator<X: key + store, Y>(token_pair: &TokenPair<X, Y>): u64 {
+        token_pair.fee_numerator
+    }
+
+    public(friend) fun set_fee_numerator<X: key + store, Y>(token_pair: &mut TokenPair<X, Y>, fee_numerator: u64) {
+        token_pair.fee_numerator = fee_numerator;
+    }
+
+    public fun fee_denominator<X: key + store, Y>(token_pair: &TokenPair<X, Y>): u64 {
+        token_pair.fee_denominator
+    }
+
+    public(friend) fun set_fee_denominator<X: key + store, Y>(token_pair: &mut TokenPair<X, Y>, fee_denominator: u64) {
+        token_pair.fee_denominator = fee_denominator;
+    }
+
     public fun admin_cap<X: key + store, Y>(token_pair: &TokenPair<X, Y>): ID {
         token_pair.admin_cap
     }
@@ -130,6 +148,8 @@ module sui_swap_example::token_pair {
         x_total_amount: u64,
         total_liquidity: u64,
         liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut TxContext,
     ): TokenPair<X, Y> {
         let admin_cap = AdminCap {
@@ -148,6 +168,8 @@ module sui_swap_example::token_pair {
             y_reserve: sui::balance::zero(),
             total_liquidity,
             liquidity_token_id,
+            fee_numerator,
+            fee_denominator,
         }
     }
 
@@ -161,6 +183,8 @@ module sui_swap_example::token_pair {
         id: option::Option<object::ID>,
         exchange_id: ID,
         x_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -184,6 +208,14 @@ module sui_swap_example::token_pair {
 
     public fun liquidity_initialized_x_amount(liquidity_initialized: &LiquidityInitialized): u64 {
         liquidity_initialized.x_amount
+    }
+
+    public fun liquidity_initialized_fee_numerator(liquidity_initialized: &LiquidityInitialized): u64 {
+        liquidity_initialized.fee_numerator
+    }
+
+    public fun liquidity_initialized_fee_denominator(liquidity_initialized: &LiquidityInitialized): u64 {
+        liquidity_initialized.fee_denominator
     }
 
     public fun liquidity_initialized_provider(liquidity_initialized: &LiquidityInitialized): address {
@@ -218,6 +250,8 @@ module sui_swap_example::token_pair {
     public(friend) fun new_liquidity_initialized<X: key + store, Y>(
         exchange_id: ID,
         x_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -230,6 +264,8 @@ module sui_swap_example::token_pair {
             id: option::none(),
             exchange_id,
             x_amount,
+            fee_numerator,
+            fee_denominator,
             provider,
             x_token_type,
             y_token_type,
@@ -591,6 +627,8 @@ module sui_swap_example::token_pair {
             y_reserve,
             total_liquidity: _total_liquidity,
             liquidity_token_id: _liquidity_token_id,
+            fee_numerator: _fee_numerator,
+            fee_denominator: _fee_denominator,
         } = token_pair;
         object::delete(id);
         sui::object_table::destroy_empty(x_reserve);
