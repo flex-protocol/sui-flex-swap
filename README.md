@@ -70,10 +70,13 @@ In the `dddml` directory in the root of the repository, create a DDDML file like
 >
 > About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md).
 
-There is one thing worth noting: why do we use property names like `X_Amount` in DDDML files.
-
-Java Bean, in a way, can't handle property names like `XAmount` "correctly" - that is,
+There is one thing worth noting: why do we use property names like `X_Amount` in DDDML files - that is,
 cases where one of the components of the property name is a "single letter".
+
+The off-chain service code we generated was written in Java;
+and Java Bean specification, in a way, 
+does not handle correctly when converting various naming styles (e.g. `PascalCase`, `camelCase`, `snake_case`, etc.) 
+for property names like `XAmount` is required.
 To get around this problem, we decided to use property names like `X_Amount` instead of `XAmount`.
 
 ### Run dddappp project creation tool
