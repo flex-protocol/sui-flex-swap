@@ -3,8 +3,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
     use std::string;
     use std::type_name;
 
-    use sui::balance;
-    use sui::balance::Balance;
+    use sui::balance::{Self, Balance};
     use sui::object::ID;
     use sui::object_table;
     use sui::table;
@@ -40,7 +39,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
         let price_delta_numerator = sell_pool::price_delta_numerator(sell_pool);
         let price_delta_denominator = sell_pool::price_delta_denominator(sell_pool);
 
-        let (y_amount_required, new_exchange_rate_numerator) = price_curve::get_buy_info(
+        let (y_amount_required_numerator, new_exchange_rate_numerator) = price_curve::get_buy_info(
             price_curve_type,
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
@@ -48,6 +47,9 @@ module sui_swap_example::sell_pool_buy_x_logic {
             price_delta_numerator,
             price_delta_denominator,
         );
+
+        let exchange_rate_denominator = sell_pool::exchange_rate_denominator(sell_pool);
+        let y_amount_required = y_amount_required_numerator / exchange_rate_denominator;
         assert!(y_amount_in >= y_amount_required, EInsufficientYAmount);
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
@@ -59,7 +61,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
             x_token_type,
             y_token_type,
             x_amount,
-            balance::value(y_amount),
+            y_amount_in,
             new_exchange_rate_numerator,
         )
     }
@@ -87,7 +89,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
         let (x, _x_total_amount) = remove_x_token<X, Y>(
             sell_pool,
             x_id,
-            x_amount
+            x_amount,
         );
         x
     }
