@@ -5,20 +5,30 @@
 It's worth noting that in the current version of the `nft` branch, token X refers to NFT.
 And the `LiquidityToken` degenerates into a "capability" object.
 We use it to control access to "add liquidity" and "remove liquidity".
-The account that owns it can be thought of as the owner of the `TokenPair` (pool).
+The account that owns it can be thought of as the owner of the `TokenPair` (two-way trade pool).
+
+This `nft` branch currently implements a NFT/FT `TokenPair` that supports the AMM model;
+plus a simple "Sell Pool" (for selling NFTs).
+
+One problem with using the AMM model to support NFT/FT swap is that the indivisibility of NFTs results in the "last NFT" being unsellable.
+Because of the fixed-product formula of AMM, the amount of token Y needed to buy up token X is infinite.
+
+When having `SellPool`, it can be said to be a complete MVP (Minimum Viable Product) now. 
+The owner of the token pair can take out the last NFT in the `TokenPair` by removing all liquidity and create a `SellPool` to sell it.
+
 
 ### Sell Pool
 
 The `SellPool` entity has some similarity to `TokenPair`.
 
 * It has `ExchangeRateNumerator` and `ExchangeRateDenominator` properties, 
-    which represent the "exchange rate" of NFT (X Token) to Y Token. (Similar to `fixed-exchange-rate` branch version.)
+    which represent the "exchange rate" of NFT (X token) to Y token. (Similar to `fixed-exchange-rate` branch version.)
 * Implement a linear price curve (exponential curve will be implemented later). 
     To do this, the pool needs a couple of properties: 
-    for every `PriceDeltaX_Amount` sold, the price of X Token increases by `PriceDeltaNumerator` / `PriceDeltaDenominator`.
+    for every `PriceDeltaX_Amount` sold, the price of X token increases by `PriceDeltaNumerator` / `PriceDeltaDenominator`.
 * Anyone can create a Sell Pool.
 * The owner of the pool can modify the NFT price related settings of the pool; 
-    can add X Token (NFT); can take out X Token; can take out Y Token (FT) reserve.
+    can add X token (NFT); can take out X token; can take out Y token (FT) reserve.
     The owner of the pool can destroy the pool.
 * Methods of sell pool for general users include `BuyX`, i.e. "Swap-Y-For-X".
 
@@ -59,6 +69,12 @@ In the `dddml` directory in the root of the repository, create a DDDML file like
 > **Tip**
 >
 > About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md).
+
+There is one thing worth noting: why do we use property names like `X_Amount` in DDDML files.
+
+Java Bean, in a way, can't handle property names like `XAmount` "correctly" - that is,
+cases where one of the components of the property name is a "single letter".
+To get around this problem, we decided to use property names like `X_Amount` instead of `XAmount`.
 
 ### Run dddappp project creation tool
 
@@ -383,7 +399,7 @@ sui client call --package 0xf832b7f9d47e64f08347637fd0a4864486248c266c405f9db185
 
 #### Swap token X for token Y
 
-Swap, to exchange Movescription Token  (i.e. token X)  for token Y.
+Swap, to exchange Movescription token  (i.e. token X)  for token Y.
 The following assumes that the Movescription object ID is `0xc1873e4aaf9d31214a2c57ad0b23ea1750b3d22c23f3a6516f7c21fb97e25c9a`):
 
 ```shell
