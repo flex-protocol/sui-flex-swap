@@ -8,6 +8,8 @@ module sui_swap_example::nft_service {
 
     friend sui_swap_example::token_pair_service_process;
 
+    friend sui_swap_example::sell_pool_service_process;
+
     struct GetAmountRequest<X: key + store, C> {
         x: X,
         _get_amount_context: C,

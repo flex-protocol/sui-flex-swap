@@ -860,6 +860,72 @@ services:
           X_Id:
             type: ID
 
+
+  SellPoolServiceProcess:
+    requiredComponents:
+      NS:
+        type: NftService
+    methods:
+      InitializeSellPool:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+          X:
+            type: X
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
+
+      AddXToken:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          SellPool:
+            referenceType: SellPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          X:
+            type: X
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
+
   NftService:
     abstract: true
     metadata:
