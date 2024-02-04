@@ -10,8 +10,6 @@ module sui_swap_example::liquidity_token_aggregate {
     use sui_swap_example::liquidity_token_mint_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
-    friend sui_swap_example::token_pair_add_liquidity_logic;
-    friend sui_swap_example::token_pair_remove_liquidity_logic;
     friend sui_swap_example::sell_pool_initialize_sell_pool_logic;
     friend sui_swap_example::token_pair_service;
     friend sui_swap_example::token_pair_service_process;

@@ -527,9 +527,9 @@ aggregates:
         Y: "{0}_TokenType"
     friends:
       - TokenPair.InitializeLiquidity
-      - TokenPair.AddLiquidity
-      - TokenPair.RemoveLiquidity
       - SellPool.InitializeSellPool
+      #- TokenPair.AddLiquidity
+      #- TokenPair.RemoveLiquidity
     typeParameters:
       X:
         isPhantom: true
