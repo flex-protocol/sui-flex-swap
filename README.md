@@ -12,7 +12,7 @@ The account that owns it can be thought of as the owner of the `TokenPair` (pool
 The `SellPool` entity has some similarity to `TokenPair`.
 
 * It has `ExchangeRateNumerator` and `ExchangeRateDenominator` properties, 
-    which represent the "exchange rate" of NFT (X Token) to Token Y. (Similar to `fixed-exchange-rate` branch version.)
+    which represent the "exchange rate" of NFT (X Token) to Y Token. (Similar to `fixed-exchange-rate` branch version.)
 * Implement a linear price curve (exponential curve will be implemented later). 
     To do this, the pool needs a couple of properties: 
     for every `PriceDeltaX_Amount` sold, the price of X Token increases by `PriceDeltaNumerator` / `PriceDeltaDenominator`.
@@ -383,7 +383,7 @@ sui client call --package 0xf832b7f9d47e64f08347637fd0a4864486248c266c405f9db185
 
 #### Swap token X for token Y
 
-Swap, to exchange Movescription Token  (i.e. Token X)  for Token Y.
+Swap, to exchange Movescription Token  (i.e. token X)  for token Y.
 The following assumes that the Movescription object ID is `0xc1873e4aaf9d31214a2c57ad0b23ea1750b3d22c23f3a6516f7c21fb97e25c9a`):
 
 ```shell
@@ -400,7 +400,7 @@ sui client call --package 0xc56aa87c117948ec3971d154fa2d0e4e737fe9181124d0a44cf7
 
 #### Swap token Y for token X
 
-In the opposite direction, Token Y is exchanged for Token X:
+In the opposite direction, token Y is exchanged for token X:
 
 ```shell
 sui client call --package 0xf832b7f9d47e64f08347637fd0a4864486248c266c405f9db18541722b4cb78a --module token_pair_service --function swap_y \

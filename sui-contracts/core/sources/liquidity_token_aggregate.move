@@ -15,6 +15,7 @@ module sui_swap_example::liquidity_token_aggregate {
     friend sui_swap_example::sell_pool_initialize_sell_pool_logic;
     friend sui_swap_example::token_pair_service;
     friend sui_swap_example::token_pair_service_process;
+    friend sui_swap_example::sell_pool_service;
     friend sui_swap_example::nft_service;
 
     #[allow(unused_mut_parameter)]

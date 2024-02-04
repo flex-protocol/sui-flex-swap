@@ -808,6 +808,58 @@ services:
               Move:
                 "//todo invoke internal fun..."
 
+  SellPoolService:
+    methods:
+      RemoveXToken:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          SellPool:
+            referenceType: SellPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          X_Id:
+            type: ID
+
+      WithdrawYReserve:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          SellPool:
+            referenceType: SellPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          Y_Amount:
+            type: u64
+          Y_Coin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+
+      BuyX:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          SellPool:
+            referenceType: SellPool<X, Y>
+            isMutableReference: true
+          Y_Coin:
+            type: Coin<Y>
+          Y_Amount:
+            type: u64
+          X_Id:
+            type: ID
+
   NftService:
     abstract: true
     metadata:
