@@ -54,6 +54,10 @@ public abstract class AbstractTokenPairApplicationService implements TokenPairAp
         update(c, ar -> ar.destroy(c.getLiquidityToken(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
+    public void when(TokenPairCommands.UpdateFeeRate c) {
+        update(c, ar -> ar.updateFeeRate(c.getLiquidityToken(), c.getFeeNumerator(), c.getFeeDenominator(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
     public TokenPairState get(String id) {
         TokenPairState state = getStateRepository().get(id, true);
         return state;

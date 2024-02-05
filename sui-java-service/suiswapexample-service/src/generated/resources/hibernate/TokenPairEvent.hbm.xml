@@ -49,6 +49,7 @@
       <subclass name="AbstractTokenPairEvent$TokenPairDestroyed" discriminator-value="TokenPairDestroyed" />
       <subclass name="AbstractTokenPairEvent$XSwappedForY" discriminator-value="XSwappedForY" />
       <subclass name="AbstractTokenPairEvent$YSwappedForX" discriminator-value="YSwappedForX" />
+      <subclass name="AbstractTokenPairEvent$FeeRateUpdated" discriminator-value="FeeRateUpdated" />
     </subclass>
   </class>
 </hibernate-mapping>

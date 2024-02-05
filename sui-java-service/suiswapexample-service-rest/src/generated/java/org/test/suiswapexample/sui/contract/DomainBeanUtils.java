@@ -19,6 +19,7 @@ import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
 import org.test.suiswapexample.sui.contract.tokenpair.TokenPairDestroyed;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
 import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
+import org.test.suiswapexample.sui.contract.tokenpair.FeeRateUpdated;
 import org.test.suiswapexample.domain.sellpool.AbstractSellPoolEvent;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolInitialized;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolExchangeRateUpdated;
@@ -211,6 +212,27 @@ public class DomainBeanUtils {
         ySwappedForX.setSuiSender(eventEnvelope.getSender());
 
         return ySwappedForX;
+    }
+
+    public static AbstractTokenPairEvent.FeeRateUpdated toFeeRateUpdated(SuiMoveEventEnvelope<FeeRateUpdated> eventEnvelope) {
+        FeeRateUpdated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTokenPairEvent.FeeRateUpdated feeRateUpdated = new AbstractTokenPairEvent.FeeRateUpdated();
+        feeRateUpdated.setId(contractEvent.getId());
+        feeRateUpdated.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        feeRateUpdated.setFeeNumerator(contractEvent.getFeeNumerator());
+        feeRateUpdated.setFeeDenominator(contractEvent.getFeeDenominator());
+        feeRateUpdated.setVersion(contractEvent.getVersion());
+
+        feeRateUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        feeRateUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        feeRateUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        feeRateUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        feeRateUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        feeRateUpdated.setSuiSender(eventEnvelope.getSender());
+
+        return feeRateUpdated;
     }
 
     public static AbstractSellPoolEvent.SellPoolInitialized toSellPoolInitialized(SuiMoveEventEnvelope<SellPoolInitialized> eventEnvelope) {

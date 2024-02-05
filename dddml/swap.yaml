@@ -246,6 +246,27 @@ aggregates:
             Y_Amount:
               type: u64
 
+      UpdateFeeRate:
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          FeeNumerator:
+            type: u64
+          FeeDenominator:
+            type: u64
+        event:
+          name: FeeRateUpdated
+          properties:
+            LiquidityTokenId:
+              type: ID #ObjectID
+
   SellPool:
     metadata:
       IS_MOVE_SCHEMA_VERSIONED: true

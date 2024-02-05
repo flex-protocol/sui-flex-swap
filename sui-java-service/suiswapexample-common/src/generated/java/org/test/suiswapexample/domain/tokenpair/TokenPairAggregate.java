@@ -19,6 +19,8 @@ public interface TokenPairAggregate {
 
     void destroy(String liquidityToken, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.Destroy c);
 
+    void updateFeeRate(String liquidityToken, BigInteger feeNumerator, BigInteger feeDenominator, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.UpdateFeeRate c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 

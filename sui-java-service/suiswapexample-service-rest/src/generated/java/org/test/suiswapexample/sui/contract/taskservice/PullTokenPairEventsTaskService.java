@@ -46,4 +46,9 @@ public class PullTokenPairEventsTaskService {
         tokenPairEventService.pullYSwappedForXEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-token-pair-events.fee-rate-updated.fixed-delay:5000}")
+    public void pullFeeRateUpdatedEvents() {
+        tokenPairEventService.pullFeeRateUpdatedEvents();
+    }
+
 }

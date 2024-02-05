@@ -69,6 +69,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateFeeRateLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "feeNumerator", "feeDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.sellpool.InitializeSellPoolLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, SellPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
@@ -177,6 +185,14 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{TokenPairState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "liquidityTokenId", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateFeeRateLogic",
+                    "mutate",
+                    new Class[]{TokenPairState.class, String.class, BigInteger.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "liquidityTokenId", "feeNumerator", "feeDenominator", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

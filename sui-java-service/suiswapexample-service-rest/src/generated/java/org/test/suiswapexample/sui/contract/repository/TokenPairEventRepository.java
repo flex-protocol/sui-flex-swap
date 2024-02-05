@@ -25,4 +25,6 @@ public interface TokenPairEventRepository extends JpaRepository<AbstractTokenPai
 
     AbstractTokenPairEvent.YSwappedForX findFirstYSwappedForXByOrderBySuiTimestampDesc();
 
+    AbstractTokenPairEvent.FeeRateUpdated findFirstFeeRateUpdatedByOrderBySuiTimestampDesc();
+
 }

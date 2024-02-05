@@ -758,6 +758,51 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
 
     }
 
+    public static class FeeRateUpdated extends TokenPairClobEvent implements TokenPairEvent.FeeRateUpdated {
+
+        @Override
+        public String getEventType() {
+            return "FeeRateUpdated";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
+        public BigInteger getFeeNumerator() {
+            Object val = getDynamicProperties().get("feeNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setFeeNumerator(BigInteger value) {
+            getDynamicProperties().put("feeNumerator", value);
+        }
+
+        public BigInteger getFeeDenominator() {
+            Object val = getDynamicProperties().get("feeDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setFeeDenominator(BigInteger value) {
+            getDynamicProperties().put("feeDenominator", value);
+        }
+
+    }
+
 
 }
 

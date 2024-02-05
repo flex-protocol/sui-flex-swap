@@ -13,6 +13,15 @@ sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function 
 --gas-budget 100000
 ```
 
+### UpdateFeeRate method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function update_fee_rate \
+--type-args 'X' 'Y' \
+--args token_pair_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \"u64_fee_numerator\" \"u64_fee_denominator\" \
+--gas-budget 100000
+```
+
 ## SellPool aggregate
 
 ### UpdateExchangeRate method

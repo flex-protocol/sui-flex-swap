@@ -20,6 +20,8 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_Y_SWAPPED_FOR_X = "token_pair::YSwappedForX";
 
+    public static final String TOKEN_PAIR_MODULE_FEE_RATE_UPDATED = "token_pair::FeeRateUpdated";
+
     public static final String SELL_POOL_MODULE_SELL_POOL_INITIALIZED = "sell_pool::SellPoolInitialized";
 
     public static final String SELL_POOL_MODULE_SELL_POOL_EXCHANGE_RATE_UPDATED = "sell_pool::SellPoolExchangeRateUpdated";

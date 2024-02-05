@@ -22,6 +22,7 @@ module sui_swap_example::token_pair {
     friend sui_swap_example::token_pair_destroy_logic;
     friend sui_swap_example::token_pair_swap_x_logic;
     friend sui_swap_example::token_pair_swap_y_logic;
+    friend sui_swap_example::token_pair_update_fee_rate_logic;
     friend sui_swap_example::token_pair_aggregate;
 
     #[allow(unused_const)]
@@ -581,6 +582,46 @@ module sui_swap_example::token_pair {
         }
     }
 
+    struct FeeRateUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
+    }
+
+    public fun fee_rate_updated_id(fee_rate_updated: &FeeRateUpdated): object::ID {
+        fee_rate_updated.id
+    }
+
+    public fun fee_rate_updated_liquidity_token_id(fee_rate_updated: &FeeRateUpdated): ID {
+        fee_rate_updated.liquidity_token_id
+    }
+
+    public fun fee_rate_updated_fee_numerator(fee_rate_updated: &FeeRateUpdated): u64 {
+        fee_rate_updated.fee_numerator
+    }
+
+    public fun fee_rate_updated_fee_denominator(fee_rate_updated: &FeeRateUpdated): u64 {
+        fee_rate_updated.fee_denominator
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_fee_rate_updated<X: key + store, Y>(
+        token_pair: &TokenPair<X, Y>,
+        liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
+    ): FeeRateUpdated {
+        FeeRateUpdated {
+            id: id(token_pair),
+            version: version(token_pair),
+            liquidity_token_id,
+            fee_numerator,
+            fee_denominator,
+        }
+    }
+
 
     public(friend) fun transfer_object<X: key + store, Y>(token_pair: TokenPair<X, Y>, recipient: address) {
         assert!(token_pair.version == 0, EInappropriateVersion);
@@ -659,6 +700,10 @@ module sui_swap_example::token_pair {
 
     public(friend) fun emit_y_swapped_for_x(y_swapped_for_x: YSwappedForX) {
         event::emit(y_swapped_for_x);
+    }
+
+    public(friend) fun emit_fee_rate_updated(fee_rate_updated: FeeRateUpdated) {
+        event::emit(fee_rate_updated);
     }
 
 }
