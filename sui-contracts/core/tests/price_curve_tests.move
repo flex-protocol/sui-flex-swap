@@ -79,4 +79,23 @@ module sui_swap_example::price_curve_tests {
         let y_amount_in = 23000;
         assert!(y_amount_in >= y_amount_required, 1);
     }
+
+    #[test]
+    public fun test_rounding_up() {
+        //ceil_val(a, b) = (a + b - 1) / b
+        let number_numerator = 50;
+        let number_denominator = 100;
+        let number_of_items= (number_numerator + number_denominator - 1) / number_denominator;
+        debug::print(&number_of_items);
+
+        let number_numerator = 100;
+        let number_denominator = 100;
+        let number_of_items= (number_numerator + number_denominator - 1) / number_denominator;
+        debug::print(&number_of_items);
+
+        let number_numerator = 1;
+        let number_denominator = 1;
+        let number_of_items= (number_numerator + number_denominator - 1) / number_denominator;
+        debug::print(&number_of_items);
+    }
 }
