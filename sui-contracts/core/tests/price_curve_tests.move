@@ -37,9 +37,19 @@ module sui_swap_example::price_curve_tests {
         debug::print(&new_spot_price);
         //[debug] 512499
         //[debug] 1049999
-        //
-        //[debug] 537499
-        //[debug] 1049999
+
+        spot_price = new_spot_price;
+        let (amount, new_spot_price) = price_curve::get_sell_info(
+            curve_type,
+            number_numerator,
+            number_denominator,
+            spot_price,
+            price_numerator_delta,
+            price_denominator
+        );
+        debug::print(&amount);
+        debug::print(&new_spot_price);
+
     }
 
 
@@ -78,9 +88,21 @@ module sui_swap_example::price_curve_tests {
         debug::print(&new_exchange_rate_numerator);
         let y_amount_in = 23000;
         assert!(y_amount_in >= y_amount_required, 1);
+
+        exchange_rate_numerator = new_exchange_rate_numerator; //<- spot_price: u64,
+        let (amount, new_spot_price) = price_curve::get_sell_info(
+            price_curve_type,
+            x_amount, // <- number_numerator: u64,
+            price_delta_x_amount,
+            exchange_rate_numerator,
+            price_delta_numerator,
+            price_delta_denominator,
+        );
+        debug::print(&amount);
+        debug::print(&new_spot_price);
     }
 
-    #[test]
+    //#[test]
     public fun test_rounding_up() {
         //ceil_val(a, b) = (a + b - 1) / b
         let number_numerator = 50;

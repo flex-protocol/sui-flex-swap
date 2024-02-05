@@ -37,6 +37,24 @@ module sui_swap_example::price_curve {
         )
     }
 
+    public fun get_sell_info(
+        curve_type: u8,
+        number_numerator: u64,
+        number_denominator: u64,
+        spot_price: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64
+    ): (u64, u64) {
+        assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
+        let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
+        get_linear_curve_sell_info(
+            number_of_items,
+            spot_price,
+            price_delta_numerator,
+            price_delta_denominator
+        )
+    }
+
     fun get_linear_curve_buy_info(
         number_of_items: FixedPoint32,
         spot_price: u64,
@@ -58,7 +76,7 @@ module sui_swap_example::price_curve {
         // let amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
         // ~~
         //
-        // If want to be consistent with the Solidity version:
+        // If we want to be consistent with the Solidity version (to avoid arbitraging):
         //
         // amount =
         //     number_of_items * spot_price +
@@ -79,6 +97,34 @@ module sui_swap_example::price_curve {
                 ),
                 number_of_items_plus_one
             ) / 2;
+        (amount, new_spot_price)
+    }
+
+
+    fun get_linear_curve_sell_info(
+        number_of_items: FixedPoint32,
+        spot_price: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64
+    ): (u64, u64) {
+        let delta = fixed_point32::multiply_u64(spot_price, fixed_point32::create_from_rational(
+            price_delta_numerator,
+            price_delta_denominator
+        ));
+        // We first calculate the change in spot price after selling all of the items
+        let total_price_decrease = fixed_point32::multiply_u64(delta, number_of_items);
+        let new_spot_price = if (spot_price < total_price_decrease) {
+            // If the current spot price is less than the total amount that the spot price should change by...
+            // We calculate how many items we can sell into the linear curve until the spot price reaches 0
+            let number_of_items_till_zero_price = fixed_point32::create_from_rational(spot_price, delta);
+            number_of_items = number_of_items_till_zero_price;
+            0
+        } else {
+            // Otherwise, the current spot price is greater than or equal to the total amount that the spot price changes
+            // The new spot price is just the change between spot price and the total price change
+            spot_price - total_price_decrease
+        };
+        let amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
         (amount, new_spot_price)
     }
 }
