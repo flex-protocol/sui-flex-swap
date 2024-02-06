@@ -1,6 +1,5 @@
 module sui_swap_example::token_pair_service_process {
-    use sui::coin;
-    use sui::coin::Coin;
+    use sui::coin::{Self, Coin};
     use sui::object;
     use sui::tx_context::{Self, TxContext};
 
@@ -8,7 +7,7 @@ module sui_swap_example::token_pair_service_process {
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::nft_service;
-    use sui_swap_example::token_pair::TokenPair;
+    use sui_swap_example::token_pair::{Self, TokenPair};
     use sui_swap_example::token_pair_aggregate;
 
     const EMismatchedObjectId: u64 = 10;
@@ -51,7 +50,7 @@ module sui_swap_example::token_pair_service_process {
         exchange: &mut Exchange,
         get_x_amount_response: nft_service::GetAmountResponse<X, NS, InitializeLiquidityGetX_AmountContext<Y>>,
         _ctx: &mut TxContext,
-    ) {
+    ): (token_pair::TokenPair<X, Y>,  LiquidityToken<X, Y>) {
         let (x_amount, get_x_amount_request) = nft_service::unpack_get_amount_respone(get_x_amount_response);
         let (x, get_x_amount_context) = nft_service::unpack_get_amount_request(get_x_amount_request);
         let InitializeLiquidityGetX_AmountContext {
@@ -171,7 +170,7 @@ module sui_swap_example::token_pair_service_process {
         fee_numerator: u64,
         fee_denominator: u64,
         ctx: &mut tx_context::TxContext,
-    ) {
+    ): (token_pair::TokenPair<X, Y>,  LiquidityToken<X, Y>) {
         let y_amount_b = coin_util::split_up_and_into_balance(y_coin, y_amount, ctx);
         token_pair_aggregate::initialize_liquidity(
             exchange,

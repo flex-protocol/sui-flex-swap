@@ -5,7 +5,7 @@
 
 module sui_swap_example::liquidity_initialized {
 
-    use std::option;
+    use std::option::{Self, Option};
     use std::string::String;
     use sui::object::{Self, ID};
     use sui_swap_example::token_pair::{Self, LiquidityInitialized};
@@ -50,7 +50,7 @@ module sui_swap_example::liquidity_initialized {
         token_pair::liquidity_initialized_liquidity_amount(liquidity_initialized)
     }
 
-    public fun liquidity_token_id(liquidity_initialized: &LiquidityInitialized): ID {
+    public fun liquidity_token_id(liquidity_initialized: &LiquidityInitialized): Option<ID> {
         token_pair::liquidity_initialized_liquidity_token_id(liquidity_initialized)
     }
 

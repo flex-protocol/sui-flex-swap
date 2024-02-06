@@ -33,7 +33,7 @@ module sui_swap_example::token_pair_aggregate {
         fee_numerator: u64,
         fee_denominator: u64,
         ctx: &mut tx_context::TxContext,
-    ) {
+    ): (token_pair::TokenPair<X, Y>, LiquidityToken<X, Y>) {
         let liquidity_initialized = token_pair_initialize_liquidity_logic::verify<X, Y>(
             exchange,
             &x,
@@ -43,16 +43,16 @@ module sui_swap_example::token_pair_aggregate {
             fee_denominator,
             ctx,
         );
-        let token_pair = token_pair_initialize_liquidity_logic::mutate<X, Y>(
-            &liquidity_initialized,
+        let (token_pair, liquidity_token) = token_pair_initialize_liquidity_logic::mutate<X, Y>(
+            &mut liquidity_initialized,
             x,
             y_amount,
             exchange,
             ctx,
         );
         token_pair::set_liquidity_initialized_id(&mut liquidity_initialized, token_pair::id(&token_pair));
-        token_pair::share_object(token_pair);
         token_pair::emit_liquidity_initialized(liquidity_initialized);
+        (token_pair, liquidity_token)
     }
 
     #[allow(unused_mut_parameter)]

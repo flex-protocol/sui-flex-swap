@@ -6,7 +6,7 @@ module sui_swap_example::sell_pool_service_process {
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::nft_service;
-    use sui_swap_example::sell_pool::SellPool;
+    use sui_swap_example::sell_pool::{Self, SellPool};
     use sui_swap_example::sell_pool_aggregate;
 
     const EMismatchedObjectId: u64 = 10;
@@ -55,7 +55,7 @@ module sui_swap_example::sell_pool_service_process {
         exchange: &mut Exchange,
         get_x_amount_response: nft_service::GetAmountResponse<X, NS, InitializeSellPoolGetX_AmountContext>,
         _ctx: &mut TxContext,
-    ) {
+    ):(sell_pool::SellPool<X, Y>, LiquidityToken<X, Y>) {
         let (x_amount, get_x_amount_request) = nft_service::unpack_get_amount_respone(get_x_amount_response);
         let (x, get_x_amount_context) = nft_service::unpack_get_amount_request(get_x_amount_request);
         let InitializeSellPoolGetX_AmountContext {
@@ -79,7 +79,7 @@ module sui_swap_example::sell_pool_service_process {
             price_delta_numerator,
             price_delta_denominator,
             _ctx,
-        );
+        )
     }
 
     struct AddXTokenGetX_AmountContext {
@@ -135,7 +135,7 @@ module sui_swap_example::sell_pool_service_process {
         price_delta_numerator: u64,
         price_delta_denominator: u64,
         ctx: &mut tx_context::TxContext,
-    ) {
+    ): (sell_pool::SellPool<X, Y>, LiquidityToken<X, Y>) {
         sell_pool_aggregate::initialize_sell_pool<X, Y>(
             exchange,
             x,

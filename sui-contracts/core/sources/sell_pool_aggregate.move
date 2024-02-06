@@ -36,7 +36,7 @@ module sui_swap_example::sell_pool_aggregate {
         price_delta_numerator: u64,
         price_delta_denominator: u64,
         ctx: &mut tx_context::TxContext,
-    ) {
+    ): (sell_pool::SellPool<X, Y>, LiquidityToken<X, Y>) {
         let sell_pool_initialized = sell_pool_initialize_sell_pool_logic::verify<X, Y>(
             exchange,
             &x,
@@ -49,15 +49,15 @@ module sui_swap_example::sell_pool_aggregate {
             price_delta_denominator,
             ctx,
         );
-        let sell_pool = sell_pool_initialize_sell_pool_logic::mutate<X, Y>(
-            &sell_pool_initialized,
+        let (sell_pool, liquidity_token) = sell_pool_initialize_sell_pool_logic::mutate<X, Y>(
+            &mut sell_pool_initialized,
             x,
             exchange,
             ctx,
         );
         sell_pool::set_sell_pool_initialized_id(&mut sell_pool_initialized, sell_pool::id(&sell_pool));
-        sell_pool::share_object(sell_pool);
         sell_pool::emit_sell_pool_initialized(sell_pool_initialized);
+        (sell_pool, liquidity_token)
     }
 
     #[allow(unused_mut_parameter)]

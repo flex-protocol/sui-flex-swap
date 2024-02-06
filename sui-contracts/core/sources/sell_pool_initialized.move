@@ -5,7 +5,7 @@
 
 module sui_swap_example::sell_pool_initialized {
 
-    use std::option;
+    use std::option::{Self, Option};
     use std::string::String;
     use sui::object::{Self, ID};
     use sui_swap_example::sell_pool::{Self, SellPoolInitialized};
@@ -58,7 +58,7 @@ module sui_swap_example::sell_pool_initialized {
         sell_pool::sell_pool_initialized_y_token_type(sell_pool_initialized)
     }
 
-    public fun liquidity_token_id(sell_pool_initialized: &SellPoolInitialized): ID {
+    public fun liquidity_token_id(sell_pool_initialized: &SellPoolInitialized): Option<ID> {
         sell_pool::sell_pool_initialized_liquidity_token_id(sell_pool_initialized)
     }
 

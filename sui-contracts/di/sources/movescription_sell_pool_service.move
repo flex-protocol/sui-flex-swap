@@ -1,4 +1,6 @@
 module sui_swap_di::movescription_sell_pool_service {
+    use sui::transfer;
+    use sui::tx_context;
     use sui::tx_context::TxContext;
     use nft_service_impl::movescription_service_impl as ns;
     use nft_service_impl::movescription_service_impl::MovescriptionServiceImpl;
@@ -6,9 +8,11 @@ module sui_swap_di::movescription_sell_pool_service {
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_example::sell_pool;
     use sui_swap_example::sell_pool::SellPool;
     use sui_swap_example::sell_pool_service_process;
 
+    #[lint_allow(self_transfer)]
     public fun initialize_sell_pool<Y>(
         _nft_service_config: &NftServiceConfig,
         exchange: &mut Exchange,
@@ -33,11 +37,13 @@ module sui_swap_di::movescription_sell_pool_service {
             _ctx
         );
         let get_x_amount_rsp = ns::get_amount(_nft_service_config, get_x_amount_req);
-        sell_pool_service_process::initialize_sell_pool_get_x_amount_callback<Movescription, Y, MovescriptionServiceImpl>(
+        let (sell_pool, liquidity_token) = sell_pool_service_process::initialize_sell_pool_get_x_amount_callback<Movescription, Y, MovescriptionServiceImpl>(
             exchange,
             get_x_amount_rsp,
             _ctx
-        )
+        );
+        sell_pool::share_object(sell_pool);
+        transfer::public_transfer(liquidity_token, tx_context::sender(_ctx));
     }
 
     public fun add_x_token<Y>(

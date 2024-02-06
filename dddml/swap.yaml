@@ -59,6 +59,10 @@ aggregates:
             type: u64
           FeeDenominator:
             type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
         event:
           name: LiquidityInitialized
           isObjectShared: true # Share the object after created.
@@ -79,6 +83,7 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+              optional: true
             X_Id:
               type: ID
 
@@ -342,6 +347,10 @@ aggregates:
             type: u64
           PriceDeltaDenominator:
             type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
         event:
           name: SellPoolInitialized
           isObjectShared: true # Share the object after created.
@@ -358,6 +367,7 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+              optional: true
             X_Id:
               type: ID
 

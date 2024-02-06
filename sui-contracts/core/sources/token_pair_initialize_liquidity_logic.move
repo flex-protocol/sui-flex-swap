@@ -1,5 +1,6 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::token_pair_initialize_liquidity_logic {
+    use std::option;
     use std::string;
     use std::type_name;
 
@@ -9,6 +10,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
     use sui::table;
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
+    use sui_swap_example::liquidity_token::LiquidityToken;
 
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
@@ -44,10 +46,10 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         let liquidity_amount = liquidity_util::calculate_liquidity(total_liquidity, 0, 0, x_amount, y_amount_i);
         assert!(liquidity_amount > 0, EAddInvalidLiquidity);
 
-        // mint first, so that we can emit its id in the event
-        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
-        let liquidity_token_id = object::id(&liquidity_token);
-        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
+        // // mint first, so that we can emit its id in the event
+        // let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
+        // let liquidity_token_id = object::id(&liquidity_token);
+        // transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         let fee_numerator = if (fee_denominator == 0) { DEFAULT_FEE_NUMERATOR } else { fee_numerator };
         let fee_denominator = if (fee_denominator == 0) { DEFAULT_FEE_DENOMINATOR } else { fee_denominator };
@@ -62,18 +64,18 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             y_token_type,
             y_amount_i,
             liquidity_amount,
-            liquidity_token_id,
+            option::none(),
             object::id(x),
         )
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        liquidity_initialized: &token_pair::LiquidityInitialized,
+        liquidity_initialized: &mut token_pair::LiquidityInitialized,
         x: X,
         y_amount: Balance<Y>,
         exchange: &mut Exchange,
         ctx: &mut TxContext,
-    ): token_pair::TokenPair<X, Y> {
+    ): (token_pair::TokenPair<X, Y>, LiquidityToken<X, Y>) {
         let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
 
@@ -84,7 +86,10 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         table::add(&mut x_amounts, x_id, x_amount);
         let x_total_amount = x_amount;
 
-        let liquidity_token_id = liquidity_initialized::liquidity_token_id(liquidity_initialized);
+        //let liquidity_token_id = liquidity_initialized::liquidity_token_id(liquidity_initialized);
+        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
+        let liquidity_token_id = object::id(&liquidity_token);
+        //transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         let token_pair = token_pair::new_token_pair(
             x_reserve,
@@ -100,6 +105,6 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
 
         let y_reserve = token_pair::borrow_mut_y_reserve(&mut token_pair);
         sui::balance::join(y_reserve, y_amount);
-        token_pair
+        (token_pair, liquidity_token)
     }
 }

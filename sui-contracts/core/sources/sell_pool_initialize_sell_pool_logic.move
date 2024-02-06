@@ -1,16 +1,17 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::sell_pool_initialize_sell_pool_logic {
+    use std::option;
     use std::string;
     use std::type_name;
 
     use sui::object::{Self, ID};
     use sui::object_table;
     use sui::table;
-    use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::exchange::Exchange;
     use sui_swap_example::exchange_aggregate;
+    use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::liquidity_token_aggregate;
     use sui_swap_example::price_curve;
     use sui_swap_example::sell_pool;
@@ -49,10 +50,10 @@ module sui_swap_example::sell_pool_initialize_sell_pool_logic {
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
 
-        // mint first, so that we can emit its id in the event
-        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
-        let liquidity_token_id = object::id(&liquidity_token);
-        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
+        // // mint first, so that we can emit its id in the event
+        // let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
+        // let liquidity_token_id = object::id(&liquidity_token);
+        // transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         sell_pool::new_sell_pool_initialized<X, Y>(
             object::id(exchange),
@@ -66,17 +67,17 @@ module sui_swap_example::sell_pool_initialize_sell_pool_logic {
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
-            liquidity_token_id,
+            option::none(),
             object::id(x),
         )
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        sell_pool_initialized: &sell_pool::SellPoolInitialized,
+        sell_pool_initialized: &mut sell_pool::SellPoolInitialized,
         x: X,
         exchange: &mut Exchange,
         ctx: &mut TxContext,
-    ): sell_pool::SellPool<X, Y> {
+    ): (sell_pool::SellPool<X, Y>, LiquidityToken<X, Y>) {
         let x_amount = sell_pool_initialized::x_amount(sell_pool_initialized);
         let exchange_rate_numerator = sell_pool_initialized::exchange_rate_numerator(sell_pool_initialized);
         let exchange_rate_denominator = sell_pool_initialized::exchange_rate_denominator(sell_pool_initialized);
@@ -92,9 +93,13 @@ module sui_swap_example::sell_pool_initialize_sell_pool_logic {
         table::add(&mut x_amounts, x_id, x_amount);
         let x_total_amount = x_amount;
 
-        let liquidity_token_id = sell_pool_initialized::liquidity_token_id(sell_pool_initialized);
+        //let liquidity_token_id = sell_pool_initialized::liquidity_token_id(sell_pool_initialized);
 
-        let sell_pool = sell_pool::new_sell_pool(
+        let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
+        let liquidity_token_id = object::id(&liquidity_token);
+        sell_pool::set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized, liquidity_token_id);
+
+        let sell_pool = sell_pool::new_sell_pool<X, Y>(
             x_reserve,
             x_amounts,
             x_total_amount,
@@ -109,7 +114,6 @@ module sui_swap_example::sell_pool_initialize_sell_pool_logic {
             ctx,
         );
         exchange_aggregate::add_sell_pool<X, Y>(exchange, sell_pool::id(&sell_pool), ctx);
-
-        sell_pool
+        (sell_pool, liquidity_token)
     }
 }
