@@ -22,4 +22,14 @@ module sui_swap_example::fixed_point32_util {
         };
         fixed_point32::create_from_raw_value(res)
     }
+
+    public fun plus_one(value: FixedPoint32): FixedPoint32 {
+        fixed_point32::create_from_raw_value(
+            fixed_point32::get_raw_value(value) + SCALING_FACTOR
+        )
+    }
+
+    public fun greater_than_one(value: FixedPoint32): bool {
+        fixed_point32::get_raw_value(value) > SCALING_FACTOR
+    }
 }

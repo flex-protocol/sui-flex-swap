@@ -2,9 +2,9 @@ module sui_swap_example::price_curve {
     use std::fixed_point32;
     use std::fixed_point32::FixedPoint32;
 
-    const EInvalidCurveType: u64 = 10;
+    use sui_swap_example::fixed_point32_util;
 
-    const FP32_SCALING_FACTOR: u64 = 1 << 32; // FixedPoint32 scaling factor
+    const EInvalidCurveType: u64 = 10;
 
     const LINEAR_CURVE: u8 = 0;
     const EXPONENTIAL_CURVE: u8 = 1;
@@ -85,9 +85,7 @@ module sui_swap_example::price_curve {
         //     number_numerator + number_denominator,
         //     number_denominator
         // );
-        let number_of_items_plus_one = fixed_point32::create_from_raw_value(
-            fixed_point32::get_raw_value(number_of_items) + FP32_SCALING_FACTOR
-        );
+        let number_of_items_plus_one = fixed_point32_util::plus_one(number_of_items);
         let amount = fixed_point32::multiply_u64(spot_price, number_of_items) +
             fixed_point32::multiply_u64(
                 fixed_point32::multiply_u64(
