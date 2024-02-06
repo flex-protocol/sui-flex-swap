@@ -2,7 +2,7 @@
 
 [move]
 version = 0
-manifest_digest = "8C79C02366DA0FDF96C9D537F509DB440A815E9FE3D024CC4352782A06D82677"
+manifest_digest = "013539570255E83B3BA2450803CF47377AACEC2E9DCD1593B4AF26DBE4F5E910"
 deps_digest = "F8BBB0CCB2491CA29A3DF03D6F92277A4F3574266507ACD77214D37ECA3F3082"
 
 dependencies = [
@@ -20,8 +20,3 @@ source = { local = "../../../../MystenLabs/sui/crates/sui-framework/packages/sui
 dependencies = [
   { name = "MoveStdlib" },
 ]
-
-[move.toolchain-version]
-compiler-version = "1.17.3"
-edition = "legacy"
-flavor = "sui"
