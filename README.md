@@ -311,7 +311,9 @@ sui client call --function add_allowed_impl --module nft_service_config --packag
 --gas-budget 300000000
 ```
 
-### Initialize liquidity
+### TokenPair tests
+
+#### Initialize liquidity
 
 Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
 
@@ -359,7 +361,7 @@ And note the ID of the output `LiquidityToken` object:
 ```
 
 
-### Add liquidity
+#### Add liquidity
 
 Add liquidity, the function parameters:
 
@@ -385,7 +387,7 @@ sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b07887
 
 You can add liquidity multiple times.
 
-### Remove liquidity
+#### Remove liquidity
 
 Remove liquidity, the function parameters:
 
@@ -407,7 +409,6 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 --gas-budget 100000000
 ```
 
-### Swap tokens
 
 #### Swap token X for token Y
 
@@ -456,6 +457,9 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 --gas-budget 100000000
 ```
 
+### SellPool tests
+
+[TBD]
 
 ### Test off-chain service
 
