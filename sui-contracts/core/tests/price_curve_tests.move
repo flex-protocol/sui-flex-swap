@@ -2,7 +2,9 @@
 module sui_swap_example::price_curve_tests {
 
     use std::debug;
+    use std::fixed_point32;
 
+    use sui_swap_example::fixed_point32_util;
     use sui_swap_example::price_curve;
 
     #[test]
@@ -100,6 +102,15 @@ module sui_swap_example::price_curve_tests {
         );
         debug::print(&amount);
         debug::print(&new_spot_price);
+    }
+
+    #[test]
+    public fun test_fixed_point32_pow() {
+        let base = fixed_point32::create_from_rational(110, 100);
+        let exponent = 33;
+        let p = fixed_point32_util::pow(base, exponent);
+        let t = fixed_point32::multiply_u64(100_000_000_000, p);
+        debug::print(&t);
     }
 
     //#[test]
