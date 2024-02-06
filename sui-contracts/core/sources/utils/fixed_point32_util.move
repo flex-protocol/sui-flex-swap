@@ -3,8 +3,14 @@ module sui_swap_example::fixed_point32_util {
 
     const SCALING_FACTOR: u64 = 1 << 32;
 
+    /// Return integer part and fractional of a fixed point number
+    public fun integer_and_fractional(value: FixedPoint32): (u64, u64) {
+        let raw_value = fixed_point32::get_raw_value(value);
+        (raw_value / SCALING_FACTOR, raw_value % SCALING_FACTOR)
+    }
+
     /// Return the value of a base raised to a power
-    public fun pow(base: FixedPoint32, exponent: u8): FixedPoint32 {
+    public fun pow(base: FixedPoint32, exponent: u64): FixedPoint32 {
         let res = SCALING_FACTOR; // 1
         while (exponent >= 1) {
             if (exponent % 2 == 0) {
@@ -23,13 +29,47 @@ module sui_swap_example::fixed_point32_util {
         fixed_point32::create_from_raw_value(res)
     }
 
+    public fun divide(value: FixedPoint32, divisor: FixedPoint32): FixedPoint32 {
+        let d = (fixed_point32::get_raw_value(value) as u128)
+            * (SCALING_FACTOR as u128)
+            / (fixed_point32::get_raw_value(divisor) as u128);
+        fixed_point32::create_from_raw_value((d as u64))
+    }
+
+    /// multiplicative inverse
+    public fun reciprocal(value: FixedPoint32): FixedPoint32 {
+        fixed_point32::create_from_rational(
+            SCALING_FACTOR, fixed_point32::get_raw_value(value)
+        )
+    }
+
     public fun plus_one(value: FixedPoint32): FixedPoint32 {
         fixed_point32::create_from_raw_value(
             fixed_point32::get_raw_value(value) + SCALING_FACTOR
         )
     }
 
+    public fun minus_one(value: FixedPoint32): FixedPoint32 {
+        fixed_point32::create_from_raw_value(
+            fixed_point32::get_raw_value(value) - SCALING_FACTOR
+        )
+    }
+
+    public fun one_minus(value: FixedPoint32): FixedPoint32 {
+        fixed_point32::create_from_raw_value(
+            SCALING_FACTOR - fixed_point32::get_raw_value(value)
+        )
+    }
+
+    public fun greater_or_equal_than_one(value: FixedPoint32): bool {
+        fixed_point32::get_raw_value(value) >= SCALING_FACTOR
+    }
+
     public fun greater_than_one(value: FixedPoint32): bool {
         fixed_point32::get_raw_value(value) > SCALING_FACTOR
+    }
+
+    public fun less_than_one(value: FixedPoint32): bool {
+        fixed_point32::get_raw_value(value) < SCALING_FACTOR
     }
 }
