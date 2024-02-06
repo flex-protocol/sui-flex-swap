@@ -269,6 +269,7 @@ public class M {
             "y_Reserve",
             "liquidityTokenId",
             "x_SoldAmount",
+            "startExchangeRateNumerator",
             "exchangeRateNumerator",
             "exchangeRateDenominator",
             "priceCurveType",
@@ -294,6 +295,7 @@ public class M {
             "BigInteger",
             "java.math.BigInteger",
             "String",
+            "BigInteger",
             "BigInteger",
             "BigInteger",
             "BigInteger",
@@ -339,6 +341,8 @@ public class M {
         aliasMap.put("LiquidityTokenId", "liquidityTokenId");
         aliasMap.put("x_SoldAmount", "x_SoldAmount");
         aliasMap.put("X_SoldAmount", "x_SoldAmount");
+        aliasMap.put("startExchangeRateNumerator", "startExchangeRateNumerator");
+        aliasMap.put("StartExchangeRateNumerator", "startExchangeRateNumerator");
         aliasMap.put("exchangeRateNumerator", "exchangeRateNumerator");
         aliasMap.put("ExchangeRateNumerator", "exchangeRateNumerator");
         aliasMap.put("exchangeRateDenominator", "exchangeRateDenominator");

@@ -32,6 +32,8 @@ public interface SellPoolState extends VersionedSuiMoveObject
 
     BigInteger getX_SoldAmount();
 
+    BigInteger getStartExchangeRateNumerator();
+
     BigInteger getExchangeRateNumerator();
 
     BigInteger getExchangeRateDenominator();
@@ -76,6 +78,8 @@ public interface SellPoolState extends VersionedSuiMoveObject
         void setLiquidityTokenId(String liquidityTokenId);
 
         void setX_SoldAmount(BigInteger x_SoldAmount);
+
+        void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator);
 
         void setExchangeRateNumerator(BigInteger exchangeRateNumerator);
 

@@ -99,6 +99,18 @@ public class SellPoolStateDto {
         this.x_SoldAmount = x_SoldAmount;
     }
 
+    private BigInteger startExchangeRateNumerator;
+
+    public BigInteger getStartExchangeRateNumerator()
+    {
+        return this.startExchangeRateNumerator;
+    }
+
+    public void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator)
+    {
+        this.startExchangeRateNumerator = startExchangeRateNumerator;
+    }
+
     private BigInteger exchangeRateNumerator;
 
     public BigInteger getExchangeRateNumerator()
@@ -328,6 +340,9 @@ public class SellPoolStateDto {
             }
             if (returnedFieldsContains("X_SoldAmount")) {
                 dto.setX_SoldAmount(state.getX_SoldAmount());
+            }
+            if (returnedFieldsContains("StartExchangeRateNumerator")) {
+                dto.setStartExchangeRateNumerator(state.getStartExchangeRateNumerator());
             }
             if (returnedFieldsContains("ExchangeRateNumerator")) {
                 dto.setExchangeRateNumerator(state.getExchangeRateNumerator());

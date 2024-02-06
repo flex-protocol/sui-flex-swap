@@ -17,7 +17,7 @@ public interface SellPoolAggregate {
 
     List<Event> getChanges();
 
-    void updateExchangeRate(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId, SellPoolCommands.UpdateExchangeRate c);
+    void updateExchangeRate(String liquidityToken, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId, SellPoolCommands.UpdateExchangeRate c);
 
     void destroy(String liquidityToken, Long offChainVersion, String commandId, String requesterId, SellPoolCommands.Destroy c);
 

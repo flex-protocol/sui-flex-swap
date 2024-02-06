@@ -81,6 +81,10 @@ public interface SellPoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
         void setLiquidityTokenId(String value);
 
+        BigInteger getStartExchangeRateNumerator();
+
+        void setStartExchangeRateNumerator(BigInteger value);
+
         BigInteger getExchangeRateNumerator();
 
         void setExchangeRateNumerator(BigInteger value);

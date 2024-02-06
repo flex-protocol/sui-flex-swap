@@ -85,6 +85,16 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         this.x_SoldAmount = x_SoldAmount;
     }
 
+    private BigInteger startExchangeRateNumerator;
+
+    public BigInteger getStartExchangeRateNumerator() {
+        return this.startExchangeRateNumerator;
+    }
+
+    public void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator) {
+        this.startExchangeRateNumerator = startExchangeRateNumerator;
+    }
+
     private BigInteger exchangeRateNumerator;
 
     public BigInteger getExchangeRateNumerator() {
@@ -328,6 +338,7 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         this.setY_Reserve(s.getY_Reserve());
         this.setLiquidityTokenId(s.getLiquidityTokenId());
         this.setX_SoldAmount(s.getX_SoldAmount());
+        this.setStartExchangeRateNumerator(s.getStartExchangeRateNumerator());
         this.setExchangeRateNumerator(s.getExchangeRateNumerator());
         this.setExchangeRateDenominator(s.getExchangeRateDenominator());
         this.setPriceCurveType(s.getPriceCurveType());
@@ -345,6 +356,8 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
 
         String liquidityTokenId = e.getLiquidityTokenId();
         String LiquidityTokenId = liquidityTokenId;
+        BigInteger startExchangeRateNumerator = e.getStartExchangeRateNumerator();
+        BigInteger StartExchangeRateNumerator = startExchangeRateNumerator;
         BigInteger exchangeRateNumerator = e.getExchangeRateNumerator();
         BigInteger ExchangeRateNumerator = exchangeRateNumerator;
         BigInteger exchangeRateDenominator = e.getExchangeRateDenominator();
@@ -390,14 +403,14 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         SellPoolState updatedSellPoolState = (SellPoolState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.sellpool.UpdateExchangeRateLogic",
                     "mutate",
-                    new Class[]{SellPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, liquidityTokenId, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, provider, x_TokenType, y_TokenType, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{SellPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, liquidityTokenId, startExchangeRateNumerator, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, provider, x_TokenType, y_TokenType, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.sellpool;
 //
 //public class UpdateExchangeRateLogic {
-//    public static SellPoolState mutate(SellPoolState sellPoolState, String liquidityTokenId, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, String provider, String x_TokenType, String y_TokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<SellPoolState, SellPoolState.MutableSellPoolState> mutationContext) {
+//    public static SellPoolState mutate(SellPoolState sellPoolState, String liquidityTokenId, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, String provider, String x_TokenType, String y_TokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<SellPoolState, SellPoolState.MutableSellPoolState> mutationContext) {
 //    }
 //}
 

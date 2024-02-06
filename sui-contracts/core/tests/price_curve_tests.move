@@ -24,6 +24,7 @@ module sui_swap_example::price_curve_tests {
         // 10% increase in price for each one sold
         //
         let spot_price = 1_000_000;
+        let start_price = 1_000_000;
         let price_numerator_delta = 100_000;
         let price_denominator = 1_000_000;
         let (amount, new_spot_price) = price_curve::get_buy_info(
@@ -31,6 +32,7 @@ module sui_swap_example::price_curve_tests {
             number_numerator,
             number_denominator,
             spot_price,
+            start_price,
             price_numerator_delta,
             price_denominator
         );
@@ -46,6 +48,7 @@ module sui_swap_example::price_curve_tests {
             number_numerator,
             number_denominator,
             spot_price,
+            start_price,
             price_numerator_delta,
             price_denominator
         );
@@ -74,6 +77,7 @@ module sui_swap_example::price_curve_tests {
         //
         // 10% increase in price for each one sold
         //
+        let start_exchange_rate_numerator = 10000;
         let price_delta_numerator = 10;
         let price_delta_denominator = 100;
 
@@ -82,6 +86,7 @@ module sui_swap_example::price_curve_tests {
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
             exchange_rate_numerator,
+            start_exchange_rate_numerator,
             price_delta_numerator,
             price_delta_denominator,
         );
@@ -97,6 +102,7 @@ module sui_swap_example::price_curve_tests {
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
             exchange_rate_numerator,
+            start_exchange_rate_numerator,
             price_delta_numerator,
             price_delta_denominator,
         );

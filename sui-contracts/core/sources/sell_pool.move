@@ -63,6 +63,7 @@ module sui_swap_example::sell_pool {
         y_reserve: Balance<Y>,
         liquidity_token_id: ID,
         x_sold_amount: u64,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -127,6 +128,14 @@ module sui_swap_example::sell_pool {
         sell_pool.x_sold_amount = x_sold_amount;
     }
 
+    public fun start_exchange_rate_numerator<X: key + store, Y>(sell_pool: &SellPool<X, Y>): u64 {
+        sell_pool.start_exchange_rate_numerator
+    }
+
+    public(friend) fun set_start_exchange_rate_numerator<X: key + store, Y>(sell_pool: &mut SellPool<X, Y>, start_exchange_rate_numerator: u64) {
+        sell_pool.start_exchange_rate_numerator = start_exchange_rate_numerator;
+    }
+
     public fun exchange_rate_numerator<X: key + store, Y>(sell_pool: &SellPool<X, Y>): u64 {
         sell_pool.exchange_rate_numerator
     }
@@ -185,6 +194,7 @@ module sui_swap_example::sell_pool {
         x_total_amount: u64,
         liquidity_token_id: ID,
         x_sold_amount: u64,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -209,6 +219,7 @@ module sui_swap_example::sell_pool {
             y_reserve: sui::balance::zero(),
             liquidity_token_id,
             x_sold_amount,
+            start_exchange_rate_numerator,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_curve_type,
@@ -343,6 +354,7 @@ module sui_swap_example::sell_pool {
         id: object::ID,
         version: u64,
         liquidity_token_id: ID,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_delta_x_amount: u64,
@@ -359,6 +371,10 @@ module sui_swap_example::sell_pool {
 
     public fun sell_pool_exchange_rate_updated_liquidity_token_id(sell_pool_exchange_rate_updated: &SellPoolExchangeRateUpdated): ID {
         sell_pool_exchange_rate_updated.liquidity_token_id
+    }
+
+    public fun sell_pool_exchange_rate_updated_start_exchange_rate_numerator(sell_pool_exchange_rate_updated: &SellPoolExchangeRateUpdated): u64 {
+        sell_pool_exchange_rate_updated.start_exchange_rate_numerator
     }
 
     public fun sell_pool_exchange_rate_updated_exchange_rate_numerator(sell_pool_exchange_rate_updated: &SellPoolExchangeRateUpdated): u64 {
@@ -397,6 +413,7 @@ module sui_swap_example::sell_pool {
     public(friend) fun new_sell_pool_exchange_rate_updated<X: key + store, Y>(
         sell_pool: &SellPool<X, Y>,
         liquidity_token_id: ID,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_delta_x_amount: u64,
@@ -410,6 +427,7 @@ module sui_swap_example::sell_pool {
             id: id(sell_pool),
             version: version(sell_pool),
             liquidity_token_id,
+            start_exchange_rate_numerator,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_delta_x_amount,
@@ -730,6 +748,7 @@ module sui_swap_example::sell_pool {
             y_reserve,
             liquidity_token_id: _liquidity_token_id,
             x_sold_amount: _x_sold_amount,
+            start_exchange_rate_numerator: _start_exchange_rate_numerator,
             exchange_rate_numerator: _exchange_rate_numerator,
             exchange_rate_denominator: _exchange_rate_denominator,
             price_curve_type: _price_curve_type,

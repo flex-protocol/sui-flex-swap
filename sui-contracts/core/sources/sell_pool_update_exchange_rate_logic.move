@@ -18,9 +18,11 @@ module sui_swap_example::sell_pool_update_exchange_rate_logic {
     const EInvalidExchangeRateDenominator: u64 = 12;
     const EInvalidPriceDeltaXAmount: u64 = 13;
     const EInvalidPriceDeltaDenominator: u64 = 14;
+    const EInvalidStartExchangeRateNumerator: u64 = 15;
 
     public(friend) fun verify<X: key + store, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_delta_x_amount: u64,
@@ -32,6 +34,7 @@ module sui_swap_example::sell_pool_update_exchange_rate_logic {
         let liquidity_token_id = liquidity_token::id(liquidity_token);
         assert!(sell_pool::liquidity_token_id(sell_pool) == liquidity_token_id, EInvalidLiquidityToken);
 
+        assert!(start_exchange_rate_numerator > 0, EInvalidStartExchangeRateNumerator);
         assert!(exchange_rate_numerator > 0, EInvalidExchangeRateNumerator);
         assert!(exchange_rate_denominator > 0, EInvalidExchangeRateDenominator);
         assert!(price_delta_x_amount > 0, EInvalidPriceDeltaXAmount);
@@ -40,6 +43,7 @@ module sui_swap_example::sell_pool_update_exchange_rate_logic {
         sell_pool::new_sell_pool_exchange_rate_updated(
             sell_pool,
             liquidity_token_id,
+            start_exchange_rate_numerator,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_delta_x_amount,

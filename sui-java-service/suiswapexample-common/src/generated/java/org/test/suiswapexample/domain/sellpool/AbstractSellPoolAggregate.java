@@ -47,11 +47,11 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
         }
 
         @Override
-        public void updateExchangeRate(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId, SellPoolCommands.UpdateExchangeRate c) {
-            java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory = () -> newSellPoolExchangeRateUpdated(liquidityToken, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, offChainVersion, commandId, requesterId);
+        public void updateExchangeRate(String liquidityToken, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId, SellPoolCommands.UpdateExchangeRate c) {
+            java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory = () -> newSellPoolExchangeRateUpdated(liquidityToken, startExchangeRateNumerator, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, offChainVersion, commandId, requesterId);
             SellPoolEvent.SellPoolExchangeRateUpdated e;
             try {
-                e = verifyUpdateExchangeRate(eventFactory, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, c);
+                e = verifyUpdateExchangeRate(eventFactory, startExchangeRateNumerator, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
@@ -100,7 +100,8 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
         }
            
 
-        protected SellPoolEvent.SellPoolExchangeRateUpdated verifyUpdateExchangeRate(java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, SellPoolCommands.UpdateExchangeRate c) {
+        protected SellPoolEvent.SellPoolExchangeRateUpdated verifyUpdateExchangeRate(java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, SellPoolCommands.UpdateExchangeRate c) {
+            BigInteger StartExchangeRateNumerator = startExchangeRateNumerator;
             BigInteger ExchangeRateNumerator = exchangeRateNumerator;
             BigInteger ExchangeRateDenominator = exchangeRateDenominator;
             BigInteger PriceDeltaX_Amount = priceDeltaX_Amount;
@@ -110,14 +111,14 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
             SellPoolEvent.SellPoolExchangeRateUpdated e = (SellPoolEvent.SellPoolExchangeRateUpdated) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.sellpool.UpdateExchangeRateLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, SellPoolState.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, SellPoolState.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), startExchangeRateNumerator, exchangeRateNumerator, exchangeRateDenominator, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.sellpool;
 //
 //public class UpdateExchangeRateLogic {
-//    public static SellPoolEvent.SellPoolExchangeRateUpdated verify(java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory, SellPoolState sellPoolState, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, VerificationContext verificationContext) {
+//    public static SellPoolEvent.SellPoolExchangeRateUpdated verify(java.util.function.Supplier<SellPoolEvent.SellPoolExchangeRateUpdated> eventFactory, SellPoolState sellPoolState, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -229,11 +230,12 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
         }
            
 
-        protected AbstractSellPoolEvent.SellPoolExchangeRateUpdated newSellPoolExchangeRateUpdated(String liquidityToken, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId) {
+        protected AbstractSellPoolEvent.SellPoolExchangeRateUpdated newSellPoolExchangeRateUpdated(String liquidityToken, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId) {
             SellPoolEventId eventId = new SellPoolEventId(getState().getId(), null);
             AbstractSellPoolEvent.SellPoolExchangeRateUpdated e = new AbstractSellPoolEvent.SellPoolExchangeRateUpdated();
 
             e.setLiquidityTokenId(null);
+            e.setStartExchangeRateNumerator(startExchangeRateNumerator);
             e.setExchangeRateNumerator(exchangeRateNumerator);
             e.setExchangeRateDenominator(exchangeRateDenominator);
             e.setPriceDeltaX_Amount(priceDeltaX_Amount);

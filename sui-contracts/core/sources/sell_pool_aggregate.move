@@ -64,6 +64,7 @@ module sui_swap_example::sell_pool_aggregate {
     public entry fun update_exchange_rate<X: key + store, Y>(
         sell_pool: &mut sell_pool::SellPool<X, Y>,
         liquidity_token: &LiquidityToken<X, Y>,
+        start_exchange_rate_numerator: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_delta_x_amount: u64,
@@ -74,6 +75,7 @@ module sui_swap_example::sell_pool_aggregate {
         sell_pool::assert_schema_version(sell_pool);
         let sell_pool_exchange_rate_updated = sell_pool_update_exchange_rate_logic::verify<X, Y>(
             liquidity_token,
+            start_exchange_rate_numerator,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_delta_x_amount,

@@ -35,6 +35,9 @@
     <property name="x_SoldAmount">
       <column name="x_sold_amount" sql-type="DECIMAL(20,0)" />
     </property>
+    <property name="startExchangeRateNumerator">
+      <column name="start_exchange_rate_numerator" sql-type="DECIMAL(20,0)" />
+    </property>
     <property name="exchangeRateNumerator">
       <column name="exchange_rate_numerator" sql-type="DECIMAL(20,0)" />
     </property>

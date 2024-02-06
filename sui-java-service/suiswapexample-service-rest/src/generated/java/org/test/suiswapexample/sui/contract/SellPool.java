@@ -51,6 +51,8 @@ public class SellPool {
 
     private BigInteger x_SoldAmount;
 
+    private BigInteger startExchangeRateNumerator;
+
     private BigInteger exchangeRateNumerator;
 
     private BigInteger exchangeRateDenominator;
@@ -131,6 +133,14 @@ public class SellPool {
 
     public void setX_SoldAmount(BigInteger x_SoldAmount) {
         this.x_SoldAmount = x_SoldAmount;
+    }
+
+    public BigInteger getStartExchangeRateNumerator() {
+        return startExchangeRateNumerator;
+    }
+
+    public void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator) {
+        this.startExchangeRateNumerator = startExchangeRateNumerator;
     }
 
     public BigInteger getExchangeRateNumerator() {
@@ -216,6 +226,7 @@ public class SellPool {
                 ", y_Reserve=" + y_Reserve +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 ", x_SoldAmount=" + x_SoldAmount +
+                ", startExchangeRateNumerator=" + startExchangeRateNumerator +
                 ", exchangeRateNumerator=" + exchangeRateNumerator +
                 ", exchangeRateDenominator=" + exchangeRateDenominator +
                 ", priceCurveType=" + priceCurveType +

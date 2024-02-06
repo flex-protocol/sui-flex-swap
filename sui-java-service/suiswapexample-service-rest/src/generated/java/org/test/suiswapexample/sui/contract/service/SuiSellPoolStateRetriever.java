@@ -50,6 +50,7 @@ public class SuiSellPoolStateRetriever {
         sellPoolState.setY_Reserve(sellPool.getY_Reserve());
         sellPoolState.setLiquidityTokenId(sellPool.getLiquidityTokenId());
         sellPoolState.setX_SoldAmount(sellPool.getX_SoldAmount());
+        sellPoolState.setStartExchangeRateNumerator(sellPool.getStartExchangeRateNumerator());
         sellPoolState.setExchangeRateNumerator(sellPool.getExchangeRateNumerator());
         sellPoolState.setExchangeRateDenominator(sellPool.getExchangeRateDenominator());
         sellPoolState.setPriceCurveType(sellPool.getPriceCurveType());

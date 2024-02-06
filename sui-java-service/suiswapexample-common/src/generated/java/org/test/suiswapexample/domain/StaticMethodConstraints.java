@@ -87,8 +87,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.sellpool.UpdateExchangeRateLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, SellPoolState.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "_", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
+                    new Class[]{java.util.function.Supplier.class, SellPoolState.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "startExchangeRateNumerator", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
             );
 
 
@@ -199,8 +199,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.sellpool.UpdateExchangeRateLogic",
                     "mutate",
-                    new Class[]{SellPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "liquidityTokenId", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator", "provider", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+                    new Class[]{SellPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "liquidityTokenId", "startExchangeRateNumerator", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator", "provider", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

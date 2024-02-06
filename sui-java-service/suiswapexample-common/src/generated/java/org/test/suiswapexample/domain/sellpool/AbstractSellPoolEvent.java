@@ -396,6 +396,18 @@ public abstract class AbstractSellPoolEvent extends AbstractEvent implements Sel
             getDynamicProperties().put("liquidityTokenId", value);
         }
 
+        public BigInteger getStartExchangeRateNumerator() {
+            Object val = getDynamicProperties().get("startExchangeRateNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setStartExchangeRateNumerator(BigInteger value) {
+            getDynamicProperties().put("startExchangeRateNumerator", value);
+        }
+
         public BigInteger getExchangeRateNumerator() {
             Object val = getDynamicProperties().get("exchangeRateNumerator");
             if (val instanceof BigInteger) {

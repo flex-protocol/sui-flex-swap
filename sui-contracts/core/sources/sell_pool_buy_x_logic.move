@@ -36,6 +36,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
         //x_amount, //number_numerator: u64,
         let price_delta_x_amount = sell_pool::price_delta_x_amount(sell_pool); //number_denominator: u64,
         let exchange_rate_numerator = sell_pool::exchange_rate_numerator(sell_pool); //spot_price: u64,
+        let start_exchange_rate_numerator = sell_pool::start_exchange_rate_numerator(sell_pool);
         let price_delta_numerator = sell_pool::price_delta_numerator(sell_pool);
         let price_delta_denominator = sell_pool::price_delta_denominator(sell_pool);
 
@@ -44,6 +45,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
             exchange_rate_numerator,
+            start_exchange_rate_numerator,
             price_delta_numerator,
             price_delta_denominator,
         );

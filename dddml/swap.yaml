@@ -302,8 +302,12 @@ aggregates:
         type: ID
       X_SoldAmount:
         type: u64
+      StartExchangeRateNumerator:
+        type: u64
+        description: "Start exchange rate numerator of X to Y"
       ExchangeRateNumerator:
         type: u64
+        description: "Current exchange rate numerator of X to Y"
       ExchangeRateDenominator:
         type: u64
       PriceCurveType:
@@ -382,6 +386,8 @@ aggregates:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
             eventPropertyName: LiquidityTokenId
+          StartExchangeRateNumerator:
+            type: u64
           ExchangeRateNumerator:
             type: u64
           ExchangeRateDenominator:

@@ -99,12 +99,14 @@ module sui_swap_example::sell_pool_initialize_sell_pool_logic {
         let liquidity_token_id = object::id(&liquidity_token);
         sell_pool::set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized, liquidity_token_id);
 
+        let start_exchange_rate_numerator = exchange_rate_numerator;
         let sell_pool = sell_pool::new_sell_pool<X, Y>(
             x_reserve,
             x_amounts,
             x_total_amount,
             liquidity_token_id,
             0,
+            start_exchange_rate_numerator,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_curve_type,

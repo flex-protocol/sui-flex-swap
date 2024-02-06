@@ -272,6 +272,7 @@ public class DomainBeanUtils {
         AbstractSellPoolEvent.SellPoolExchangeRateUpdated sellPoolExchangeRateUpdated = new AbstractSellPoolEvent.SellPoolExchangeRateUpdated();
         sellPoolExchangeRateUpdated.setId(contractEvent.getId());
         sellPoolExchangeRateUpdated.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        sellPoolExchangeRateUpdated.setStartExchangeRateNumerator(contractEvent.getStartExchangeRateNumerator());
         sellPoolExchangeRateUpdated.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
         sellPoolExchangeRateUpdated.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
         sellPoolExchangeRateUpdated.setPriceDeltaX_Amount(contractEvent.getPriceDeltaX_Amount());

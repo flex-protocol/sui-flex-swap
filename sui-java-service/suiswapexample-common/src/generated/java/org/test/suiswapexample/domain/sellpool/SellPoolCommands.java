@@ -193,6 +193,19 @@ public class SellPoolCommands {
         }
 
         /**
+         * Start Exchange Rate Numerator
+         */
+        private BigInteger startExchangeRateNumerator;
+
+        public BigInteger getStartExchangeRateNumerator() {
+            return this.startExchangeRateNumerator;
+        }
+
+        public void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator) {
+            this.startExchangeRateNumerator = startExchangeRateNumerator;
+        }
+
+        /**
          * Exchange Rate Numerator
          */
         private BigInteger exchangeRateNumerator;

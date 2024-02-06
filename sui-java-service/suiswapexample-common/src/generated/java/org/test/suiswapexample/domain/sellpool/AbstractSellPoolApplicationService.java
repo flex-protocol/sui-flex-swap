@@ -51,7 +51,7 @@ public abstract class AbstractSellPoolApplicationService implements SellPoolAppl
     }
 
     public void when(SellPoolCommands.UpdateExchangeRate c) {
-        update(c, ar -> ar.updateExchangeRate(c.getLiquidityToken(), c.getExchangeRateNumerator(), c.getExchangeRateDenominator(), c.getPriceDeltaX_Amount(), c.getPriceDeltaNumerator(), c.getPriceDeltaDenominator(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.updateExchangeRate(c.getLiquidityToken(), c.getStartExchangeRateNumerator(), c.getExchangeRateNumerator(), c.getExchangeRateDenominator(), c.getPriceDeltaX_Amount(), c.getPriceDeltaNumerator(), c.getPriceDeltaDenominator(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(SellPoolCommands.Destroy c) {

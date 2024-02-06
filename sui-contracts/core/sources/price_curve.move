@@ -26,16 +26,17 @@ module sui_swap_example::price_curve {
         number_numerator: u64,
         number_denominator: u64,
         spot_price: u64,
+        start_price: u64,
         price_delta_numerator: u64,
         price_delta_denominator: u64
     ): (u64, u64) {
         assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
         let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
+        let delta = get_linear_curve_price_delta(start_price, price_delta_numerator, price_delta_denominator);
         get_linear_curve_buy_info(
             number_of_items,
             spot_price,
-            price_delta_numerator,
-            price_delta_denominator
+            delta,
         )
     }
 
@@ -44,32 +45,28 @@ module sui_swap_example::price_curve {
         number_numerator: u64,
         number_denominator: u64,
         spot_price: u64,
+        start_price: u64,
         price_delta_numerator: u64,
         price_delta_denominator: u64
     ): (u64, u64) {
         assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
         let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
+        let delta = get_linear_curve_price_delta(start_price, price_delta_numerator, price_delta_denominator);
         get_linear_curve_sell_info(
             number_of_items,
             spot_price,
-            price_delta_numerator,
-            price_delta_denominator
+            delta,
         )
     }
 
     fun get_linear_curve_buy_info(
         number_of_items: FixedPoint32,
         spot_price: u64,
-        price_delta_numerator: u64,
-        price_delta_denominator: u64
+        delta: u64,
     ): (u64, u64) {
         //
         // new_spot_price = spot_price + delta * number_of_items
         //
-        let delta = fixed_point32::multiply_u64(spot_price, fixed_point32::create_from_rational(
-            price_delta_numerator,
-            price_delta_denominator
-        ));
         let new_spot_price = spot_price + fixed_point32::multiply_u64(delta, number_of_items);
 
         // ~~
@@ -106,13 +103,8 @@ module sui_swap_example::price_curve {
     fun get_linear_curve_sell_info(
         number_of_items: FixedPoint32,
         spot_price: u64,
-        price_delta_numerator: u64,
-        price_delta_denominator: u64
+        delta: u64,
     ): (u64, u64) {
-        let delta = fixed_point32::multiply_u64(spot_price, fixed_point32::create_from_rational(
-            price_delta_numerator,
-            price_delta_denominator
-        ));
         // We first calculate the change in spot price after selling all of the items
         let total_price_decrease = fixed_point32::multiply_u64(delta, number_of_items);
         let new_spot_price = if (spot_price < total_price_decrease) {
@@ -128,5 +120,17 @@ module sui_swap_example::price_curve {
         };
         let amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
         (amount, new_spot_price)
+    }
+
+    fun get_linear_curve_price_delta(
+        start_price: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64
+    ): u64 {
+        let delta = fixed_point32::multiply_u64(start_price, fixed_point32::create_from_rational(
+            price_delta_numerator,
+            price_delta_denominator
+        ));
+        delta
     }
 }

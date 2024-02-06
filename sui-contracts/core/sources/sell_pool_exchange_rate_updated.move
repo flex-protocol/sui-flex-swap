@@ -17,6 +17,10 @@ module sui_swap_example::sell_pool_exchange_rate_updated {
         sell_pool::sell_pool_exchange_rate_updated_liquidity_token_id(sell_pool_exchange_rate_updated)
     }
 
+    public fun start_exchange_rate_numerator(sell_pool_exchange_rate_updated: &SellPoolExchangeRateUpdated): u64 {
+        sell_pool::sell_pool_exchange_rate_updated_start_exchange_rate_numerator(sell_pool_exchange_rate_updated)
+    }
+
     public fun exchange_rate_numerator(sell_pool_exchange_rate_updated: &SellPoolExchangeRateUpdated): u64 {
         sell_pool::sell_pool_exchange_rate_updated_exchange_rate_numerator(sell_pool_exchange_rate_updated)
     }
