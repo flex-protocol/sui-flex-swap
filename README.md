@@ -553,19 +553,21 @@ The function parameters:
 * `sell_pool: &mut SellPool<X, Y>`.
 * `y_coin: Coin<Y>`: The SUI Coin object you own.
 * `y_amount: u64`: The amount of SUI coin you would like to pay.
-* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480`.
+* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4`.
 
 So, execute the following command:
 
 ```shell
-sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6 --module sell_pool_service --function buy_x \
+sui client call --package 0x245a71efc5d73a7b42c792bc624605c700b3858bb2b7a45ea1690384410a0162 --module sell_pool_service --function buy_x \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e ' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"10000000"' \
-'0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480' \
+'0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4' \
 --gas-budget 100000000
 ```
+
+Note the package ID above, we are using a newer version than `0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6`. :)
 
 #### Owner withdraw Y reserve
 
@@ -604,7 +606,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6 --module sell_pool_aggregate --function update_exchange_rate \
+sui client call --package 0x245a71efc5d73a7b42c792bc624605c700b3858bb2b7a45ea1690384410a0162 --module sell_pool_aggregate --function update_exchange_rate \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e ' \
 '0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29' \
@@ -616,6 +618,8 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 '"100"' \
 --gas-budget 100000000
 ```
+
+Note the package ID above, we are using a newer version than `0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6`. :)
 
 
 ### Test off-chain service
