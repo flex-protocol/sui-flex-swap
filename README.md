@@ -263,8 +263,10 @@ If you need to call functions in the "core" package, use the latest version if p
 
 > **Hint**
 > 
-> When a contract is upgraded, the new package ID does not match the addresses of the objects it can operate on.
-> About upgrade of contract, please refer to the [Sui documentation](https://docs.sui.io/concepts/sui-move-concepts/packages/upgrade).
+> When a contract is upgraded, The new package ID is not the same as the address of the object it can operate on.
+> It's possible that front-end programming will need to be aware of this, 
+> such as when doing some configuration things for the application.
+> About upgrade of Sui contract, please refer to the [Sui documentation](https://docs.sui.io/concepts/sui-move-concepts/packages/upgrade).
 
 
 #### Deploy "nft-service-impl" project
