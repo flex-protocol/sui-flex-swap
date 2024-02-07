@@ -60,7 +60,9 @@ module sui_swap_example::sell_pool_update_exchange_rate_logic {
         sell_pool: &mut sell_pool::SellPool<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        //let liquidity_token_id = sell_pool_exchange_rate_updated::liquidity_token_id(sell_pool_exchange_rate_updated);
+        let start_exchange_rate_numerator = sell_pool_exchange_rate_updated::start_exchange_rate_numerator(
+            sell_pool_exchange_rate_updated
+        );
         let exchange_rate_numerator = sell_pool_exchange_rate_updated::exchange_rate_numerator(
             sell_pool_exchange_rate_updated
         );
@@ -81,6 +83,7 @@ module sui_swap_example::sell_pool_update_exchange_rate_logic {
         // let y_token_type = sell_pool_exchange_rate_updated::y_token_type(sell_pool_exchange_rate_updated);
         // let id = sell_pool::id(sell_pool);
 
+        sell_pool::set_start_exchange_rate_numerator(sell_pool, start_exchange_rate_numerator);
         sell_pool::set_exchange_rate_numerator(sell_pool, exchange_rate_numerator);
         sell_pool::set_exchange_rate_denominator(sell_pool, exchange_rate_denominator);
         sell_pool::set_price_delta_x_amount(sell_pool, price_delta_x_amount);

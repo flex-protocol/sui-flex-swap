@@ -471,8 +471,8 @@ Note the arguments required by the function, which are assumed by the following 
 * `exchange_rate_denominator: u64`.
 * `price_curve_type: u8`: We are going to use a linear price curve (0).
 * `price_delta_x_amount: u64`. Every 10 (amount) X token sold, the price of X token will increase by 10%.
-* `price_delta_numerator: u64`.
-* `price_delta_denominator: u64`.
+* `price_delta_numerator: u64`: 10.
+* `price_delta_denominator: u64`: 100.
 
 So, the command that needs to be executed is similar to the following:
 
@@ -574,6 +574,36 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 --gas-budget 100000000
 ```
+
+#### Owner update exchange rate
+
+The function parameters:
+
+* `sell_pool: &mut SellPool<X, Y>`.
+* `liquidity_token: &LiquidityToken<X, Y>`.
+* `start_exchange_rate_numerator: u64`: We can reset the start exchange rate. Linear price curve will use this to calculate "delta".
+* `exchange_rate_numerator: u64`: We are going to set current exchange rate of X to Y as 11112/100.
+* `exchange_rate_denominator: u64`: 100.
+* `price_delta_x_amount: u64`. Every 10 (amount) X token sold, the price of X token will increase by 11%.
+* `price_delta_numerator: u64`: 11.
+* `price_delta_denominator: u64`: 100.
+
+Execute the following command:
+
+```shell
+sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6 --module sell_pool_aggregate --function update_exchange_rate \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e ' \
+'0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29' \
+'"11112"' \
+'"11112"' \
+'"100"' \
+'"11"' \
+'"11"' \
+'"100"' \
+--gas-budget 100000000
+```
+
 
 ### Test off-chain service
 
