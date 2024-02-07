@@ -36,6 +36,13 @@ module sui_swap_example::fixed_point32_util {
         fixed_point32::create_from_raw_value((d as u64))
     }
 
+    public fun multiply(value: FixedPoint32, multiplier: FixedPoint32): FixedPoint32 {
+        let m = (fixed_point32::get_raw_value(value) as u128)
+            * (fixed_point32::get_raw_value(multiplier) as u128)
+            / (SCALING_FACTOR as u128);
+        fixed_point32::create_from_raw_value((m as u64))
+    }
+
     /// multiplicative inverse
     public fun reciprocal(value: FixedPoint32): FixedPoint32 {
         fixed_point32::create_from_rational(
