@@ -344,20 +344,20 @@ sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b07887
 Note the ID of the output `TokenPair` object (we need to use it when adding liquidity):
 
 ```text
-│  │ ObjectID: 0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c                                                    │
-│  │ Sender: 0x...                                                                                                                  │
-│  │ Owner: Shared                                                                                                                  │
-│  │ ObjectType: 0x2301a3ea0ccba8d48360f1579c1f4ddfd976910b1c45919d9f2360d9294ae97::token_pair::TokenPair<...>                      │
+│  │ ObjectID: 0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c
+│  │ Sender: 0x...
+│  │ Owner: Shared
+│  │ ObjectType: 0x...::token_pair::TokenPair<...>
 ```
 
 And note the ID of the output `LiquidityToken` object:
 
 ```text
 │  ┌──                                                                                               │
-│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23                     │
+│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23                    │
 │  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
 │  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
-│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...                                     │
+│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>                                    │
 ```
 
 
@@ -459,7 +459,102 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 
 ### SellPool tests
 
-[TBD]
+
+#### Initialize sell pool
+
+Note the arguments required by the function, which are assumed by the following commands:
+
+* `_nft_service_config: &NftServiceConfig`: `0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x9bc2c185436981202c28b01eb5804ab031b798886effc80d68b3bf9f9ad0ca67`.
+* `x: Movescription`: The ID of the `Movescription` object is `0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480`.
+* `exchange_rate_numerator: u64`: We are going to set exchange rate of X to Y as 11110/100.
+* `exchange_rate_denominator: u64`.
+* `price_curve_type: u8`: We are going to use a linear price curve (0).
+* `price_delta_x_amount: u64`. Every 10 (amount) X token sold, the price of X token will increase by 10%.
+* `price_delta_numerator: u64`.
+* `price_delta_denominator: u64`.
+
+So, the command that needs to be executed is similar to the following:
+
+```shell
+sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_sell_pool_service --function initialize_sell_pool \
+--type-args '0x2::sui::SUI' \
+--args \
+'0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
+'0x9bc2c185436981202c28b01eb5804ab031b798886effc80d68b3bf9f9ad0ca67' \
+'0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480' \
+'"11110"' \
+'"100"' \
+'0' \
+'"10"' \
+'"10"' \
+'"100"' \
+--gas-budget 100000000
+```
+
+Note the ID of the output `SellPool` object (we need to use it when adding liquidity):
+
+```text
+│  │ ObjectID: 0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e
+│  │ Sender: 0x...
+│  │ Owner: Shared
+│  │ ObjectType: 0x...::sell_pool::SellPool<...>
+```
+
+And note the ID of the output `LiquidityToken` object:
+
+```text
+│  ┌──                                                                                               │
+│  │ ObjectID: 0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29                    │
+│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
+│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
+│  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>                                         │
+```
+
+#### Add X token to sell pool
+
+The function parameters:
+
+* `_nft_service_config: &NftServiceConfig`: `0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29`.
+* `sell_pool: &mut SellPool<Movescription, Y>`.
+* `liquidity_token: &LiquidityToken<Movescription, Y>`.
+* `x: Movescription`: The ID of the `Movescription` object is `0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4`.
+
+Execute the following command:
+
+```shell
+sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_sell_pool_service --function add_x_token \
+--type-args '0x2::sui::SUI' \
+--args \
+'0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
+'0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e' \
+'0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29' \
+'0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4' \
+--gas-budget 100000000
+```
+
+#### Buy X token from sell pool
+
+The function parameters:
+
+* `sell_pool: &mut SellPool<X, Y>`.
+* `y_coin: Coin<Y>`: The SUI Coin object you own.
+* `y_amount: u64`: The amount of SUI coin you would like to pay.
+* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480`.
+
+So, execute the following command:
+
+```shell
+sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6 --module sell_pool_service --function buy_x \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e ' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"10000000"' \
+'0xf27bbf01517779ecc56a1487a20b028b713c648bec3ae3c7b0279c37a9921480' \
+--gas-budget 100000000
+```
+
+
 
 ### Test off-chain service
 

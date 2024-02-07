@@ -82,7 +82,7 @@ module sui_swap_example::sell_pool_buy_x_logic {
         let new_exchange_rate_numerator = sell_pool_y_swapped_for_x::new_exchange_rate_numerator(
             sell_pool_y_swapped_for_x
         );
-        sell_pool::set_exchange_rate_denominator(sell_pool, new_exchange_rate_numerator);
+        sell_pool::set_exchange_rate_numerator(sell_pool, new_exchange_rate_numerator);
 
         let y_reserve = sell_pool::borrow_mut_y_reserve(sell_pool);
         sui::balance::join(y_reserve, y_amount);
