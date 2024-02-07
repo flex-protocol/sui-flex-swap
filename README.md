@@ -254,9 +254,15 @@ published-at = "0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1
 sui_swap_example = "0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6"
 ```
 
-> **Note**
+#### Contract upgrade records
+
+Note that the current "core" project package ID of the latest version on testnet is `0x245a71efc5d73a7b42c792bc624605c700b3858bb2b7a45ea1690384410a0162`.
+
+The new version fixes some bugs.
+If you need to call functions in the "core" package, use the latest version if possible.
+
+> **Hint**
 > 
-> The current package ID of the latest version on testnet is `0x245a71efc5d73a7b42c792bc624605c700b3858bb2b7a45ea1690384410a0162`.
 > When a contract is upgraded, the new package ID does not match the addresses of the objects it can operate on.
 > About upgrade of contract, please refer to the [Sui documentation](https://docs.sui.io/concepts/sui-move-concepts/packages/upgrade).
 
@@ -300,11 +306,11 @@ sui client publish --gas-budget 900000000 --skip-fetch-latest-git-deps  --skip-d
 Record the following information:
 
 ```text
-Transaction Digest: NYsLLTaXRPAG2sZL9XcYo8z7ffjEfJJbYq8RgTh7RTM
+Transaction Digest: 2MPcxZKL4asFZgd91GJjgfqWWNYQmdoCGVkABDPeZDBb
 
 │ Published Objects:                                                                               │
 │  ┌──                                                                                             │
-│  │ PackageID: 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc                 │
+│  │ PackageID: 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b                 │
 ```
 
 #### Configure dependency injection allowlist
@@ -335,7 +341,7 @@ Note the arguments required by the "initialize liquidity" function, which are as
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_swap_service --function initialize_liquidity \
+sui client call --package 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b --module movescription_swap_service --function initialize_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
 '0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
@@ -380,7 +386,7 @@ Add liquidity, the function parameters:
 * `y_amount: u64`.
 
 ```shell
-sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_swap_service --function add_liquidity \
+sui client call --package 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b --module movescription_swap_service --function add_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
 '0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
@@ -432,7 +438,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_swap_service --function swap_x \
+sui client call --package 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b --module movescription_swap_service --function swap_x \
 --type-args '0x2::sui::SUI' \
 --args \
 '0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
@@ -484,7 +490,7 @@ Note the arguments required by the function, which are assumed by the following 
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_sell_pool_service --function initialize_sell_pool \
+sui client call --package 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b --module movescription_sell_pool_service --function initialize_sell_pool \
 --type-args '0x2::sui::SUI' \
 --args \
 '0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
@@ -525,18 +531,18 @@ The function parameters:
 * `_nft_service_config: &NftServiceConfig`: `0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29`.
 * `sell_pool: &mut SellPool<Movescription, Y>`.
 * `liquidity_token: &LiquidityToken<Movescription, Y>`.
-* `x: Movescription`: The ID of the `Movescription` object is `0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4`.
+* `x: Movescription`: The ID of the `Movescription` object is `0x3e0023b1835de01b738e5780b78122d6344019c1b7cb57ad8b784dd199b5574c`.
 
 Execute the following command:
 
 ```shell
-sui client call --package 0x87e40eeda3466feca7c6a332b3dbc3512bbfbe460a6741b0788790449114bfdc --module movescription_sell_pool_service --function add_x_token \
+sui client call --package 0xf7a1cda373ba81391b054397357ea3c095d50986365c91ced7b1ec62ddfc038b --module movescription_sell_pool_service --function add_x_token \
 --type-args '0x2::sui::SUI' \
 --args \
 '0x9097b3003d6bd0503fe86ceb3293c70f88f22c4dba284d6f73494c3073278c29' \
 '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e' \
 '0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29' \
-'0xf210d8e4f0701c7e97b415c1258a0b942228f79ca4ff508ce7cae1c5dd27aeb4' \
+'0x3e0023b1835de01b738e5780b78122d6344019c1b7cb57ad8b784dd199b5574c' \
 --gas-budget 100000000
 ```
 
