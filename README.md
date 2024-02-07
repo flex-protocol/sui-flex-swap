@@ -554,7 +554,26 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 --gas-budget 100000000
 ```
 
+#### Owner withdraw Y reserve
 
+The function parameters:
+
+* `sell_pool: &mut SellPool<X, Y>`.
+* `liquidity_token: &LiquidityToken<X, Y>`.
+* `y_amount: u64`.
+* `y_coin: &mut Coin<Y>`.
+
+Execute the following command:
+
+```shell
+sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6 --module sell_pool_service --function withdraw_y_reserve \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0x45191373a9336cf305fca605e6107b8f055be8aa2fc40545c0a1e5002025fd5e ' \
+'0x32070230df96c8a4619a27faf0e40505d0fcf4e33790f36be85d01454a12ca29' \
+'"10000000"' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+--gas-budget 100000000
+```
 
 ### Test off-chain service
 
