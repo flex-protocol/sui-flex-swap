@@ -254,6 +254,13 @@ published-at = "0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1
 sui_swap_example = "0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64ccbdf4d37e1f6"
 ```
 
+> **Note**
+> 
+> The current package ID of the latest version on testnet is `0x245a71efc5d73a7b42c792bc624605c700b3858bb2b7a45ea1690384410a0162`.
+> When a contract is upgraded, the new package ID does not match the addresses of the objects it can operate on.
+> About upgrade of contract, please refer to the [Sui documentation](https://docs.sui.io/concepts/sui-move-concepts/packages/upgrade).
+
+
 #### Deploy "nft-service-impl" project
 
 Under the directory `sui-contracts/nft-service-impl`, publish the contract:
