@@ -474,6 +474,22 @@ sui client call --package 0x4fbbc944f3d38aaf0b287933659a424f356298067e610ff5d64c
 
 ### SellPool tests
 
+Sell pool properties related to price settings:
+
+* `PriceCurveType`: Can be `0` (linear) or `1` (exponential). The difference between the two is that 
+    in the former case, the X token price increases are based on the start price, which is a fixed value, 
+    in the latter case on the current price, which is updated every time a certain amount of X is sold.
+* `StartExchangeRateNumerator`: The start X price against Y (exchange rate numerator of X to Y) is `StartExchangeRateNumerator` / `ExchangeRateDenominator`.
+* `ExchangeRateNumerator`: The current X price is `ExchangeRateNumerator` / `ExchangeRateDenominator`.
+* `ExchangeRateDenominator`. For example, if the start price of X against Y is `12.3456` and the current price is `98.7654`, 
+    then the `StartExchangeRateNumerator` can be set to `123456`, 
+    and the `ExchangeRateNumerator` can be set to `987654`,
+    and the `ExchangeRateDenominator` can be set to `10000`. 
+* `PriceDeltaX_Amount`: For every `PriceDeltaX_Amount` sold, the price of X token increases by `PriceDeltaNumerator` / `PriceDeltaDenominator`.
+* `PriceDeltaNumerator`.
+* `PriceDeltaDenominator`. For example, if the price increases by 10% for every 200 amount of X sold, then `PriceDeltaX_Amount` can be set to `200`, 
+    and `PriceDeltaNumerator` can be set to `10`, and `PriceDeltaDenominator` can be set to `100`.
+
 
 #### Initialize sell pool
 
