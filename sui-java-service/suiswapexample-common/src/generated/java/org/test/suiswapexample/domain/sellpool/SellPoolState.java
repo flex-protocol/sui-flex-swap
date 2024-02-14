@@ -12,7 +12,7 @@ import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 
-public interface SellPoolState extends VersionedSuiMoveObject
+public interface SellPoolState extends SellOrBuyPool, VersionedSuiMoveObject
 {
     Long VERSION_ZERO = 0L;
 
@@ -20,31 +20,7 @@ public interface SellPoolState extends VersionedSuiMoveObject
 
     String getId();
 
-    ObjectTable getX_Reserve();
-
-    Table getX_Amounts();
-
-    BigInteger getX_TotalAmount();
-
-    java.math.BigInteger getY_Reserve();
-
-    String getLiquidityTokenId();
-
     BigInteger getX_SoldAmount();
-
-    BigInteger getStartExchangeRateNumerator();
-
-    BigInteger getExchangeRateNumerator();
-
-    BigInteger getExchangeRateDenominator();
-
-    Integer getPriceCurveType();
-
-    BigInteger getPriceDeltaX_Amount();
-
-    BigInteger getPriceDeltaNumerator();
-
-    BigInteger getPriceDeltaDenominator();
 
     Long getOffChainVersion();
 
@@ -64,34 +40,10 @@ public interface SellPoolState extends VersionedSuiMoveObject
 
     String getY_TokenType();
 
-    interface MutableSellPoolState extends SellPoolState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
+    interface MutableSellPoolState extends SellPoolState, SellOrBuyPool.MutableSellOrBuyPool, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 
-        void setX_Reserve(ObjectTable x_Reserve);
-
-        void setX_Amounts(Table x_Amounts);
-
-        void setX_TotalAmount(BigInteger x_TotalAmount);
-
-        void setY_Reserve(java.math.BigInteger y_Reserve);
-
-        void setLiquidityTokenId(String liquidityTokenId);
-
         void setX_SoldAmount(BigInteger x_SoldAmount);
-
-        void setStartExchangeRateNumerator(BigInteger startExchangeRateNumerator);
-
-        void setExchangeRateNumerator(BigInteger exchangeRateNumerator);
-
-        void setExchangeRateDenominator(BigInteger exchangeRateDenominator);
-
-        void setPriceCurveType(Integer priceCurveType);
-
-        void setPriceDeltaX_Amount(BigInteger priceDeltaX_Amount);
-
-        void setPriceDeltaNumerator(BigInteger priceDeltaNumerator);
-
-        void setPriceDeltaDenominator(BigInteger priceDeltaDenominator);
 
         void setOffChainVersion(Long offChainVersion);
 

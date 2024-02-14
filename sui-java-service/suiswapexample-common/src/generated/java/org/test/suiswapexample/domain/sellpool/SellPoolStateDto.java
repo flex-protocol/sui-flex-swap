@@ -27,6 +27,18 @@ public class SellPoolStateDto {
         this.id = id;
     }
 
+    private BigInteger version;
+
+    public BigInteger getVersion()
+    {
+        return this.version;
+    }
+
+    public void setVersion(BigInteger version)
+    {
+        this.version = version;
+    }
+
     private ObjectTable x_Reserve;
 
     public ObjectTable getX_Reserve()
@@ -183,18 +195,6 @@ public class SellPoolStateDto {
         this.priceDeltaDenominator = priceDeltaDenominator;
     }
 
-    private BigInteger version;
-
-    public BigInteger getVersion()
-    {
-        return this.version;
-    }
-
-    public void setVersion(BigInteger version)
-    {
-        this.version = version;
-    }
-
     private Boolean active;
 
     public Boolean getActive()
@@ -323,6 +323,9 @@ public class SellPoolStateDto {
             if (returnedFieldsContains("Id")) {
                 dto.setId(state.getId());
             }
+            if (returnedFieldsContains("Version")) {
+                dto.setVersion(state.getVersion());
+            }
             if (returnedFieldsContains("X_Reserve")) {
                 dto.setX_Reserve(state.getX_Reserve());
             }
@@ -361,9 +364,6 @@ public class SellPoolStateDto {
             }
             if (returnedFieldsContains("PriceDeltaDenominator")) {
                 dto.setPriceDeltaDenominator(state.getPriceDeltaDenominator());
-            }
-            if (returnedFieldsContains("Version")) {
-                dto.setVersion(state.getVersion());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());

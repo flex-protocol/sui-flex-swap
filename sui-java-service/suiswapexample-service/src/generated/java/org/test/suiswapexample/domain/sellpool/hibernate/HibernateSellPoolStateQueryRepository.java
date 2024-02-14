@@ -31,7 +31,7 @@ public class HibernateSellPoolStateQueryRepository implements SellPoolStateQuery
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Version", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

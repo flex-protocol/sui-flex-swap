@@ -279,48 +279,19 @@ aggregates:
       TypeParameterOffChainPropertyNameFormats:
         X: "{0}_TokenType"
         Y: "{0}_TokenType"
+    implements:
+      - SellOrBuyPool
     id:
       name: Id
       type: UID
-    typeParameters:
-      X:
-        isPhantom: true
-        keyable: true
-        storable: true
-      Y:
-        isPhantom: true
     properties:
-      X_Reserve:
-        type: "ObjectTable<ID, X>"
-      X_Amounts:
-        type: "Table<ID, u64>"
-      X_TotalAmount:
-        type: u64
-      Y_Reserve:
-        type: "Balance<Y>"
-      LiquidityTokenId:
-        type: ID
       X_SoldAmount:
         type: u64
-      StartExchangeRateNumerator:
-        type: u64
-        description: "Start exchange rate numerator of X to Y"
-      ExchangeRateNumerator:
-        type: u64
-        description: "Current exchange rate numerator of X to Y"
-      ExchangeRateDenominator:
-        type: u64
-      PriceCurveType:
-        type: u8
-      PriceDeltaX_Amount:
-        type: u64
-        description: 'For every "PriceDeltaX_Amount" sold, the price of X_Token increases by "PriceDeltaNumerator / PriceDeltaDenominator"'
-      PriceDeltaNumerator:
-        type: u64
-      PriceDeltaDenominator:
-        type: u64
+        sequenceNumber: 55
     methods:
       InitializeSellPool:
+        implements:
+          - SellOrBuyPool.Initialize
         isInternal: true
         isCreationCommand: true
         #requiredPermission: "__Publisher__"
@@ -330,81 +301,13 @@ aggregates:
         #objectTypeArguments:
         #  X: X
         #  Y: Y
-        parameters:
-          Exchange:
-            referenceType: Exchange
-            isMutableReference: true
-            eventPropertyName: ExchangeId
-          X:
-            type: X
-          X_Amount:
-            type: u64
-          ExchangeRateNumerator:
-            type: u64
-          ExchangeRateDenominator:
-            type: u64
-          PriceCurveType:
-            type: u8
-          PriceDeltaX_Amount:
-            type: u64
-          PriceDeltaNumerator:
-            type: u64
-          PriceDeltaDenominator:
-            type: u64
-        result:
-          isObjectReturned: true
-          type: LiquidityToken<X, Y>
-          name: LiquidityToken
         event:
           name: SellPoolInitialized
           isObjectShared: true # Share the object after created.
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
-              optional: true
-            X_Id:
-              type: ID
 
       UpdateExchangeRate:
-        parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
-          StartExchangeRateNumerator:
-            type: u64
-          ExchangeRateNumerator:
-            type: u64
-          ExchangeRateDenominator:
-            type: u64
-          PriceDeltaX_Amount:
-            type: u64
-          PriceDeltaNumerator:
-            type: u64
-          PriceDeltaDenominator:
-            type: u64
         event:
           name: SellPoolExchangeRateUpdated
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            LiquidityTokenId:
-              type: ID #ObjectID
 
       AddXToken:
         isInternal: true
@@ -436,62 +339,17 @@ aggregates:
               type: ID
 
       RemoveXToken:
-        parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
-          X_Id:
-            type: ID
-        result:
-          type: X
         event:
           name: SellPoolXTokenRemoved
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
 
       WithdrawYReserve:
-        parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
-          Y_Amount:
-            type: u64
-        result:
-          type: Balance<Y>
         event:
           name: YReserveWithdrawn
-          properties:
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            LiquidityTokenId:
-              type: ID #ObjectID
 
       Destroy:
         isDeletionCommand: true
-        parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
         event:
           name: SellPoolDestroyed
-          properties:
-            LiquidityTokenId:
-              type: ID #ObjectID
 
       BuyX:
         description: "i.e. Swap Y for X"
@@ -955,6 +813,189 @@ services:
         result:
           type: u64
 
+superObjects:
+  # A super-object acts like an entity template.
+  SellOrBuyPool:
+    typeParameters:
+      X:
+        isPhantom: true
+        keyable: true
+        storable: true
+      Y:
+        isPhantom: true
+    properties:
+      X_Reserve:
+        type: "ObjectTable<ID, X>"
+        sequenceNumber: 10
+      X_Amounts:
+        type: "Table<ID, u64>"
+        sequenceNumber: 20
+      X_TotalAmount:
+        type: u64
+        sequenceNumber: 30
+      Y_Reserve:
+        type: "Balance<Y>"
+        sequenceNumber: 40
+      LiquidityTokenId:
+        type: ID
+        sequenceNumber: 50
+      StartExchangeRateNumerator:
+        type: u64
+        description: "Start exchange rate numerator of X to Y"
+        sequenceNumber: 60
+      ExchangeRateNumerator:
+        type: u64
+        description: "Current exchange rate numerator of X to Y"
+        sequenceNumber: 70
+      ExchangeRateDenominator:
+        type: u64
+        sequenceNumber: 80
+      PriceCurveType:
+        type: u8
+        sequenceNumber: 90
+      PriceDeltaX_Amount:
+        type: u64
+        description: 'For sell pool, the price of X_Token increases by "PriceDeltaNumerator / PriceDeltaDenominator" for every "PriceDeltaX_Amount" sold; for buy pool, the price decreases for every bought.'
+        sequenceNumber: 100
+      PriceDeltaNumerator:
+        type: u64
+        sequenceNumber: 110
+      PriceDeltaDenominator:
+        type: u64
+        sequenceNumber: 120
+
+    methods:
+      Initialize:
+        isInternal: true
+        isCreationCommand: true
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
+        event:
+          isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+              optional: true
+            X_Id:
+              type: ID
+
+      UpdateExchangeRate:
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          StartExchangeRateNumerator:
+            type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        event:
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      RemoveXToken:
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          X_Id:
+            type: ID
+        result:
+          type: X
+        event:
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      WithdrawYReserve:
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          Y_Amount:
+            type: u64
+        result:
+          type: Balance<Y>
+        event:
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      Destroy:
+        isDeletionCommand: true
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+        event:
+          properties:
+            LiquidityTokenId:
+              type: ID #ObjectID
 
 #typeDefinitions:
 #  Movescription:

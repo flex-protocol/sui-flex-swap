@@ -25,6 +25,16 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         this.id = id;
     }
 
+    private BigInteger version;
+
+    public BigInteger getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
+    }
+
     private ObjectTable x_Reserve;
 
     public ObjectTable getX_Reserve() {
@@ -153,16 +163,6 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
 
     public void setPriceDeltaDenominator(BigInteger priceDeltaDenominator) {
         this.priceDeltaDenominator = priceDeltaDenominator;
-    }
-
-    private BigInteger version;
-
-    public BigInteger getVersion() {
-        return this.version;
-    }
-
-    public void setVersion(BigInteger version) {
-        this.version = version;
     }
 
     private Long offChainVersion;
@@ -332,6 +332,7 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         if (s == this) {
             return;
         }
+        this.setVersion(s.getVersion());
         this.setX_Reserve(s.getX_Reserve());
         this.setX_Amounts(s.getX_Amounts());
         this.setX_TotalAmount(s.getX_TotalAmount());
@@ -345,7 +346,6 @@ public abstract class AbstractSellPoolState implements SellPoolState.SqlSellPool
         this.setPriceDeltaX_Amount(s.getPriceDeltaX_Amount());
         this.setPriceDeltaNumerator(s.getPriceDeltaNumerator());
         this.setPriceDeltaDenominator(s.getPriceDeltaDenominator());
-        this.setVersion(s.getVersion());
         this.setActive(s.getActive());
         this.setX_TokenType(s.getX_TokenType());
         this.setY_TokenType(s.getY_TokenType());

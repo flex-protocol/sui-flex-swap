@@ -263,6 +263,7 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
+            "version",
             "x_Reserve",
             "x_Amounts",
             "x_TotalAmount",
@@ -276,7 +277,6 @@ public class M {
             "priceDeltaX_Amount",
             "priceDeltaNumerator",
             "priceDeltaDenominator",
-            "version",
             "offChainVersion",
             "createdBy",
             "createdAt",
@@ -290,6 +290,7 @@ public class M {
 
     public static final String[] propertyTypes = new String[] {
             "String",
+            "BigInteger",
             "ObjectTable",
             "Table",
             "BigInteger",
@@ -300,7 +301,6 @@ public class M {
             "BigInteger",
             "BigInteger",
             "Integer",
-            "BigInteger",
             "BigInteger",
             "BigInteger",
             "BigInteger",
@@ -329,6 +329,8 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
+        aliasMap.put("version", "version");
+        aliasMap.put("Version", "version");
         aliasMap.put("x_Reserve", "x_Reserve");
         aliasMap.put("X_Reserve", "x_Reserve");
         aliasMap.put("x_Amounts", "x_Amounts");
@@ -355,8 +357,6 @@ public class M {
         aliasMap.put("PriceDeltaNumerator", "priceDeltaNumerator");
         aliasMap.put("priceDeltaDenominator", "priceDeltaDenominator");
         aliasMap.put("PriceDeltaDenominator", "priceDeltaDenominator");
-        aliasMap.put("version", "version");
-        aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");
         aliasMap.put("OffChainVersion", "offChainVersion");
         aliasMap.put("createdBy", "createdBy");

@@ -39,6 +39,8 @@ public class SellPool {
 
     private Long offChainVersion;
 
+    private BigInteger version;
+
     private ObjectTable x_Reserve;
 
     private Table x_Amounts;
@@ -65,8 +67,6 @@ public class SellPool {
 
     private BigInteger priceDeltaDenominator;
 
-    private BigInteger version;
-
     private String x_TokenType;
 
     private String y_TokenType;
@@ -85,6 +85,14 @@ public class SellPool {
 
     public void setOffChainVersion(Long offChainVersion) {
         this.offChainVersion = offChainVersion;
+    }
+
+    public BigInteger getVersion() {
+        return version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
     }
 
     public ObjectTable getX_Reserve() {
@@ -191,14 +199,6 @@ public class SellPool {
         this.priceDeltaDenominator = priceDeltaDenominator;
     }
 
-    public BigInteger getVersion() {
-        return version;
-    }
-
-    public void setVersion(BigInteger version) {
-        this.version = version;
-    }
-
     public String getX_TokenType() {
         return x_TokenType;
     }
@@ -220,6 +220,7 @@ public class SellPool {
         return "SellPool{" +
                 "id=" + id +
                 ", offChainVersion=" + offChainVersion +
+                ", version=" + version +
                 ", x_Reserve=" + x_Reserve +
                 ", x_Amounts=" + x_Amounts +
                 ", x_TotalAmount=" + x_TotalAmount +
@@ -233,7 +234,6 @@ public class SellPool {
                 ", priceDeltaX_Amount=" + priceDeltaX_Amount +
                 ", priceDeltaNumerator=" + priceDeltaNumerator +
                 ", priceDeltaDenominator=" + priceDeltaDenominator +
-                ", version=" + version +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
                 '}';
