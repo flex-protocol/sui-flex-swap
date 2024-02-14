@@ -418,6 +418,61 @@ public abstract class AbstractBuyPoolState implements BuyPoolState.SqlBuyPoolSta
 
     }
 
+    public void when(AbstractBuyPoolEvent.BuyPoolYReserveDeposited e) {
+        throwOnWrongEvent(e);
+
+        String liquidityTokenId = e.getLiquidityTokenId();
+        String LiquidityTokenId = liquidityTokenId;
+        String x_TokenType = e.getX_TokenType();
+        String X_TokenType = x_TokenType;
+        String y_TokenType = e.getY_TokenType();
+        String Y_TokenType = y_TokenType;
+        BigInteger y_Amount = e.getY_Amount();
+        BigInteger Y_Amount = y_Amount;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        BuyPoolState updatedBuyPoolState = (BuyPoolState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.buypool.DepositYReserveLogic",
+                    "mutate",
+                    new Class[]{BuyPoolState.class, String.class, String.class, String.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, liquidityTokenId, x_TokenType, y_TokenType, y_Amount, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiswapexample.domain.buypool;
+//
+//public class DepositYReserveLogic {
+//    public static BuyPoolState mutate(BuyPoolState buyPoolState, String liquidityTokenId, String x_TokenType, String y_TokenType, BigInteger y_Amount, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<BuyPoolState, BuyPoolState.MutableBuyPoolState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedBuyPoolState) { merge(updatedBuyPoolState); } //else do nothing
+
+    }
+
     public void when(AbstractBuyPoolEvent.BuyPoolDestroyed e) {
         throwOnWrongEvent(e);
 

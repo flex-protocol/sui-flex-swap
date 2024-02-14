@@ -146,6 +146,26 @@ public abstract class AbstractBuyPoolAggregate extends AbstractAggregate impleme
         }
            
 
+        protected BuyPoolEvent.BuyPoolYReserveDeposited verifyDepositYReserve(java.util.function.Supplier<BuyPoolEvent.BuyPoolYReserveDeposited> eventFactory, BuyPoolCommands.DepositYReserve c) {
+
+            BuyPoolEvent.BuyPoolYReserveDeposited e = (BuyPoolEvent.BuyPoolYReserveDeposited) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.buypool.DepositYReserveLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.buypool;
+//
+//public class DepositYReserveLogic {
+//    public static BuyPoolEvent.BuyPoolYReserveDeposited verify(java.util.function.Supplier<BuyPoolEvent.BuyPoolYReserveDeposited> eventFactory, BuyPoolState buyPoolState, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
         protected BuyPoolEvent.BuyPoolYReserveWithdrawn verifyWithdrawYReserve(java.util.function.Supplier<BuyPoolEvent.BuyPoolYReserveWithdrawn> eventFactory, BigInteger y_Amount, BuyPoolCommands.WithdrawYReserve c) {
             BigInteger Y_Amount = y_Amount;
 

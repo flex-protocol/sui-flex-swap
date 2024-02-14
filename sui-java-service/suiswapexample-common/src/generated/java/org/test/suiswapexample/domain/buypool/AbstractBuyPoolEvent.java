@@ -575,6 +575,63 @@ public abstract class AbstractBuyPoolEvent extends AbstractEvent implements BuyP
 
     }
 
+    public static class BuyPoolYReserveDeposited extends BuyPoolClobEvent implements BuyPoolEvent.BuyPoolYReserveDeposited {
+
+        @Override
+        public String getEventType() {
+            return "BuyPoolYReserveDeposited";
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
+        }
+
+        public BigInteger getY_Amount() {
+            Object val = getDynamicProperties().get("y_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setY_Amount(BigInteger value) {
+            getDynamicProperties().put("y_Amount", value);
+        }
+
+    }
+
     public static class BuyPoolYReserveWithdrawn extends BuyPoolClobEvent implements BuyPoolEvent.BuyPoolYReserveWithdrawn {
 
         @Override

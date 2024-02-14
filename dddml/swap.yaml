@@ -437,7 +437,7 @@ aggregates:
         sequenceNumber: 55
     methods:
       InitializeBuyPool:
-        isInternal: true
+        #isInternal: true
         isCreationCommand: true
         #requiredPermission: "__Publisher__"
         parameters:
@@ -490,6 +490,27 @@ aggregates:
       RemoveXToken:
         event:
           name: BuyPoolXTokenRemoved
+
+      DepositYReserve:
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          Y_Amount:
+            type: Balance<Y>
+        event:
+          name: BuyPoolYReserveDeposited
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            Y_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
 
       WithdrawYReserve:
         event:

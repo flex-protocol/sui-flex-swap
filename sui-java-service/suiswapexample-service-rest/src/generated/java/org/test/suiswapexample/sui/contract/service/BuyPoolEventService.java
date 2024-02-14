@@ -17,6 +17,7 @@ import org.test.suiswapexample.sui.contract.SuiPackage;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolInitialized;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolExchangeRateUpdated;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolXTokenRemoved;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveDeposited;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolDestroyed;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolXSwappedForY;
@@ -175,6 +176,46 @@ public class BuyPoolEventService {
             return;
         }
         buyPoolEventRepository.save(buyPoolXTokenRemoved);
+    }
+
+    @Transactional
+    public void pullBuyPoolYReserveDepositedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getBuyPoolYReserveDepositedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<BuyPoolYReserveDeposited> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_DEPOSITED,
+                    cursor, limit, false, BuyPoolYReserveDeposited.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<BuyPoolYReserveDeposited> eventEnvelope : eventPage.getData()) {
+                    saveBuyPoolYReserveDeposited(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getBuyPoolYReserveDepositedEventNextCursor() {
+        AbstractBuyPoolEvent lastEvent = buyPoolEventRepository.findFirstBuyPoolYReserveDepositedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveBuyPoolYReserveDeposited(SuiMoveEventEnvelope<BuyPoolYReserveDeposited> eventEnvelope) {
+        AbstractBuyPoolEvent.BuyPoolYReserveDeposited buyPoolYReserveDeposited = DomainBeanUtils.toBuyPoolYReserveDeposited(eventEnvelope);
+        if (buyPoolEventRepository.findById(buyPoolYReserveDeposited.getBuyPoolEventId()).isPresent()) {
+            return;
+        }
+        buyPoolEventRepository.save(buyPoolYReserveDeposited);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ module sui_swap_example::buy_pool_aggregate {
     use sui::object::ID;
     use sui::tx_context;
     use sui_swap_example::buy_pool;
+    use sui_swap_example::buy_pool_deposit_y_reserve_logic;
     use sui_swap_example::buy_pool_destroy_logic;
     use sui_swap_example::buy_pool_initialize_buy_pool_logic;
     use sui_swap_example::buy_pool_remove_x_token_logic;
@@ -24,7 +25,7 @@ module sui_swap_example::buy_pool_aggregate {
     friend sui_swap_example::nft_service;
 
     #[allow(unused_mut_parameter)]
-    public(friend) fun initialize_buy_pool<X: key + store, Y>(
+    public fun initialize_buy_pool<X: key + store, Y>(
         exchange: &mut Exchange,
         y_amount: Balance<Y>,
         exchange_rate_numerator: u64,
@@ -112,6 +113,30 @@ module sui_swap_example::buy_pool_aggregate {
         buy_pool::update_object_version(buy_pool);
         buy_pool::emit_buy_pool_x_token_removed(buy_pool_x_token_removed);
         remove_x_token_return
+    }
+
+    #[allow(unused_mut_parameter)]
+    public fun deposit_y_reserve<X: key + store, Y>(
+        buy_pool: &mut buy_pool::BuyPool<X, Y>,
+        liquidity_token: &LiquidityToken<X, Y>,
+        y_amount: Balance<Y>,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        buy_pool::assert_schema_version(buy_pool);
+        let buy_pool_y_reserve_deposited = buy_pool_deposit_y_reserve_logic::verify<X, Y>(
+            liquidity_token,
+            &y_amount,
+            buy_pool,
+            ctx,
+        );
+        buy_pool_deposit_y_reserve_logic::mutate<X, Y>(
+            &buy_pool_y_reserve_deposited,
+            y_amount,
+            buy_pool,
+            ctx,
+        );
+        buy_pool::update_object_version(buy_pool);
+        buy_pool::emit_buy_pool_y_reserve_deposited(buy_pool_y_reserve_deposited);
     }
 
     #[allow(unused_mut_parameter)]

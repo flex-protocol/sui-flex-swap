@@ -42,6 +42,8 @@ public class ContractConstants {
 
     public static final String BUY_POOL_MODULE_BUY_POOL_X_TOKEN_REMOVED = "buy_pool::BuyPoolXTokenRemoved";
 
+    public static final String BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_DEPOSITED = "buy_pool::BuyPoolYReserveDeposited";
+
     public static final String BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_WITHDRAWN = "buy_pool::BuyPoolYReserveWithdrawn";
 
     public static final String BUY_POOL_MODULE_BUY_POOL_DESTROYED = "buy_pool::BuyPoolDestroyed";

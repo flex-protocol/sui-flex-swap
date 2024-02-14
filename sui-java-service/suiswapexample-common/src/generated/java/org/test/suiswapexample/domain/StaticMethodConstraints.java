@@ -158,6 +158,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.DepositYReserveLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.buypool.WithdrawYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, BuyPoolState.class, BigInteger.class, VerificationContext.class},

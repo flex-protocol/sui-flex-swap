@@ -2,6 +2,7 @@
 module sui_swap_example::buy_pool_sell_x_logic {
     use std::string;
     use std::type_name;
+    use sui::balance;
 
     use sui::balance::Balance;
     use sui::object;
@@ -16,6 +17,7 @@ module sui_swap_example::buy_pool_sell_x_logic {
     friend sui_swap_example::buy_pool_aggregate;
 
     const EInsufficientYAmountOut: u64 = 10;
+    const EInsufficientYReserve: u64 = 11;
 
     public(friend) fun verify<X: key + store, Y>(
         x: &X,
@@ -26,7 +28,8 @@ module sui_swap_example::buy_pool_sell_x_logic {
     ): buy_pool::BuyPoolXSwappedForY {
         let _ = x;
         //let x_reserve_amount = buy_pool::x_total_amount(buy_pool);
-        //let y_reserve_amount = balance::value(buy_pool::borrow_y_reserve(buy_pool));
+        let y_reserve_amount = balance::value(buy_pool::borrow_y_reserve(buy_pool));
+        assert!(y_reserve_amount >= expected_y_amount_out, EInsufficientYReserve);
 
         let price_curve_type = buy_pool::price_curve_type(buy_pool);
         //x_amount, //number_numerator: u64,
@@ -49,6 +52,9 @@ module sui_swap_example::buy_pool_sell_x_logic {
         let exchange_rate_denominator = buy_pool::exchange_rate_denominator(buy_pool);
         let y_amount_out = y_amount_out_numerator / exchange_rate_denominator;
         assert!(y_amount_out >= expected_y_amount_out, EInsufficientYAmountOut);
+        if (y_amount_out > y_reserve_amount) {
+            y_amount_out = y_reserve_amount;
+        };
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));

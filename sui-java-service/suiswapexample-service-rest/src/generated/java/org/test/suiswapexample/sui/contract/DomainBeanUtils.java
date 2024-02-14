@@ -32,6 +32,7 @@ import org.test.suiswapexample.domain.buypool.AbstractBuyPoolEvent;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolInitialized;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolExchangeRateUpdated;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolXTokenRemoved;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveDeposited;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolDestroyed;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolXSwappedForY;
@@ -496,6 +497,28 @@ public class DomainBeanUtils {
         buyPoolXTokenRemoved.setSuiSender(eventEnvelope.getSender());
 
         return buyPoolXTokenRemoved;
+    }
+
+    public static AbstractBuyPoolEvent.BuyPoolYReserveDeposited toBuyPoolYReserveDeposited(SuiMoveEventEnvelope<BuyPoolYReserveDeposited> eventEnvelope) {
+        BuyPoolYReserveDeposited contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolYReserveDeposited buyPoolYReserveDeposited = new AbstractBuyPoolEvent.BuyPoolYReserveDeposited();
+        buyPoolYReserveDeposited.setId(contractEvent.getId());
+        buyPoolYReserveDeposited.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolYReserveDeposited.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolYReserveDeposited.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolYReserveDeposited.setY_Amount(contractEvent.getY_Amount());
+        buyPoolYReserveDeposited.setVersion(contractEvent.getVersion());
+
+        buyPoolYReserveDeposited.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolYReserveDeposited.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolYReserveDeposited.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolYReserveDeposited.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolYReserveDeposited.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolYReserveDeposited.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolYReserveDeposited;
     }
 
     public static AbstractBuyPoolEvent.BuyPoolYReserveWithdrawn toBuyPoolYReserveWithdrawn(SuiMoveEventEnvelope<BuyPoolYReserveWithdrawn> eventEnvelope) {

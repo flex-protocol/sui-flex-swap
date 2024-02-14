@@ -19,6 +19,7 @@ module sui_swap_example::buy_pool {
     friend sui_swap_example::buy_pool_initialize_buy_pool_logic;
     friend sui_swap_example::buy_pool_update_exchange_rate_logic;
     friend sui_swap_example::buy_pool_remove_x_token_logic;
+    friend sui_swap_example::buy_pool_deposit_y_reserve_logic;
     friend sui_swap_example::buy_pool_withdraw_y_reserve_logic;
     friend sui_swap_example::buy_pool_destroy_logic;
     friend sui_swap_example::buy_pool_sell_x_logic;
@@ -492,6 +493,53 @@ module sui_swap_example::buy_pool {
         }
     }
 
+    struct BuyPoolYReserveDeposited has copy, drop {
+        id: object::ID,
+        version: u64,
+        liquidity_token_id: ID,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+    }
+
+    public fun buy_pool_y_reserve_deposited_id(buy_pool_y_reserve_deposited: &BuyPoolYReserveDeposited): object::ID {
+        buy_pool_y_reserve_deposited.id
+    }
+
+    public fun buy_pool_y_reserve_deposited_liquidity_token_id(buy_pool_y_reserve_deposited: &BuyPoolYReserveDeposited): ID {
+        buy_pool_y_reserve_deposited.liquidity_token_id
+    }
+
+    public fun buy_pool_y_reserve_deposited_x_token_type(buy_pool_y_reserve_deposited: &BuyPoolYReserveDeposited): String {
+        buy_pool_y_reserve_deposited.x_token_type
+    }
+
+    public fun buy_pool_y_reserve_deposited_y_token_type(buy_pool_y_reserve_deposited: &BuyPoolYReserveDeposited): String {
+        buy_pool_y_reserve_deposited.y_token_type
+    }
+
+    public fun buy_pool_y_reserve_deposited_y_amount(buy_pool_y_reserve_deposited: &BuyPoolYReserveDeposited): u64 {
+        buy_pool_y_reserve_deposited.y_amount
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_buy_pool_y_reserve_deposited<X: key + store, Y>(
+        buy_pool: &BuyPool<X, Y>,
+        liquidity_token_id: ID,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+    ): BuyPoolYReserveDeposited {
+        BuyPoolYReserveDeposited {
+            id: id(buy_pool),
+            version: version(buy_pool),
+            liquidity_token_id,
+            x_token_type,
+            y_token_type,
+            y_amount,
+        }
+    }
+
     struct BuyPoolYReserveWithdrawn has copy, drop {
         id: object::ID,
         version: u64,
@@ -704,6 +752,10 @@ module sui_swap_example::buy_pool {
 
     public(friend) fun emit_buy_pool_x_token_removed(buy_pool_x_token_removed: BuyPoolXTokenRemoved) {
         event::emit(buy_pool_x_token_removed);
+    }
+
+    public(friend) fun emit_buy_pool_y_reserve_deposited(buy_pool_y_reserve_deposited: BuyPoolYReserveDeposited) {
+        event::emit(buy_pool_y_reserve_deposited);
     }
 
     public(friend) fun emit_buy_pool_y_reserve_withdrawn(buy_pool_y_reserve_withdrawn: BuyPoolYReserveWithdrawn) {

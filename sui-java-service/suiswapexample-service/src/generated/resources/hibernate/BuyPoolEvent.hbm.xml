@@ -46,6 +46,7 @@
       <subclass name="AbstractBuyPoolEvent$BuyPoolInitialized" discriminator-value="BuyPoolInitialized" />
       <subclass name="AbstractBuyPoolEvent$BuyPoolExchangeRateUpdated" discriminator-value="BuyPoolExchangeRateUpdated" />
       <subclass name="AbstractBuyPoolEvent$BuyPoolXTokenRemoved" discriminator-value="BuyPoolXTokenRemoved" />
+      <subclass name="AbstractBuyPoolEvent$BuyPoolYReserveDeposited" discriminator-value="BuyPoolYReserveDeposited" />
       <subclass name="AbstractBuyPoolEvent$BuyPoolYReserveWithdrawn" discriminator-value="BuyPoolYReserveWithdrawn" />
       <subclass name="AbstractBuyPoolEvent$BuyPoolDestroyed" discriminator-value="BuyPoolDestroyed" />
       <subclass name="AbstractBuyPoolEvent$BuyPoolXSwappedForY" discriminator-value="BuyPoolXSwappedForY" />

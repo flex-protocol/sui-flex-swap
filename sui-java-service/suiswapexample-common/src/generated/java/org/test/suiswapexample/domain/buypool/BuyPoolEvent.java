@@ -142,6 +142,25 @@ public interface BuyPoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Has
 
     }
 
+    interface BuyPoolYReserveDeposited extends BuyPoolEvent {
+        String getLiquidityTokenId();
+
+        void setLiquidityTokenId(String value);
+
+        String getX_TokenType();
+
+        void setX_TokenType(String value);
+
+        String getY_TokenType();
+
+        void setY_TokenType(String value);
+
+        BigInteger getY_Amount();
+
+        void setY_Amount(BigInteger value);
+
+    }
+
     interface BuyPoolYReserveWithdrawn extends BuyPoolEvent {
         String getLiquidityTokenId();
 
