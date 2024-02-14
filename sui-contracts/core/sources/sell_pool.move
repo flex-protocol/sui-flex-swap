@@ -561,7 +561,7 @@ module sui_swap_example::sell_pool {
         }
     }
 
-    struct YReserveWithdrawn has copy, drop {
+    struct SellPoolYReserveWithdrawn has copy, drop {
         id: object::ID,
         version: u64,
         liquidity_token_id: ID,
@@ -570,35 +570,35 @@ module sui_swap_example::sell_pool {
         y_token_type: String,
     }
 
-    public fun y_reserve_withdrawn_id(y_reserve_withdrawn: &YReserveWithdrawn): object::ID {
-        y_reserve_withdrawn.id
+    public fun sell_pool_y_reserve_withdrawn_id(sell_pool_y_reserve_withdrawn: &SellPoolYReserveWithdrawn): object::ID {
+        sell_pool_y_reserve_withdrawn.id
     }
 
-    public fun y_reserve_withdrawn_liquidity_token_id(y_reserve_withdrawn: &YReserveWithdrawn): ID {
-        y_reserve_withdrawn.liquidity_token_id
+    public fun sell_pool_y_reserve_withdrawn_liquidity_token_id(sell_pool_y_reserve_withdrawn: &SellPoolYReserveWithdrawn): ID {
+        sell_pool_y_reserve_withdrawn.liquidity_token_id
     }
 
-    public fun y_reserve_withdrawn_y_amount(y_reserve_withdrawn: &YReserveWithdrawn): u64 {
-        y_reserve_withdrawn.y_amount
+    public fun sell_pool_y_reserve_withdrawn_y_amount(sell_pool_y_reserve_withdrawn: &SellPoolYReserveWithdrawn): u64 {
+        sell_pool_y_reserve_withdrawn.y_amount
     }
 
-    public fun y_reserve_withdrawn_x_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
-        y_reserve_withdrawn.x_token_type
+    public fun sell_pool_y_reserve_withdrawn_x_token_type(sell_pool_y_reserve_withdrawn: &SellPoolYReserveWithdrawn): String {
+        sell_pool_y_reserve_withdrawn.x_token_type
     }
 
-    public fun y_reserve_withdrawn_y_token_type(y_reserve_withdrawn: &YReserveWithdrawn): String {
-        y_reserve_withdrawn.y_token_type
+    public fun sell_pool_y_reserve_withdrawn_y_token_type(sell_pool_y_reserve_withdrawn: &SellPoolYReserveWithdrawn): String {
+        sell_pool_y_reserve_withdrawn.y_token_type
     }
 
     #[allow(unused_type_parameter)]
-    public(friend) fun new_y_reserve_withdrawn<X: key + store, Y>(
+    public(friend) fun new_sell_pool_y_reserve_withdrawn<X: key + store, Y>(
         sell_pool: &SellPool<X, Y>,
         liquidity_token_id: ID,
         y_amount: u64,
         x_token_type: String,
         y_token_type: String,
-    ): YReserveWithdrawn {
-        YReserveWithdrawn {
+    ): SellPoolYReserveWithdrawn {
+        SellPoolYReserveWithdrawn {
             id: id(sell_pool),
             version: version(sell_pool),
             liquidity_token_id,
@@ -779,8 +779,8 @@ module sui_swap_example::sell_pool {
         event::emit(sell_pool_x_token_removed);
     }
 
-    public(friend) fun emit_y_reserve_withdrawn(y_reserve_withdrawn: YReserveWithdrawn) {
-        event::emit(y_reserve_withdrawn);
+    public(friend) fun emit_sell_pool_y_reserve_withdrawn(sell_pool_y_reserve_withdrawn: SellPoolYReserveWithdrawn) {
+        event::emit(sell_pool_y_reserve_withdrawn);
     }
 
     public(friend) fun emit_sell_pool_destroyed(sell_pool_destroyed: SellPoolDestroyed) {

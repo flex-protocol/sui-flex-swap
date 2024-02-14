@@ -168,10 +168,10 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
         }
            
 
-        protected SellPoolEvent.YReserveWithdrawn verifyWithdrawYReserve(java.util.function.Supplier<SellPoolEvent.YReserveWithdrawn> eventFactory, BigInteger y_Amount, SellPoolCommands.WithdrawYReserve c) {
+        protected SellPoolEvent.SellPoolYReserveWithdrawn verifyWithdrawYReserve(java.util.function.Supplier<SellPoolEvent.SellPoolYReserveWithdrawn> eventFactory, BigInteger y_Amount, SellPoolCommands.WithdrawYReserve c) {
             BigInteger Y_Amount = y_Amount;
 
-            SellPoolEvent.YReserveWithdrawn e = (SellPoolEvent.YReserveWithdrawn) ReflectUtils.invokeStaticMethod(
+            SellPoolEvent.SellPoolYReserveWithdrawn e = (SellPoolEvent.SellPoolYReserveWithdrawn) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.sellpool.WithdrawYReserveLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, SellPoolState.class, BigInteger.class, VerificationContext.class},
@@ -181,7 +181,7 @@ public abstract class AbstractSellPoolAggregate extends AbstractAggregate implem
 //package org.test.suiswapexample.domain.sellpool;
 //
 //public class WithdrawYReserveLogic {
-//    public static SellPoolEvent.YReserveWithdrawn verify(java.util.function.Supplier<SellPoolEvent.YReserveWithdrawn> eventFactory, SellPoolState sellPoolState, BigInteger y_Amount, VerificationContext verificationContext) {
+//    public static SellPoolEvent.SellPoolYReserveWithdrawn verify(java.util.function.Supplier<SellPoolEvent.SellPoolYReserveWithdrawn> eventFactory, SellPoolState sellPoolState, BigInteger y_Amount, VerificationContext verificationContext) {
 //    }
 //}
 

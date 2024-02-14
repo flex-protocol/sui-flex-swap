@@ -21,7 +21,7 @@ public interface SellPoolEventRepository extends JpaRepository<AbstractSellPoolE
 
     AbstractSellPoolEvent.SellPoolXTokenRemoved findFirstSellPoolXTokenRemovedByOrderBySuiTimestampDesc();
 
-    AbstractSellPoolEvent.YReserveWithdrawn findFirstYReserveWithdrawnByOrderBySuiTimestampDesc();
+    AbstractSellPoolEvent.SellPoolYReserveWithdrawn findFirstSellPoolYReserveWithdrawnByOrderBySuiTimestampDesc();
 
     AbstractSellPoolEvent.SellPoolDestroyed findFirstSellPoolDestroyedByOrderBySuiTimestampDesc();
 

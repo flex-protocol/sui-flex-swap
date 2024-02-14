@@ -30,7 +30,7 @@ public class ContractConstants {
 
     public static final String SELL_POOL_MODULE_SELL_POOL_X_TOKEN_REMOVED = "sell_pool::SellPoolXTokenRemoved";
 
-    public static final String SELL_POOL_MODULE_Y_RESERVE_WITHDRAWN = "sell_pool::YReserveWithdrawn";
+    public static final String SELL_POOL_MODULE_SELL_POOL_Y_RESERVE_WITHDRAWN = "sell_pool::SellPoolYReserveWithdrawn";
 
     public static final String SELL_POOL_MODULE_SELL_POOL_DESTROYED = "sell_pool::SellPoolDestroyed";
 

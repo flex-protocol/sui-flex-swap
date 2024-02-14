@@ -18,7 +18,7 @@ import org.test.suiswapexample.sui.contract.sellpool.SellPoolInitialized;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolExchangeRateUpdated;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolXTokenAdded;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolXTokenRemoved;
-import org.test.suiswapexample.sui.contract.sellpool.YReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.sellpool.SellPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolDestroyed;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolYSwappedForX;
 import org.test.suiswapexample.sui.contract.repository.SellPoolEventRepository;
@@ -219,22 +219,22 @@ public class SellPoolEventService {
     }
 
     @Transactional
-    public void pullYReserveWithdrawnEvents() {
+    public void pullSellPoolYReserveWithdrawnEvents() {
         String packageId = getDefaultSuiPackageId();
         if (packageId == null) {
             return;
         }
         int limit = 1;
-        EventId cursor = getYReserveWithdrawnEventNextCursor();
+        EventId cursor = getSellPoolYReserveWithdrawnEventNextCursor();
         while (true) {
-            PaginatedMoveEvents<YReserveWithdrawn> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.SELL_POOL_MODULE_Y_RESERVE_WITHDRAWN,
-                    cursor, limit, false, YReserveWithdrawn.class);
+            PaginatedMoveEvents<SellPoolYReserveWithdrawn> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.SELL_POOL_MODULE_SELL_POOL_Y_RESERVE_WITHDRAWN,
+                    cursor, limit, false, SellPoolYReserveWithdrawn.class);
 
             if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
                 cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<YReserveWithdrawn> eventEnvelope : eventPage.getData()) {
-                    saveYReserveWithdrawn(eventEnvelope);
+                for (SuiMoveEventEnvelope<SellPoolYReserveWithdrawn> eventEnvelope : eventPage.getData()) {
+                    saveSellPoolYReserveWithdrawn(eventEnvelope);
                 }
             } else {
                 break;
@@ -245,17 +245,17 @@ public class SellPoolEventService {
         }
     }
 
-    private EventId getYReserveWithdrawnEventNextCursor() {
-        AbstractSellPoolEvent lastEvent = sellPoolEventRepository.findFirstYReserveWithdrawnByOrderBySuiTimestampDesc();
+    private EventId getSellPoolYReserveWithdrawnEventNextCursor() {
+        AbstractSellPoolEvent lastEvent = sellPoolEventRepository.findFirstSellPoolYReserveWithdrawnByOrderBySuiTimestampDesc();
         return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
     }
 
-    private void saveYReserveWithdrawn(SuiMoveEventEnvelope<YReserveWithdrawn> eventEnvelope) {
-        AbstractSellPoolEvent.YReserveWithdrawn yReserveWithdrawn = DomainBeanUtils.toYReserveWithdrawn(eventEnvelope);
-        if (sellPoolEventRepository.findById(yReserveWithdrawn.getSellPoolEventId()).isPresent()) {
+    private void saveSellPoolYReserveWithdrawn(SuiMoveEventEnvelope<SellPoolYReserveWithdrawn> eventEnvelope) {
+        AbstractSellPoolEvent.SellPoolYReserveWithdrawn sellPoolYReserveWithdrawn = DomainBeanUtils.toSellPoolYReserveWithdrawn(eventEnvelope);
+        if (sellPoolEventRepository.findById(sellPoolYReserveWithdrawn.getSellPoolEventId()).isPresent()) {
             return;
         }
-        sellPoolEventRepository.save(yReserveWithdrawn);
+        sellPoolEventRepository.save(sellPoolYReserveWithdrawn);
     }
 
     @Transactional

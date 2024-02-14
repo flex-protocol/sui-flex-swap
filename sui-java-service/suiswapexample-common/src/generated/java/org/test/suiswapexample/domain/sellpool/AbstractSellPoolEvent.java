@@ -668,11 +668,11 @@ public abstract class AbstractSellPoolEvent extends AbstractEvent implements Sel
 
     }
 
-    public static class YReserveWithdrawn extends SellPoolClobEvent implements SellPoolEvent.YReserveWithdrawn {
+    public static class SellPoolYReserveWithdrawn extends SellPoolClobEvent implements SellPoolEvent.SellPoolYReserveWithdrawn {
 
         @Override
         public String getEventType() {
-            return "YReserveWithdrawn";
+            return "SellPoolYReserveWithdrawn";
         }
 
         public String getLiquidityTokenId() {

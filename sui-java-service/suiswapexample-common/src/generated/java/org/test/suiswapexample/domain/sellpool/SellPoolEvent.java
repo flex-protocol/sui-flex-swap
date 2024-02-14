@@ -173,7 +173,7 @@ public interface SellPoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
     }
 
-    interface YReserveWithdrawn extends SellPoolEvent {
+    interface SellPoolYReserveWithdrawn extends SellPoolEvent {
         String getLiquidityTokenId();
 
         void setLiquidityTokenId(String value);

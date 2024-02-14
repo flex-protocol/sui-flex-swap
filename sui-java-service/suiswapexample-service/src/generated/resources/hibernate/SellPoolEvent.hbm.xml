@@ -47,7 +47,7 @@
       <subclass name="AbstractSellPoolEvent$SellPoolExchangeRateUpdated" discriminator-value="SellPoolExchangeRateUpdated" />
       <subclass name="AbstractSellPoolEvent$SellPoolXTokenAdded" discriminator-value="SellPoolXTokenAdded" />
       <subclass name="AbstractSellPoolEvent$SellPoolXTokenRemoved" discriminator-value="SellPoolXTokenRemoved" />
-      <subclass name="AbstractSellPoolEvent$YReserveWithdrawn" discriminator-value="YReserveWithdrawn" />
+      <subclass name="AbstractSellPoolEvent$SellPoolYReserveWithdrawn" discriminator-value="SellPoolYReserveWithdrawn" />
       <subclass name="AbstractSellPoolEvent$SellPoolDestroyed" discriminator-value="SellPoolDestroyed" />
       <subclass name="AbstractSellPoolEvent$SellPoolYSwappedForX" discriminator-value="SellPoolYSwappedForX" />
     </subclass>

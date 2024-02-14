@@ -36,9 +36,9 @@ public class PullSellPoolEventsTaskService {
         sellPoolEventService.pullSellPoolXTokenRemovedEvents();
     }
 
-    @Scheduled(fixedDelayString = "${sui.contract.pull-sell-pool-events.y-reserve-withdrawn.fixed-delay:5000}")
-    public void pullYReserveWithdrawnEvents() {
-        sellPoolEventService.pullYReserveWithdrawnEvents();
+    @Scheduled(fixedDelayString = "${sui.contract.pull-sell-pool-events.sell-pool-y-reserve-withdrawn.fixed-delay:5000}")
+    public void pullSellPoolYReserveWithdrawnEvents() {
+        sellPoolEventService.pullSellPoolYReserveWithdrawnEvents();
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-sell-pool-events.sell-pool-destroyed.fixed-delay:5000}")

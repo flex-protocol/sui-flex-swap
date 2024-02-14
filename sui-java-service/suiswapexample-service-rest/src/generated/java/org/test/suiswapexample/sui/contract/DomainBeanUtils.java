@@ -25,7 +25,7 @@ import org.test.suiswapexample.sui.contract.sellpool.SellPoolInitialized;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolExchangeRateUpdated;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolXTokenAdded;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolXTokenRemoved;
-import org.test.suiswapexample.sui.contract.sellpool.YReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.sellpool.SellPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolDestroyed;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolYSwappedForX;
 import org.test.suiswapexample.domain.liquiditytoken.AbstractLiquidityTokenEvent;
@@ -342,26 +342,26 @@ public class DomainBeanUtils {
         return sellPoolXTokenRemoved;
     }
 
-    public static AbstractSellPoolEvent.YReserveWithdrawn toYReserveWithdrawn(SuiMoveEventEnvelope<YReserveWithdrawn> eventEnvelope) {
-        YReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractSellPoolEvent.SellPoolYReserveWithdrawn toSellPoolYReserveWithdrawn(SuiMoveEventEnvelope<SellPoolYReserveWithdrawn> eventEnvelope) {
+        SellPoolYReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractSellPoolEvent.YReserveWithdrawn yReserveWithdrawn = new AbstractSellPoolEvent.YReserveWithdrawn();
-        yReserveWithdrawn.setId(contractEvent.getId());
-        yReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
-        yReserveWithdrawn.setY_Amount(contractEvent.getY_Amount());
-        yReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
-        yReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
-        yReserveWithdrawn.setVersion(contractEvent.getVersion());
+        AbstractSellPoolEvent.SellPoolYReserveWithdrawn sellPoolYReserveWithdrawn = new AbstractSellPoolEvent.SellPoolYReserveWithdrawn();
+        sellPoolYReserveWithdrawn.setId(contractEvent.getId());
+        sellPoolYReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        sellPoolYReserveWithdrawn.setY_Amount(contractEvent.getY_Amount());
+        sellPoolYReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
+        sellPoolYReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
+        sellPoolYReserveWithdrawn.setVersion(contractEvent.getVersion());
 
-        yReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        yReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        yReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        sellPoolYReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        sellPoolYReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        sellPoolYReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        yReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
-        yReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        yReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
+        sellPoolYReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
+        sellPoolYReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        sellPoolYReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
 
-        return yReserveWithdrawn;
+        return sellPoolYReserveWithdrawn;
     }
 
     public static AbstractSellPoolEvent.SellPoolDestroyed toSellPoolDestroyed(SuiMoveEventEnvelope<SellPoolDestroyed> eventEnvelope) {

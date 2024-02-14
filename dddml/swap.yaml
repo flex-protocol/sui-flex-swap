@@ -344,7 +344,7 @@ aggregates:
 
       WithdrawYReserve:
         event:
-          name: YReserveWithdrawn
+          name: SellPoolYReserveWithdrawn
 
       Destroy:
         isDeletionCommand: true

@@ -10,7 +10,7 @@ module sui_swap_example::sell_pool_withdraw_y_reserve_logic {
     use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::sell_pool;
-    use sui_swap_example::y_reserve_withdrawn;
+    use sui_swap_example::sell_pool_y_reserve_withdrawn;
 
     friend sui_swap_example::sell_pool_aggregate;
 
@@ -22,14 +22,14 @@ module sui_swap_example::sell_pool_withdraw_y_reserve_logic {
         y_amount: u64,
         sell_pool: &sell_pool::SellPool<X, Y>,
         _ctx: &TxContext,
-    ): sell_pool::YReserveWithdrawn {
+    ): sell_pool::SellPoolYReserveWithdrawn {
         let liquidity_token_id = liquidity_token::id(liquidity_token);
         assert!(sell_pool::liquidity_token_id(sell_pool) == liquidity_token_id, EInvalidLiquidityToken);
 
         let y_reserve_amount = balance::value(sell_pool::borrow_y_reserve(sell_pool));
         assert!(y_reserve_amount >= y_amount, EInsufficientYReserve);
 
-        sell_pool::new_y_reserve_withdrawn(
+        sell_pool::new_sell_pool_y_reserve_withdrawn(
             sell_pool,
             liquidity_token_id,
             y_amount,
@@ -39,11 +39,11 @@ module sui_swap_example::sell_pool_withdraw_y_reserve_logic {
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        y_reserve_withdrawn: &sell_pool::YReserveWithdrawn,
+        y_reserve_withdrawn: &sell_pool::SellPoolYReserveWithdrawn,
         sell_pool: &mut sell_pool::SellPool<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {
-        let y_amount = y_reserve_withdrawn::y_amount(y_reserve_withdrawn);
+        let y_amount = sell_pool_y_reserve_withdrawn::y_amount(y_reserve_withdrawn);
 
         let y_reserve = sell_pool::borrow_mut_y_reserve(sell_pool);
         balance::split(y_reserve, y_amount)

@@ -151,19 +151,19 @@ module sui_swap_example::sell_pool_aggregate {
         ctx: &mut tx_context::TxContext,
     ): Balance<Y> {
         sell_pool::assert_schema_version(sell_pool);
-        let y_reserve_withdrawn = sell_pool_withdraw_y_reserve_logic::verify<X, Y>(
+        let sell_pool_y_reserve_withdrawn = sell_pool_withdraw_y_reserve_logic::verify<X, Y>(
             liquidity_token,
             y_amount,
             sell_pool,
             ctx,
         );
         let withdraw_y_reserve_return = sell_pool_withdraw_y_reserve_logic::mutate<X, Y>(
-            &y_reserve_withdrawn,
+            &sell_pool_y_reserve_withdrawn,
             sell_pool,
             ctx,
         );
         sell_pool::update_object_version(sell_pool);
-        sell_pool::emit_y_reserve_withdrawn(y_reserve_withdrawn);
+        sell_pool::emit_sell_pool_y_reserve_withdrawn(sell_pool_y_reserve_withdrawn);
         withdraw_y_reserve_return
     }
 
