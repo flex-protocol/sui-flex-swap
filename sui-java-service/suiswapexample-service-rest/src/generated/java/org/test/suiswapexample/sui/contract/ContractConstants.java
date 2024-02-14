@@ -46,6 +46,8 @@ public class ContractConstants {
 
     public static final String BUY_POOL_MODULE_BUY_POOL_DESTROYED = "buy_pool::BuyPoolDestroyed";
 
+    public static final String BUY_POOL_MODULE_BUY_POOL_X_SWAPPED_FOR_Y = "buy_pool::BuyPoolXSwappedForY";
+
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_MINTED = "liquidity_token::LiquidityTokenMinted";
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_DESTROYED = "liquidity_token::LiquidityTokenDestroyed";

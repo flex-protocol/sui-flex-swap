@@ -11,6 +11,7 @@ module sui_swap_example::buy_pool_aggregate {
     use sui_swap_example::buy_pool_destroy_logic;
     use sui_swap_example::buy_pool_initialize_buy_pool_logic;
     use sui_swap_example::buy_pool_remove_x_token_logic;
+    use sui_swap_example::buy_pool_sell_x_logic;
     use sui_swap_example::buy_pool_update_exchange_rate_logic;
     use sui_swap_example::buy_pool_withdraw_y_reserve_logic;
     use sui_swap_example::exchange::Exchange;
@@ -156,6 +157,33 @@ module sui_swap_example::buy_pool_aggregate {
         );
         buy_pool::drop_buy_pool(updated_buy_pool);
         buy_pool::emit_buy_pool_destroyed(buy_pool_destroyed);
+    }
+
+    #[allow(unused_mut_parameter)]
+    public(friend) fun sell_x<X: key + store, Y>(
+        buy_pool: &mut buy_pool::BuyPool<X, Y>,
+        x: X,
+        x_amount: u64,
+        expected_y_amount_out: u64,
+        ctx: &mut tx_context::TxContext,
+    ): Balance<Y> {
+        buy_pool::assert_schema_version(buy_pool);
+        let buy_pool_x_swapped_for_y = buy_pool_sell_x_logic::verify<X, Y>(
+            &x,
+            x_amount,
+            expected_y_amount_out,
+            buy_pool,
+            ctx,
+        );
+        let sell_x_return = buy_pool_sell_x_logic::mutate<X, Y>(
+            &buy_pool_x_swapped_for_y,
+            x,
+            buy_pool,
+            ctx,
+        );
+        buy_pool::update_object_version(buy_pool);
+        buy_pool::emit_buy_pool_x_swapped_for_y(buy_pool_x_swapped_for_y);
+        sell_x_return
     }
 
 }

@@ -41,4 +41,9 @@ public class PullBuyPoolEventsTaskService {
         buyPoolEventService.pullBuyPoolDestroyedEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-buy-pool-events.buy-pool-x-swapped-for-y.fixed-delay:5000}")
+    public void pullBuyPoolXSwappedForYEvents() {
+        buyPoolEventService.pullBuyPoolXSwappedForYEvents();
+    }
+
 }

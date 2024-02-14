@@ -168,6 +168,37 @@ public interface BuyPoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Has
 
     }
 
+    interface BuyPoolXSwappedForY extends BuyPoolEvent {
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
+
+        BigInteger getExpectedY_AmountOut();
+
+        void setExpectedY_AmountOut(BigInteger value);
+
+        String getSender();
+
+        void setSender(String value);
+
+        String getX_TokenType();
+
+        void setX_TokenType(String value);
+
+        String getY_TokenType();
+
+        void setY_TokenType(String value);
+
+        BigInteger getY_Amount();
+
+        void setY_Amount(BigInteger value);
+
+        String getX_Id();
+
+        void setX_Id(String value);
+
+    }
+
     String getId();
 
     //void setId(String id);

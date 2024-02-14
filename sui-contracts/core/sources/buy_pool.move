@@ -21,6 +21,7 @@ module sui_swap_example::buy_pool {
     friend sui_swap_example::buy_pool_remove_x_token_logic;
     friend sui_swap_example::buy_pool_withdraw_y_reserve_logic;
     friend sui_swap_example::buy_pool_destroy_logic;
+    friend sui_swap_example::buy_pool_sell_x_logic;
     friend sui_swap_example::buy_pool_aggregate;
 
     #[allow(unused_const)]
@@ -564,6 +565,74 @@ module sui_swap_example::buy_pool {
         }
     }
 
+    struct BuyPoolXSwappedForY has copy, drop {
+        id: object::ID,
+        version: u64,
+        x_amount: u64,
+        expected_y_amount_out: u64,
+        sender: address,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+        x_id: ID,
+    }
+
+    public fun buy_pool_x_swapped_for_y_id(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): object::ID {
+        buy_pool_x_swapped_for_y.id
+    }
+
+    public fun buy_pool_x_swapped_for_y_x_amount(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): u64 {
+        buy_pool_x_swapped_for_y.x_amount
+    }
+
+    public fun buy_pool_x_swapped_for_y_expected_y_amount_out(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): u64 {
+        buy_pool_x_swapped_for_y.expected_y_amount_out
+    }
+
+    public fun buy_pool_x_swapped_for_y_sender(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): address {
+        buy_pool_x_swapped_for_y.sender
+    }
+
+    public fun buy_pool_x_swapped_for_y_x_token_type(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): String {
+        buy_pool_x_swapped_for_y.x_token_type
+    }
+
+    public fun buy_pool_x_swapped_for_y_y_token_type(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): String {
+        buy_pool_x_swapped_for_y.y_token_type
+    }
+
+    public fun buy_pool_x_swapped_for_y_y_amount(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): u64 {
+        buy_pool_x_swapped_for_y.y_amount
+    }
+
+    public fun buy_pool_x_swapped_for_y_x_id(buy_pool_x_swapped_for_y: &BuyPoolXSwappedForY): ID {
+        buy_pool_x_swapped_for_y.x_id
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_buy_pool_x_swapped_for_y<X: key + store, Y>(
+        buy_pool: &BuyPool<X, Y>,
+        x_amount: u64,
+        expected_y_amount_out: u64,
+        sender: address,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+        x_id: ID,
+    ): BuyPoolXSwappedForY {
+        BuyPoolXSwappedForY {
+            id: id(buy_pool),
+            version: version(buy_pool),
+            x_amount,
+            expected_y_amount_out,
+            sender,
+            x_token_type,
+            y_token_type,
+            y_amount,
+            x_id,
+        }
+    }
+
 
     public(friend) fun transfer_object<X: key + store, Y>(buy_pool: BuyPool<X, Y>, recipient: address) {
         assert!(buy_pool.version == 0, EInappropriateVersion);
@@ -643,6 +712,10 @@ module sui_swap_example::buy_pool {
 
     public(friend) fun emit_buy_pool_destroyed(buy_pool_destroyed: BuyPoolDestroyed) {
         event::emit(buy_pool_destroyed);
+    }
+
+    public(friend) fun emit_buy_pool_x_swapped_for_y(buy_pool_x_swapped_for_y: BuyPoolXSwappedForY) {
+        event::emit(buy_pool_x_swapped_for_y);
     }
 
 }

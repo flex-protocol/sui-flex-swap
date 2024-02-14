@@ -23,4 +23,6 @@ public interface BuyPoolEventRepository extends JpaRepository<AbstractBuyPoolEve
 
     AbstractBuyPoolEvent.BuyPoolDestroyed findFirstBuyPoolDestroyedByOrderBySuiTimestampDesc();
 
+    AbstractBuyPoolEvent.BuyPoolXSwappedForY findFirstBuyPoolXSwappedForYByOrderBySuiTimestampDesc();
+
 }

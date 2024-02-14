@@ -187,6 +187,28 @@ public abstract class AbstractBuyPoolAggregate extends AbstractAggregate impleme
         }
            
 
+        protected BuyPoolEvent.BuyPoolXSwappedForY verifySellX(java.util.function.Supplier<BuyPoolEvent.BuyPoolXSwappedForY> eventFactory, BigInteger x_Amount, BigInteger expectedY_AmountOut, BuyPoolCommands.SellX c) {
+            BigInteger X_Amount = x_Amount;
+            BigInteger ExpectedY_AmountOut = expectedY_AmountOut;
+
+            BuyPoolEvent.BuyPoolXSwappedForY e = (BuyPoolEvent.BuyPoolXSwappedForY) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.buypool.SellXLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), x_Amount, expectedY_AmountOut, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.buypool;
+//
+//public class SellXLogic {
+//    public static BuyPoolEvent.BuyPoolXSwappedForY verify(java.util.function.Supplier<BuyPoolEvent.BuyPoolXSwappedForY> eventFactory, BuyPoolState buyPoolState, BigInteger x_Amount, BigInteger expectedY_AmountOut, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
         protected AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated newBuyPoolExchangeRateUpdated(String liquidityToken, BigInteger startExchangeRateNumerator, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, Long offChainVersion, String commandId, String requesterId) {
             BuyPoolEventId eventId = new BuyPoolEventId(getState().getId(), null);
             AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated e = new AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated();

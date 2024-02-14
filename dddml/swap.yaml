@@ -500,6 +500,36 @@ aggregates:
         event:
           name: BuyPoolDestroyed
 
+      SellX:
+        description: "Sell X token to pool. i.e. swap X for Y"
+        isInternal: true
+        parameters:
+          X:
+            type: X
+          X_Amount:
+            type: u64
+          ExpectedY_AmountOut:
+            type: u64
+        result:
+          type: Balance<Y>
+        event:
+          name: BuyPoolXSwappedForY
+          properties:
+            Sender:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            Y_Amount:
+              type: u64
+            X_Id:
+              type: ID
+
   LiquidityToken:
     metadata:
       HasStoreAbility: true

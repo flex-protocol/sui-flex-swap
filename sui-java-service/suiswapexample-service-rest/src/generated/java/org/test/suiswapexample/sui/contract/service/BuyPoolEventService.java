@@ -19,6 +19,7 @@ import org.test.suiswapexample.sui.contract.buypool.BuyPoolExchangeRateUpdated;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolXTokenRemoved;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.buypool.BuyPoolDestroyed;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolXSwappedForY;
 import org.test.suiswapexample.sui.contract.repository.BuyPoolEventRepository;
 import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -254,6 +255,46 @@ public class BuyPoolEventService {
             return;
         }
         buyPoolEventRepository.save(buyPoolDestroyed);
+    }
+
+    @Transactional
+    public void pullBuyPoolXSwappedForYEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getBuyPoolXSwappedForYEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<BuyPoolXSwappedForY> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.BUY_POOL_MODULE_BUY_POOL_X_SWAPPED_FOR_Y,
+                    cursor, limit, false, BuyPoolXSwappedForY.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<BuyPoolXSwappedForY> eventEnvelope : eventPage.getData()) {
+                    saveBuyPoolXSwappedForY(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getBuyPoolXSwappedForYEventNextCursor() {
+        AbstractBuyPoolEvent lastEvent = buyPoolEventRepository.findFirstBuyPoolXSwappedForYByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveBuyPoolXSwappedForY(SuiMoveEventEnvelope<BuyPoolXSwappedForY> eventEnvelope) {
+        AbstractBuyPoolEvent.BuyPoolXSwappedForY buyPoolXSwappedForY = DomainBeanUtils.toBuyPoolXSwappedForY(eventEnvelope);
+        if (buyPoolEventRepository.findById(buyPoolXSwappedForY.getBuyPoolEventId()).isPresent()) {
+            return;
+        }
+        buyPoolEventRepository.save(buyPoolXSwappedForY);
     }
 
 

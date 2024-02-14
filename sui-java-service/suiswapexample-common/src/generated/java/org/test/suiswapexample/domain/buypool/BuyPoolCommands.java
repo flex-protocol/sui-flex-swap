@@ -451,5 +451,69 @@ public class BuyPoolCommands {
 
     }
 
+    public static class SellX extends AbstractBuyPoolCommand implements BuyPoolCommand {
+
+        public String getCommandType() {
+            return "SellX";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * X_ Amount
+         */
+        private BigInteger x_Amount;
+
+        public BigInteger getX_Amount() {
+            return this.x_Amount;
+        }
+
+        public void setX_Amount(BigInteger x_Amount) {
+            this.x_Amount = x_Amount;
+        }
+
+        /**
+         * Expected Y_ Amount Out
+         */
+        private BigInteger expectedY_AmountOut;
+
+        public BigInteger getExpectedY_AmountOut() {
+            return this.expectedY_AmountOut;
+        }
+
+        public void setExpectedY_AmountOut(BigInteger expectedY_AmountOut) {
+            this.expectedY_AmountOut = expectedY_AmountOut;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
 }
 

@@ -653,6 +653,99 @@ public abstract class AbstractBuyPoolEvent extends AbstractEvent implements BuyP
 
     }
 
+    public static class BuyPoolXSwappedForY extends BuyPoolClobEvent implements BuyPoolEvent.BuyPoolXSwappedForY {
+
+        @Override
+        public String getEventType() {
+            return "BuyPoolXSwappedForY";
+        }
+
+        public BigInteger getX_Amount() {
+            Object val = getDynamicProperties().get("x_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setX_Amount(BigInteger value) {
+            getDynamicProperties().put("x_Amount", value);
+        }
+
+        public BigInteger getExpectedY_AmountOut() {
+            Object val = getDynamicProperties().get("expectedY_AmountOut");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExpectedY_AmountOut(BigInteger value) {
+            getDynamicProperties().put("expectedY_AmountOut", value);
+        }
+
+        public String getSender() {
+            Object val = getDynamicProperties().get("sender");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setSender(String value) {
+            getDynamicProperties().put("sender", value);
+        }
+
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
+        }
+
+        public BigInteger getY_Amount() {
+            Object val = getDynamicProperties().get("y_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setY_Amount(BigInteger value) {
+            getDynamicProperties().put("y_Amount", value);
+        }
+
+        public String getX_Id() {
+            Object val = getDynamicProperties().get("x_Id");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_Id(String value) {
+            getDynamicProperties().put("x_Id", value);
+        }
+
+    }
+
 
 }
 
