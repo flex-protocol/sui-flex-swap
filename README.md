@@ -326,6 +326,14 @@ sui client call --function add_allowed_impl --module nft_service_config --packag
 --gas-budget 300000000
 ```
 
+---
+
+In theory, the `di` projects are not absolutely necessary to deploy.
+We can consider utilizing Sui's [PTB](https://docs.sui.io/concepts/transactions/prog-txn-blocks) feature
+on the front end to call the `core` project contract and the `nft-service-impl` project contract directly
+to accomplish the functionality shown in the test below.
+
+
 ### TokenPair tests
 
 #### Initialize liquidity
@@ -375,6 +383,12 @@ And note the ID of the output `LiquidityToken` object:
 │  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>                                    │
 ```
 
+Use the following command to view the `Exchange` object, 
+and you can see the token pairs that have been created as well as the sell pools.
+
+```shell
+sui client object 0x9bc2c185436981202c28b01eb5804ab031b798886effc80d68b3bf9f9ad0ca67
+```
 
 #### Add liquidity
 
