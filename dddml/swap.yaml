@@ -324,12 +324,12 @@ aggregates:
         isInternal: true
         isCreationCommand: true
         #requiredPermission: "__Publisher__"
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
+        #typeParameters:
+        #  X: {}
+        #  Y: {}
+        #objectTypeArguments:
+        #  X: X
+        #  Y: Y
         parameters:
           Exchange:
             referenceType: Exchange
@@ -376,12 +376,6 @@ aggregates:
               type: ID
 
       UpdateExchangeRate:
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -415,12 +409,6 @@ aggregates:
       AddXToken:
         isInternal: true
         #shouldCallByReference: true
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -448,12 +436,6 @@ aggregates:
               type: ID
 
       RemoveXToken:
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -479,12 +461,6 @@ aggregates:
               type: ID #ObjectID
 
       WithdrawYReserve:
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -507,12 +483,6 @@ aggregates:
 
       Destroy:
         isDeletionCommand: true
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -525,12 +495,6 @@ aggregates:
 
       BuyX:
         description: "i.e. Swap Y for X"
-        typeParameters:
-          X: {}
-          Y: {}
-        objectTypeArguments:
-          X: X
-          Y: Y
         parameters:
           Y_Amount:
             type: Balance<Y>
