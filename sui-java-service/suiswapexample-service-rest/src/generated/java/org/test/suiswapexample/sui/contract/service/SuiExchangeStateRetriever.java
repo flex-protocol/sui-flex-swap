@@ -50,6 +50,9 @@ public class SuiExchangeStateRetriever {
         exchangeState.setSellPools(Arrays.asList(exchange.getSellPools()));
         exchangeState.setSellPoolX_TokenTypes(Arrays.asList(exchange.getSellPoolX_TokenTypes()));
         exchangeState.setSellPoolY_TokenTypes(Arrays.asList(exchange.getSellPoolY_TokenTypes()));
+        exchangeState.setBuyPools(Arrays.asList(exchange.getBuyPools()));
+        exchangeState.setBuyPoolX_TokenTypes(Arrays.asList(exchange.getBuyPoolX_TokenTypes()));
+        exchangeState.setBuyPoolY_TokenTypes(Arrays.asList(exchange.getBuyPoolY_TokenTypes()));
         return exchangeState;
     }
 

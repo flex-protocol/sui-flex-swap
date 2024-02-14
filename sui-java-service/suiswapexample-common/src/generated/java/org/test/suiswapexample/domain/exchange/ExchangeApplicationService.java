@@ -19,6 +19,8 @@ public interface ExchangeApplicationService {
 
     void when(ExchangeCommands.AddSellPool c);
 
+    void when(ExchangeCommands.AddBuyPool c);
+
     void when(ExchangeCommands.Update c);
 
     ExchangeState get(String id);

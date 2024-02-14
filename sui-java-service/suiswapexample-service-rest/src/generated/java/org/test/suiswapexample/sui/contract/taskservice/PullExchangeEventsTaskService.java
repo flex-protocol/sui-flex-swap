@@ -31,6 +31,11 @@ public class PullExchangeEventsTaskService {
         exchangeEventService.pullSellPoolAddedToExchangeEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-exchange-events.buy-pool-added-to-exchange.fixed-delay:5000}")
+    public void pullBuyPoolAddedToExchangeEvents() {
+        exchangeEventService.pullBuyPoolAddedToExchangeEvents();
+    }
+
     @Scheduled(fixedDelayString = "${sui.contract.pull-exchange-events.exchange-updated.fixed-delay:5000}")
     public void pullExchangeUpdatedEvents() {
         exchangeEventService.pullExchangeUpdatedEvents();

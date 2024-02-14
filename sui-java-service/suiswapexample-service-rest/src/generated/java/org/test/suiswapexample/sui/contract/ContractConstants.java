@@ -36,6 +36,16 @@ public class ContractConstants {
 
     public static final String SELL_POOL_MODULE_SELL_POOL_Y_SWAPPED_FOR_X = "sell_pool::SellPoolYSwappedForX";
 
+    public static final String BUY_POOL_MODULE_BUY_POOL_INITIALIZED = "buy_pool::BuyPoolInitialized";
+
+    public static final String BUY_POOL_MODULE_BUY_POOL_EXCHANGE_RATE_UPDATED = "buy_pool::BuyPoolExchangeRateUpdated";
+
+    public static final String BUY_POOL_MODULE_BUY_POOL_X_TOKEN_REMOVED = "buy_pool::BuyPoolXTokenRemoved";
+
+    public static final String BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_WITHDRAWN = "buy_pool::BuyPoolYReserveWithdrawn";
+
+    public static final String BUY_POOL_MODULE_BUY_POOL_DESTROYED = "buy_pool::BuyPoolDestroyed";
+
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_MINTED = "liquidity_token::LiquidityTokenMinted";
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_DESTROYED = "liquidity_token::LiquidityTokenDestroyed";
@@ -45,6 +55,8 @@ public class ContractConstants {
     public static final String EXCHANGE_MODULE_TOKEN_PAIR_ADDED_TO_EXCHANGE = "exchange::TokenPairAddedToExchange";
 
     public static final String EXCHANGE_MODULE_SELL_POOL_ADDED_TO_EXCHANGE = "exchange::SellPoolAddedToExchange";
+
+    public static final String EXCHANGE_MODULE_BUY_POOL_ADDED_TO_EXCHANGE = "exchange::BuyPoolAddedToExchange";
 
     public static final String EXCHANGE_MODULE_EXCHANGE_UPDATED = "exchange::ExchangeUpdated";
 

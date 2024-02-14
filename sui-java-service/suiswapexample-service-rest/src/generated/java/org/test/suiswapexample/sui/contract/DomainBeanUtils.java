@@ -28,6 +28,12 @@ import org.test.suiswapexample.sui.contract.sellpool.SellPoolXTokenRemoved;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolYReserveWithdrawn;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolDestroyed;
 import org.test.suiswapexample.sui.contract.sellpool.SellPoolYSwappedForX;
+import org.test.suiswapexample.domain.buypool.AbstractBuyPoolEvent;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolInitialized;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolExchangeRateUpdated;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolXTokenRemoved;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolYReserveWithdrawn;
+import org.test.suiswapexample.sui.contract.buypool.BuyPoolDestroyed;
 import org.test.suiswapexample.domain.liquiditytoken.AbstractLiquidityTokenEvent;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenMinted;
 import org.test.suiswapexample.sui.contract.liquiditytoken.LiquidityTokenDestroyed;
@@ -35,6 +41,7 @@ import org.test.suiswapexample.domain.exchange.AbstractExchangeEvent;
 import org.test.suiswapexample.sui.contract.exchange.InitExchangeEvent;
 import org.test.suiswapexample.sui.contract.exchange.TokenPairAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.SellPoolAddedToExchange;
+import org.test.suiswapexample.sui.contract.exchange.BuyPoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.ExchangeUpdated;
 
 /**
@@ -408,6 +415,129 @@ public class DomainBeanUtils {
         return sellPoolYSwappedForX;
     }
 
+    public static AbstractBuyPoolEvent.BuyPoolInitialized toBuyPoolInitialized(SuiMoveEventEnvelope<BuyPoolInitialized> eventEnvelope) {
+        BuyPoolInitialized contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolInitialized buyPoolInitialized = new AbstractBuyPoolEvent.BuyPoolInitialized();
+        buyPoolInitialized.setId(contractEvent.getId());
+        buyPoolInitialized.setExchangeId(contractEvent.getExchangeId());
+        buyPoolInitialized.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
+        buyPoolInitialized.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
+        buyPoolInitialized.setPriceCurveType(contractEvent.getPriceCurveType());
+        buyPoolInitialized.setPriceDeltaX_Amount(contractEvent.getPriceDeltaX_Amount());
+        buyPoolInitialized.setPriceDeltaNumerator(contractEvent.getPriceDeltaNumerator());
+        buyPoolInitialized.setPriceDeltaDenominator(contractEvent.getPriceDeltaDenominator());
+        buyPoolInitialized.setProvider(contractEvent.getProvider());
+        buyPoolInitialized.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolInitialized.setY_Amount(contractEvent.getY_Amount());
+        buyPoolInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolInitialized.setVersion(BigInteger.valueOf(-1));
+
+        buyPoolInitialized.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolInitialized.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolInitialized.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolInitialized.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolInitialized.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolInitialized.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolInitialized;
+    }
+
+    public static AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated toBuyPoolExchangeRateUpdated(SuiMoveEventEnvelope<BuyPoolExchangeRateUpdated> eventEnvelope) {
+        BuyPoolExchangeRateUpdated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated buyPoolExchangeRateUpdated = new AbstractBuyPoolEvent.BuyPoolExchangeRateUpdated();
+        buyPoolExchangeRateUpdated.setId(contractEvent.getId());
+        buyPoolExchangeRateUpdated.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolExchangeRateUpdated.setStartExchangeRateNumerator(contractEvent.getStartExchangeRateNumerator());
+        buyPoolExchangeRateUpdated.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
+        buyPoolExchangeRateUpdated.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
+        buyPoolExchangeRateUpdated.setPriceDeltaX_Amount(contractEvent.getPriceDeltaX_Amount());
+        buyPoolExchangeRateUpdated.setPriceDeltaNumerator(contractEvent.getPriceDeltaNumerator());
+        buyPoolExchangeRateUpdated.setPriceDeltaDenominator(contractEvent.getPriceDeltaDenominator());
+        buyPoolExchangeRateUpdated.setProvider(contractEvent.getProvider());
+        buyPoolExchangeRateUpdated.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolExchangeRateUpdated.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolExchangeRateUpdated.setVersion(contractEvent.getVersion());
+
+        buyPoolExchangeRateUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolExchangeRateUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolExchangeRateUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolExchangeRateUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolExchangeRateUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolExchangeRateUpdated.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolExchangeRateUpdated;
+    }
+
+    public static AbstractBuyPoolEvent.BuyPoolXTokenRemoved toBuyPoolXTokenRemoved(SuiMoveEventEnvelope<BuyPoolXTokenRemoved> eventEnvelope) {
+        BuyPoolXTokenRemoved contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolXTokenRemoved buyPoolXTokenRemoved = new AbstractBuyPoolEvent.BuyPoolXTokenRemoved();
+        buyPoolXTokenRemoved.setId(contractEvent.getId());
+        buyPoolXTokenRemoved.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolXTokenRemoved.setX_Id(contractEvent.getX_Id());
+        buyPoolXTokenRemoved.setProvider(contractEvent.getProvider());
+        buyPoolXTokenRemoved.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolXTokenRemoved.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolXTokenRemoved.setX_Amount(contractEvent.getX_Amount());
+        buyPoolXTokenRemoved.setVersion(contractEvent.getVersion());
+
+        buyPoolXTokenRemoved.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolXTokenRemoved.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolXTokenRemoved.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolXTokenRemoved.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolXTokenRemoved.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolXTokenRemoved.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolXTokenRemoved;
+    }
+
+    public static AbstractBuyPoolEvent.BuyPoolYReserveWithdrawn toBuyPoolYReserveWithdrawn(SuiMoveEventEnvelope<BuyPoolYReserveWithdrawn> eventEnvelope) {
+        BuyPoolYReserveWithdrawn contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolYReserveWithdrawn buyPoolYReserveWithdrawn = new AbstractBuyPoolEvent.BuyPoolYReserveWithdrawn();
+        buyPoolYReserveWithdrawn.setId(contractEvent.getId());
+        buyPoolYReserveWithdrawn.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolYReserveWithdrawn.setY_Amount(contractEvent.getY_Amount());
+        buyPoolYReserveWithdrawn.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolYReserveWithdrawn.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolYReserveWithdrawn.setVersion(contractEvent.getVersion());
+
+        buyPoolYReserveWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolYReserveWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolYReserveWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolYReserveWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolYReserveWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolYReserveWithdrawn.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolYReserveWithdrawn;
+    }
+
+    public static AbstractBuyPoolEvent.BuyPoolDestroyed toBuyPoolDestroyed(SuiMoveEventEnvelope<BuyPoolDestroyed> eventEnvelope) {
+        BuyPoolDestroyed contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBuyPoolEvent.BuyPoolDestroyed buyPoolDestroyed = new AbstractBuyPoolEvent.BuyPoolDestroyed();
+        buyPoolDestroyed.setId(contractEvent.getId());
+        buyPoolDestroyed.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        buyPoolDestroyed.setVersion(contractEvent.getVersion());
+
+        buyPoolDestroyed.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolDestroyed.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolDestroyed.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolDestroyed.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolDestroyed.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolDestroyed.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolDestroyed;
+    }
+
     public static AbstractLiquidityTokenEvent.LiquidityTokenMinted toLiquidityTokenMinted(SuiMoveEventEnvelope<LiquidityTokenMinted> eventEnvelope) {
         LiquidityTokenMinted contractEvent = eventEnvelope.getParsedJson();
 
@@ -502,6 +632,27 @@ public class DomainBeanUtils {
         sellPoolAddedToExchange.setSuiSender(eventEnvelope.getSender());
 
         return sellPoolAddedToExchange;
+    }
+
+    public static AbstractExchangeEvent.BuyPoolAddedToExchange toBuyPoolAddedToExchange(SuiMoveEventEnvelope<BuyPoolAddedToExchange> eventEnvelope) {
+        BuyPoolAddedToExchange contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractExchangeEvent.BuyPoolAddedToExchange buyPoolAddedToExchange = new AbstractExchangeEvent.BuyPoolAddedToExchange();
+        buyPoolAddedToExchange.setId(contractEvent.getId());
+        buyPoolAddedToExchange.setBuyPoolId(contractEvent.getBuyPoolId());
+        buyPoolAddedToExchange.setX_TokenType(contractEvent.getX_TokenType());
+        buyPoolAddedToExchange.setY_TokenType(contractEvent.getY_TokenType());
+        buyPoolAddedToExchange.setVersion(contractEvent.getVersion());
+
+        buyPoolAddedToExchange.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        buyPoolAddedToExchange.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        buyPoolAddedToExchange.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        buyPoolAddedToExchange.setSuiPackageId(eventEnvelope.getPackageId());
+        buyPoolAddedToExchange.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        buyPoolAddedToExchange.setSuiSender(eventEnvelope.getSender());
+
+        return buyPoolAddedToExchange;
     }
 
     public static AbstractExchangeEvent.ExchangeUpdated toExchangeUpdated(SuiMoveEventEnvelope<ExchangeUpdated> eventEnvelope) {

@@ -13,6 +13,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.sellpool.*;
+import org.test.suiswapexample.domain.buypool.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
 import org.test.suiswapexample.domain.exchange.*;
 
@@ -133,6 +134,46 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.InitializeBuyPoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, String.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "exchange", "exchangeRateNumerator", "exchangeRateDenominator", "priceCurveType", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.UpdateExchangeRateLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "startExchangeRateNumerator", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.RemoveXTokenLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "x_Id"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.WithdrawYReserveLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "y_Amount"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.DestroyLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, BuyPoolState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, LiquidityTokenState.class, VerificationContext.class},
@@ -169,6 +210,14 @@ public class StaticMethodConstraints {
                     "verify",
                     new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
                     new String[]{"_", "_", "sellPoolId"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.AddBuyPoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "buyPoolId"}
             );
 
 
@@ -213,6 +262,22 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.UpdateExchangeRateLogic",
+                    "mutate",
+                    new Class[]{BuyPoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "liquidityTokenId", "startExchangeRateNumerator", "exchangeRateNumerator", "exchangeRateDenominator", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator", "provider", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.buypool.DestroyLogic",
+                    "mutate",
+                    new Class[]{BuyPoolState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "liquidityTokenId", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.liquiditytoken.MintLogic",
                     "mutate",
                     new Class[]{LiquidityTokenState.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
@@ -249,6 +314,14 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "sellPoolId", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.AddBuyPoolLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "buyPoolId", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

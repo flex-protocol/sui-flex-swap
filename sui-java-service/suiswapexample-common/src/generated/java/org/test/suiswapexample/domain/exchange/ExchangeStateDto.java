@@ -183,6 +183,36 @@ public class ExchangeStateDto {
         this.sellPoolY_TokenTypes = sellPoolY_TokenTypes;
     }
 
+    private String[] buyPools;
+
+    public String[] getBuyPools() {
+        return this.buyPools;
+    }
+
+    public void setBuyPools(String[] buyPools) {
+        this.buyPools = buyPools;
+    }
+
+    private String[] buyPoolX_TokenTypes;
+
+    public String[] getBuyPoolX_TokenTypes() {
+        return this.buyPoolX_TokenTypes;
+    }
+
+    public void setBuyPoolX_TokenTypes(String[] buyPoolX_TokenTypes) {
+        this.buyPoolX_TokenTypes = buyPoolX_TokenTypes;
+    }
+
+    private String[] buyPoolY_TokenTypes;
+
+    public String[] getBuyPoolY_TokenTypes() {
+        return this.buyPoolY_TokenTypes;
+    }
+
+    public void setBuyPoolY_TokenTypes(String[] buyPoolY_TokenTypes) {
+        this.buyPoolY_TokenTypes = buyPoolY_TokenTypes;
+    }
+
 
     public static class DtoConverter extends AbstractStateDtoConverter
     {
@@ -292,6 +322,33 @@ public class ExchangeStateDto {
                     }
                 }
                 dto.setSellPoolY_TokenTypes(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("BuyPools")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getBuyPools() != null) {
+                    for (String s : state.getBuyPools()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setBuyPools(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("BuyPoolX_TokenTypes")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getBuyPoolX_TokenTypes() != null) {
+                    for (String s : state.getBuyPoolX_TokenTypes()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setBuyPoolX_TokenTypes(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("BuyPoolY_TokenTypes")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getBuyPoolY_TokenTypes() != null) {
+                    for (String s : state.getBuyPoolY_TokenTypes()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setBuyPoolY_TokenTypes(arrayList.toArray(new String[0]));
             }
             return dto;
         }

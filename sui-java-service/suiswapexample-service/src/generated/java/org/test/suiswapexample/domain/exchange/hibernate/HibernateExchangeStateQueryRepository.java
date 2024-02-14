@@ -31,7 +31,7 @@ public class HibernateExchangeStateQueryRepository implements ExchangeStateQuery
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Name", "TokenPairs", "TokenPairX_TokenTypes", "TokenPairY_TokenTypes", "SellPools", "SellPoolX_TokenTypes", "SellPoolY_TokenTypes", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "Version"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Name", "TokenPairs", "TokenPairX_TokenTypes", "TokenPairY_TokenTypes", "SellPools", "SellPoolX_TokenTypes", "SellPoolY_TokenTypes", "BuyPools", "BuyPoolX_TokenTypes", "BuyPoolY_TokenTypes", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "Version"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

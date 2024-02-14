@@ -175,6 +175,36 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         this.sellPoolY_TokenTypes = sellPoolY_TokenTypes;
     }
 
+    private List<String> buyPools;
+
+    public List<String> getBuyPools() {
+        return this.buyPools;
+    }
+
+    public void setBuyPools(List<String> buyPools) {
+        this.buyPools = buyPools;
+    }
+
+    private List<String> buyPoolX_TokenTypes;
+
+    public List<String> getBuyPoolX_TokenTypes() {
+        return this.buyPoolX_TokenTypes;
+    }
+
+    public void setBuyPoolX_TokenTypes(List<String> buyPoolX_TokenTypes) {
+        this.buyPoolX_TokenTypes = buyPoolX_TokenTypes;
+    }
+
+    private List<String> buyPoolY_TokenTypes;
+
+    public List<String> getBuyPoolY_TokenTypes() {
+        return this.buyPoolY_TokenTypes;
+    }
+
+    public void setBuyPoolY_TokenTypes(List<String> buyPoolY_TokenTypes) {
+        this.buyPoolY_TokenTypes = buyPoolY_TokenTypes;
+    }
+
     public boolean isStateUnsaved() {
         return this.getOffChainVersion() == null;
     }
@@ -245,6 +275,8 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
             when((AbstractExchangeEvent.TokenPairAddedToExchange)e);
         } else if (e instanceof AbstractExchangeEvent.SellPoolAddedToExchange) {
             when((AbstractExchangeEvent.SellPoolAddedToExchange)e);
+        } else if (e instanceof AbstractExchangeEvent.BuyPoolAddedToExchange) {
+            when((AbstractExchangeEvent.BuyPoolAddedToExchange)e);
         } else if (e instanceof AbstractExchangeEvent.ExchangeUpdated) {
             when((AbstractExchangeEvent.ExchangeUpdated)e);
         } else {
@@ -263,6 +295,9 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         this.setSellPools(s.getSellPools());
         this.setSellPoolX_TokenTypes(s.getSellPoolX_TokenTypes());
         this.setSellPoolY_TokenTypes(s.getSellPoolY_TokenTypes());
+        this.setBuyPools(s.getBuyPools());
+        this.setBuyPoolX_TokenTypes(s.getBuyPoolX_TokenTypes());
+        this.setBuyPoolY_TokenTypes(s.getBuyPoolY_TokenTypes());
         this.setActive(s.getActive());
         this.setVersion(s.getVersion());
     }
@@ -413,6 +448,59 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
 //
 //public class AddSellPoolLogic {
 //    public static ExchangeState mutate(ExchangeState exchangeState, String sellPoolId, String x_TokenType, String y_TokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedExchangeState) { merge(updatedExchangeState); } //else do nothing
+
+    }
+
+    public void when(AbstractExchangeEvent.BuyPoolAddedToExchange e) {
+        throwOnWrongEvent(e);
+
+        String buyPoolId = e.getBuyPoolId();
+        String BuyPoolId = buyPoolId;
+        String x_TokenType = e.getX_TokenType();
+        String X_TokenType = x_TokenType;
+        String y_TokenType = e.getY_TokenType();
+        String Y_TokenType = y_TokenType;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        ExchangeState updatedExchangeState = (ExchangeState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.AddBuyPoolLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, buyPoolId, x_TokenType, y_TokenType, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class AddBuyPoolLogic {
+//    public static ExchangeState mutate(ExchangeState exchangeState, String buyPoolId, String x_TokenType, String y_TokenType, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
 //    }
 //}
 

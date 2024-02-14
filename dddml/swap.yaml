@@ -393,7 +393,7 @@ aggregates:
           name: SellPoolDestroyed
 
       BuyX:
-        description: "i.e. Swap Y for X"
+        description: "Buy X token from pool. i.e. swap Y for X"
         parameters:
           Y_Amount:
             type: Balance<Y>
@@ -419,6 +419,87 @@ aggregates:
             NewExchangeRateNumerator:
               type: u64
 
+  BuyPool:
+    metadata:
+      IS_MOVE_SCHEMA_VERSIONED: true
+      ShouldIssuePublisherObject: true
+      TypeParameterOffChainPropertyNameFormats:
+        X: "{0}_TokenType"
+        Y: "{0}_TokenType"
+    implements:
+      - SellOrBuyPool
+    id:
+      name: Id
+      type: UID
+    properties:
+      X_BoughtAmount:
+        type: u64
+        sequenceNumber: 55
+    methods:
+      InitializeBuyPool:
+        isInternal: true
+        isCreationCommand: true
+        #requiredPermission: "__Publisher__"
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          Y_Amount:
+            type: Balance<Y>
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
+        event:
+          name: BuyPoolInitialized
+          isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            Y_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+              optional: true
+            #X_Id:
+            #  type: ID
+
+      UpdateExchangeRate:
+        event:
+          name: BuyPoolExchangeRateUpdated
+
+      RemoveXToken:
+        event:
+          name: BuyPoolXTokenRemoved
+
+      WithdrawYReserve:
+        event:
+          name: BuyPoolYReserveWithdrawn
+
+      Destroy:
+        isDeletionCommand: true
+        event:
+          name: BuyPoolDestroyed
+
   LiquidityToken:
     metadata:
       HasStoreAbility: true
@@ -436,6 +517,7 @@ aggregates:
     friends:
       - TokenPair.InitializeLiquidity
       - SellPool.InitializeSellPool
+      - BuyPool.InitializeBuyPool
       #- TokenPair.AddLiquidity
       #- TokenPair.RemoveLiquidity
     typeParameters:
@@ -489,6 +571,7 @@ singletonObjects:
     friends:
       - TokenPair.InitializeLiquidity
       - SellPool.InitializeSellPool
+      - BuyPool.InitializeBuyPool
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -517,6 +600,15 @@ singletonObjects:
         itemType: String
         isList: true
       SellPoolY_TokenTypes:
+        itemType: String
+        isList: true
+      BuyPools:
+        itemType: ID #ObjectID
+        isList: true
+      BuyPoolX_TokenTypes:
+        itemType: String
+        isList: true
+      BuyPoolY_TokenTypes:
         itemType: String
         isList: true
 
@@ -558,6 +650,24 @@ singletonObjects:
             type: ID #ObjectID
         event:
           name: SellPoolAddedToExchange
+          properties:
+            X_TokenType:
+              type: String
+            Y_TokenType:
+              type: String
+
+      AddBuyPool:
+        isInternal: true
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          BuyPoolId:
+            type: ID #ObjectID
+        event:
+          name: BuyPoolAddedToExchange
           properties:
             X_TokenType:
               type: String

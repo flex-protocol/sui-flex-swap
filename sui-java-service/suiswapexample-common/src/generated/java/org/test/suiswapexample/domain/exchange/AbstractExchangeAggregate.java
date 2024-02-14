@@ -73,6 +73,19 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
         }
 
         @Override
+        public void addBuyPool(String buyPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddBuyPool c) {
+            java.util.function.Supplier<ExchangeEvent.BuyPoolAddedToExchange> eventFactory = () -> newBuyPoolAddedToExchange(buyPoolId, offChainVersion, commandId, requesterId);
+            ExchangeEvent.BuyPoolAddedToExchange e;
+            try {
+                e = verifyAddBuyPool(eventFactory, buyPoolId, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
+        @Override
         public void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c) {
             java.util.function.Supplier<ExchangeEvent.ExchangeUpdated> eventFactory = () -> newExchangeUpdated(name, offChainVersion, commandId, requesterId);
             ExchangeEvent.ExchangeUpdated e;
@@ -140,6 +153,27 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
 //
 //public class AddSellPoolLogic {
 //    public static ExchangeEvent.SellPoolAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.SellPoolAddedToExchange> eventFactory, ExchangeState exchangeState, String sellPoolId, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.BuyPoolAddedToExchange verifyAddBuyPool(java.util.function.Supplier<ExchangeEvent.BuyPoolAddedToExchange> eventFactory, String buyPoolId, ExchangeCommands.AddBuyPool c) {
+            String BuyPoolId = buyPoolId;
+
+            ExchangeEvent.BuyPoolAddedToExchange e = (ExchangeEvent.BuyPoolAddedToExchange) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.AddBuyPoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), buyPoolId, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class AddBuyPoolLogic {
+//    public static ExchangeEvent.BuyPoolAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.BuyPoolAddedToExchange> eventFactory, ExchangeState exchangeState, String buyPoolId, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -218,6 +252,30 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             AbstractExchangeEvent.SellPoolAddedToExchange e = new AbstractExchangeEvent.SellPoolAddedToExchange();
 
             e.setSellPoolId(sellPoolId);
+            e.setX_TokenType(null);
+            e.setY_TokenType(null);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.BuyPoolAddedToExchange newBuyPoolAddedToExchange(String buyPoolId, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.BuyPoolAddedToExchange e = new AbstractExchangeEvent.BuyPoolAddedToExchange();
+
+            e.setBuyPoolId(buyPoolId);
             e.setX_TokenType(null);
             e.setY_TokenType(null);
             e.setSuiTimestamp(null);

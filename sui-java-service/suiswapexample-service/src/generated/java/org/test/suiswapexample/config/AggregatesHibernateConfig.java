@@ -11,6 +11,9 @@ import org.test.suiswapexample.domain.tokenpair.hibernate.*;
 import org.test.suiswapexample.domain.sellpool.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.sellpool.hibernate.*;
+import org.test.suiswapexample.domain.buypool.*;
+import org.test.suiswapexample.domain.*;
+import org.test.suiswapexample.domain.buypool.hibernate.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.liquiditytoken.hibernate.*;
@@ -114,6 +117,51 @@ public class AggregatesHibernateConfig {
                 sellPoolEventStore,
                 sellPoolStateRepository,
                 sellPoolStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public BuyPoolStateRepository buyPoolStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateBuyPoolStateRepository repository = new HibernateBuyPoolStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public BuyPoolStateQueryRepository buyPoolStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateBuyPoolStateQueryRepository repository = new HibernateBuyPoolStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateBuyPoolEventStore buyPoolEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateBuyPoolEventStore eventStore = new HibernateBuyPoolEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService buyPoolApplicationService(
+            @Qualifier("buyPoolEventStore") EventStore buyPoolEventStore,
+            BuyPoolStateRepository buyPoolStateRepository,
+            BuyPoolStateQueryRepository buyPoolStateQueryRepository
+    ) {
+        AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService applicationService = new AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService(
+                buyPoolEventStore,
+                buyPoolStateRepository,
+                buyPoolStateQueryRepository
         );
         return applicationService;
     }
