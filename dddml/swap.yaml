@@ -290,8 +290,6 @@ aggregates:
         sequenceNumber: 55
     methods:
       InitializeSellPool:
-        implements:
-          - SellOrBuyPool.Initialize
         isInternal: true
         isCreationCommand: true
         #requiredPermission: "__Publisher__"
@@ -301,9 +299,52 @@ aggregates:
         #objectTypeArguments:
         #  X: X
         #  Y: Y
+        #implements:
+        #  - SellOrBuyPool.Initialize
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
         event:
           name: SellPoolInitialized
           isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+              optional: true
+            X_Id:
+              type: ID
 
       UpdateExchangeRate:
         event:
@@ -865,53 +906,6 @@ superObjects:
         sequenceNumber: 120
 
     methods:
-      Initialize:
-        isInternal: true
-        isCreationCommand: true
-        parameters:
-          Exchange:
-            referenceType: Exchange
-            isMutableReference: true
-            eventPropertyName: ExchangeId
-          X:
-            type: X
-          X_Amount:
-            type: u64
-          ExchangeRateNumerator:
-            type: u64
-          ExchangeRateDenominator:
-            type: u64
-          PriceCurveType:
-            type: u8
-          PriceDeltaX_Amount:
-            type: u64
-          PriceDeltaNumerator:
-            type: u64
-          PriceDeltaDenominator:
-            type: u64
-        result:
-          isObjectReturned: true
-          type: LiquidityToken<X, Y>
-          name: LiquidityToken
-        event:
-          isObjectShared: true # Share the object after created.
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
-              optional: true
-            X_Id:
-              type: ID
-
       UpdateExchangeRate:
         parameters:
           LiquidityToken:
