@@ -21,6 +21,7 @@ module sui_swap_example::exchange_aggregate {
     friend sui_swap_example::sell_pool_service;
     friend sui_swap_example::sell_pool_service_process;
     friend sui_swap_example::buy_pool_service;
+    friend sui_swap_example::buy_pool_service_process;
     friend sui_swap_example::nft_service;
 
     const EInvalidAdminCap: u64 = 50;

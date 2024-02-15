@@ -1078,6 +1078,39 @@ services:
             referenceType: Coin<Y>
             isMutableReference: true
 
+  BuyPoolServiceProcess:
+    requiredComponents:
+      NS:
+        type: NftService
+    methods:
+      SellX:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          BuyPool:
+            referenceType: BuyPool<X, Y>
+            isMutableReference: true
+          X:
+            type: X
+          Y_Coin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+          ExpectedY_AmountOut:
+            type: u64
+        steps:
+          GetX_Amount:
+            invokeParticipant: "NS.GetAmount"
+            arguments:
+              X: "X"
+            exportVariable: X_Amount
+          InvokeInternal:
+            expression:
+              Move:
+                "//todo invoke internal fun..."
+
   NftService:
     abstract: true
     metadata:
