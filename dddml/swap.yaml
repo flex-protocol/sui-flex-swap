@@ -999,6 +999,85 @@ services:
               Move:
                 "//todo invoke internal fun..."
 
+  BuyPoolService:
+    methods:
+      InitializeBuyPool:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+          Y_Coin:
+            type: Coin<Y>
+          Y_Amount:
+            type: u64
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+
+      RemoveXToken:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          BuyPool:
+            referenceType: BuyPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          X_Id:
+            type: ID
+
+      DepositYReserve:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          BuyPool:
+            referenceType: BuyPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          Y_Coin:
+            type: Coin<Y>
+          Y_Amount:
+            type: u64
+
+      WithdrawYReserve:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          BuyPool:
+            referenceType: BuyPool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          Y_Amount:
+            type: u64
+          Y_Coin:
+            referenceType: Coin<Y>
+            isMutableReference: true
+
   NftService:
     abstract: true
     metadata:
