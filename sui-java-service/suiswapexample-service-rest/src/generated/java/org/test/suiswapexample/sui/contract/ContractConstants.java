@@ -22,6 +22,8 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_FEE_RATE_UPDATED = "token_pair::FeeRateUpdated";
 
+    public static final String TRADE_POOL_MODULE_TRADE_POOL_INITIALIZED = "trade_pool::TradePoolInitialized";
+
     public static final String TRADE_POOL_MODULE_SELL_POOL_INITIALIZED = "trade_pool::SellPoolInitialized";
 
     public static final String TRADE_POOL_MODULE_BUY_POOL_INITIALIZED = "trade_pool::BuyPoolInitialized";
@@ -49,6 +51,8 @@ public class ContractConstants {
     public static final String EXCHANGE_MODULE_INIT_EXCHANGE_EVENT = "exchange::InitExchangeEvent";
 
     public static final String EXCHANGE_MODULE_TOKEN_PAIR_ADDED_TO_EXCHANGE = "exchange::TokenPairAddedToExchange";
+
+    public static final String EXCHANGE_MODULE_TRADE_POOL_ADDED_TO_EXCHANGE = "exchange::TradePoolAddedToExchange";
 
     public static final String EXCHANGE_MODULE_SELL_POOL_ADDED_TO_EXCHANGE = "exchange::SellPoolAddedToExchange";
 

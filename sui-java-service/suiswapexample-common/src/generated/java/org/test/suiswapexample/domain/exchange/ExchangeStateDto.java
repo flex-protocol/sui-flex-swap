@@ -153,6 +153,36 @@ public class ExchangeStateDto {
         this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
     }
 
+    private String[] tradePools;
+
+    public String[] getTradePools() {
+        return this.tradePools;
+    }
+
+    public void setTradePools(String[] tradePools) {
+        this.tradePools = tradePools;
+    }
+
+    private String[] tradePoolX_TokenTypes;
+
+    public String[] getTradePoolX_TokenTypes() {
+        return this.tradePoolX_TokenTypes;
+    }
+
+    public void setTradePoolX_TokenTypes(String[] tradePoolX_TokenTypes) {
+        this.tradePoolX_TokenTypes = tradePoolX_TokenTypes;
+    }
+
+    private String[] tradePoolY_TokenTypes;
+
+    public String[] getTradePoolY_TokenTypes() {
+        return this.tradePoolY_TokenTypes;
+    }
+
+    public void setTradePoolY_TokenTypes(String[] tradePoolY_TokenTypes) {
+        this.tradePoolY_TokenTypes = tradePoolY_TokenTypes;
+    }
+
     private String[] sellPools;
 
     public String[] getSellPools() {
@@ -295,6 +325,33 @@ public class ExchangeStateDto {
                     }
                 }
                 dto.setTokenPairY_TokenTypes(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("TradePools")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getTradePools() != null) {
+                    for (String s : state.getTradePools()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setTradePools(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("TradePoolX_TokenTypes")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getTradePoolX_TokenTypes() != null) {
+                    for (String s : state.getTradePoolX_TokenTypes()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setTradePoolX_TokenTypes(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("TradePoolY_TokenTypes")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getTradePoolY_TokenTypes() != null) {
+                    for (String s : state.getTradePoolY_TokenTypes()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setTradePoolY_TokenTypes(arrayList.toArray(new String[0]));
             }
             if (returnedFieldsContains("SellPools")) {
                 ArrayList<String> arrayList = new ArrayList();

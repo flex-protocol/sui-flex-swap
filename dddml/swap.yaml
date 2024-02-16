@@ -286,7 +286,7 @@ aggregates:
       type: UID
     properties:
     methods:
-      InitializeSellPool:
+      InitializeTradePool:
         isInternal: true
         isCreationCommand: true
         #requiredPermission: "__Publisher__"
@@ -298,6 +298,58 @@ aggregates:
         #  Y: Y
         #implements:
         #  - SellOrBuyPool.Initialize
+        parameters:
+          Exchange:
+            referenceType: Exchange
+            isMutableReference: true
+            eventPropertyName: ExchangeId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+          Y_Amount:
+            type: Balance<Y>
+          ExchangeRateNumerator:
+            type: u64
+          ExchangeRateDenominator:
+            type: u64
+          PriceCurveType:
+            type: u8
+          PriceDeltaX_Amount:
+            type: u64
+          PriceDeltaNumerator:
+            type: u64
+          PriceDeltaDenominator:
+            type: u64
+        result:
+          isObjectReturned: true
+          type: LiquidityToken<X, Y>
+          name: LiquidityToken
+        event:
+          name: TradePoolInitialized
+          isObjectShared: true # Share the object after created.
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            Y_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+              optional: true
+            X_Id:
+              type: ID
+
+      InitializeSellPool:
+        isInternal: true
+        isCreationCommand: true
         parameters:
           Exchange:
             referenceType: Exchange
@@ -488,6 +540,7 @@ aggregates:
         Y: "{0}_TokenType"
     friends:
       - TokenPair.InitializeLiquidity
+      - TradePool.InitializeTradePool
       - TradePool.InitializeSellPool
       - TradePool.InitializeBuyPool
       #- TokenPair.AddLiquidity
@@ -542,6 +595,7 @@ singletonObjects:
   Exchange:
     friends:
       - TokenPair.InitializeLiquidity
+      - TradePool.InitializeTradePool
       - TradePool.InitializeSellPool
       - TradePool.InitializeBuyPool
     metadata:
@@ -563,6 +617,15 @@ singletonObjects:
         itemType: String
         isList: true
       TokenPairY_TokenTypes:
+        itemType: String
+        isList: true
+      TradePools:
+        itemType: ID #ObjectID
+        isList: true
+      TradePoolX_TokenTypes:
+        itemType: String
+        isList: true
+      TradePoolY_TokenTypes:
         itemType: String
         isList: true
       SellPools:
@@ -604,6 +667,24 @@ singletonObjects:
           #  type: String
         event:
           name: TokenPairAddedToExchange
+          properties:
+            X_TokenType:
+              type: String
+            Y_TokenType:
+              type: String
+
+      AddTradePool:
+        isInternal: true
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          TradePoolId:
+            type: ID #ObjectID
+        event:
+          name: TradePoolAddedToExchange
           properties:
             X_TokenType:
               type: String

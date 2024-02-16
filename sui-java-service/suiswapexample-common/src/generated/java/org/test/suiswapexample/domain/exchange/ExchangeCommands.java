@@ -103,6 +103,57 @@ public class ExchangeCommands {
 
     }
 
+    public static class AddTradePool extends AbstractExchangeCommand implements ExchangeCommand {
+
+        public String getCommandType() {
+            return "AddTradePool";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Trade Pool Id
+         */
+        private String tradePoolId;
+
+        public String getTradePoolId() {
+            return this.tradePoolId;
+        }
+
+        public void setTradePoolId(String tradePoolId) {
+            this.tradePoolId = tradePoolId;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
     public static class AddSellPool extends AbstractExchangeCommand implements ExchangeCommand {
 
         public String getCommandType() {

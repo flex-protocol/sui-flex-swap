@@ -11,9 +11,11 @@ module sui_swap_example::exchange_aggregate {
     use sui_swap_example::exchange_add_buy_pool_logic;
     use sui_swap_example::exchange_add_sell_pool_logic;
     use sui_swap_example::exchange_add_token_pair_logic;
+    use sui_swap_example::exchange_add_trade_pool_logic;
     use sui_swap_example::exchange_update_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
+    friend sui_swap_example::trade_pool_initialize_trade_pool_logic;
     friend sui_swap_example::trade_pool_initialize_sell_pool_logic;
     friend sui_swap_example::trade_pool_initialize_buy_pool_logic;
     friend sui_swap_example::token_pair_service;
@@ -46,6 +48,27 @@ module sui_swap_example::exchange_aggregate {
         );
         exchange::update_object_version(exchange);
         exchange::emit_token_pair_added_to_exchange(token_pair_added_to_exchange);
+    }
+
+    #[allow(unused_mut_parameter)]
+    public(friend) fun add_trade_pool<X: key + store, Y>(
+        exchange: &mut exchange::Exchange,
+        trade_pool_id: ID,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        exchange::assert_schema_version(exchange);
+        let trade_pool_added_to_exchange = exchange_add_trade_pool_logic::verify<X, Y>(
+            trade_pool_id,
+            exchange,
+            ctx,
+        );
+        exchange_add_trade_pool_logic::mutate<X, Y>(
+            &trade_pool_added_to_exchange,
+            exchange,
+            ctx,
+        );
+        exchange::update_object_version(exchange);
+        exchange::emit_trade_pool_added_to_exchange(trade_pool_added_to_exchange);
     }
 
     #[allow(unused_mut_parameter)]

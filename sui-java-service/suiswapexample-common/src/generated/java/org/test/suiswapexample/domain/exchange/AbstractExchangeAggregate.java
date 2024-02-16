@@ -60,6 +60,19 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
         }
 
         @Override
+        public void addTradePool(String tradePoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTradePool c) {
+            java.util.function.Supplier<ExchangeEvent.TradePoolAddedToExchange> eventFactory = () -> newTradePoolAddedToExchange(tradePoolId, offChainVersion, commandId, requesterId);
+            ExchangeEvent.TradePoolAddedToExchange e;
+            try {
+                e = verifyAddTradePool(eventFactory, tradePoolId, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
+        @Override
         public void addSellPool(String sellPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddSellPool c) {
             java.util.function.Supplier<ExchangeEvent.SellPoolAddedToExchange> eventFactory = () -> newSellPoolAddedToExchange(sellPoolId, offChainVersion, commandId, requesterId);
             ExchangeEvent.SellPoolAddedToExchange e;
@@ -132,6 +145,27 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
 //
 //public class AddTokenPairLogic {
 //    public static ExchangeEvent.TokenPairAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.TokenPairAddedToExchange> eventFactory, ExchangeState exchangeState, String tokenPairId, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.TradePoolAddedToExchange verifyAddTradePool(java.util.function.Supplier<ExchangeEvent.TradePoolAddedToExchange> eventFactory, String tradePoolId, ExchangeCommands.AddTradePool c) {
+            String TradePoolId = tradePoolId;
+
+            ExchangeEvent.TradePoolAddedToExchange e = (ExchangeEvent.TradePoolAddedToExchange) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.AddTradePoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), tradePoolId, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class AddTradePoolLogic {
+//    public static ExchangeEvent.TradePoolAddedToExchange verify(java.util.function.Supplier<ExchangeEvent.TradePoolAddedToExchange> eventFactory, ExchangeState exchangeState, String tradePoolId, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -228,6 +262,30 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             AbstractExchangeEvent.TokenPairAddedToExchange e = new AbstractExchangeEvent.TokenPairAddedToExchange();
 
             e.setTokenPairId(tokenPairId);
+            e.setX_TokenType(null);
+            e.setY_TokenType(null);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.TradePoolAddedToExchange newTradePoolAddedToExchange(String tradePoolId, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.TradePoolAddedToExchange e = new AbstractExchangeEvent.TradePoolAddedToExchange();
+
+            e.setTradePoolId(tradePoolId);
             e.setX_TokenType(null);
             e.setY_TokenType(null);
             e.setSuiTimestamp(null);

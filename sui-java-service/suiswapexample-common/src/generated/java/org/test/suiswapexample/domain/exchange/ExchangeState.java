@@ -42,6 +42,12 @@ public interface ExchangeState extends VersionedSuiMoveObject
 
     List<String> getTokenPairY_TokenTypes();
 
+    List<String> getTradePools();
+
+    List<String> getTradePoolX_TokenTypes();
+
+    List<String> getTradePoolY_TokenTypes();
+
     List<String> getSellPools();
 
     List<String> getSellPoolX_TokenTypes();
@@ -78,6 +84,12 @@ public interface ExchangeState extends VersionedSuiMoveObject
         void setTokenPairX_TokenTypes(List<String> tokenPairX_TokenTypes);
 
         void setTokenPairY_TokenTypes(List<String> tokenPairY_TokenTypes);
+
+        void setTradePools(List<String> tradePools);
+
+        void setTradePoolX_TokenTypes(List<String> tradePoolX_TokenTypes);
+
+        void setTradePoolY_TokenTypes(List<String> tradePoolY_TokenTypes);
 
         void setSellPools(List<String> sellPools);
 

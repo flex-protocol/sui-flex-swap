@@ -77,6 +77,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tradepool.InitializeTradePoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TradePoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "exchange", "x_Amount", "exchangeRateNumerator", "exchangeRateDenominator", "priceCurveType", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.tradepool.InitializeSellPoolLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TradePoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
@@ -189,6 +197,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.AddTradePoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "tradePoolId"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.exchange.AddSellPoolLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
@@ -273,6 +289,14 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "tokenPairId", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.AddTradePoolLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "tradePoolId", "x_TokenType", "y_TokenType", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

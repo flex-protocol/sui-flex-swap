@@ -212,6 +212,183 @@ public abstract class AbstractTradePoolEvent extends AbstractEvent implements Tr
 
     }
 
+    public static class TradePoolInitialized extends TradePoolClobEvent implements TradePoolEvent.TradePoolInitialized {
+
+        @Override
+        public String getEventType() {
+            return "TradePoolInitialized";
+        }
+
+        public String getExchangeId() {
+            Object val = getDynamicProperties().get("exchangeId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setExchangeId(String value) {
+            getDynamicProperties().put("exchangeId", value);
+        }
+
+        public BigInteger getX_Amount() {
+            Object val = getDynamicProperties().get("x_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setX_Amount(BigInteger value) {
+            getDynamicProperties().put("x_Amount", value);
+        }
+
+        public BigInteger getExchangeRateNumerator() {
+            Object val = getDynamicProperties().get("exchangeRateNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateNumerator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateNumerator", value);
+        }
+
+        public BigInteger getExchangeRateDenominator() {
+            Object val = getDynamicProperties().get("exchangeRateDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setExchangeRateDenominator(BigInteger value) {
+            getDynamicProperties().put("exchangeRateDenominator", value);
+        }
+
+        public Integer getPriceCurveType() {
+            Object val = getDynamicProperties().get("priceCurveType");
+            if (val instanceof Integer) {
+                return (Integer) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, Integer.class);
+        }
+
+        public void setPriceCurveType(Integer value) {
+            getDynamicProperties().put("priceCurveType", value);
+        }
+
+        public BigInteger getPriceDeltaX_Amount() {
+            Object val = getDynamicProperties().get("priceDeltaX_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setPriceDeltaX_Amount(BigInteger value) {
+            getDynamicProperties().put("priceDeltaX_Amount", value);
+        }
+
+        public BigInteger getPriceDeltaNumerator() {
+            Object val = getDynamicProperties().get("priceDeltaNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setPriceDeltaNumerator(BigInteger value) {
+            getDynamicProperties().put("priceDeltaNumerator", value);
+        }
+
+        public BigInteger getPriceDeltaDenominator() {
+            Object val = getDynamicProperties().get("priceDeltaDenominator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setPriceDeltaDenominator(BigInteger value) {
+            getDynamicProperties().put("priceDeltaDenominator", value);
+        }
+
+        public String getProvider() {
+            Object val = getDynamicProperties().get("provider");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setProvider(String value) {
+            getDynamicProperties().put("provider", value);
+        }
+
+        public String getX_TokenType() {
+            Object val = getDynamicProperties().get("x_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_TokenType(String value) {
+            getDynamicProperties().put("x_TokenType", value);
+        }
+
+        public String getY_TokenType() {
+            Object val = getDynamicProperties().get("y_TokenType");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setY_TokenType(String value) {
+            getDynamicProperties().put("y_TokenType", value);
+        }
+
+        public BigInteger getY_Amount() {
+            Object val = getDynamicProperties().get("y_Amount");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setY_Amount(BigInteger value) {
+            getDynamicProperties().put("y_Amount", value);
+        }
+
+        public String getLiquidityTokenId() {
+            Object val = getDynamicProperties().get("liquidityTokenId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setLiquidityTokenId(String value) {
+            getDynamicProperties().put("liquidityTokenId", value);
+        }
+
+        public String getX_Id() {
+            Object val = getDynamicProperties().get("x_Id");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setX_Id(String value) {
+            getDynamicProperties().put("x_Id", value);
+        }
+
+    }
+
     public static class SellPoolInitialized extends TradePoolClobEvent implements TradePoolEvent.SellPoolInitialized {
 
         @Override

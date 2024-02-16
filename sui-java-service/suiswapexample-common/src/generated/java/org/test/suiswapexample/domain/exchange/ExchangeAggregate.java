@@ -19,6 +19,8 @@ public interface ExchangeAggregate {
 
     void addTokenPair(String tokenPairId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTokenPair c);
 
+    void addTradePool(String tradePoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddTradePool c);
+
     void addSellPool(String sellPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddSellPool c);
 
     void addBuyPool(String buyPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddBuyPool c);

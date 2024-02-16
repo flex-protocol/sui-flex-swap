@@ -16,6 +16,11 @@ public class PullTradePoolEventsTaskService {
     @Autowired
     private TradePoolEventService tradePoolEventService;
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-trade-pool-events.trade-pool-initialized.fixed-delay:5000}")
+    public void pullTradePoolInitializedEvents() {
+        tradePoolEventService.pullTradePoolInitializedEvents();
+    }
+
     @Scheduled(fixedDelayString = "${sui.contract.pull-trade-pool-events.sell-pool-initialized.fixed-delay:5000}")
     public void pullSellPoolInitializedEvents() {
         tradePoolEventService.pullSellPoolInitializedEvents();

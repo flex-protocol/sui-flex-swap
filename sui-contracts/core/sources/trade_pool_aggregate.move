@@ -16,6 +16,7 @@ module sui_swap_example::trade_pool_aggregate {
     use sui_swap_example::trade_pool_destroy_logic;
     use sui_swap_example::trade_pool_initialize_buy_pool_logic;
     use sui_swap_example::trade_pool_initialize_sell_pool_logic;
+    use sui_swap_example::trade_pool_initialize_trade_pool_logic;
     use sui_swap_example::trade_pool_remove_x_token_logic;
     use sui_swap_example::trade_pool_sell_x_logic;
     use sui_swap_example::trade_pool_update_exchange_rate_logic;
@@ -29,6 +30,45 @@ module sui_swap_example::trade_pool_aggregate {
     friend sui_swap_example::buy_pool_service;
     friend sui_swap_example::buy_pool_service_process;
     friend sui_swap_example::nft_service;
+
+    #[allow(unused_mut_parameter)]
+    public(friend) fun initialize_trade_pool<X: key + store, Y>(
+        exchange: &mut Exchange,
+        x: X,
+        x_amount: u64,
+        y_amount: Balance<Y>,
+        exchange_rate_numerator: u64,
+        exchange_rate_denominator: u64,
+        price_curve_type: u8,
+        price_delta_x_amount: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
+        ctx: &mut tx_context::TxContext,
+    ): (trade_pool::TradePool<X, Y>, LiquidityToken<X, Y>) {
+        let trade_pool_initialized = trade_pool_initialize_trade_pool_logic::verify<X, Y>(
+            exchange,
+            &x,
+            x_amount,
+            &y_amount,
+            exchange_rate_numerator,
+            exchange_rate_denominator,
+            price_curve_type,
+            price_delta_x_amount,
+            price_delta_numerator,
+            price_delta_denominator,
+            ctx,
+        );
+        let (trade_pool, liquidity_token) = trade_pool_initialize_trade_pool_logic::mutate<X, Y>(
+            &mut trade_pool_initialized,
+            x,
+            y_amount,
+            exchange,
+            ctx,
+        );
+        trade_pool::set_trade_pool_initialized_id(&mut trade_pool_initialized, trade_pool::id(&trade_pool));
+        trade_pool::emit_trade_pool_initialized(trade_pool_initialized);
+        (trade_pool, liquidity_token)
+    }
 
     #[allow(unused_mut_parameter)]
     public(friend) fun initialize_sell_pool<X: key + store, Y>(

@@ -14,6 +14,7 @@ import org.test.suiswapexample.domain.tradepool.AbstractTradePoolEvent;
 import org.test.suiswapexample.sui.contract.ContractConstants;
 import org.test.suiswapexample.sui.contract.DomainBeanUtils;
 import org.test.suiswapexample.sui.contract.SuiPackage;
+import org.test.suiswapexample.sui.contract.tradepool.TradePoolInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.SellPoolInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.BuyPoolInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.PoolExchangeRateUpdated;
@@ -59,6 +60,46 @@ public class TradePoolEventService {
     public void updateStatusToProcessed(AbstractTradePoolEvent event) {
         event.setStatus("D");
         tradePoolEventRepository.save(event);
+    }
+
+    @Transactional
+    public void pullTradePoolInitializedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getTradePoolInitializedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<TradePoolInitialized> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TRADE_POOL_MODULE_TRADE_POOL_INITIALIZED,
+                    cursor, limit, false, TradePoolInitialized.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<TradePoolInitialized> eventEnvelope : eventPage.getData()) {
+                    saveTradePoolInitialized(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getTradePoolInitializedEventNextCursor() {
+        AbstractTradePoolEvent lastEvent = tradePoolEventRepository.findFirstTradePoolInitializedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveTradePoolInitialized(SuiMoveEventEnvelope<TradePoolInitialized> eventEnvelope) {
+        AbstractTradePoolEvent.TradePoolInitialized tradePoolInitialized = DomainBeanUtils.toTradePoolInitialized(eventEnvelope);
+        if (tradePoolEventRepository.findById(tradePoolInitialized.getTradePoolEventId()).isPresent()) {
+            return;
+        }
+        tradePoolEventRepository.save(tradePoolInitialized);
     }
 
     @Transactional

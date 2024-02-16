@@ -47,6 +47,12 @@ public class Exchange {
 
     private String[] tokenPairY_TokenTypes;
 
+    private String[] tradePools;
+
+    private String[] tradePoolX_TokenTypes;
+
+    private String[] tradePoolY_TokenTypes;
+
     private String[] sellPools;
 
     private String[] sellPoolX_TokenTypes;
@@ -107,6 +113,30 @@ public class Exchange {
 
     public void setTokenPairY_TokenTypes(String[] tokenPairY_TokenTypes) {
         this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
+    }
+
+    public String[] getTradePools() {
+        return tradePools;
+    }
+
+    public void setTradePools(String[] tradePools) {
+        this.tradePools = tradePools;
+    }
+
+    public String[] getTradePoolX_TokenTypes() {
+        return tradePoolX_TokenTypes;
+    }
+
+    public void setTradePoolX_TokenTypes(String[] tradePoolX_TokenTypes) {
+        this.tradePoolX_TokenTypes = tradePoolX_TokenTypes;
+    }
+
+    public String[] getTradePoolY_TokenTypes() {
+        return tradePoolY_TokenTypes;
+    }
+
+    public void setTradePoolY_TokenTypes(String[] tradePoolY_TokenTypes) {
+        this.tradePoolY_TokenTypes = tradePoolY_TokenTypes;
     }
 
     public String[] getSellPools() {
@@ -174,6 +204,9 @@ public class Exchange {
                 ", tokenPairs=" + Arrays.toString(tokenPairs) +
                 ", tokenPairX_TokenTypes=" + Arrays.toString(tokenPairX_TokenTypes) +
                 ", tokenPairY_TokenTypes=" + Arrays.toString(tokenPairY_TokenTypes) +
+                ", tradePools=" + Arrays.toString(tradePools) +
+                ", tradePoolX_TokenTypes=" + Arrays.toString(tradePoolX_TokenTypes) +
+                ", tradePoolY_TokenTypes=" + Arrays.toString(tradePoolY_TokenTypes) +
                 ", sellPools=" + Arrays.toString(sellPools) +
                 ", sellPoolX_TokenTypes=" + Arrays.toString(sellPoolX_TokenTypes) +
                 ", sellPoolY_TokenTypes=" + Arrays.toString(sellPoolY_TokenTypes) +

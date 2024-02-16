@@ -72,6 +72,34 @@ public abstract class AbstractTradePoolAggregate extends AbstractAggregate imple
             apply(e);
         }
 
+        protected TradePoolEvent.TradePoolInitialized verifyInitializeTradePool(java.util.function.Supplier<TradePoolEvent.TradePoolInitialized> eventFactory, String exchange, BigInteger x_Amount, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Integer priceCurveType, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, TradePoolCommands.InitializeTradePool c) {
+            String Exchange = exchange;
+            BigInteger X_Amount = x_Amount;
+            BigInteger ExchangeRateNumerator = exchangeRateNumerator;
+            BigInteger ExchangeRateDenominator = exchangeRateDenominator;
+            Integer PriceCurveType = priceCurveType;
+            BigInteger PriceDeltaX_Amount = priceDeltaX_Amount;
+            BigInteger PriceDeltaNumerator = priceDeltaNumerator;
+            BigInteger PriceDeltaDenominator = priceDeltaDenominator;
+
+            TradePoolEvent.TradePoolInitialized e = (TradePoolEvent.TradePoolInitialized) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tradepool.InitializeTradePoolLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TradePoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), exchange, x_Amount, exchangeRateNumerator, exchangeRateDenominator, priceCurveType, priceDeltaX_Amount, priceDeltaNumerator, priceDeltaDenominator, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.tradepool;
+//
+//public class InitializeTradePoolLogic {
+//    public static TradePoolEvent.TradePoolInitialized verify(java.util.function.Supplier<TradePoolEvent.TradePoolInitialized> eventFactory, TradePoolState tradePoolState, String exchange, BigInteger x_Amount, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Integer priceCurveType, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
         protected TradePoolEvent.SellPoolInitialized verifyInitializeSellPool(java.util.function.Supplier<TradePoolEvent.SellPoolInitialized> eventFactory, String exchange, BigInteger x_Amount, BigInteger exchangeRateNumerator, BigInteger exchangeRateDenominator, Integer priceCurveType, BigInteger priceDeltaX_Amount, BigInteger priceDeltaNumerator, BigInteger priceDeltaDenominator, TradePoolCommands.InitializeSellPool c) {
             String Exchange = exchange;
             BigInteger X_Amount = x_Amount;
