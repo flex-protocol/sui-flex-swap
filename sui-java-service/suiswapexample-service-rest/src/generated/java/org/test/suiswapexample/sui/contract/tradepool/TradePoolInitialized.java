@@ -19,8 +19,6 @@ public class TradePoolInitialized {
 
     private String exchangeId;
 
-    private BigInteger x_Amount;
-
     private BigInteger exchangeRateNumerator;
 
     private BigInteger exchangeRateDenominator;
@@ -38,6 +36,8 @@ public class TradePoolInitialized {
     private String x_TokenType;
 
     private String y_TokenType;
+
+    private BigInteger x_Amount;
 
     private BigInteger y_Amount;
 
@@ -59,14 +59,6 @@ public class TradePoolInitialized {
 
     public void setExchangeId(String exchangeId) {
         this.exchangeId = exchangeId;
-    }
-
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
     }
 
     public BigInteger getExchangeRateNumerator() {
@@ -141,6 +133,14 @@ public class TradePoolInitialized {
         this.y_TokenType = y_TokenType;
     }
 
+    public BigInteger getX_Amount() {
+        return x_Amount;
+    }
+
+    public void setX_Amount(BigInteger x_Amount) {
+        this.x_Amount = x_Amount;
+    }
+
     public BigInteger getY_Amount() {
         return y_Amount;
     }
@@ -170,7 +170,6 @@ public class TradePoolInitialized {
         return "TradePoolInitialized{" +
                 "id=" + '\'' + id + '\'' +
                 ", exchangeId=" + '\'' + exchangeId + '\'' +
-                ", x_Amount=" + x_Amount +
                 ", exchangeRateNumerator=" + exchangeRateNumerator +
                 ", exchangeRateDenominator=" + exchangeRateDenominator +
                 ", priceCurveType=" + priceCurveType +
@@ -180,6 +179,7 @@ public class TradePoolInitialized {
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
+                ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 ", x_Id=" + '\'' + x_Id + '\'' +

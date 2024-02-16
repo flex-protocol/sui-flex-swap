@@ -17,10 +17,6 @@ module sui_swap_example::liquidity_added {
         token_pair::liquidity_added_liquidity_token_id(liquidity_added)
     }
 
-    public fun x_amount(liquidity_added: &LiquidityAdded): u64 {
-        token_pair::liquidity_added_x_amount(liquidity_added)
-    }
-
     public fun provider(liquidity_added: &LiquidityAdded): address {
         token_pair::liquidity_added_provider(liquidity_added)
     }
@@ -31,6 +27,10 @@ module sui_swap_example::liquidity_added {
 
     public fun y_token_type(liquidity_added: &LiquidityAdded): String {
         token_pair::liquidity_added_y_token_type(liquidity_added)
+    }
+
+    public fun x_amount(liquidity_added: &LiquidityAdded): u64 {
+        token_pair::liquidity_added_x_amount(liquidity_added)
     }
 
     public fun y_amount(liquidity_added: &LiquidityAdded): u64 {

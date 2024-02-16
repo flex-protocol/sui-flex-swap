@@ -18,10 +18,6 @@ module sui_swap_example::sell_pool_initialized {
         trade_pool::sell_pool_initialized_exchange_id(sell_pool_initialized)
     }
 
-    public fun x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
-        trade_pool::sell_pool_initialized_x_amount(sell_pool_initialized)
-    }
-
     public fun exchange_rate_numerator(sell_pool_initialized: &SellPoolInitialized): u64 {
         trade_pool::sell_pool_initialized_exchange_rate_numerator(sell_pool_initialized)
     }
@@ -56,6 +52,10 @@ module sui_swap_example::sell_pool_initialized {
 
     public fun y_token_type(sell_pool_initialized: &SellPoolInitialized): String {
         trade_pool::sell_pool_initialized_y_token_type(sell_pool_initialized)
+    }
+
+    public fun x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
+        trade_pool::sell_pool_initialized_x_amount(sell_pool_initialized)
     }
 
     public fun liquidity_token_id(sell_pool_initialized: &SellPoolInitialized): Option<ID> {

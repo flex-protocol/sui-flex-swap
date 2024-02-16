@@ -26,10 +26,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setExchangeId(String value);
 
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         BigInteger getFeeNumerator();
 
         void setFeeNumerator(BigInteger value);
@@ -49,6 +45,10 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
         String getY_TokenType();
 
         void setY_TokenType(String value);
+
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
 
         BigInteger getY_Amount();
 
@@ -73,10 +73,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setLiquidityTokenId(String value);
 
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         String getProvider();
 
         void setProvider(String value);
@@ -88,6 +84,10 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
         String getY_TokenType();
 
         void setY_TokenType(String value);
+
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
 
         BigInteger getY_Amount();
 
@@ -146,10 +146,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
     }
 
     interface XSwappedForY extends TokenPairEvent {
-        BigInteger getX_Amount();
-
-        void setX_Amount(BigInteger value);
-
         BigInteger getExpectedY_AmountOut();
 
         void setExpectedY_AmountOut(BigInteger value);
@@ -165,6 +161,10 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
         String getY_TokenType();
 
         void setY_TokenType(String value);
+
+        BigInteger getX_Amount();
+
+        void setX_Amount(BigInteger value);
 
         BigInteger getY_Amount();
 

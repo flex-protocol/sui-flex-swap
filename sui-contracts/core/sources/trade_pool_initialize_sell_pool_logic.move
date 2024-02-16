@@ -58,7 +58,6 @@ module sui_swap_example::trade_pool_initialize_sell_pool_logic {
 
         trade_pool::new_sell_pool_initialized<X, Y>(
             object::id(exchange),
-            x_amount,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_curve_type,
@@ -68,6 +67,7 @@ module sui_swap_example::trade_pool_initialize_sell_pool_logic {
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
+            x_amount,
             option::none(),
             object::id(x),
         )

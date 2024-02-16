@@ -39,11 +39,11 @@ module sui_swap_example::token_pair_swap_x_logic {
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
         token_pair::new_x_swapped_for_y(
             token_pair,
-            x_amount,
             expected_y_amount_out,
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
+            x_amount,
             y_amount_out,
             object::id(x),
         )

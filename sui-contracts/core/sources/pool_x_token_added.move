@@ -17,10 +17,6 @@ module sui_swap_example::pool_x_token_added {
         trade_pool::pool_x_token_added_liquidity_token_id(pool_x_token_added)
     }
 
-    public fun x_amount(pool_x_token_added: &PoolXTokenAdded): u64 {
-        trade_pool::pool_x_token_added_x_amount(pool_x_token_added)
-    }
-
     public fun provider(pool_x_token_added: &PoolXTokenAdded): address {
         trade_pool::pool_x_token_added_provider(pool_x_token_added)
     }
@@ -31,6 +27,10 @@ module sui_swap_example::pool_x_token_added {
 
     public fun y_token_type(pool_x_token_added: &PoolXTokenAdded): String {
         trade_pool::pool_x_token_added_y_token_type(pool_x_token_added)
+    }
+
+    public fun x_amount(pool_x_token_added: &PoolXTokenAdded): u64 {
+        trade_pool::pool_x_token_added_x_amount(pool_x_token_added)
     }
 
     public fun x_id(pool_x_token_added: &PoolXTokenAdded): ID {

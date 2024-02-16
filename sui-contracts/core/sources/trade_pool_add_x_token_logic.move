@@ -32,10 +32,10 @@ module sui_swap_example::trade_pool_add_x_token_logic {
         trade_pool::new_pool_x_token_added(
             pool,
             liquidity_token_id,
-            x_amount,
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
+            x_amount,
             object::id(x),
         )
     }

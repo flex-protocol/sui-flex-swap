@@ -19,8 +19,6 @@ public class LiquidityInitialized {
 
     private String exchangeId;
 
-    private BigInteger x_Amount;
-
     private BigInteger feeNumerator;
 
     private BigInteger feeDenominator;
@@ -30,6 +28,8 @@ public class LiquidityInitialized {
     private String x_TokenType;
 
     private String y_TokenType;
+
+    private BigInteger x_Amount;
 
     private BigInteger y_Amount;
 
@@ -53,14 +53,6 @@ public class LiquidityInitialized {
 
     public void setExchangeId(String exchangeId) {
         this.exchangeId = exchangeId;
-    }
-
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
     }
 
     public BigInteger getFeeNumerator() {
@@ -103,6 +95,14 @@ public class LiquidityInitialized {
         this.y_TokenType = y_TokenType;
     }
 
+    public BigInteger getX_Amount() {
+        return x_Amount;
+    }
+
+    public void setX_Amount(BigInteger x_Amount) {
+        this.x_Amount = x_Amount;
+    }
+
     public BigInteger getY_Amount() {
         return y_Amount;
     }
@@ -140,12 +140,12 @@ public class LiquidityInitialized {
         return "LiquidityInitialized{" +
                 "id=" + '\'' + id + '\'' +
                 ", exchangeId=" + '\'' + exchangeId + '\'' +
-                ", x_Amount=" + x_Amount +
                 ", feeNumerator=" + feeNumerator +
                 ", feeDenominator=" + feeDenominator +
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
+                ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
                 ", liquidityAmount=" + liquidityAmount +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +

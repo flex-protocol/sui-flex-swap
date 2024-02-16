@@ -19,8 +19,6 @@ public class XSwappedForY {
 
     private BigInteger version;
 
-    private BigInteger x_Amount;
-
     private BigInteger expectedY_AmountOut;
 
     private String sender;
@@ -28,6 +26,8 @@ public class XSwappedForY {
     private String x_TokenType;
 
     private String y_TokenType;
+
+    private BigInteger x_Amount;
 
     private BigInteger y_Amount;
 
@@ -47,14 +47,6 @@ public class XSwappedForY {
 
     public void setVersion(BigInteger version) {
         this.version = version;
-    }
-
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
     }
 
     public BigInteger getExpectedY_AmountOut() {
@@ -89,6 +81,14 @@ public class XSwappedForY {
         this.y_TokenType = y_TokenType;
     }
 
+    public BigInteger getX_Amount() {
+        return x_Amount;
+    }
+
+    public void setX_Amount(BigInteger x_Amount) {
+        this.x_Amount = x_Amount;
+    }
+
     public BigInteger getY_Amount() {
         return y_Amount;
     }
@@ -110,11 +110,11 @@ public class XSwappedForY {
         return "XSwappedForY{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
-                ", x_Amount=" + x_Amount +
                 ", expectedY_AmountOut=" + expectedY_AmountOut +
                 ", sender=" + '\'' + sender + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
+                ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
                 ", x_Id=" + '\'' + x_Id + '\'' +
                 '}';

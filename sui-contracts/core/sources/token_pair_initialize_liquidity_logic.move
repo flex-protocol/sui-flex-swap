@@ -56,12 +56,12 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         assert!(fee_denominator > fee_numerator, EInvalidFeeRate);
         token_pair::new_liquidity_initialized<X, Y>(
             object::id(exchange),
-            x_amount,
             fee_numerator,
             fee_denominator,
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
+            x_amount,
             y_amount_i,
             liquidity_amount,
             option::none(),

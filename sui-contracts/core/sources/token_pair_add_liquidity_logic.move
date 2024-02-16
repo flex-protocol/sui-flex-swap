@@ -49,10 +49,10 @@ module sui_swap_example::token_pair_add_liquidity_logic {
         token_pair::new_liquidity_added(
             token_pair,
             liquidity_token_id,
-            x_amount,
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
+            x_amount,
             y_amount_i,
             liquidity_amount_added,
             object::id(x),

@@ -19,8 +19,6 @@ public class SellPoolInitialized {
 
     private String exchangeId;
 
-    private BigInteger x_Amount;
-
     private BigInteger exchangeRateNumerator;
 
     private BigInteger exchangeRateDenominator;
@@ -38,6 +36,8 @@ public class SellPoolInitialized {
     private String x_TokenType;
 
     private String y_TokenType;
+
+    private BigInteger x_Amount;
 
     private String liquidityTokenId;
 
@@ -57,14 +57,6 @@ public class SellPoolInitialized {
 
     public void setExchangeId(String exchangeId) {
         this.exchangeId = exchangeId;
-    }
-
-    public BigInteger getX_Amount() {
-        return x_Amount;
-    }
-
-    public void setX_Amount(BigInteger x_Amount) {
-        this.x_Amount = x_Amount;
     }
 
     public BigInteger getExchangeRateNumerator() {
@@ -139,6 +131,14 @@ public class SellPoolInitialized {
         this.y_TokenType = y_TokenType;
     }
 
+    public BigInteger getX_Amount() {
+        return x_Amount;
+    }
+
+    public void setX_Amount(BigInteger x_Amount) {
+        this.x_Amount = x_Amount;
+    }
+
     public String getLiquidityTokenId() {
         return liquidityTokenId;
     }
@@ -160,7 +160,6 @@ public class SellPoolInitialized {
         return "SellPoolInitialized{" +
                 "id=" + '\'' + id + '\'' +
                 ", exchangeId=" + '\'' + exchangeId + '\'' +
-                ", x_Amount=" + x_Amount +
                 ", exchangeRateNumerator=" + exchangeRateNumerator +
                 ", exchangeRateDenominator=" + exchangeRateDenominator +
                 ", priceCurveType=" + priceCurveType +
@@ -170,6 +169,7 @@ public class SellPoolInitialized {
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +
+                ", x_Amount=" + x_Amount +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
                 ", x_Id=" + '\'' + x_Id + '\'' +
                 '}';

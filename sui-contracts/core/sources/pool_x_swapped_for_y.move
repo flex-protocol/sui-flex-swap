@@ -13,10 +13,6 @@ module sui_swap_example::pool_x_swapped_for_y {
         trade_pool::pool_x_swapped_for_y_id(pool_x_swapped_for_y)
     }
 
-    public fun x_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
-        trade_pool::pool_x_swapped_for_y_x_amount(pool_x_swapped_for_y)
-    }
-
     public fun expected_y_amount_out(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
         trade_pool::pool_x_swapped_for_y_expected_y_amount_out(pool_x_swapped_for_y)
     }
@@ -31,6 +27,10 @@ module sui_swap_example::pool_x_swapped_for_y {
 
     public fun y_token_type(pool_x_swapped_for_y: &PoolXSwappedForY): String {
         trade_pool::pool_x_swapped_for_y_y_token_type(pool_x_swapped_for_y)
+    }
+
+    public fun x_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
+        trade_pool::pool_x_swapped_for_y_x_amount(pool_x_swapped_for_y)
     }
 
     public fun y_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {

@@ -77,12 +77,12 @@ public class DomainBeanUtils {
         AbstractTokenPairEvent.LiquidityInitialized liquidityInitialized = new AbstractTokenPairEvent.LiquidityInitialized();
         liquidityInitialized.setId(contractEvent.getId());
         liquidityInitialized.setExchangeId(contractEvent.getExchangeId());
-        liquidityInitialized.setX_Amount(contractEvent.getX_Amount());
         liquidityInitialized.setFeeNumerator(contractEvent.getFeeNumerator());
         liquidityInitialized.setFeeDenominator(contractEvent.getFeeDenominator());
         liquidityInitialized.setProvider(contractEvent.getProvider());
         liquidityInitialized.setX_TokenType(contractEvent.getX_TokenType());
         liquidityInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        liquidityInitialized.setX_Amount(contractEvent.getX_Amount());
         liquidityInitialized.setY_Amount(contractEvent.getY_Amount());
         liquidityInitialized.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
@@ -106,10 +106,10 @@ public class DomainBeanUtils {
         AbstractTokenPairEvent.LiquidityAdded liquidityAdded = new AbstractTokenPairEvent.LiquidityAdded();
         liquidityAdded.setId(contractEvent.getId());
         liquidityAdded.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
-        liquidityAdded.setX_Amount(contractEvent.getX_Amount());
         liquidityAdded.setProvider(contractEvent.getProvider());
         liquidityAdded.setX_TokenType(contractEvent.getX_TokenType());
         liquidityAdded.setY_TokenType(contractEvent.getY_TokenType());
+        liquidityAdded.setX_Amount(contractEvent.getX_Amount());
         liquidityAdded.setY_Amount(contractEvent.getY_Amount());
         liquidityAdded.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityAdded.setX_Id(contractEvent.getX_Id());
@@ -176,11 +176,11 @@ public class DomainBeanUtils {
 
         AbstractTokenPairEvent.XSwappedForY xSwappedForY = new AbstractTokenPairEvent.XSwappedForY();
         xSwappedForY.setId(contractEvent.getId());
-        xSwappedForY.setX_Amount(contractEvent.getX_Amount());
         xSwappedForY.setExpectedY_AmountOut(contractEvent.getExpectedY_AmountOut());
         xSwappedForY.setSender(contractEvent.getSender());
         xSwappedForY.setX_TokenType(contractEvent.getX_TokenType());
         xSwappedForY.setY_TokenType(contractEvent.getY_TokenType());
+        xSwappedForY.setX_Amount(contractEvent.getX_Amount());
         xSwappedForY.setY_Amount(contractEvent.getY_Amount());
         xSwappedForY.setX_Id(contractEvent.getX_Id());
         xSwappedForY.setVersion(contractEvent.getVersion());
@@ -247,7 +247,6 @@ public class DomainBeanUtils {
         AbstractTradePoolEvent.TradePoolInitialized tradePoolInitialized = new AbstractTradePoolEvent.TradePoolInitialized();
         tradePoolInitialized.setId(contractEvent.getId());
         tradePoolInitialized.setExchangeId(contractEvent.getExchangeId());
-        tradePoolInitialized.setX_Amount(contractEvent.getX_Amount());
         tradePoolInitialized.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
         tradePoolInitialized.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
         tradePoolInitialized.setPriceCurveType(contractEvent.getPriceCurveType());
@@ -257,6 +256,7 @@ public class DomainBeanUtils {
         tradePoolInitialized.setProvider(contractEvent.getProvider());
         tradePoolInitialized.setX_TokenType(contractEvent.getX_TokenType());
         tradePoolInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        tradePoolInitialized.setX_Amount(contractEvent.getX_Amount());
         tradePoolInitialized.setY_Amount(contractEvent.getY_Amount());
         tradePoolInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
         tradePoolInitialized.setX_Id(contractEvent.getX_Id());
@@ -279,7 +279,6 @@ public class DomainBeanUtils {
         AbstractTradePoolEvent.SellPoolInitialized sellPoolInitialized = new AbstractTradePoolEvent.SellPoolInitialized();
         sellPoolInitialized.setId(contractEvent.getId());
         sellPoolInitialized.setExchangeId(contractEvent.getExchangeId());
-        sellPoolInitialized.setX_Amount(contractEvent.getX_Amount());
         sellPoolInitialized.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
         sellPoolInitialized.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
         sellPoolInitialized.setPriceCurveType(contractEvent.getPriceCurveType());
@@ -289,6 +288,7 @@ public class DomainBeanUtils {
         sellPoolInitialized.setProvider(contractEvent.getProvider());
         sellPoolInitialized.setX_TokenType(contractEvent.getX_TokenType());
         sellPoolInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        sellPoolInitialized.setX_Amount(contractEvent.getX_Amount());
         sellPoolInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
         sellPoolInitialized.setX_Id(contractEvent.getX_Id());
         sellPoolInitialized.setVersion(BigInteger.valueOf(-1));
@@ -368,10 +368,10 @@ public class DomainBeanUtils {
         AbstractTradePoolEvent.PoolXTokenAdded poolXTokenAdded = new AbstractTradePoolEvent.PoolXTokenAdded();
         poolXTokenAdded.setId(contractEvent.getId());
         poolXTokenAdded.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
-        poolXTokenAdded.setX_Amount(contractEvent.getX_Amount());
         poolXTokenAdded.setProvider(contractEvent.getProvider());
         poolXTokenAdded.setX_TokenType(contractEvent.getX_TokenType());
         poolXTokenAdded.setY_TokenType(contractEvent.getY_TokenType());
+        poolXTokenAdded.setX_Amount(contractEvent.getX_Amount());
         poolXTokenAdded.setX_Id(contractEvent.getX_Id());
         poolXTokenAdded.setVersion(contractEvent.getVersion());
 
@@ -503,11 +503,11 @@ public class DomainBeanUtils {
 
         AbstractTradePoolEvent.PoolXSwappedForY poolXSwappedForY = new AbstractTradePoolEvent.PoolXSwappedForY();
         poolXSwappedForY.setId(contractEvent.getId());
-        poolXSwappedForY.setX_Amount(contractEvent.getX_Amount());
         poolXSwappedForY.setExpectedY_AmountOut(contractEvent.getExpectedY_AmountOut());
         poolXSwappedForY.setSender(contractEvent.getSender());
         poolXSwappedForY.setX_TokenType(contractEvent.getX_TokenType());
         poolXSwappedForY.setY_TokenType(contractEvent.getY_TokenType());
+        poolXSwappedForY.setX_Amount(contractEvent.getX_Amount());
         poolXSwappedForY.setY_Amount(contractEvent.getY_Amount());
         poolXSwappedForY.setX_Id(contractEvent.getX_Id());
         poolXSwappedForY.setVersion(contractEvent.getVersion());

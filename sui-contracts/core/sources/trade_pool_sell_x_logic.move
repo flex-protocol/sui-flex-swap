@@ -63,11 +63,11 @@ module sui_swap_example::trade_pool_sell_x_logic {
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
         trade_pool::new_pool_x_swapped_for_y(
             pool,
-            x_amount,
             expected_y_amount_out,
             tx_context::sender(ctx),
             x_token_type,
             y_token_type,
+            x_amount,
             y_amount_out,
             object::id(x),
         )

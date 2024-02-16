@@ -445,14 +445,14 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
 
         String liquidityTokenId = e.getLiquidityTokenId();
         String LiquidityTokenId = liquidityTokenId;
-        BigInteger x_Amount = e.getX_Amount();
-        BigInteger X_Amount = x_Amount;
         String provider = e.getProvider();
         String Provider = provider;
         String x_TokenType = e.getX_TokenType();
         String X_TokenType = x_TokenType;
         String y_TokenType = e.getY_TokenType();
         String Y_TokenType = y_TokenType;
+        BigInteger x_Amount = e.getX_Amount();
+        BigInteger X_Amount = x_Amount;
         String x_Id = e.getX_Id();
         String X_Id = x_Id;
         Long suiTimestamp = e.getSuiTimestamp();
@@ -484,14 +484,14 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
         TradePoolState updatedTradePoolState = (TradePoolState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tradepool.AddXTokenLogic",
                     "mutate",
-                    new Class[]{TradePoolState.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, liquidityTokenId, x_Amount, provider, x_TokenType, y_TokenType, x_Id, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{TradePoolState.class, String.class, String.class, String.class, String.class, BigInteger.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, liquidityTokenId, provider, x_TokenType, y_TokenType, x_Amount, x_Id, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.tradepool;
 //
 //public class AddXTokenLogic {
-//    public static TradePoolState mutate(TradePoolState tradePoolState, String liquidityTokenId, BigInteger x_Amount, String provider, String x_TokenType, String y_TokenType, String x_Id, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TradePoolState, TradePoolState.MutableTradePoolState> mutationContext) {
+//    public static TradePoolState mutate(TradePoolState tradePoolState, String liquidityTokenId, String provider, String x_TokenType, String y_TokenType, BigInteger x_Amount, String x_Id, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<TradePoolState, TradePoolState.MutableTradePoolState> mutationContext) {
 //    }
 //}
 

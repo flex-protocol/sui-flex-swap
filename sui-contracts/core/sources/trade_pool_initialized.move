@@ -18,10 +18,6 @@ module sui_swap_example::trade_pool_initialized {
         trade_pool::trade_pool_initialized_exchange_id(trade_pool_initialized)
     }
 
-    public fun x_amount(trade_pool_initialized: &TradePoolInitialized): u64 {
-        trade_pool::trade_pool_initialized_x_amount(trade_pool_initialized)
-    }
-
     public fun exchange_rate_numerator(trade_pool_initialized: &TradePoolInitialized): u64 {
         trade_pool::trade_pool_initialized_exchange_rate_numerator(trade_pool_initialized)
     }
@@ -56,6 +52,10 @@ module sui_swap_example::trade_pool_initialized {
 
     public fun y_token_type(trade_pool_initialized: &TradePoolInitialized): String {
         trade_pool::trade_pool_initialized_y_token_type(trade_pool_initialized)
+    }
+
+    public fun x_amount(trade_pool_initialized: &TradePoolInitialized): u64 {
+        trade_pool::trade_pool_initialized_x_amount(trade_pool_initialized)
     }
 
     public fun y_amount(trade_pool_initialized: &TradePoolInitialized): u64 {

@@ -264,7 +264,6 @@ module sui_swap_example::trade_pool {
     struct TradePoolInitialized has copy, drop {
         id: option::Option<object::ID>,
         exchange_id: ID,
-        x_amount: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -274,6 +273,7 @@ module sui_swap_example::trade_pool {
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         y_amount: u64,
         liquidity_token_id: Option<ID>,
         x_id: ID,
@@ -289,10 +289,6 @@ module sui_swap_example::trade_pool {
 
     public fun trade_pool_initialized_exchange_id(trade_pool_initialized: &TradePoolInitialized): ID {
         trade_pool_initialized.exchange_id
-    }
-
-    public fun trade_pool_initialized_x_amount(trade_pool_initialized: &TradePoolInitialized): u64 {
-        trade_pool_initialized.x_amount
     }
 
     public fun trade_pool_initialized_exchange_rate_numerator(trade_pool_initialized: &TradePoolInitialized): u64 {
@@ -331,6 +327,10 @@ module sui_swap_example::trade_pool {
         trade_pool_initialized.y_token_type
     }
 
+    public fun trade_pool_initialized_x_amount(trade_pool_initialized: &TradePoolInitialized): u64 {
+        trade_pool_initialized.x_amount
+    }
+
     public fun trade_pool_initialized_y_amount(trade_pool_initialized: &TradePoolInitialized): u64 {
         trade_pool_initialized.y_amount
     }
@@ -350,7 +350,6 @@ module sui_swap_example::trade_pool {
     #[allow(unused_type_parameter)]
     public(friend) fun new_trade_pool_initialized<X: key + store, Y>(
         exchange_id: ID,
-        x_amount: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -360,6 +359,7 @@ module sui_swap_example::trade_pool {
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         y_amount: u64,
         liquidity_token_id: Option<ID>,
         x_id: ID,
@@ -367,7 +367,6 @@ module sui_swap_example::trade_pool {
         TradePoolInitialized {
             id: option::none(),
             exchange_id,
-            x_amount,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_curve_type,
@@ -377,6 +376,7 @@ module sui_swap_example::trade_pool {
             provider,
             x_token_type,
             y_token_type,
+            x_amount,
             y_amount,
             liquidity_token_id,
             x_id,
@@ -386,7 +386,6 @@ module sui_swap_example::trade_pool {
     struct SellPoolInitialized has copy, drop {
         id: option::Option<object::ID>,
         exchange_id: ID,
-        x_amount: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -396,6 +395,7 @@ module sui_swap_example::trade_pool {
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         liquidity_token_id: Option<ID>,
         x_id: ID,
     }
@@ -410,10 +410,6 @@ module sui_swap_example::trade_pool {
 
     public fun sell_pool_initialized_exchange_id(sell_pool_initialized: &SellPoolInitialized): ID {
         sell_pool_initialized.exchange_id
-    }
-
-    public fun sell_pool_initialized_x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool_initialized.x_amount
     }
 
     public fun sell_pool_initialized_exchange_rate_numerator(sell_pool_initialized: &SellPoolInitialized): u64 {
@@ -452,6 +448,10 @@ module sui_swap_example::trade_pool {
         sell_pool_initialized.y_token_type
     }
 
+    public fun sell_pool_initialized_x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
+        sell_pool_initialized.x_amount
+    }
+
     public fun sell_pool_initialized_liquidity_token_id(sell_pool_initialized: &SellPoolInitialized): Option<ID> {
         sell_pool_initialized.liquidity_token_id
     }
@@ -467,7 +467,6 @@ module sui_swap_example::trade_pool {
     #[allow(unused_type_parameter)]
     public(friend) fun new_sell_pool_initialized<X: key + store, Y>(
         exchange_id: ID,
-        x_amount: u64,
         exchange_rate_numerator: u64,
         exchange_rate_denominator: u64,
         price_curve_type: u8,
@@ -477,13 +476,13 @@ module sui_swap_example::trade_pool {
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         liquidity_token_id: Option<ID>,
         x_id: ID,
     ): SellPoolInitialized {
         SellPoolInitialized {
             id: option::none(),
             exchange_id,
-            x_amount,
             exchange_rate_numerator,
             exchange_rate_denominator,
             price_curve_type,
@@ -493,6 +492,7 @@ module sui_swap_example::trade_pool {
             provider,
             x_token_type,
             y_token_type,
+            x_amount,
             liquidity_token_id,
             x_id,
         }
@@ -699,10 +699,10 @@ module sui_swap_example::trade_pool {
         id: object::ID,
         version: u64,
         liquidity_token_id: ID,
-        x_amount: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         x_id: ID,
     }
 
@@ -712,10 +712,6 @@ module sui_swap_example::trade_pool {
 
     public fun pool_x_token_added_liquidity_token_id(pool_x_token_added: &PoolXTokenAdded): ID {
         pool_x_token_added.liquidity_token_id
-    }
-
-    public fun pool_x_token_added_x_amount(pool_x_token_added: &PoolXTokenAdded): u64 {
-        pool_x_token_added.x_amount
     }
 
     public fun pool_x_token_added_provider(pool_x_token_added: &PoolXTokenAdded): address {
@@ -730,6 +726,10 @@ module sui_swap_example::trade_pool {
         pool_x_token_added.y_token_type
     }
 
+    public fun pool_x_token_added_x_amount(pool_x_token_added: &PoolXTokenAdded): u64 {
+        pool_x_token_added.x_amount
+    }
+
     public fun pool_x_token_added_x_id(pool_x_token_added: &PoolXTokenAdded): ID {
         pool_x_token_added.x_id
     }
@@ -738,20 +738,20 @@ module sui_swap_example::trade_pool {
     public(friend) fun new_pool_x_token_added<X: key + store, Y>(
         trade_pool: &TradePool<X, Y>,
         liquidity_token_id: ID,
-        x_amount: u64,
         provider: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         x_id: ID,
     ): PoolXTokenAdded {
         PoolXTokenAdded {
             id: id(trade_pool),
             version: version(trade_pool),
             liquidity_token_id,
-            x_amount,
             provider,
             x_token_type,
             y_token_type,
+            x_amount,
             x_id,
         }
     }
@@ -1008,21 +1008,17 @@ module sui_swap_example::trade_pool {
     struct PoolXSwappedForY has copy, drop {
         id: object::ID,
         version: u64,
-        x_amount: u64,
         expected_y_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         y_amount: u64,
         x_id: ID,
     }
 
     public fun pool_x_swapped_for_y_id(pool_x_swapped_for_y: &PoolXSwappedForY): object::ID {
         pool_x_swapped_for_y.id
-    }
-
-    public fun pool_x_swapped_for_y_x_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
-        pool_x_swapped_for_y.x_amount
     }
 
     public fun pool_x_swapped_for_y_expected_y_amount_out(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
@@ -1041,6 +1037,10 @@ module sui_swap_example::trade_pool {
         pool_x_swapped_for_y.y_token_type
     }
 
+    public fun pool_x_swapped_for_y_x_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
+        pool_x_swapped_for_y.x_amount
+    }
+
     public fun pool_x_swapped_for_y_y_amount(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
         pool_x_swapped_for_y.y_amount
     }
@@ -1052,22 +1052,22 @@ module sui_swap_example::trade_pool {
     #[allow(unused_type_parameter)]
     public(friend) fun new_pool_x_swapped_for_y<X: key + store, Y>(
         trade_pool: &TradePool<X, Y>,
-        x_amount: u64,
         expected_y_amount_out: u64,
         sender: address,
         x_token_type: String,
         y_token_type: String,
+        x_amount: u64,
         y_amount: u64,
         x_id: ID,
     ): PoolXSwappedForY {
         PoolXSwappedForY {
             id: id(trade_pool),
             version: version(trade_pool),
-            x_amount,
             expected_y_amount_out,
             sender,
             x_token_type,
             y_token_type,
+            x_amount,
             y_amount,
             x_id,
         }
