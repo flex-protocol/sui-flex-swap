@@ -272,7 +272,7 @@ aggregates:
             LiquidityTokenId:
               type: ID #ObjectID
 
-  SellPool:
+  TradePool:
     metadata:
       IS_MOVE_SCHEMA_VERSIONED: true
       ShouldIssuePublisherObject: true
@@ -285,9 +285,6 @@ aggregates:
       name: Id
       type: UID
     properties:
-      X_SoldAmount:
-        type: u64
-        sequenceNumber: 55
     methods:
       InitializeSellPool:
         isInternal: true
@@ -346,96 +343,6 @@ aggregates:
             X_Id:
               type: ID
 
-      UpdateExchangeRate:
-        event:
-          name: SellPoolExchangeRateUpdated
-
-      AddXToken:
-        isInternal: true
-        #shouldCallByReference: true
-        parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
-          X:
-            type: X
-          X_Amount:
-            type: u64
-        event:
-          name: SellPoolXTokenAdded
-          properties:
-            Provider:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
-            X_Id:
-              type: ID
-
-      RemoveXToken:
-        event:
-          name: SellPoolXTokenRemoved
-
-      WithdrawYReserve:
-        event:
-          name: SellPoolYReserveWithdrawn
-
-      Destroy:
-        isDeletionCommand: true
-        event:
-          name: SellPoolDestroyed
-
-      BuyX:
-        description: "Buy X token from pool. i.e. swap Y for X"
-        parameters:
-          Y_Amount:
-            type: Balance<Y>
-          X_Id:
-            type: ID
-        result:
-          type: X
-        event:
-          name: SellPoolYSwappedForX
-          properties:
-            Sender:
-              type: address
-            X_TokenType:
-              type: String
-              length: 200
-            Y_TokenType:
-              type: String
-              length: 200
-            X_Amount:
-              type: u64
-            Y_Amount:
-              type: u64
-            NewExchangeRateNumerator:
-              type: u64
-
-  BuyPool:
-    metadata:
-      IS_MOVE_SCHEMA_VERSIONED: true
-      ShouldIssuePublisherObject: true
-      TypeParameterOffChainPropertyNameFormats:
-        X: "{0}_TokenType"
-        Y: "{0}_TokenType"
-    implements:
-      - SellOrBuyPool
-    id:
-      name: Id
-      type: UID
-    properties:
-      X_BoughtAmount:
-        type: u64
-        sequenceNumber: 55
-    methods:
       InitializeBuyPool:
         #isInternal: true
         isCreationCommand: true
@@ -485,41 +392,55 @@ aggregates:
 
       UpdateExchangeRate:
         event:
-          name: BuyPoolExchangeRateUpdated
+          name: PoolExchangeRateUpdated
+
+      AddXToken:
+        event:
+          name: PoolXTokenAdded
 
       RemoveXToken:
         event:
-          name: BuyPoolXTokenRemoved
+          name: PoolXTokenRemoved
 
       DepositYReserve:
+        event:
+          name: PoolYReserveDeposited
+
+      WithdrawYReserve:
+        event:
+          name: PoolYReserveWithdrawn
+
+      Destroy:
+        isDeletionCommand: true
+        event:
+          name: PoolDestroyed
+
+      BuyX:
+        description: "Buy X token from pool. i.e. swap Y for X"
         parameters:
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-            eventPropertyName: LiquidityTokenId
           Y_Amount:
             type: Balance<Y>
+          X_Id:
+            type: ID
+        result:
+          type: X
         event:
-          name: BuyPoolYReserveDeposited
+          name: PoolYSwappedForX
           properties:
+            Sender:
+              type: address
             X_TokenType:
               type: String
               length: 200
             Y_TokenType:
               type: String
               length: 200
+            X_Amount:
+              type: u64
             Y_Amount:
               type: u64
-            LiquidityTokenId:
-              type: ID #ObjectID
-
-      WithdrawYReserve:
-        event:
-          name: BuyPoolYReserveWithdrawn
-
-      Destroy:
-        isDeletionCommand: true
-        event:
-          name: BuyPoolDestroyed
+            NewExchangeRateNumerator:
+              type: u64
 
       SellX:
         description: "Sell X token to pool. i.e. swap X for Y"
@@ -534,7 +455,7 @@ aggregates:
         result:
           type: Balance<Y>
         event:
-          name: BuyPoolXSwappedForY
+          name: PoolXSwappedForY
           properties:
             Sender:
               type: address
@@ -567,8 +488,8 @@ aggregates:
         Y: "{0}_TokenType"
     friends:
       - TokenPair.InitializeLiquidity
-      - SellPool.InitializeSellPool
-      - BuyPool.InitializeBuyPool
+      - TradePool.InitializeSellPool
+      - TradePool.InitializeBuyPool
       #- TokenPair.AddLiquidity
       #- TokenPair.RemoveLiquidity
     typeParameters:
@@ -621,8 +542,8 @@ singletonObjects:
   Exchange:
     friends:
       - TokenPair.InitializeLiquidity
-      - SellPool.InitializeSellPool
-      - BuyPool.InitializeBuyPool
+      - TradePool.InitializeSellPool
+      - TradePool.InitializeBuyPool
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -881,7 +802,7 @@ services:
               Move:
                 "//todo invoke internal fun..."
 
-  SellPoolService:
+  TradePoolService:
     methods:
       RemoveXToken:
         typeParameters:
@@ -890,13 +811,30 @@ services:
             storable: true
           Y: {}
         parameters:
-          SellPool:
-            referenceType: SellPool<X, Y>
+          Pool:
+            referenceType: TradePool<X, Y>
             isMutableReference: true
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
           X_Id:
             type: ID
+
+      DepositYReserve:
+        typeParameters:
+          X:
+            keyable: true
+            storable: true
+          Y: {}
+        parameters:
+          Pool:
+            referenceType: TradePool<X, Y>
+            isMutableReference: true
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+          Y_Coin:
+            type: Coin<Y>
+          Y_Amount:
+            type: u64
 
       WithdrawYReserve:
         typeParameters:
@@ -905,8 +843,8 @@ services:
             storable: true
           Y: {}
         parameters:
-          SellPool:
-            referenceType: SellPool<X, Y>
+          Pool:
+            referenceType: TradePool<X, Y>
             isMutableReference: true
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -916,6 +854,8 @@ services:
             referenceType: Coin<Y>
             isMutableReference: true
 
+  SellPoolService:
+    methods:
       BuyX:
         typeParameters:
           X:
@@ -923,8 +863,8 @@ services:
             storable: true
           Y: {}
         parameters:
-          SellPool:
-            referenceType: SellPool<X, Y>
+          Pool:
+            referenceType: TradePool<X, Y>
             isMutableReference: true
           Y_Coin:
             type: Coin<Y>
@@ -981,8 +921,8 @@ services:
             storable: true
           Y: {}
         parameters:
-          SellPool:
-            referenceType: SellPool<X, Y>
+          Pool:
+            referenceType: TradePool<X, Y>
             isMutableReference: true
           LiquidityToken:
             referenceType: LiquidityToken<X, Y>
@@ -1028,56 +968,6 @@ services:
           PriceDeltaDenominator:
             type: u64
 
-      RemoveXToken:
-        typeParameters:
-          X:
-            keyable: true
-            storable: true
-          Y: {}
-        parameters:
-          BuyPool:
-            referenceType: BuyPool<X, Y>
-            isMutableReference: true
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-          X_Id:
-            type: ID
-
-      DepositYReserve:
-        typeParameters:
-          X:
-            keyable: true
-            storable: true
-          Y: {}
-        parameters:
-          BuyPool:
-            referenceType: BuyPool<X, Y>
-            isMutableReference: true
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-          Y_Coin:
-            type: Coin<Y>
-          Y_Amount:
-            type: u64
-
-      WithdrawYReserve:
-        typeParameters:
-          X:
-            keyable: true
-            storable: true
-          Y: {}
-        parameters:
-          BuyPool:
-            referenceType: BuyPool<X, Y>
-            isMutableReference: true
-          LiquidityToken:
-            referenceType: LiquidityToken<X, Y>
-          Y_Amount:
-            type: u64
-          Y_Coin:
-            referenceType: Coin<Y>
-            isMutableReference: true
-
   BuyPoolServiceProcess:
     requiredComponents:
       NS:
@@ -1090,8 +980,8 @@ services:
             storable: true
           Y: {}
         parameters:
-          BuyPool:
-            referenceType: BuyPool<X, Y>
+          Pool:
+            referenceType: TradePool<X, Y>
             isMutableReference: true
           X:
             type: X
@@ -1138,6 +1028,9 @@ superObjects:
       Y:
         isPhantom: true
     properties:
+      PoolType:
+        type: u8
+        description: "0: Trade pool; 1: Sell; 2: Buy"
       X_Reserve:
         type: "ObjectTable<ID, X>"
         sequenceNumber: 10
@@ -1153,6 +1046,12 @@ superObjects:
       LiquidityTokenId:
         type: ID
         sequenceNumber: 50
+      X_SoldAmount:
+        type: u64
+        sequenceNumber: 55
+      X_BoughtAmount:
+        type: u64
+        sequenceNumber: 56
       StartExchangeRateNumerator:
         type: u64
         description: "Start exchange rate numerator of X to Y"
@@ -1209,6 +1108,34 @@ superObjects:
             LiquidityTokenId:
               type: ID #ObjectID
 
+      AddXToken:
+        isInternal: true
+        #shouldCallByReference: true
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          X:
+            type: X
+          X_Amount:
+            type: u64
+        event:
+          properties:
+            Provider:
+              type: address
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+            X_Id:
+              type: ID
+
       RemoveXToken:
         parameters:
           LiquidityToken:
@@ -1229,6 +1156,26 @@ superObjects:
               type: String
               length: 200
             X_Amount:
+              type: u64
+            LiquidityTokenId:
+              type: ID #ObjectID
+
+      DepositYReserve:
+        parameters:
+          LiquidityToken:
+            referenceType: LiquidityToken<X, Y>
+            eventPropertyName: LiquidityTokenId
+          Y_Amount:
+            type: Balance<Y>
+        event:
+          properties:
+            X_TokenType:
+              type: String
+              length: 200
+            Y_TokenType:
+              type: String
+              length: 200
+            Y_Amount:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID

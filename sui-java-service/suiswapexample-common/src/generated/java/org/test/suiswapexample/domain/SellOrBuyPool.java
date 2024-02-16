@@ -10,6 +10,8 @@ import java.util.*;
 
 public interface SellOrBuyPool {
 
+    Integer getPoolType();
+
     ObjectTable getX_Reserve();
 
     Table getX_Amounts();
@@ -19,6 +21,10 @@ public interface SellOrBuyPool {
     java.math.BigInteger getY_Reserve();
 
     String getLiquidityTokenId();
+
+    BigInteger getX_SoldAmount();
+
+    BigInteger getX_BoughtAmount();
 
     BigInteger getStartExchangeRateNumerator();
 
@@ -36,6 +42,8 @@ public interface SellOrBuyPool {
 
     interface MutableSellOrBuyPool {
 
+        void setPoolType(Integer p);
+
         void setX_Reserve(ObjectTable p);
 
         void setX_Amounts(Table p);
@@ -45,6 +53,10 @@ public interface SellOrBuyPool {
         void setY_Reserve(java.math.BigInteger p);
 
         void setLiquidityTokenId(String p);
+
+        void setX_SoldAmount(BigInteger p);
+
+        void setX_BoughtAmount(BigInteger p);
 
         void setStartExchangeRateNumerator(BigInteger p);
 

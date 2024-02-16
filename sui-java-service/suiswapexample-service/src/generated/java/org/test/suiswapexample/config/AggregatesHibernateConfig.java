@@ -8,12 +8,9 @@ package org.test.suiswapexample.config;
 import org.test.suiswapexample.domain.tokenpair.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.tokenpair.hibernate.*;
-import org.test.suiswapexample.domain.sellpool.*;
+import org.test.suiswapexample.domain.tradepool.*;
 import org.test.suiswapexample.domain.*;
-import org.test.suiswapexample.domain.sellpool.hibernate.*;
-import org.test.suiswapexample.domain.buypool.*;
-import org.test.suiswapexample.domain.*;
-import org.test.suiswapexample.domain.buypool.hibernate.*;
+import org.test.suiswapexample.domain.tradepool.hibernate.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.liquiditytoken.hibernate.*;
@@ -79,89 +76,44 @@ public class AggregatesHibernateConfig {
 
 
     @Bean
-    public SellPoolStateRepository sellPoolStateRepository(
+    public TradePoolStateRepository tradePoolStateRepository(
             SessionFactory hibernateSessionFactory,
             ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
     ) {
-        HibernateSellPoolStateRepository repository = new HibernateSellPoolStateRepository();
+        HibernateTradePoolStateRepository repository = new HibernateTradePoolStateRepository();
         repository.setSessionFactory(hibernateSessionFactory);
         repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
         return repository;
     }
 
     @Bean
-    public SellPoolStateQueryRepository sellPoolStateQueryRepository(
+    public TradePoolStateQueryRepository tradePoolStateQueryRepository(
             SessionFactory hibernateSessionFactory,
             ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
     ) {
-        HibernateSellPoolStateQueryRepository repository = new HibernateSellPoolStateQueryRepository();
+        HibernateTradePoolStateQueryRepository repository = new HibernateTradePoolStateQueryRepository();
         repository.setSessionFactory(hibernateSessionFactory);
         repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
         return repository;
     }
 
     @Bean
-    public HibernateSellPoolEventStore sellPoolEventStore(SessionFactory hibernateSessionFactory) {
-        HibernateSellPoolEventStore eventStore = new HibernateSellPoolEventStore();
+    public HibernateTradePoolEventStore tradePoolEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateTradePoolEventStore eventStore = new HibernateTradePoolEventStore();
         eventStore.setSessionFactory(hibernateSessionFactory);
         return eventStore;
     }
 
     @Bean
-    public AbstractSellPoolApplicationService.SimpleSellPoolApplicationService sellPoolApplicationService(
-            @Qualifier("sellPoolEventStore") EventStore sellPoolEventStore,
-            SellPoolStateRepository sellPoolStateRepository,
-            SellPoolStateQueryRepository sellPoolStateQueryRepository
+    public AbstractTradePoolApplicationService.SimpleTradePoolApplicationService tradePoolApplicationService(
+            @Qualifier("tradePoolEventStore") EventStore tradePoolEventStore,
+            TradePoolStateRepository tradePoolStateRepository,
+            TradePoolStateQueryRepository tradePoolStateQueryRepository
     ) {
-        AbstractSellPoolApplicationService.SimpleSellPoolApplicationService applicationService = new AbstractSellPoolApplicationService.SimpleSellPoolApplicationService(
-                sellPoolEventStore,
-                sellPoolStateRepository,
-                sellPoolStateQueryRepository
-        );
-        return applicationService;
-    }
-
-
-
-    @Bean
-    public BuyPoolStateRepository buyPoolStateRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateBuyPoolStateRepository repository = new HibernateBuyPoolStateRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public BuyPoolStateQueryRepository buyPoolStateQueryRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateBuyPoolStateQueryRepository repository = new HibernateBuyPoolStateQueryRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public HibernateBuyPoolEventStore buyPoolEventStore(SessionFactory hibernateSessionFactory) {
-        HibernateBuyPoolEventStore eventStore = new HibernateBuyPoolEventStore();
-        eventStore.setSessionFactory(hibernateSessionFactory);
-        return eventStore;
-    }
-
-    @Bean
-    public AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService buyPoolApplicationService(
-            @Qualifier("buyPoolEventStore") EventStore buyPoolEventStore,
-            BuyPoolStateRepository buyPoolStateRepository,
-            BuyPoolStateQueryRepository buyPoolStateQueryRepository
-    ) {
-        AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService applicationService = new AbstractBuyPoolApplicationService.SimpleBuyPoolApplicationService(
-                buyPoolEventStore,
-                buyPoolStateRepository,
-                buyPoolStateQueryRepository
+        AbstractTradePoolApplicationService.SimpleTradePoolApplicationService applicationService = new AbstractTradePoolApplicationService.SimpleTradePoolApplicationService(
+                tradePoolEventStore,
+                tradePoolStateRepository,
+                tradePoolStateQueryRepository
         );
         return applicationService;
     }

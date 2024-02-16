@@ -14,10 +14,11 @@ module sui_swap_example::exchange_aggregate {
     use sui_swap_example::exchange_update_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
-    friend sui_swap_example::sell_pool_initialize_sell_pool_logic;
-    friend sui_swap_example::buy_pool_initialize_buy_pool_logic;
+    friend sui_swap_example::trade_pool_initialize_sell_pool_logic;
+    friend sui_swap_example::trade_pool_initialize_buy_pool_logic;
     friend sui_swap_example::token_pair_service;
     friend sui_swap_example::token_pair_service_process;
+    friend sui_swap_example::trade_pool_service;
     friend sui_swap_example::sell_pool_service;
     friend sui_swap_example::sell_pool_service_process;
     friend sui_swap_example::buy_pool_service;

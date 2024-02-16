@@ -8,62 +8,62 @@ module sui_swap_example::sell_pool_initialized {
     use std::option::{Self, Option};
     use std::string::String;
     use sui::object::{Self, ID};
-    use sui_swap_example::sell_pool::{Self, SellPoolInitialized};
+    use sui_swap_example::trade_pool::{Self, SellPoolInitialized};
 
     public fun id(sell_pool_initialized: &SellPoolInitialized): option::Option<object::ID> {
-        sell_pool::sell_pool_initialized_id(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_id(sell_pool_initialized)
     }
 
     public fun exchange_id(sell_pool_initialized: &SellPoolInitialized): ID {
-        sell_pool::sell_pool_initialized_exchange_id(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_exchange_id(sell_pool_initialized)
     }
 
     public fun x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_x_amount(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_x_amount(sell_pool_initialized)
     }
 
     public fun exchange_rate_numerator(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_exchange_rate_numerator(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_exchange_rate_numerator(sell_pool_initialized)
     }
 
     public fun exchange_rate_denominator(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_exchange_rate_denominator(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_exchange_rate_denominator(sell_pool_initialized)
     }
 
     public fun price_curve_type(sell_pool_initialized: &SellPoolInitialized): u8 {
-        sell_pool::sell_pool_initialized_price_curve_type(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_price_curve_type(sell_pool_initialized)
     }
 
     public fun price_delta_x_amount(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_price_delta_x_amount(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_price_delta_x_amount(sell_pool_initialized)
     }
 
     public fun price_delta_numerator(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_price_delta_numerator(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_price_delta_numerator(sell_pool_initialized)
     }
 
     public fun price_delta_denominator(sell_pool_initialized: &SellPoolInitialized): u64 {
-        sell_pool::sell_pool_initialized_price_delta_denominator(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_price_delta_denominator(sell_pool_initialized)
     }
 
     public fun provider(sell_pool_initialized: &SellPoolInitialized): address {
-        sell_pool::sell_pool_initialized_provider(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_provider(sell_pool_initialized)
     }
 
     public fun x_token_type(sell_pool_initialized: &SellPoolInitialized): String {
-        sell_pool::sell_pool_initialized_x_token_type(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_x_token_type(sell_pool_initialized)
     }
 
     public fun y_token_type(sell_pool_initialized: &SellPoolInitialized): String {
-        sell_pool::sell_pool_initialized_y_token_type(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_y_token_type(sell_pool_initialized)
     }
 
     public fun liquidity_token_id(sell_pool_initialized: &SellPoolInitialized): Option<ID> {
-        sell_pool::sell_pool_initialized_liquidity_token_id(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_liquidity_token_id(sell_pool_initialized)
     }
 
     public fun x_id(sell_pool_initialized: &SellPoolInitialized): ID {
-        sell_pool::sell_pool_initialized_x_id(sell_pool_initialized)
+        trade_pool::sell_pool_initialized_x_id(sell_pool_initialized)
     }
 
 }

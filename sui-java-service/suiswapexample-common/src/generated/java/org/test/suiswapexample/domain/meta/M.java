@@ -34,8 +34,7 @@ public class M {
         Map<String, String> typeToAggMap = new HashMap<>();
 
         typeToAggMap.put("TokenPair", "TokenPair");
-        typeToAggMap.put("SellPool", "SellPool");
-        typeToAggMap.put("BuyPool", "BuyPool");
+        typeToAggMap.put("TradePool", "TradePool");
         typeToAggMap.put("LiquidityToken", "LiquidityToken");
         typeToAggMap.put("Exchange", "Exchange");
         TYPE_NAME_TO_AGGREGATE_NAME_MAP = typeToAggMap;
@@ -247,9 +246,9 @@ public class M {
 
 
   // /////////////////////////////////////////////////////////  
-  public static class SellPoolMetadata {
+  public static class TradePoolMetadata {
 
-    private SellPoolMetadata() {
+    private TradePoolMetadata() {
     }
 
     public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
@@ -264,6 +263,7 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
+            "poolType",
             "version",
             "x_Reserve",
             "x_Amounts",
@@ -271,146 +271,6 @@ public class M {
             "y_Reserve",
             "liquidityTokenId",
             "x_SoldAmount",
-            "startExchangeRateNumerator",
-            "exchangeRateNumerator",
-            "exchangeRateDenominator",
-            "priceCurveType",
-            "priceDeltaX_Amount",
-            "priceDeltaNumerator",
-            "priceDeltaDenominator",
-            "offChainVersion",
-            "createdBy",
-            "createdAt",
-            "updatedBy",
-            "updatedAt",
-            "active",
-            "deleted",
-            "x_TokenType",
-            "y_TokenType",
-    };
-
-    public static final String[] propertyTypes = new String[] {
-            "String",
-            "BigInteger",
-            "ObjectTable",
-            "Table",
-            "BigInteger",
-            "java.math.BigInteger",
-            "String",
-            "BigInteger",
-            "BigInteger",
-            "BigInteger",
-            "BigInteger",
-            "Integer",
-            "BigInteger",
-            "BigInteger",
-            "BigInteger",
-            "Long",
-            "String",
-            "Date",
-            "String",
-            "Date",
-            "Boolean",
-            "Boolean",
-            "String",
-            "String",
-    };
-
-    public static final Map<String, String> propertyTypeMap;
-
-    public static final Map<String, String> aliasMap;
-
-    static {
-        propertyTypeMap = new HashMap<String, String>();
-        initPropertyTypeMap();
-        aliasMap = new HashMap<String, String>();
-        initAliasMap();
-    }
-
-    private static  void initAliasMap() {
-        aliasMap.put("id", "id");
-        aliasMap.put("Id", "id");
-        aliasMap.put("version", "version");
-        aliasMap.put("Version", "version");
-        aliasMap.put("x_Reserve", "x_Reserve");
-        aliasMap.put("X_Reserve", "x_Reserve");
-        aliasMap.put("x_Amounts", "x_Amounts");
-        aliasMap.put("X_Amounts", "x_Amounts");
-        aliasMap.put("x_TotalAmount", "x_TotalAmount");
-        aliasMap.put("X_TotalAmount", "x_TotalAmount");
-        aliasMap.put("y_Reserve", "y_Reserve");
-        aliasMap.put("Y_Reserve", "y_Reserve");
-        aliasMap.put("liquidityTokenId", "liquidityTokenId");
-        aliasMap.put("LiquidityTokenId", "liquidityTokenId");
-        aliasMap.put("x_SoldAmount", "x_SoldAmount");
-        aliasMap.put("X_SoldAmount", "x_SoldAmount");
-        aliasMap.put("startExchangeRateNumerator", "startExchangeRateNumerator");
-        aliasMap.put("StartExchangeRateNumerator", "startExchangeRateNumerator");
-        aliasMap.put("exchangeRateNumerator", "exchangeRateNumerator");
-        aliasMap.put("ExchangeRateNumerator", "exchangeRateNumerator");
-        aliasMap.put("exchangeRateDenominator", "exchangeRateDenominator");
-        aliasMap.put("ExchangeRateDenominator", "exchangeRateDenominator");
-        aliasMap.put("priceCurveType", "priceCurveType");
-        aliasMap.put("PriceCurveType", "priceCurveType");
-        aliasMap.put("priceDeltaX_Amount", "priceDeltaX_Amount");
-        aliasMap.put("PriceDeltaX_Amount", "priceDeltaX_Amount");
-        aliasMap.put("priceDeltaNumerator", "priceDeltaNumerator");
-        aliasMap.put("PriceDeltaNumerator", "priceDeltaNumerator");
-        aliasMap.put("priceDeltaDenominator", "priceDeltaDenominator");
-        aliasMap.put("PriceDeltaDenominator", "priceDeltaDenominator");
-        aliasMap.put("offChainVersion", "offChainVersion");
-        aliasMap.put("OffChainVersion", "offChainVersion");
-        aliasMap.put("createdBy", "createdBy");
-        aliasMap.put("CreatedBy", "createdBy");
-        aliasMap.put("createdAt", "createdAt");
-        aliasMap.put("CreatedAt", "createdAt");
-        aliasMap.put("updatedBy", "updatedBy");
-        aliasMap.put("UpdatedBy", "updatedBy");
-        aliasMap.put("updatedAt", "updatedAt");
-        aliasMap.put("UpdatedAt", "updatedAt");
-        aliasMap.put("active", "active");
-        aliasMap.put("Active", "active");
-        aliasMap.put("deleted", "deleted");
-        aliasMap.put("Deleted", "deleted");
-        aliasMap.put("x_TokenType", "x_TokenType");
-        aliasMap.put("X_TokenType", "x_TokenType");
-        aliasMap.put("y_TokenType", "y_TokenType");
-        aliasMap.put("Y_TokenType", "y_TokenType");
-    }
-
-    private static void initPropertyTypeMap() {
-        for (int i = 0; i < propertyNames.length; i++ ) {
-            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
-        }
-    }
-
-  }
-
-
-  // /////////////////////////////////////////////////////////  
-  public static class BuyPoolMetadata {
-
-    private BuyPoolMetadata() {
-    }
-
-    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
-    public static final String PROPERTY_NAME_ACTIVE       = "active";
-    public static final String PROPERTY_NAME_DELETED      = "deleted";
-    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
-    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
-    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
-    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
-
-    public static final Class ID_CLASS = String.class;
-
-    public static final String[] propertyNames = new String[] {
-            "id",
-            "version",
-            "x_Reserve",
-            "x_Amounts",
-            "x_TotalAmount",
-            "y_Reserve",
-            "liquidityTokenId",
             "x_BoughtAmount",
             "startExchangeRateNumerator",
             "exchangeRateNumerator",
@@ -432,12 +292,14 @@ public class M {
 
     public static final String[] propertyTypes = new String[] {
             "String",
+            "Integer",
             "BigInteger",
             "ObjectTable",
             "Table",
             "BigInteger",
             "java.math.BigInteger",
             "String",
+            "BigInteger",
             "BigInteger",
             "BigInteger",
             "BigInteger",
@@ -471,6 +333,8 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
+        aliasMap.put("poolType", "poolType");
+        aliasMap.put("PoolType", "poolType");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("x_Reserve", "x_Reserve");
@@ -483,6 +347,8 @@ public class M {
         aliasMap.put("Y_Reserve", "y_Reserve");
         aliasMap.put("liquidityTokenId", "liquidityTokenId");
         aliasMap.put("LiquidityTokenId", "liquidityTokenId");
+        aliasMap.put("x_SoldAmount", "x_SoldAmount");
+        aliasMap.put("X_SoldAmount", "x_SoldAmount");
         aliasMap.put("x_BoughtAmount", "x_BoughtAmount");
         aliasMap.put("X_BoughtAmount", "x_BoughtAmount");
         aliasMap.put("startExchangeRateNumerator", "startExchangeRateNumerator");

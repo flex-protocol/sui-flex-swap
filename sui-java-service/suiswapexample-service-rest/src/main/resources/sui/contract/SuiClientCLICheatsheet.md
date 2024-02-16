@@ -22,43 +22,23 @@ sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function 
 --gas-budget 100000
 ```
 
-## SellPool aggregate
+## TradePool aggregate
 
 ### UpdateExchangeRate method
 
 ```shell
-sui client call --package _PACKAGE_ID_ --module sell_pool_aggregate --function update_exchange_rate \
+sui client call --package _PACKAGE_ID_ --module trade_pool_aggregate --function update_exchange_rate \
 --type-args 'X' 'Y' \
---args sell_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \"u64_start_exchange_rate_numerator\" \"u64_exchange_rate_numerator\" \"u64_exchange_rate_denominator\" \"u64_price_delta_x_amount\" \"u64_price_delta_numerator\" \"u64_price_delta_denominator\" \
+--args trade_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \"u64_start_exchange_rate_numerator\" \"u64_exchange_rate_numerator\" \"u64_exchange_rate_denominator\" \"u64_price_delta_x_amount\" \"u64_price_delta_numerator\" \"u64_price_delta_denominator\" \
 --gas-budget 100000
 ```
 
 ### Destroy method
 
 ```shell
-sui client call --package _PACKAGE_ID_ --module sell_pool_aggregate --function destroy \
+sui client call --package _PACKAGE_ID_ --module trade_pool_aggregate --function destroy \
 --type-args 'X' 'Y' \
---args sell_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \
---gas-budget 100000
-```
-
-## BuyPool aggregate
-
-### UpdateExchangeRate method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module buy_pool_aggregate --function update_exchange_rate \
---type-args 'X' 'Y' \
---args buy_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \"u64_start_exchange_rate_numerator\" \"u64_exchange_rate_numerator\" \"u64_exchange_rate_denominator\" \"u64_price_delta_x_amount\" \"u64_price_delta_numerator\" \"u64_price_delta_denominator\" \
---gas-budget 100000
-```
-
-### Destroy method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module buy_pool_aggregate --function destroy \
---type-args 'X' 'Y' \
---args buy_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \
+--args trade_pool_Object_ID \"_LIQUIDITY_TOKEN<_X,_Y>_OBJECT_ID_\" \
 --gas-budget 100000
 ```
 

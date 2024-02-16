@@ -22,33 +22,25 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_FEE_RATE_UPDATED = "token_pair::FeeRateUpdated";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_INITIALIZED = "sell_pool::SellPoolInitialized";
+    public static final String TRADE_POOL_MODULE_SELL_POOL_INITIALIZED = "trade_pool::SellPoolInitialized";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_EXCHANGE_RATE_UPDATED = "sell_pool::SellPoolExchangeRateUpdated";
+    public static final String TRADE_POOL_MODULE_BUY_POOL_INITIALIZED = "trade_pool::BuyPoolInitialized";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_X_TOKEN_ADDED = "sell_pool::SellPoolXTokenAdded";
+    public static final String TRADE_POOL_MODULE_POOL_EXCHANGE_RATE_UPDATED = "trade_pool::PoolExchangeRateUpdated";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_X_TOKEN_REMOVED = "sell_pool::SellPoolXTokenRemoved";
+    public static final String TRADE_POOL_MODULE_POOL_X_TOKEN_ADDED = "trade_pool::PoolXTokenAdded";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_Y_RESERVE_WITHDRAWN = "sell_pool::SellPoolYReserveWithdrawn";
+    public static final String TRADE_POOL_MODULE_POOL_X_TOKEN_REMOVED = "trade_pool::PoolXTokenRemoved";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_DESTROYED = "sell_pool::SellPoolDestroyed";
+    public static final String TRADE_POOL_MODULE_POOL_Y_RESERVE_DEPOSITED = "trade_pool::PoolYReserveDeposited";
 
-    public static final String SELL_POOL_MODULE_SELL_POOL_Y_SWAPPED_FOR_X = "sell_pool::SellPoolYSwappedForX";
+    public static final String TRADE_POOL_MODULE_POOL_Y_RESERVE_WITHDRAWN = "trade_pool::PoolYReserveWithdrawn";
 
-    public static final String BUY_POOL_MODULE_BUY_POOL_INITIALIZED = "buy_pool::BuyPoolInitialized";
+    public static final String TRADE_POOL_MODULE_POOL_DESTROYED = "trade_pool::PoolDestroyed";
 
-    public static final String BUY_POOL_MODULE_BUY_POOL_EXCHANGE_RATE_UPDATED = "buy_pool::BuyPoolExchangeRateUpdated";
+    public static final String TRADE_POOL_MODULE_POOL_Y_SWAPPED_FOR_X = "trade_pool::PoolYSwappedForX";
 
-    public static final String BUY_POOL_MODULE_BUY_POOL_X_TOKEN_REMOVED = "buy_pool::BuyPoolXTokenRemoved";
-
-    public static final String BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_DEPOSITED = "buy_pool::BuyPoolYReserveDeposited";
-
-    public static final String BUY_POOL_MODULE_BUY_POOL_Y_RESERVE_WITHDRAWN = "buy_pool::BuyPoolYReserveWithdrawn";
-
-    public static final String BUY_POOL_MODULE_BUY_POOL_DESTROYED = "buy_pool::BuyPoolDestroyed";
-
-    public static final String BUY_POOL_MODULE_BUY_POOL_X_SWAPPED_FOR_Y = "buy_pool::BuyPoolXSwappedForY";
+    public static final String TRADE_POOL_MODULE_POOL_X_SWAPPED_FOR_Y = "trade_pool::PoolXSwappedForY";
 
     public static final String LIQUIDITY_TOKEN_MODULE_LIQUIDITY_TOKEN_MINTED = "liquidity_token::LiquidityTokenMinted";
 

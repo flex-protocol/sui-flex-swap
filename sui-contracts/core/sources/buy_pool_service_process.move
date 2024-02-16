@@ -4,8 +4,8 @@ module sui_swap_example::buy_pool_service_process {
     use sui::object;
     use sui::tx_context;
     use sui::tx_context::TxContext;
-    use sui_swap_example::buy_pool::BuyPool;
-    use sui_swap_example::buy_pool_aggregate;
+    use sui_swap_example::trade_pool::TradePool;
+    use sui_swap_example::trade_pool_aggregate;
     use sui_swap_example::nft_service;
 
     const EMismatchedObjectId: u64 = 10;
@@ -17,7 +17,7 @@ module sui_swap_example::buy_pool_service_process {
     }
 
     public fun sell_x<X: key + store, Y>(
-        buy_pool: &mut BuyPool<X, Y>,
+        buy_pool: &mut TradePool<X, Y>,
         x: X,
         y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
@@ -39,7 +39,7 @@ module sui_swap_example::buy_pool_service_process {
 
     #[allow(unused_assignment)]
     public fun sell_x_get_x_amount_callback<X: key + store, Y, NS>(
-        buy_pool: &mut BuyPool<X, Y>,
+        buy_pool: &mut TradePool<X, Y>,
         y_coin: &mut Coin<Y>,
         get_x_amount_response: nft_service::GetAmountResponse<X, NS, SellXGetX_AmountContext>,
         _ctx: &mut TxContext,
@@ -57,14 +57,14 @@ module sui_swap_example::buy_pool_service_process {
     }
 
     fun internal_sell_x<X: key + store, Y>(
-        buy_pool: &mut BuyPool<X, Y>,
+        buy_pool: &mut TradePool<X, Y>,
         x: X,
         x_amount: u64,
         y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
         ctx: &mut tx_context::TxContext,
     ) {
-        let y_amount_b = buy_pool_aggregate::sell_x(
+        let y_amount_b = trade_pool_aggregate::sell_x(
             buy_pool,
             x,
             x_amount,
@@ -86,7 +86,7 @@ module xxx_di_package_id::buy_pool_service_process {
 
     public fun sell_x<X: key + store, Y>(
         _nft_service_config: &NftServiceConfig,
-        buy_pool: &mut BuyPool<X, Y>,
+        buy_pool: &mut TradePool<X, Y>,
         x: X,
         y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,

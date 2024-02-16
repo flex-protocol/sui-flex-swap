@@ -5,11 +5,11 @@ module sui_swap_di::movescription_buy_pool_service {
     use sui_swap_example::nft_service_config::NftServiceConfig;
     use nft_service_impl::movescription_service_impl as ns;
     use smartinscription::movescription::Movescription;
-    use sui_swap_example::buy_pool::BuyPool;
+    use sui_swap_example::trade_pool::TradePool;
 
     public fun sell_x<Y>(
         _nft_service_config: &NftServiceConfig,
-        buy_pool: &mut BuyPool<Movescription, Y>,
+        buy_pool: &mut TradePool<Movescription, Y>,
         x: Movescription,
         y_coin: &mut Coin<Y>,
         expected_y_amount_out: u64,
