@@ -17,6 +17,7 @@ module sui_swap_example::liquidity_token_aggregate {
     friend sui_swap_example::token_pair_service_process;
     friend sui_swap_example::trade_pool_service;
     friend sui_swap_example::sell_pool_service;
+    friend sui_swap_example::trade_pool_service_process;
     friend sui_swap_example::sell_pool_service_process;
     friend sui_swap_example::buy_pool_service;
     friend sui_swap_example::buy_pool_service_process;
