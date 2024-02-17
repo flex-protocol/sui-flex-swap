@@ -710,11 +710,26 @@ Note the output IDs of `TradePool` object (**it's actually a buy pool**) and `Li
 │  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>                                         │
 ```
 
-#### Deposit Y token to buy pool
+#### Deposit Y reserve to buy pool
 
 The function parameters:
 
-[TBD]
+* `pool: &mut TradePool<X, Y>`: The ID of pool object.
+* `liquidity_token: &LiquidityToken<X, Y>`.
+* `y_coin: Coin<Y>`: The SUI Coin object you own.
+* `y_amount: u64`: The amount of SUI coin you would like to deposit.
+
+Execute the following command:
+
+```shell
+sui client call --package 0xde8e4e7811f25a5f6780ebd7bcb90a05e23025178665d899510ac25ee182038a --module trade_pool_service --function deposit_y_reserve \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0x6162cdc6f7d02ecf5e86b01c02be4238a918aa2c3049adb5ce306172cf890101 ' \
+'0x62e4a4f83e5a75a43f06fd16506d54d8215725f396304d2544836ac0f9755969' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"1000000"' \
+--gas-budget 100000000
+```
 
 #### Sell X token to buy pool
 
@@ -722,7 +737,7 @@ The function parameters:
 
 * `_nft_service_config: &NftServiceConfig`.
 * `buy_pool: &mut TradePool<Movescription, Y>`: The ID of buy pool or trade pool object.
-* `x: Movescription`: The ID of the `Movescription` object.
+* `x: Movescription`: The ID of the `Movescription` object. Assume it's `0x0f14b3926c1f3e09a316ced06c9129053c6fee324b0e528566e917215472779e`.
 * `y_coin: &mut Coin<Y>`: The SUI Coin object you own to accept the balance.
 * `expected_y_amount_out: u64`: The minimum acceptable output amount is expected.
 
@@ -734,11 +749,19 @@ sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f41
 --args \
 '0xe2e450b079271853d509f132cf234ec1bfde5e7f6fe3f0ae57b96b15972460ad' \
 '0x3f42362cbf4cb6a8a1946ecef120a993e18a7515823396b31763e0ca9389cea2' \
-'0xe724c3477db82681bf08df980d94543197305d4765bcfc7d5b5d9ae38e42c71e' \
+'0x0f14b3926c1f3e09a316ced06c9129053c6fee324b0e528566e917215472779e' \
 '0x112af8eb753c2620db9225a06744ac8778274bf41f1b7d4c36ac3ccc4d1b1afd' \
 '"100"' \
 --gas-budget 100000000
 ```
+
+### TradePool tests
+
+#### Initialize trade pool
+
+The function parameters:
+
+[TBD]
 
 ### Test off-chain service
 
