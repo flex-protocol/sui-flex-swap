@@ -55,6 +55,7 @@ module sui_swap_example::trade_pool_sell_x_logic {
         let exchange_rate_denominator = trade_pool::exchange_rate_denominator(pool);
         let y_amount_out = y_amount_out_numerator / exchange_rate_denominator;
         assert!(y_amount_out >= expected_y_amount_out, EInsufficientYAmountOut);
+        //y_reserve_amount >= expected_y_amount_out
         if (y_amount_out > y_reserve_amount) {
             y_amount_out = y_reserve_amount;
         };

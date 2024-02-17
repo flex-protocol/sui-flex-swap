@@ -57,7 +57,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         let exchange_rate_denominator = trade_pool::exchange_rate_denominator(pool);
         let y_amount_required = y_amount_required_numerator / exchange_rate_denominator;
         assert!(y_amount_in >= y_amount_required, EInsufficientYAmount);
-        y_amount_in = y_amount_required;
+        //y_amount_in = y_amount_required; //TODO not to charge extra?
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
