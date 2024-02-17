@@ -1,4 +1,4 @@
-module sui_swap_di::movescription_swap_service {
+module sui_swap_di::movescription_token_pair_service {
     use sui::coin;
     use sui::coin::Coin;
     use sui::transfer;

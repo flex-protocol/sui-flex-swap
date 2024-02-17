@@ -354,7 +354,7 @@ Note the arguments required by the "initialize liquidity" function, which are as
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_swap_service --function initialize_liquidity \
+sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_token_pair_service --function initialize_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
 '0xe2e450b079271853d509f132cf234ec1bfde5e7f6fe3f0ae57b96b15972460ad' \
@@ -405,7 +405,7 @@ Add liquidity, the function parameters:
 * `y_amount: u64`.
 
 ```shell
-sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_swap_service --function add_liquidity \
+sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_token_pair_service --function add_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
 '0xe2e450b079271853d509f132cf234ec1bfde5e7f6fe3f0ae57b96b15972460ad' \
@@ -457,7 +457,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_swap_service --function swap_x \
+sui client call --package 0x40c32748bf0e0a0305a2d0e1a62730d06f5bd006d23896381f417deb62454fdb --module movescription_token_pair_service --function swap_x \
 --type-args '0x2::sui::SUI' \
 --args \
 '0xe2e450b079271853d509f132cf234ec1bfde5e7f6fe3f0ae57b96b15972460ad' \
