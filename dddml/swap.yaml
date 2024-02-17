@@ -1174,9 +1174,11 @@ superObjects:
         sequenceNumber: 50
       X_SoldAmount:
         type: u64
+        description: "The amount of X that has been sold by the (sell or trade) pool"
         sequenceNumber: 55
       X_BoughtAmount:
         type: u64
+        description: "The amount of X the pool has already bought"
         sequenceNumber: 56
       StartExchangeRateNumerator:
         type: u64

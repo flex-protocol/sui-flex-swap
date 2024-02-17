@@ -96,6 +96,10 @@ module sui_swap_example::trade_pool_sell_x_logic {
         let x_total_amount = trade_pool::x_total_amount(pool);
         trade_pool::set_x_total_amount(pool, x_total_amount + x_amount);
 
+        let x_bought_amount = trade_pool::x_bought_amount(pool);
+        x_bought_amount = x_bought_amount + x_amount;
+        trade_pool::set_x_bought_amount(pool, x_bought_amount);
+
         let y_reserve = trade_pool::borrow_mut_y_reserve(pool);
         sui::balance::split(y_reserve, y_amount)
     }

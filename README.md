@@ -753,7 +753,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 The function parameters:
 
 * `_nft_service_config: &NftServiceConfig`.
-* `buy_pool: &mut TradePool<Movescription, Y>`: The ID of buy pool or trade pool object.
+* `pool: &mut TradePool<Movescription, Y>`: The ID of buy pool or trade pool object.
 * `x: Movescription`: The ID of the `Movescription` object. Assume it's `0x46aa287745397cfc88fc007b53ed9142c22433ac370d4a761cc572fd85602c0c`.
 * `y_coin: &mut Coin<Y>`: The SUI Coin object you own to accept the balance.
 * `expected_y_amount_out: u64`: The minimum acceptable output amount is expected.
@@ -790,15 +790,101 @@ Same as "Owner update exchange rate" of sell pool.
 
 The function parameters:
 
-[TBD]
+* `_nft_service_config: &NftServiceConfig`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `x: Movescription`: The ID of the `Movescription` object. Assume it's `0x211b4dda843b15b09c19b6b785d6ffe4bc85a933f0a84fad1f6e89b78ba32985`.
+* `y_coin: Coin<Y>`: The ID of SUI coin object. Assume it's `0xfc63af4bf36bf4b4ba18e6dc7a9936942ba8e192f77766fcc3b67f20dd9a541e`.
+* `y_amount: u64`: The initial amount deposited into the pool.
+* `exchange_rate_numerator: u64`: We are going to set exchange rate of X to Y as 11110/100.
+* `exchange_rate_denominator: u64`.
+* `price_curve_type: u8`: We are going to use a linear price curve (0).
+* `price_delta_x_amount: u64`. Every 500 (amount) X token sold, the price of X token will increase by 10%.
+* `price_delta_numerator: u64`: 10.
+* `price_delta_denominator: u64`: 100.
 
-#### Buy X token from trade pool
+So, the command that needs to be executed is similar to the following:
 
-Same as "Buy X token from sell pool".
+```shell
+sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_trade_pool_service --function initialize_trade_pool \
+--type-args '0x2::sui::SUI' \
+--args \
+'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'0x211b4dda843b15b09c19b6b785d6ffe4bc85a933f0a84fad1f6e89b78ba32985' \
+'0xfc63af4bf36bf4b4ba18e6dc7a9936942ba8e192f77766fcc3b67f20dd9a541e' \
+'"200000000"' \
+'"11110"' \
+'"100"' \
+'0' \
+'"500"' \
+'"10"' \
+'"100"' \
+--gas-budget 100000000
+```
+
+Note the output IDs of `TradePool` object and `LiquidityToken` object:
+(we need to use it when adding liquidity):
+
+```text
+│  │ ObjectID: 0x7b2fe9f96001da9d7c0881adc0fedec420006eb022db698820739198dd28964c
+│  │ Sender: 0x...
+│  │ Owner: Shared
+│  │ ObjectType: 0x...::trade_pool::TradePool<...>
+
+│  │ ObjectID: 0x0ee0fd3ab90a88cc8e9dfb07226eb79e4232c3fa8badbbe39840d464bf4ebc74                    │
+│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
+│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
+│  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>                                         │
+```
 
 #### Sell X token to trade pool
 
-Same as "Sell X token to buy pool".
+Same as "Sell X token to buy pool". The function parameters:
+
+* `_nft_service_config: &NftServiceConfig`.
+* `pool: &mut TradePool<Movescription, Y>`: The ID of buy pool or trade pool object.
+* `x: Movescription`: The ID of the `Movescription` object. Assume it's `0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c`.
+* `y_coin: &mut Coin<Y>`: The SUI Coin object you own to accept the balance.
+* `expected_y_amount_out: u64`: The minimum acceptable output amount is expected.
+
+For example:
+
+```shell
+sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_buy_pool_service --function sell_x \
+--type-args '0x2::sui::SUI' \
+--args \
+'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'0x7b2fe9f96001da9d7c0881adc0fedec420006eb022db698820739198dd28964c' \
+'0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c' \
+'0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
+'"100"' \
+--gas-budget 100000000
+```
+
+#### Buy X token from trade pool
+
+Same as "Buy X token from sell pool". The function parameters:
+
+* `pool: &mut TradePool<X, Y>`: The ID of sell pool or trade pool object.
+* `y_coin: Coin<Y>`: The SUI Coin object you own.
+* `y_amount: u64`: The amount of SUI coin you would like to pay.
+* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c`.
+
+So, execute the following command:
+
+```shell
+sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module sell_pool_service --function buy_x \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0x7b2fe9f96001da9d7c0881adc0fedec420006eb022db698820739198dd28964c ' \
+'0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
+'"120000"' \
+'0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c' \
+--gas-budget 100000000
+```
+
+#### Owner withdraw Y reserve from trade pool
+
+Same as "Owner withdraw Y reserve from sell pool".
 
 ### Test off-chain service
 

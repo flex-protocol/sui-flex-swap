@@ -10,6 +10,8 @@ module sui_swap_example::price_curve {
     const LINEAR_CURVE: u8 = 0;
     const EXPONENTIAL_CURVE: u8 = 1;
 
+    const MINIMUM_SPOT_PRICE: u64 = 1;
+
     public fun linear_curve(): u8 {
         LINEAR_CURVE
     }
@@ -192,7 +194,9 @@ module sui_swap_example::price_curve {
         amount_remainder: u64,
     ): (u64, u64) {
         assert!(fixed_point32_util::greater_or_equal_than_one(multiplier), EMultiplierLessThanOne);
-
+        if (spot_price < MINIMUM_SPOT_PRICE) {
+            spot_price = MINIMUM_SPOT_PRICE;
+        };
         let (n, f) = fixed_point32_util::integer_and_fractional(number_of_items);
         let multiplier_pow_n = fixed_point32_util::pow(multiplier, n);
 

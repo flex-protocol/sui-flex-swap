@@ -57,6 +57,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         let exchange_rate_denominator = trade_pool::exchange_rate_denominator(pool);
         let y_amount_required = y_amount_required_numerator / exchange_rate_denominator;
         assert!(y_amount_in >= y_amount_required, EInsufficientYAmount);
+        y_amount_in = y_amount_required;
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
@@ -97,21 +98,21 @@ module sui_swap_example::trade_pool_buy_x_logic {
     }
 
     fun remove_x_token<X: key + store, Y>(
-        trade_pool: &mut trade_pool::TradePool<X, Y>,
+        pool: &mut trade_pool::TradePool<X, Y>,
         x_id: ID,
         x_amount: u64
     ): (X, u64) {
-        let x_amounts = trade_pool::borrow_mut_x_amounts(trade_pool);
+        let x_amounts = trade_pool::borrow_mut_x_amounts(pool);
         assert!(x_amount == table::remove(x_amounts, x_id), EInconsistentXAmount);
-        let x_reserve = trade_pool::borrow_mut_x_reserve(trade_pool);
+        let x_reserve = trade_pool::borrow_mut_x_reserve(pool);
         let x = object_table::remove(x_reserve, x_id);
-        let x_total_amount = trade_pool::x_total_amount(trade_pool);
+        let x_total_amount = trade_pool::x_total_amount(pool);
         x_total_amount = x_total_amount - x_amount;
-        trade_pool::set_x_total_amount(trade_pool, x_total_amount);
+        trade_pool::set_x_total_amount(pool, x_total_amount);
 
-        let x_sold_amount = trade_pool::x_sold_amount(trade_pool);
+        let x_sold_amount = trade_pool::x_sold_amount(pool);
         x_sold_amount = x_sold_amount + x_amount;
-        trade_pool::set_x_sold_amount(trade_pool, x_sold_amount);
+        trade_pool::set_x_sold_amount(pool, x_sold_amount);
 
         (x, x_total_amount)
     }
