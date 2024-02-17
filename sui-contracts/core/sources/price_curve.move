@@ -216,9 +216,9 @@ module sui_swap_example::price_curve {
 
         // For an exponential curve, the spot price is multiplied by delta for each item bought
         let new_spot_price = fixed_point32::multiply_u64(spot_price, multiplier_pow_n);
-        new_spot_price = apply_linear_adjustment_if_fractional(new_spot_price, linear_delta, f, false);
+        let fractional_spot_price = get_fractional_spot_price(new_spot_price, linear_delta, f, false);
         y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            new_spot_price,
+            fractional_spot_price,
             fixed_point32::create_from_raw_value(f)
         );
         if (amount_remainder > 0) {
@@ -253,9 +253,9 @@ module sui_swap_example::price_curve {
         );
 
         let new_spot_price = fixed_point32::multiply_u64(spot_price, inv_multiplier_pow_n);
-        new_spot_price = apply_linear_adjustment_if_fractional(new_spot_price, linear_delta, f, true);
+        let fractional_spot_price = get_fractional_spot_price(new_spot_price, linear_delta, f, true);
         y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            new_spot_price,
+            fractional_spot_price,
             fixed_point32::create_from_raw_value(f)
         );
         (y_amount, new_spot_price)
@@ -271,10 +271,10 @@ module sui_swap_example::price_curve {
         ))
     }
 
-    /// Apply a linear adjustment because of the presence of the fractional part.
-    fun apply_linear_adjustment_if_fractional(
+    /// Apply an adjustment because of the presence of the fractional part.
+    fun get_fractional_spot_price(
         value: u64,
-        delta: u64,
+        linear_delta: u64,
         fractional: u64,
         downward: bool
     ): u64 {
@@ -282,7 +282,7 @@ module sui_swap_example::price_curve {
             value
             //; std::debug::print(&fractional); value
         } else {
-            let d = fixed_point32::multiply_u64(delta, fixed_point32::create_from_raw_value(fractional));
+            let d = fixed_point32::multiply_u64(linear_delta, fixed_point32::create_from_raw_value(fractional));
             if (downward) {
                 value - if (d > value) { value } else { d }
             } else {
