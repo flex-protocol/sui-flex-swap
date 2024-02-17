@@ -388,6 +388,10 @@ public interface TradePoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setX_Id(String value);
 
+        BigInteger getNewExchangeRateNumerator();
+
+        void setNewExchangeRateNumerator(BigInteger value);
+
     }
 
     String getId();

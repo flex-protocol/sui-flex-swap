@@ -33,6 +33,8 @@ public class PoolXSwappedForY {
 
     private String x_Id;
 
+    private BigInteger newExchangeRateNumerator;
+
     public String getId() {
         return id;
     }
@@ -105,6 +107,14 @@ public class PoolXSwappedForY {
         this.x_Id = x_Id;
     }
 
+    public BigInteger getNewExchangeRateNumerator() {
+        return newExchangeRateNumerator;
+    }
+
+    public void setNewExchangeRateNumerator(BigInteger newExchangeRateNumerator) {
+        this.newExchangeRateNumerator = newExchangeRateNumerator;
+    }
+
     @Override
     public String toString() {
         return "PoolXSwappedForY{" +
@@ -117,6 +127,7 @@ public class PoolXSwappedForY {
                 ", x_Amount=" + x_Amount +
                 ", y_Amount=" + y_Amount +
                 ", x_Id=" + '\'' + x_Id + '\'' +
+                ", newExchangeRateNumerator=" + newExchangeRateNumerator +
                 '}';
     }
 

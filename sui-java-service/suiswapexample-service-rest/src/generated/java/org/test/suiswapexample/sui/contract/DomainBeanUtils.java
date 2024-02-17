@@ -510,6 +510,7 @@ public class DomainBeanUtils {
         poolXSwappedForY.setX_Amount(contractEvent.getX_Amount());
         poolXSwappedForY.setY_Amount(contractEvent.getY_Amount());
         poolXSwappedForY.setX_Id(contractEvent.getX_Id());
+        poolXSwappedForY.setNewExchangeRateNumerator(contractEvent.getNewExchangeRateNumerator());
         poolXSwappedForY.setVersion(contractEvent.getVersion());
 
         poolXSwappedForY.setSuiTimestamp(eventEnvelope.getTimestampMs());

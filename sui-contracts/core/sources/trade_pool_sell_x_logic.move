@@ -70,17 +70,23 @@ module sui_swap_example::trade_pool_sell_x_logic {
             x_amount,
             y_amount_out,
             object::id(x),
+            new_exchange_rate_numerator,
         )
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        x_swapped_for_y: &trade_pool::PoolXSwappedForY,
+        pool_x_swapped_for_y: &trade_pool::PoolXSwappedForY,
         x: X,
         pool: &mut trade_pool::TradePool<X, Y>,
         ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {
-        let x_amount = pool_x_swapped_for_y::x_amount(x_swapped_for_y);
-        let y_amount = pool_x_swapped_for_y::y_amount(x_swapped_for_y);
+        let x_amount = pool_x_swapped_for_y::x_amount(pool_x_swapped_for_y);
+        let y_amount = pool_x_swapped_for_y::y_amount(pool_x_swapped_for_y);
+
+        let new_exchange_rate_numerator = pool_x_swapped_for_y::new_exchange_rate_numerator(
+            pool_x_swapped_for_y
+        );
+        trade_pool::set_exchange_rate_numerator(pool, new_exchange_rate_numerator);
 
         let x_id = object::id(&x);
         let x_reserve = trade_pool::borrow_mut_x_reserve(pool);

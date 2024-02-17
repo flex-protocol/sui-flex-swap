@@ -1317,6 +1317,18 @@ public abstract class AbstractTradePoolEvent extends AbstractEvent implements Tr
             getDynamicProperties().put("x_Id", value);
         }
 
+        public BigInteger getNewExchangeRateNumerator() {
+            Object val = getDynamicProperties().get("newExchangeRateNumerator");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setNewExchangeRateNumerator(BigInteger value) {
+            getDynamicProperties().put("newExchangeRateNumerator", value);
+        }
+
     }
 
 

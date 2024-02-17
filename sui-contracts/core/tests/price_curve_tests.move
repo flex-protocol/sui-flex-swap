@@ -210,6 +210,31 @@ module sui_swap_example::price_curve_tests {
     }
 
     #[test]
+    public fun test_price_curve_5() {
+        let price_curve_type = 0;
+        let x_amount = 500;
+        let price_delta_x_amount= 500;
+        let exchange_rate_numerator= 11110;
+        let exchange_rate_denominator = 100;
+        let start_exchange_rate_numerator= 11110;
+        let price_delta_numerator= 10;
+        let price_delta_denominator= 100;
+        let (y_amount_out_numerator, new_exchange_rate_numerator) = price_curve::get_sell_info(
+            price_curve_type,
+            x_amount, // <- number_numerator: u64,
+            price_delta_x_amount,
+            exchange_rate_numerator,
+            start_exchange_rate_numerator,
+            price_delta_numerator,
+            price_delta_denominator,
+        );
+
+        debug::print(&y_amount_out_numerator);
+        debug::print(&new_exchange_rate_numerator);
+
+    }
+
+    #[test]
     public fun test_fixed_point32_pow() {
         let base = fixed_point32::create_from_rational(110, 100);
         let exponent = 33;

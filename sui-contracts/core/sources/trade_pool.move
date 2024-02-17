@@ -1015,6 +1015,7 @@ module sui_swap_example::trade_pool {
         x_amount: u64,
         y_amount: u64,
         x_id: ID,
+        new_exchange_rate_numerator: u64,
     }
 
     public fun pool_x_swapped_for_y_id(pool_x_swapped_for_y: &PoolXSwappedForY): object::ID {
@@ -1049,6 +1050,10 @@ module sui_swap_example::trade_pool {
         pool_x_swapped_for_y.x_id
     }
 
+    public fun pool_x_swapped_for_y_new_exchange_rate_numerator(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
+        pool_x_swapped_for_y.new_exchange_rate_numerator
+    }
+
     #[allow(unused_type_parameter)]
     public(friend) fun new_pool_x_swapped_for_y<X: key + store, Y>(
         trade_pool: &TradePool<X, Y>,
@@ -1059,6 +1064,7 @@ module sui_swap_example::trade_pool {
         x_amount: u64,
         y_amount: u64,
         x_id: ID,
+        new_exchange_rate_numerator: u64,
     ): PoolXSwappedForY {
         PoolXSwappedForY {
             id: id(trade_pool),
@@ -1070,6 +1076,7 @@ module sui_swap_example::trade_pool {
             x_amount,
             y_amount,
             x_id,
+            new_exchange_rate_numerator,
         }
     }
 

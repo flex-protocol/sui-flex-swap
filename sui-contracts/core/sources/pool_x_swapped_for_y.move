@@ -41,4 +41,8 @@ module sui_swap_example::pool_x_swapped_for_y {
         trade_pool::pool_x_swapped_for_y_x_id(pool_x_swapped_for_y)
     }
 
+    public fun new_exchange_rate_numerator(pool_x_swapped_for_y: &PoolXSwappedForY): u64 {
+        trade_pool::pool_x_swapped_for_y_new_exchange_rate_numerator(pool_x_swapped_for_y)
+    }
+
 }
