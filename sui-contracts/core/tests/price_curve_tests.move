@@ -141,11 +141,13 @@ module sui_swap_example::price_curve_tests {
             price_delta_numerator,
             price_delta_denominator
         );
-
+        //1270499998
+        //1264450000
         debug::print(&y_amount);
         debug::print(&new_spot_price);
 
         spot_price = new_spot_price;
+        //x_amount = 50;
         let (y_amount, new_spot_price) = price_curve::get_sell_info(
             curve_type,
             x_amount,

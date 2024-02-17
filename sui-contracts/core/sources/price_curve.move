@@ -50,17 +50,13 @@ module sui_swap_example::price_curve {
         } else {
             //start_price is not used, all based on the current spot_price?
             let multiplier = get_expontential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
-            let linear_delta = get_linear_curve_price_delta(
-                spot_price, // not start_price
-                price_delta_numerator,
-                price_delta_denominator
-            );
             get_expontential_curve_buy_info(
                 number_of_items,
                 item_amount,
                 spot_price,
                 multiplier,
-                linear_delta,
+                price_delta_numerator,
+                price_delta_denominator,
                 _remainder,
             )
         }
@@ -91,17 +87,13 @@ module sui_swap_example::price_curve {
         } else {
             //start_price is not used, all based on the current spot_price?
             let multiplier = get_expontential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
-            let linear_delta = get_linear_curve_price_delta(
-                spot_price, // not start_price
-                price_delta_numerator,
-                price_delta_denominator
-            );
             get_expontential_curve_sell_info(
                 number_of_items,
                 item_amount,
                 spot_price,
                 multiplier,
-                linear_delta
+                price_delta_numerator,
+                price_delta_denominator
             )
         }
     }
@@ -190,7 +182,8 @@ module sui_swap_example::price_curve {
         item_amount: u64,
         spot_price: u64,
         multiplier: FixedPoint32,
-        linear_delta: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
         amount_remainder: u64,
     ): (u64, u64) {
         assert!(fixed_point32_util::greater_or_equal_than_one(multiplier), EMultiplierLessThanOne);
@@ -216,9 +209,15 @@ module sui_swap_example::price_curve {
 
         // For an exponential curve, the spot price is multiplied by delta for each item bought
         let new_spot_price = fixed_point32::multiply_u64(spot_price, multiplier_pow_n);
-        let fractional_spot_price = get_fractional_spot_price(new_spot_price, linear_delta, f, false);
+        new_spot_price = get_fractional_spot_price(
+            new_spot_price,
+            price_delta_numerator,
+            price_delta_denominator,
+            f,
+            false
+        );
         y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            fractional_spot_price,
+            new_spot_price,
             fixed_point32::create_from_raw_value(f)
         );
         if (amount_remainder > 0) {
@@ -232,7 +231,8 @@ module sui_swap_example::price_curve {
         item_amount: u64,
         spot_price: u64,
         multiplier: FixedPoint32,
-        linear_delta: u64
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
     ): (u64, u64) {
         assert!(fixed_point32_util::greater_or_equal_than_one(multiplier), EMultiplierLessThanOne);
         let inv_multiplier = fixed_point32_util::reciprocal(multiplier);
@@ -253,9 +253,15 @@ module sui_swap_example::price_curve {
         );
 
         let new_spot_price = fixed_point32::multiply_u64(spot_price, inv_multiplier_pow_n);
-        let fractional_spot_price = get_fractional_spot_price(new_spot_price, linear_delta, f, true);
+        new_spot_price = get_fractional_spot_price(
+            new_spot_price,
+            price_delta_numerator,
+            price_delta_denominator,
+            f,
+            true
+        );
         y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            fractional_spot_price,
+            new_spot_price,
             fixed_point32::create_from_raw_value(f)
         );
         (y_amount, new_spot_price)
@@ -273,21 +279,31 @@ module sui_swap_example::price_curve {
 
     /// Apply an adjustment because of the presence of the fractional part.
     fun get_fractional_spot_price(
-        value: u64,
-        linear_delta: u64,
+        spot_price: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
         fractional: u64,
         downward: bool
     ): u64 {
         if (fractional == 0) {
-            value
+            spot_price
             //; std::debug::print(&fractional); value
         } else {
+            let linear_delta = get_linear_curve_price_delta(
+                spot_price,
+                price_delta_numerator,
+                price_delta_denominator
+            );
             let d = fixed_point32::multiply_u64(linear_delta, fixed_point32::create_from_raw_value(fractional));
-            if (downward) {
-                value - if (d > value) { value } else { d }
+            let fsp = if (downward) {
+                spot_price - if (d > spot_price) { spot_price } else { d }
             } else {
-                value + d
-            }
+                spot_price + d
+            };
+            // std::debug::print(&spot_price);
+            // std::debug::print(&d);
+            // std::debug::print(&fsp);
+            fsp
         }
         //
         // Without adjustment:
