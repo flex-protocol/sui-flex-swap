@@ -35,7 +35,7 @@ module sui_swap_example::trade_pool_sell_x_logic {
         assert!(y_reserve_amount >= expected_y_amount_out, EInsufficientYReserve);
 
         let price_curve_type = trade_pool::price_curve_type(pool);
-        //x_amount, //number_numerator: u64,
+        //x_amount,
         let price_delta_x_amount = trade_pool::price_delta_x_amount(pool); //number_denominator: u64,
         let exchange_rate_numerator = trade_pool::exchange_rate_numerator(pool); //spot_price: u64,
         let start_exchange_rate_numerator = trade_pool::start_exchange_rate_numerator(pool);
@@ -44,7 +44,7 @@ module sui_swap_example::trade_pool_sell_x_logic {
 
         let (y_amount_out_numerator, new_exchange_rate_numerator) = price_curve::get_sell_info(
             price_curve_type,
-            x_amount, // <- number_numerator: u64,
+            x_amount,
             price_delta_x_amount,
             exchange_rate_numerator,
             start_exchange_rate_numerator,

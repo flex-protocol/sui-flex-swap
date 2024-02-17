@@ -27,7 +27,7 @@ module sui_swap_example::price_curve_tests {
         let start_price = 1_000_000;
         let price_numerator_delta = 100_000;
         let price_denominator = 1_000_000;
-        let (amount, new_spot_price) = price_curve::get_buy_info(
+        let (y_amount, new_spot_price) = price_curve::get_buy_info(
             curve_type,
             number_numerator,
             number_denominator,
@@ -37,13 +37,13 @@ module sui_swap_example::price_curve_tests {
             price_denominator
         );
 
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
         //[debug] 512499
         //[debug] 1049999
 
         spot_price = new_spot_price;
-        let (amount, new_spot_price) = price_curve::get_sell_info(
+        let (y_amount, new_spot_price) = price_curve::get_sell_info(
             curve_type,
             number_numerator,
             number_denominator,
@@ -52,7 +52,7 @@ module sui_swap_example::price_curve_tests {
             price_numerator_delta,
             price_denominator
         );
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
     }
 
@@ -66,7 +66,7 @@ module sui_swap_example::price_curve_tests {
         // * the results returned by "nft_service::get_amount()",
         //   the "exchange_rate_denominator", and "price_delta_x_amount" of "SellPool" are all fixed to 1.
         //
-        // Let us calculate the amount needed to buy 2 NFTs.
+        // Let us calculate the y_amount needed to buy 2 NFTs.
         //
         let price_curve_type = price_curve::linear_curve();
         let x_amount = 2; //number_numerator: u64,
@@ -96,7 +96,7 @@ module sui_swap_example::price_curve_tests {
         //assert!(y_amount_in >= y_amount_required, 1);
 
         exchange_rate_numerator = new_exchange_rate_numerator; //<- spot_price: u64,
-        let (amount, new_spot_price) = price_curve::get_sell_info(
+        let (y_amount, new_spot_price) = price_curve::get_sell_info(
             price_curve_type,
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
@@ -105,7 +105,7 @@ module sui_swap_example::price_curve_tests {
             price_delta_numerator,
             price_delta_denominator,
         );
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
     }
 
@@ -129,7 +129,7 @@ module sui_swap_example::price_curve_tests {
         let start_price = spot_price;
         let price_numerator_delta = 100_000;
         let price_denominator = 1_000_000;
-        let (amount, new_spot_price) = price_curve::get_buy_info(
+        let (y_amount, new_spot_price) = price_curve::get_buy_info(
             curve_type,
             number_numerator,
             number_denominator,
@@ -139,11 +139,11 @@ module sui_swap_example::price_curve_tests {
             price_denominator
         );
 
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
 
         spot_price = new_spot_price;
-        let (amount, new_spot_price) = price_curve::get_sell_info(
+        let (y_amount, new_spot_price) = price_curve::get_sell_info(
             curve_type,
             number_numerator,
             number_denominator,
@@ -152,7 +152,7 @@ module sui_swap_example::price_curve_tests {
             price_numerator_delta,
             price_denominator
         );
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
     }
 
@@ -166,7 +166,7 @@ module sui_swap_example::price_curve_tests {
         // * the results returned by "nft_service::get_amount()",
         //   the "exchange_rate_denominator", and "price_delta_x_amount" of "SellPool" are all fixed to 1.
         //
-        // Let us calculate the amount needed to buy 2 NFTs.
+        // Let us calculate the y_amount needed to buy 2 NFTs.
         //
         let price_curve_type = price_curve::exponential_curve();
         let x_amount = 2; //number_numerator: u64,
@@ -196,7 +196,7 @@ module sui_swap_example::price_curve_tests {
         //assert!(y_amount_in >= y_amount_required, 1);
 
         exchange_rate_numerator = new_exchange_rate_numerator; //<- spot_price: u64,
-        let (amount, new_spot_price) = price_curve::get_sell_info(
+        let (y_amount, new_spot_price) = price_curve::get_sell_info(
             price_curve_type,
             x_amount, // <- number_numerator: u64,
             price_delta_x_amount,
@@ -205,7 +205,7 @@ module sui_swap_example::price_curve_tests {
             price_delta_numerator,
             price_delta_denominator,
         );
-        debug::print(&amount);
+        debug::print(&y_amount);
         debug::print(&new_spot_price);
     }
 
@@ -213,12 +213,12 @@ module sui_swap_example::price_curve_tests {
     public fun test_price_curve_5() {
         let price_curve_type = 0;
         let x_amount = 500;
-        let price_delta_x_amount= 500;
-        let exchange_rate_numerator= 11110;
+        let price_delta_x_amount = 500;
+        let exchange_rate_numerator = 11110;
         let exchange_rate_denominator = 100;
-        let start_exchange_rate_numerator= 11110;
-        let price_delta_numerator= 10;
-        let price_delta_denominator= 100;
+        let start_exchange_rate_numerator = 11110;
+        let price_delta_numerator = 10;
+        let price_delta_denominator = 100;
         let (y_amount_out_numerator, new_exchange_rate_numerator) = price_curve::get_sell_info(
             price_curve_type,
             x_amount, // <- number_numerator: u64,
@@ -229,9 +229,8 @@ module sui_swap_example::price_curve_tests {
             price_delta_denominator,
         );
 
-        debug::print(&y_amount_out_numerator);
+        debug::print(&(y_amount_out_numerator / exchange_rate_denominator));
         debug::print(&new_exchange_rate_numerator);
-
     }
 
     #[test]

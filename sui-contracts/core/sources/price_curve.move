@@ -24,21 +24,26 @@ module sui_swap_example::price_curve {
 
     public fun get_buy_info(
         curve_type: u8,
-        number_numerator: u64,
-        number_denominator: u64,
+        amount: u64,
+        item_amount: u64,
         spot_price: u64,
         start_price: u64,
         price_delta_numerator: u64,
         price_delta_denominator: u64
     ): (u64, u64) {
         assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
-        let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
+        let (number_of_items, _remainder) = get_number_of_items_and_remainder(
+            amount,
+            item_amount
+        );
         if (curve_type == LINEAR_CURVE) {
             let delta = get_linear_curve_price_delta(start_price, price_delta_numerator, price_delta_denominator);
             get_linear_curve_buy_info(
                 number_of_items,
+                item_amount,
                 spot_price,
                 delta,
+                _remainder,
             )
         } else {
             //start_price is not used, all based on the current spot_price?
@@ -50,28 +55,34 @@ module sui_swap_example::price_curve {
             );
             get_expontential_curve_buy_info(
                 number_of_items,
+                item_amount,
                 spot_price,
                 multiplier,
                 linear_delta,
+                _remainder,
             )
         }
     }
 
     public fun get_sell_info(
         curve_type: u8,
-        number_numerator: u64,
-        number_denominator: u64,
+        amount: u64,
+        item_amount: u64,
         spot_price: u64,
         start_price: u64,
         price_delta_numerator: u64,
         price_delta_denominator: u64
     ): (u64, u64) {
-        let number_of_items = fixed_point32::create_from_rational(number_numerator, number_denominator);
+        let (number_of_items, _remainder) = get_number_of_items_and_remainder(
+            amount,
+            item_amount
+        ); // _remainder is not used
         if (curve_type == LINEAR_CURVE) {
             assert!(is_valid_curve_type(curve_type), EInvalidCurveType);
             let delta = get_linear_curve_price_delta(start_price, price_delta_numerator, price_delta_denominator);
             get_linear_curve_sell_info(
                 number_of_items,
+                item_amount,
                 spot_price,
                 delta,
             )
@@ -85,6 +96,7 @@ module sui_swap_example::price_curve {
             );
             get_expontential_curve_sell_info(
                 number_of_items,
+                item_amount,
                 spot_price,
                 multiplier,
                 linear_delta
@@ -94,8 +106,10 @@ module sui_swap_example::price_curve {
 
     fun get_linear_curve_buy_info(
         number_of_items: FixedPoint32,
+        item_amount: u64,
         spot_price: u64,
         delta: u64,
+        amount_remainder: u64,
     ): (u64, u64) {
         //
         // new_spot_price = spot_price + delta * number_of_items
@@ -103,14 +117,14 @@ module sui_swap_example::price_curve {
         let new_spot_price = spot_price + fixed_point32::multiply_u64(delta, number_of_items);
 
         // ~~
-        // // amount = number_of_items * (spot_price + new_spot_price) / 2;
+        // // y_amount = number_of_items * (spot_price + new_spot_price) / 2;
         // //
-        // let amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
+        // let y_amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
         // ~~
         //
         // If we want to be consistent with the Solidity version (to avoid arbitraging):
         //
-        // amount =
+        // y_amount =
         //     number_of_items * spot_price +
         //     (number_of_items * (number_of_items + 1) * delta) / 2;
         //
@@ -119,38 +133,42 @@ module sui_swap_example::price_curve {
         //     number_denominator
         // );
         let number_of_items_plus_one = fixed_point32_util::plus_one(number_of_items);
-        let amount = fixed_point32::multiply_u64(spot_price, number_of_items) +
-            fixed_point32::multiply_u64(
+        let y_amount = item_amount * fixed_point32::multiply_u64(spot_price, number_of_items) +
+            item_amount * fixed_point32::multiply_u64(
                 fixed_point32::multiply_u64(
                     delta,
                     number_of_items
                 ),
                 number_of_items_plus_one
             ) / 2;
-        (amount, new_spot_price)
+        if (amount_remainder > 0) {
+            y_amount = amount_remainder * new_spot_price;
+        };
+        (y_amount, new_spot_price)
     }
 
 
     fun get_linear_curve_sell_info(
         number_of_items: FixedPoint32,
+        item_amount: u64,
         spot_price: u64,
         delta: u64,
     ): (u64, u64) {
         // We first calculate the change in spot price after selling all of the items
         let total_price_decrease = fixed_point32::multiply_u64(delta, number_of_items);
         let new_spot_price = if (spot_price < total_price_decrease) {
-            // If the current spot price is less than the total amount that the spot price should change by...
+            // If the current spot price is less than the total y_amount that the spot price should change by...
             // We calculate how many items we can sell into the linear curve until the spot price reaches 0
             let number_of_items_till_zero_price = fixed_point32::create_from_rational(spot_price, delta);
             number_of_items = number_of_items_till_zero_price;
             0
         } else {
-            // Otherwise, the current spot price is greater than or equal to the total amount that the spot price changes
+            // Otherwise, the current spot price is greater than or equal to the total y_amount that the spot price changes
             // The new spot price is just the change between spot price and the total price change
             spot_price - total_price_decrease
         };
-        let amount = fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
-        (amount, new_spot_price)
+        let y_amount = item_amount * fixed_point32::multiply_u64(spot_price + new_spot_price, number_of_items) / 2;
+        (y_amount, new_spot_price)
     }
 
     fun get_linear_curve_price_delta(
@@ -167,9 +185,11 @@ module sui_swap_example::price_curve {
 
     fun get_expontential_curve_buy_info(
         number_of_items: FixedPoint32,
+        item_amount: u64,
         spot_price: u64,
         multiplier: FixedPoint32,
-        linear_delta: u64
+        linear_delta: u64,
+        amount_remainder: u64,
     ): (u64, u64) {
         assert!(fixed_point32_util::greater_or_equal_than_one(multiplier), EMultiplierLessThanOne);
 
@@ -182,7 +202,7 @@ module sui_swap_example::price_curve {
         // buy_spot_price + (multiplier * buy_spot_price) + (multiplier^2 * buy_spot_price) + ... (multiplier^(numItems - 1) * buy_spot_price)
         // This is equal to buy_spot_price * (multiplier^n - 1) / (multiplier - 1)
 
-        let amount = fixed_point32::multiply_u64(
+        let y_amount = item_amount * fixed_point32::multiply_u64(
             buy_spot_price,
             fixed_point32_util::divide(
                 fixed_point32_util::minus_one(multiplier_pow_n),
@@ -193,12 +213,19 @@ module sui_swap_example::price_curve {
         // For an exponential curve, the spot price is multiplied by delta for each item bought
         let new_spot_price = fixed_point32::multiply_u64(spot_price, multiplier_pow_n);
         new_spot_price = apply_linear_adjustment_if_fractional(new_spot_price, linear_delta, f, false);
-        amount = amount + fixed_point32::multiply_u64(new_spot_price, fixed_point32::create_from_raw_value(f));
-        (amount, new_spot_price)
+        y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
+            new_spot_price,
+            fixed_point32::create_from_raw_value(f)
+        );
+        if (amount_remainder > 0) {
+            y_amount = amount_remainder * new_spot_price;
+        };
+        (y_amount, new_spot_price)
     }
 
     fun get_expontential_curve_sell_info(
         number_of_items: FixedPoint32,
+        item_amount: u64,
         spot_price: u64,
         multiplier: FixedPoint32,
         linear_delta: u64
@@ -213,7 +240,7 @@ module sui_swap_example::price_curve {
         // If the user sells n items, then the total revenue is equal to:
         // spot_price + ((1 / multiplier) * spot_price) + ((1 / multiplier)^2 * spot_price) + ... ((1 / multiplier)^(numItems - 1) * spot_price)
         // This is equal to spot_price * (1 - (1 / multiplier^n)) / (1 - (1 / multiplier))
-        let amount = fixed_point32::multiply_u64(
+        let y_amount = item_amount * fixed_point32::multiply_u64(
             sell_spot_price, // ??? or just use this: spot_price,
             fixed_point32_util::divide(
                 fixed_point32_util::one_minus(inv_multiplier_pow_n),
@@ -223,8 +250,11 @@ module sui_swap_example::price_curve {
 
         let new_spot_price = fixed_point32::multiply_u64(spot_price, inv_multiplier_pow_n);
         new_spot_price = apply_linear_adjustment_if_fractional(new_spot_price, linear_delta, f, true);
-        amount = amount + fixed_point32::multiply_u64(new_spot_price, fixed_point32::create_from_raw_value(f));
-        (amount, new_spot_price)
+        y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
+            new_spot_price,
+            fixed_point32::create_from_raw_value(f)
+        );
+        (y_amount, new_spot_price)
     }
 
     fun get_expontential_curve_price_multiplier(
@@ -262,5 +292,12 @@ module sui_swap_example::price_curve {
         // [debug] 1209999999
         // [debug] 2809999998
         // [debug] 999999999
+    }
+
+    fun get_number_of_items_and_remainder(amount: u64, item_amount: u64): (FixedPoint32, u64) {
+        let number_of_items = fixed_point32::create_from_rational(amount, item_amount);
+        let remainder = amount - fixed_point32::multiply_u64(item_amount, number_of_items);
+        //if (remainder > 0) { std::debug::print(&remainder); };
+        (number_of_items, remainder)
     }
 }
