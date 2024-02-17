@@ -563,7 +563,7 @@ Note the output IDs of `TradePool` object (**it's actually a sell pool**) and `L
 │  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>                                         │
 ```
 
-#### Add X token to sell pool
+#### Owner add X token to sell pool
 
 The function parameters:
 
@@ -881,6 +881,18 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 '0x221fe24766ee163ca1fcee68ffb894a189815f5d324cd7e5db2ea505dbb46b9b' \
 --gas-budget 100000000
 ```
+
+#### Owner add X token to trade pool
+
+Same as "Owner add X token to sell pool".
+
+#### Deposit Y reserve to trade pool
+
+Same as "Deposit Y reserve to buy pool".
+
+#### Owner remove X token from trade pool
+
+Same as "Owner remove X token from sell pool".
 
 #### Owner withdraw Y reserve from trade pool
 
