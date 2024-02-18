@@ -1,25 +1,23 @@
-# Sui Swap Example
+# Flex: An NFT Assets Exchange on Sui
+
+This repository contains on-chain contracts as well as off-chain service (indexer) of Flex.
 
 ## Requirements
 
-It's worth noting that in the current version of the `nft` branch, token X refers to NFT.
-And the `LiquidityToken` degenerates into a "capability" object.
-We use it to control access to "add liquidity" and "remove liquidity".
-The account that owns it can be thought of as the owner of the `TokenPair` (two-way trade pool).
+Tip: In our Move contract code, we use a `struct` called `TradePool` to represent "trade pool" (for bidirectional trades),
+as well as the "sell pool" and the "buy pool".
+The different types of pools are distinguished by the `pool_type` field in this struct.
+You can think of trade pool as the base type of sell pool and buy pool; although the latter two don't have corresponding Move `struct`s.
 
-This `nft` branch currently implements a NFT/FT `TokenPair` that supports the AMM model;
-plus a simple "Sell Pool" (for selling NFTs).
+### Sell Pool / Buy Pool / Trade Pool
 
-One problem with using the AMM model to support NFT/FT swap is that the indivisibility of NFTs results in the "last NFT" being unsellable.
-Because of the fixed-product formula of AMM, the amount of token Y needed to buy up token X is infinite.
+The `TradePool` entity has some similarity to `TokenPair`.
 
-When having `SellPool`, it can be said to be a complete MVP (Minimum Viable Product) now. 
-The owner of the token pair can take out the last NFT in the `TokenPair` by removing all liquidity and create a `SellPool` to sell it.
+#### Sell Pool
 
+A sell pool allows users to buy NFT assets from the pool with FT assets (e.g. SUI coins).
 
-### Sell Pool
-
-The `SellPool` entity has some similarity to `TokenPair`.
+Properties of a Sell Pool:
 
 * It has `ExchangeRateNumerator` and `ExchangeRateDenominator` properties, 
     which represent the "exchange rate" of NFT (X token) to Y token. (Similar to `fixed-exchange-rate` branch version.)
@@ -32,10 +30,28 @@ The `SellPool` entity has some similarity to `TokenPair`.
     The owner of the pool can destroy the pool.
 * Methods of sell pool for general users include `BuyX`, i.e. "Swap-Y-For-X".
 
+#### Buy Pool
 
-## Prerequisites
+[Documentation to be improved.]
 
-Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.
+#### Trade Pool
+
+[Documentation to be improved.]
+
+### Token Pair
+
+This `nft` branch currently also implements a NFT/FT `TokenPair` that supports the AMM model.
+
+One problem with using the AMM model to support NFT/FT swap is that the indivisibility of NFTs results in the "last NFT" being unsellable.
+Because of the fixed-product formula of AMM, the amount of token Y needed to buy up token X is infinite.
+
+When having Sell Pool, the owner of the token pair can take out the last NFT in the `TokenPair` by removing all liquidity and create a Sell Pool to sell it.
+Actually, a "Token Pair" plus a simple "Sell Pool" (for selling NFTs), it can already be said to be a complete MVP (Minimum Viable Product) of NFT exchange Dapp.
+
+
+## Development Prerequisites
+
+We develop it using the [dddappp](https://www.dddappp.org) low-code tool.
 
 Currently, the dddappp low-code tool is published as a Docker image for developers to experience.
 
@@ -60,7 +76,7 @@ sudo docker run -p 3306:3306 --name mysql \
 -d mysql:5.7
 ```
 
-## Programming
+## About Programming
 
 ### Write DDDML model file
 
@@ -135,7 +151,7 @@ Generally, these files contain the scaffolding code of functions that implement 
 namely the signature part of the functions.
 You just need to fill in the implementation part of the functions.
 
-[TBD]
+[Documentation to be improved.]
 
 ---
 
@@ -302,6 +318,14 @@ nft_service_impl = "0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb3
 
 #### Deploy "di" project
 
+
+In theory, the `di` projects are not absolutely necessary to deploy.
+We can consider utilizing Sui's [PTB](https://docs.sui.io/concepts/transactions/prog-txn-blocks) feature
+on the front end to call the `core` project contract and the `nft-service-impl` project contract directly
+to accomplish the functionality shown in the test below.
+
+---
+
 Execute the following command in the directory `sui-contracts/di` to publish the `di` project on chain:
 
 ```shell
@@ -329,175 +353,8 @@ sui client call --function add_allowed_impl --module nft_service_config --packag
 --gas-budget 300000000
 ```
 
----
 
-In theory, the `di` projects are not absolutely necessary to deploy.
-We can consider utilizing Sui's [PTB](https://docs.sui.io/concepts/transactions/prog-txn-blocks) feature
-on the front end to call the `core` project contract and the `nft-service-impl` project contract directly
-to accomplish the functionality shown in the test below.
-
-
-### TokenPair tests
-
-#### Initialize liquidity
-
-Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
-
-* `_nft_service_config: &NftServiceConfig`: `0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0`.
-* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`. 
-* `x: Movescription`: The ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
-* `y_coin: Coin<Y>`: SUI coin object ID is `0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0`.
-* `y_amount: u64`: `1000000`.
-* `fee_numerator: u64`: `30`. We are going to set the pool fee rate to 0.3%.
-* `fee_denominator: u64`: `10000`.
-
-So, the command that needs to be executed is similar to the following:
-
-```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function initialize_liquidity \
---type-args '0x2::sui::SUI' \
---args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
-'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
-'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
-'"1000000"' \
-'"30"' \
-'"10000"' \
---gas-budget 100000000
-```
-
-Note the ID of the output `TokenPair` object (we need to use it when adding liquidity):
-
-```text
-│  │ ObjectID: 0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c
-│  │ Sender: 0x...
-│  │ Owner: Shared
-│  │ ObjectType: 0x...::token_pair::TokenPair<...>
-```
-
-And note the ID of the output `LiquidityToken` object:
-
-```text
-│  ┌──                                                                                               │
-│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23                    │
-│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
-│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
-│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>                                    │
-```
-
-Use the following command to view the `Exchange` object, 
-and you can see the token pairs that have been created as well as the sell pools.
-
-```shell
-sui client object 0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9
-```
-
-#### Add liquidity
-
-Add liquidity, the function parameters:
-
-* `_nft_service_config: &NftServiceConfig`.
-* `token_pair: &mut TokenPair<Movescription, Y>`.
-* `liquidity_token: &mut LiquidityToken<Movescription, Y>`.
-* `x: Movescription`: We assume another ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
-* `y_coin: Coin<Y>`.
-* `y_amount: u64`.
-
-```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function add_liquidity \
---type-args '0x2::sui::SUI' \
---args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
-'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
-'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
-'"1000000"' \
---gas-budget 100000000
-```
-
-You can add liquidity multiple times.
-
-#### Remove liquidity
-
-Remove liquidity, the function parameters:
-
-* `token_pair: &mut TokenPair<X, Y>`.
-* `liquidity_token: &LiquidityToken<X, Y>`.
-* `x_id: ID`: Assumes the ID of the NFT object you want to remove is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
-* `y_coin: &mut Coin<Y>`: The SUI Coin object used to accept the balance.
-
-Execute the following command:
-
-```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function remove_liquidity \
---type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
-'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
-'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
---gas-budget 100000000
-```
-
-
-#### Swap token X for token Y
-
-Swap, to exchange Movescription token  (i.e. token X)  for token Y.
-
-The function parameters:
-
-* `_nft_service_config: &NftServiceConfig`.
-* `token_pair: &mut TokenPair<Movescription, Y>`.
-* `x: Movescription`: Assumes that the Movescription object ID is `0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9`.
-* `y_coin: &mut Coin<Y>`: The SUI Coin object used to accept the balance.
-* `expected_y_amount_out: u64`: The minimum acceptable output balance is expected.
-
-Execute the following command:
-
-```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function swap_x \
---type-args '0x2::sui::SUI' \
---args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
-'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
-'"100"' \
---gas-budget 100000000
-```
-
-#### Swap token Y for token X
-
-In the opposite direction, token Y is exchanged for token X (NFT). The function parameters:
-
-* `token_pair: &mut TokenPair<X, Y>`.
-* `y_coin: Coin<Y>`: The SUI Coin object you own.
-* `y_amount: u64`: The amount of SUI coin you would like to pay.
-* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9`.
-
-So, execute the following command:
-
-```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function swap_y \
---type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
-'"1000000"' \
-'0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
---gas-budget 100000000
-```
-
----
-
-Tip: In our Move contract code, we use a `struct` called `TradePool` to represent "trade pool" (for bidirectional trades), 
-as well as the "sell pool" and the "buy pool".
-The different types of pools are distinguished by the `pool_type` field in this struct.
-You can think of trade pool as the base type of sell pool and buy pool; although the latter two don't have corresponding Move `struct`s.
-
-
-### SellPool tests
+### Sell Pool tests
 
 Sell pool properties related to price settings:
 
@@ -677,7 +534,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 
 ~~Note the package ID above, we are using a newer version than `0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963`.~~
 
-### BuyPool tests
+### Buy Pool tests
 
 #### Initialize buy pool
 
@@ -774,7 +631,7 @@ sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc
 
 #### Owner remove X token from buy pool
 
-Same as "Owner remove X token from sell pool". 
+Same as "Owner remove X token from sell pool". No repetition here.
 
 #### Owner withdraw Y reserve from buy pool
 
@@ -784,7 +641,7 @@ Same as "Owner withdraw Y reserve from sell pool".
 
 Same as "Owner update exchange rate" of sell pool.
 
-### TradePool tests
+### Trade Pool tests
 
 #### Initialize trade pool
 
@@ -884,7 +741,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 
 #### Owner add X token to trade pool
 
-Same as "Owner add X token to sell pool".
+Same as "Owner add X token to sell pool". No repetition here.
 
 #### Deposit Y reserve to trade pool
 
@@ -897,6 +754,161 @@ Same as "Owner remove X token from sell pool".
 #### Owner withdraw Y reserve from trade pool
 
 Same as "Owner withdraw Y reserve from sell pool".
+
+### Token Pair tests
+
+Unlike other Pools that use linear or exponential price curves, 
+"Token Pair" in this repository uses the classic AMM constant product formula.
+
+#### Initialize liquidity
+
+Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
+
+* `_nft_service_config: &NftServiceConfig`: `0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `x: Movescription`: The ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
+* `y_coin: Coin<Y>`: SUI coin object ID is `0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0`.
+* `y_amount: u64`: `1000000`.
+* `fee_numerator: u64`: `30`. We are going to set the pool fee rate to 0.3%.
+* `fee_denominator: u64`: `10000`.
+
+So, the command that needs to be executed is similar to the following:
+
+```shell
+sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function initialize_liquidity \
+--type-args '0x2::sui::SUI' \
+--args \
+'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"1000000"' \
+'"30"' \
+'"10000"' \
+--gas-budget 100000000
+```
+
+Note the ID of the output `TokenPair` object (we need to use it when adding liquidity):
+
+```text
+│  │ ObjectID: 0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c
+│  │ Sender: 0x...
+│  │ Owner: Shared
+│  │ ObjectType: 0x...::token_pair::TokenPair<...>
+```
+
+And note the ID of the output `LiquidityToken` object:
+
+```text
+│  ┌──                                                                                               │
+│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23                    │
+│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
+│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
+│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>                                    │
+```
+
+Use the following command to view the `Exchange` object,
+and you can see the token pairs that have been created as well as the sell pools.
+
+```shell
+sui client object 0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9
+```
+
+#### Add liquidity
+
+Add liquidity, the function parameters:
+
+* `_nft_service_config: &NftServiceConfig`.
+* `token_pair: &mut TokenPair<Movescription, Y>`.
+* `liquidity_token: &mut LiquidityToken<Movescription, Y>`.
+* `x: Movescription`: We assume another ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
+* `y_coin: Coin<Y>`.
+* `y_amount: u64`.
+
+```shell
+sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function add_liquidity \
+--type-args '0x2::sui::SUI' \
+--args \
+'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
+'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"1000000"' \
+--gas-budget 100000000
+```
+
+You can add liquidity multiple times.
+
+#### Remove liquidity
+
+Remove liquidity, the function parameters:
+
+* `token_pair: &mut TokenPair<X, Y>`.
+* `liquidity_token: &LiquidityToken<X, Y>`.
+* `x_id: ID`: Assumes the ID of the NFT object you want to remove is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
+* `y_coin: &mut Coin<Y>`: The SUI Coin object used to accept the balance.
+
+Execute the following command:
+
+```shell
+sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function remove_liquidity \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
+'0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+--gas-budget 100000000
+```
+
+
+#### Swap token X for token Y
+
+Swap, to exchange Movescription token  (i.e. token X)  for token Y.
+
+The function parameters:
+
+* `_nft_service_config: &NftServiceConfig`.
+* `token_pair: &mut TokenPair<Movescription, Y>`.
+* `x: Movescription`: Assumes that the Movescription object ID is `0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9`.
+* `y_coin: &mut Coin<Y>`: The SUI Coin object used to accept the balance.
+* `expected_y_amount_out: u64`: The minimum acceptable output balance is expected.
+
+Execute the following command:
+
+```shell
+sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function swap_x \
+--type-args '0x2::sui::SUI' \
+--args \
+'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+'0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"100"' \
+--gas-budget 100000000
+```
+
+#### Swap token Y for token X
+
+In the opposite direction, token Y is exchanged for token X (NFT). The function parameters:
+
+* `token_pair: &mut TokenPair<X, Y>`.
+* `y_coin: Coin<Y>`: The SUI Coin object you own.
+* `y_amount: u64`: The amount of SUI coin you would like to pay.
+* `x_id: ID`: Assumes the ID of the NFT object you want to get is `0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9`.
+
+So, execute the following command:
+
+```shell
+sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function swap_y \
+--type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
+--args '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+'0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
+'"1000000"' \
+'0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
+--gas-budget 100000000
+```
 
 ### Test off-chain service
 
@@ -1028,7 +1040,11 @@ It is very easy to encapsulate these SQL query statements into an API.
 If you have such a need, modify the source code and add the API you need.
 
 
-##  Further Reading
+##  Further readings of dddappp
+
+Flex Dapp powered by dddappp - the amazing Web3 low-code development platform.
+
+Here is some readings of dddappp.
 
 ### Sui Crowdfunding Example
 
