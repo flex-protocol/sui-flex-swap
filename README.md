@@ -4,20 +4,22 @@ This repository contains on-chain contracts as well as off-chain service (indexe
 
 ## Requirements
 
+### Sell Pool / Buy Pool / Trade Pool
+
+There is nothing special about trade pool, other than the fact that it features both a sell pool and a buy pool.
+
 Tip: In our Move contract code, we use a `struct` called `TradePool` to represent "trade pool" (for bidirectional trades),
 as well as the "sell pool" and the "buy pool".
 The different types of pools are distinguished by the `pool_type` field in this struct.
+
 You can think of trade pool as the base type of sell pool and buy pool; although the latter two don't have corresponding Move `struct`s.
 
-### Sell Pool / Buy Pool / Trade Pool
-
-The `TradePool` entity has some similarity to `TokenPair`.
 
 #### Sell Pool
 
-A sell pool allows users to buy NFT assets from the pool with FT assets (e.g. SUI coins).
+A sell pool allows users to buy NFT assets from the pool with FT assets (SUI or any coins that comply with the Sui Coin standard).
 
-Properties of a Sell Pool:
+The "Sell Pool" entity has some similarity to `TokenPair`. Properties of Sell Pool:
 
 * It has `ExchangeRateNumerator` and `ExchangeRateDenominator` properties, 
     which represent the "exchange rate" of NFT (X token) to Y token. (Similar to `fixed-exchange-rate` branch version.)
@@ -29,6 +31,9 @@ Properties of a Sell Pool:
     can add X token (NFT); can take out X token; can take out Y token (FT) reserve.
     The owner of the pool can destroy the pool.
 * Methods of sell pool for general users include `BuyX`, i.e. "Swap-Y-For-X".
+
+[Documentation to be improved.]
+
 
 #### Buy Pool
 
