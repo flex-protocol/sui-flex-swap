@@ -7,13 +7,13 @@ module sui_swap_example::trade_pool_buy_x_logic {
     use sui::object::ID;
     use sui::object_table;
     use sui::table;
+    use sui::transfer;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_example::pool_type;
-    use sui_swap_example::trade_pool::pool_type;
 
+    use sui_swap_example::pool_type;
+    use sui_swap_example::pool_y_swapped_for_x;
     use sui_swap_example::price_curve;
     use sui_swap_example::trade_pool;
-    use sui_swap_example::pool_y_swapped_for_x;
 
     friend sui_swap_example::trade_pool_aggregate;
 
@@ -57,7 +57,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         let exchange_rate_denominator = trade_pool::exchange_rate_denominator(pool);
         let y_amount_required = y_amount_required_numerator / exchange_rate_denominator;
         assert!(y_amount_in >= y_amount_required, EInsufficientYAmount);
-        //y_amount_in = y_amount_required; //TODO not to charge extra?
+
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
@@ -68,17 +68,27 @@ module sui_swap_example::trade_pool_buy_x_logic {
             x_token_type,
             y_token_type,
             x_amount,
-            y_amount_in,
+            y_amount_required, //y_amount_in, //Note: not to charge extra?
             new_exchange_rate_numerator,
         )
     }
 
+    #[lint_allow(self_transfer)]
     public(friend) fun mutate<X: key + store, Y>(
         pool_y_swapped_for_x: &trade_pool::PoolYSwappedForX,
         y_amount: Balance<Y>,
         pool: &mut trade_pool::TradePool<X, Y>,
-        _ctx: &TxContext, // modify the reference to mutable if needed
+        _ctx: &mut TxContext, // modify the reference to mutable if needed
     ): X {
+        let y_amount_required = pool_y_swapped_for_x::y_amount(pool_y_swapped_for_x);
+        let y_amount_i = balance::value(&y_amount);
+        assert!(y_amount_i >= y_amount_required, EInsufficientYAmount);
+        if (y_amount_i > y_amount_required) {
+            //Note: not to charge extra?
+            let r = balance::split(&mut y_amount, y_amount_i - y_amount_required);
+            let c = sui::coin::from_balance(r, _ctx);
+            transfer::public_transfer(c, tx_context::sender(_ctx));
+        };
         let x_amount = pool_y_swapped_for_x::x_amount(pool_y_swapped_for_x);
         let new_exchange_rate_numerator = pool_y_swapped_for_x::new_exchange_rate_numerator(
             pool_y_swapped_for_x
@@ -89,7 +99,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         sui::balance::join(y_reserve, y_amount);
 
         let x_id = pool_y_swapped_for_x::x_id(pool_y_swapped_for_x);
-        let (x, _x_total_amount) = remove_x_token<X, Y>(
+        let (x, _x_total_amount) = remove_sold_x_token<X, Y>(
             pool,
             x_id,
             x_amount,
@@ -97,7 +107,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         x
     }
 
-    fun remove_x_token<X: key + store, Y>(
+    fun remove_sold_x_token<X: key + store, Y>(
         pool: &mut trade_pool::TradePool<X, Y>,
         x_id: ID,
         x_amount: u64

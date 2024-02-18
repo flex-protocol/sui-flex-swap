@@ -89,6 +89,17 @@ module sui_swap_example::trade_pool_sell_x_logic {
         );
         trade_pool::set_exchange_rate_numerator(pool, new_exchange_rate_numerator);
 
+        add_bought_x_token(pool, x, x_amount);
+
+        let y_reserve = trade_pool::borrow_mut_y_reserve(pool);
+        sui::balance::split(y_reserve, y_amount)
+    }
+
+    fun add_bought_x_token<X: key + store, Y>(
+        pool: &mut trade_pool::TradePool<X, Y>,
+        x: X,
+        x_amount: u64,
+    ): u64 {
         let x_id = object::id(&x);
         let x_reserve = trade_pool::borrow_mut_x_reserve(pool);
         object_table::add(x_reserve, x_id, x);
@@ -101,7 +112,6 @@ module sui_swap_example::trade_pool_sell_x_logic {
         x_bought_amount = x_bought_amount + x_amount;
         trade_pool::set_x_bought_amount(pool, x_bought_amount);
 
-        let y_reserve = trade_pool::borrow_mut_y_reserve(pool);
-        sui::balance::split(y_reserve, y_amount)
+        x_total_amount
     }
 }
