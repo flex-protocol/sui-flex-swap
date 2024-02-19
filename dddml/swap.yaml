@@ -564,6 +564,8 @@ aggregates:
       #  type: u64
     methods:
       Mint:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         result:
           isObjectReturned: true
@@ -574,6 +576,8 @@ aggregates:
           #  Owner:
           #    isOwner: true # Transfer the object to the account address indicated by this property
       Destroy:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         event:
           name: LiquidityTokenDestroyed
