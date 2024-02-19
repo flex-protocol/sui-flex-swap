@@ -307,5 +307,236 @@ public class ExchangeCommands {
 
     }
 
+    public static class UpdateSellPools extends AbstractExchangeCommand implements ExchangeCommand {
+
+        public String getCommandType() {
+            return "UpdateSellPools";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Ids
+         */
+        private String[] ids;
+
+        public String[] getIds() {
+            return this.ids;
+        }
+
+        public void setIds(String[] ids) {
+            this.ids = ids;
+        }
+
+        /**
+         * X_ Token Types
+         */
+        private String[] x_TokenTypes;
+
+        public String[] getX_TokenTypes() {
+            return this.x_TokenTypes;
+        }
+
+        public void setX_TokenTypes(String[] x_TokenTypes) {
+            this.x_TokenTypes = x_TokenTypes;
+        }
+
+        /**
+         * Y_ Token Types
+         */
+        private String[] y_TokenTypes;
+
+        public String[] getY_TokenTypes() {
+            return this.y_TokenTypes;
+        }
+
+        public void setY_TokenTypes(String[] y_TokenTypes) {
+            this.y_TokenTypes = y_TokenTypes;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class UpdateBuyPools extends AbstractExchangeCommand implements ExchangeCommand {
+
+        public String getCommandType() {
+            return "UpdateBuyPools";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Ids
+         */
+        private String[] ids;
+
+        public String[] getIds() {
+            return this.ids;
+        }
+
+        public void setIds(String[] ids) {
+            this.ids = ids;
+        }
+
+        /**
+         * X_ Token Types
+         */
+        private String[] x_TokenTypes;
+
+        public String[] getX_TokenTypes() {
+            return this.x_TokenTypes;
+        }
+
+        public void setX_TokenTypes(String[] x_TokenTypes) {
+            this.x_TokenTypes = x_TokenTypes;
+        }
+
+        /**
+         * Y_ Token Types
+         */
+        private String[] y_TokenTypes;
+
+        public String[] getY_TokenTypes() {
+            return this.y_TokenTypes;
+        }
+
+        public void setY_TokenTypes(String[] y_TokenTypes) {
+            this.y_TokenTypes = y_TokenTypes;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class UpdateTradePools extends AbstractExchangeCommand implements ExchangeCommand {
+
+        public String getCommandType() {
+            return "UpdateTradePools";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Ids
+         */
+        private String[] ids;
+
+        public String[] getIds() {
+            return this.ids;
+        }
+
+        public void setIds(String[] ids) {
+            this.ids = ids;
+        }
+
+        /**
+         * X_ Token Types
+         */
+        private String[] x_TokenTypes;
+
+        public String[] getX_TokenTypes() {
+            return this.x_TokenTypes;
+        }
+
+        public void setX_TokenTypes(String[] x_TokenTypes) {
+            this.x_TokenTypes = x_TokenTypes;
+        }
+
+        /**
+         * Y_ Token Types
+         */
+        private String[] y_TokenTypes;
+
+        public String[] getY_TokenTypes() {
+            return this.y_TokenTypes;
+        }
+
+        public void setY_TokenTypes(String[] y_TokenTypes) {
+            this.y_TokenTypes = y_TokenTypes;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
 }
 

@@ -17,6 +17,9 @@ module sui_swap_example::exchange {
     friend sui_swap_example::exchange_add_sell_pool_logic;
     friend sui_swap_example::exchange_add_buy_pool_logic;
     friend sui_swap_example::exchange_update_logic;
+    friend sui_swap_example::exchange_update_sell_pools_logic;
+    friend sui_swap_example::exchange_update_buy_pools_logic;
+    friend sui_swap_example::exchange_update_trade_pools_logic;
     friend sui_swap_example::exchange_aggregate;
 
     #[allow(unused_const)]
@@ -420,6 +423,123 @@ module sui_swap_example::exchange {
         }
     }
 
+    struct ExchangeSellPoolsUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    }
+
+    public fun exchange_sell_pools_updated_id(exchange_sell_pools_updated: &ExchangeSellPoolsUpdated): object::ID {
+        exchange_sell_pools_updated.id
+    }
+
+    public fun exchange_sell_pools_updated_ids(exchange_sell_pools_updated: &ExchangeSellPoolsUpdated): vector<ID> {
+        exchange_sell_pools_updated.ids
+    }
+
+    public fun exchange_sell_pools_updated_x_token_types(exchange_sell_pools_updated: &ExchangeSellPoolsUpdated): vector<String> {
+        exchange_sell_pools_updated.x_token_types
+    }
+
+    public fun exchange_sell_pools_updated_y_token_types(exchange_sell_pools_updated: &ExchangeSellPoolsUpdated): vector<String> {
+        exchange_sell_pools_updated.y_token_types
+    }
+
+    public(friend) fun new_exchange_sell_pools_updated(
+        exchange: &Exchange,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    ): ExchangeSellPoolsUpdated {
+        ExchangeSellPoolsUpdated {
+            id: id(exchange),
+            version: version(exchange),
+            ids,
+            x_token_types,
+            y_token_types,
+        }
+    }
+
+    struct ExchangeBuyPoolsUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    }
+
+    public fun exchange_buy_pools_updated_id(exchange_buy_pools_updated: &ExchangeBuyPoolsUpdated): object::ID {
+        exchange_buy_pools_updated.id
+    }
+
+    public fun exchange_buy_pools_updated_ids(exchange_buy_pools_updated: &ExchangeBuyPoolsUpdated): vector<ID> {
+        exchange_buy_pools_updated.ids
+    }
+
+    public fun exchange_buy_pools_updated_x_token_types(exchange_buy_pools_updated: &ExchangeBuyPoolsUpdated): vector<String> {
+        exchange_buy_pools_updated.x_token_types
+    }
+
+    public fun exchange_buy_pools_updated_y_token_types(exchange_buy_pools_updated: &ExchangeBuyPoolsUpdated): vector<String> {
+        exchange_buy_pools_updated.y_token_types
+    }
+
+    public(friend) fun new_exchange_buy_pools_updated(
+        exchange: &Exchange,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    ): ExchangeBuyPoolsUpdated {
+        ExchangeBuyPoolsUpdated {
+            id: id(exchange),
+            version: version(exchange),
+            ids,
+            x_token_types,
+            y_token_types,
+        }
+    }
+
+    struct ExchangeTradePoolsUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    }
+
+    public fun exchange_trade_pools_updated_id(exchange_trade_pools_updated: &ExchangeTradePoolsUpdated): object::ID {
+        exchange_trade_pools_updated.id
+    }
+
+    public fun exchange_trade_pools_updated_ids(exchange_trade_pools_updated: &ExchangeTradePoolsUpdated): vector<ID> {
+        exchange_trade_pools_updated.ids
+    }
+
+    public fun exchange_trade_pools_updated_x_token_types(exchange_trade_pools_updated: &ExchangeTradePoolsUpdated): vector<String> {
+        exchange_trade_pools_updated.x_token_types
+    }
+
+    public fun exchange_trade_pools_updated_y_token_types(exchange_trade_pools_updated: &ExchangeTradePoolsUpdated): vector<String> {
+        exchange_trade_pools_updated.y_token_types
+    }
+
+    public(friend) fun new_exchange_trade_pools_updated(
+        exchange: &Exchange,
+        ids: vector<ID>,
+        x_token_types: vector<String>,
+        y_token_types: vector<String>,
+    ): ExchangeTradePoolsUpdated {
+        ExchangeTradePoolsUpdated {
+            id: id(exchange),
+            version: version(exchange),
+            ids,
+            x_token_types,
+            y_token_types,
+        }
+    }
+
 
     public(friend) fun transfer_object(exchange: Exchange, recipient: address) {
         assert!(exchange.version == 0, EInappropriateVersion);
@@ -493,6 +613,18 @@ module sui_swap_example::exchange {
 
     public(friend) fun emit_exchange_updated(exchange_updated: ExchangeUpdated) {
         event::emit(exchange_updated);
+    }
+
+    public(friend) fun emit_exchange_sell_pools_updated(exchange_sell_pools_updated: ExchangeSellPoolsUpdated) {
+        event::emit(exchange_sell_pools_updated);
+    }
+
+    public(friend) fun emit_exchange_buy_pools_updated(exchange_buy_pools_updated: ExchangeBuyPoolsUpdated) {
+        event::emit(exchange_buy_pools_updated);
+    }
+
+    public(friend) fun emit_exchange_trade_pools_updated(exchange_trade_pools_updated: ExchangeTradePoolsUpdated) {
+        event::emit(exchange_trade_pools_updated);
     }
 
 }

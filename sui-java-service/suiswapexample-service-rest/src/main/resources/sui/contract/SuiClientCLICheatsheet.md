@@ -54,6 +54,30 @@ sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function up
 --gas-budget 100000
 ```
 
+### UpdateSellPools method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_sell_pools \
+--args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
+--gas-budget 100000
+```
+
+### UpdateBuyPools method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_buy_pools \
+--args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
+--gas-budget 100000
+```
+
+### UpdateTradePools method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_trade_pools \
+--args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
+--gas-budget 100000
+```
+
 
 ---
 

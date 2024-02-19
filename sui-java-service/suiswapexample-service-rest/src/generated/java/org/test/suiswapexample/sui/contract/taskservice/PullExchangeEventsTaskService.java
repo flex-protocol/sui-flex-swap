@@ -46,4 +46,19 @@ public class PullExchangeEventsTaskService {
         exchangeEventService.pullExchangeUpdatedEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-exchange-events.exchange-sell-pools-updated.fixed-delay:5000}")
+    public void pullExchangeSellPoolsUpdatedEvents() {
+        exchangeEventService.pullExchangeSellPoolsUpdatedEvents();
+    }
+
+    @Scheduled(fixedDelayString = "${sui.contract.pull-exchange-events.exchange-buy-pools-updated.fixed-delay:5000}")
+    public void pullExchangeBuyPoolsUpdatedEvents() {
+        exchangeEventService.pullExchangeBuyPoolsUpdatedEvents();
+    }
+
+    @Scheduled(fixedDelayString = "${sui.contract.pull-exchange-events.exchange-trade-pools-updated.fixed-delay:5000}")
+    public void pullExchangeTradePoolsUpdatedEvents() {
+        exchangeEventService.pullExchangeTradePoolsUpdatedEvents();
+    }
+
 }

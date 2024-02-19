@@ -111,6 +111,45 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             apply(e);
         }
 
+        @Override
+        public void updateSellPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateSellPools c) {
+            java.util.function.Supplier<ExchangeEvent.ExchangeSellPoolsUpdated> eventFactory = () -> newExchangeSellPoolsUpdated(ids, x_TokenTypes, y_TokenTypes, offChainVersion, commandId, requesterId);
+            ExchangeEvent.ExchangeSellPoolsUpdated e;
+            try {
+                e = verifyUpdateSellPools(eventFactory, ids, x_TokenTypes, y_TokenTypes, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
+        @Override
+        public void updateBuyPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateBuyPools c) {
+            java.util.function.Supplier<ExchangeEvent.ExchangeBuyPoolsUpdated> eventFactory = () -> newExchangeBuyPoolsUpdated(ids, x_TokenTypes, y_TokenTypes, offChainVersion, commandId, requesterId);
+            ExchangeEvent.ExchangeBuyPoolsUpdated e;
+            try {
+                e = verifyUpdateBuyPools(eventFactory, ids, x_TokenTypes, y_TokenTypes, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
+        @Override
+        public void updateTradePools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateTradePools c) {
+            java.util.function.Supplier<ExchangeEvent.ExchangeTradePoolsUpdated> eventFactory = () -> newExchangeTradePoolsUpdated(ids, x_TokenTypes, y_TokenTypes, offChainVersion, commandId, requesterId);
+            ExchangeEvent.ExchangeTradePoolsUpdated e;
+            try {
+                e = verifyUpdateTradePools(eventFactory, ids, x_TokenTypes, y_TokenTypes, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
         protected ExchangeEvent.InitExchangeEvent verify__Init__(java.util.function.Supplier<ExchangeEvent.InitExchangeEvent> eventFactory, ExchangeCommands.__Init__ c) {
 
             ExchangeEvent.InitExchangeEvent e = (ExchangeEvent.InitExchangeEvent) ReflectUtils.invokeStaticMethod(
@@ -229,6 +268,75 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
 //
 //public class UpdateLogic {
 //    public static ExchangeEvent.ExchangeUpdated verify(java.util.function.Supplier<ExchangeEvent.ExchangeUpdated> eventFactory, ExchangeState exchangeState, String name, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.ExchangeSellPoolsUpdated verifyUpdateSellPools(java.util.function.Supplier<ExchangeEvent.ExchangeSellPoolsUpdated> eventFactory, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, ExchangeCommands.UpdateSellPools c) {
+            String[] Ids = ids;
+            String[] X_TokenTypes = x_TokenTypes;
+            String[] Y_TokenTypes = y_TokenTypes;
+
+            ExchangeEvent.ExchangeSellPoolsUpdated e = (ExchangeEvent.ExchangeSellPoolsUpdated) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), ids, x_TokenTypes, y_TokenTypes, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class UpdateSellPoolsLogic {
+//    public static ExchangeEvent.ExchangeSellPoolsUpdated verify(java.util.function.Supplier<ExchangeEvent.ExchangeSellPoolsUpdated> eventFactory, ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.ExchangeBuyPoolsUpdated verifyUpdateBuyPools(java.util.function.Supplier<ExchangeEvent.ExchangeBuyPoolsUpdated> eventFactory, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, ExchangeCommands.UpdateBuyPools c) {
+            String[] Ids = ids;
+            String[] X_TokenTypes = x_TokenTypes;
+            String[] Y_TokenTypes = y_TokenTypes;
+
+            ExchangeEvent.ExchangeBuyPoolsUpdated e = (ExchangeEvent.ExchangeBuyPoolsUpdated) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), ids, x_TokenTypes, y_TokenTypes, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class UpdateBuyPoolsLogic {
+//    public static ExchangeEvent.ExchangeBuyPoolsUpdated verify(java.util.function.Supplier<ExchangeEvent.ExchangeBuyPoolsUpdated> eventFactory, ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected ExchangeEvent.ExchangeTradePoolsUpdated verifyUpdateTradePools(java.util.function.Supplier<ExchangeEvent.ExchangeTradePoolsUpdated> eventFactory, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, ExchangeCommands.UpdateTradePools c) {
+            String[] Ids = ids;
+            String[] X_TokenTypes = x_TokenTypes;
+            String[] Y_TokenTypes = y_TokenTypes;
+
+            ExchangeEvent.ExchangeTradePoolsUpdated e = (ExchangeEvent.ExchangeTradePoolsUpdated) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), ids, x_TokenTypes, y_TokenTypes, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.exchange;
+//
+//public class UpdateTradePoolsLogic {
+//    public static ExchangeEvent.ExchangeTradePoolsUpdated verify(java.util.function.Supplier<ExchangeEvent.ExchangeTradePoolsUpdated> eventFactory, ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -358,6 +466,78 @@ public abstract class AbstractExchangeAggregate extends AbstractAggregate implem
             AbstractExchangeEvent.ExchangeUpdated e = new AbstractExchangeEvent.ExchangeUpdated();
 
             e.setName(name);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.ExchangeSellPoolsUpdated newExchangeSellPoolsUpdated(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.ExchangeSellPoolsUpdated e = new AbstractExchangeEvent.ExchangeSellPoolsUpdated();
+
+            e.setIds(ids);
+            e.setX_TokenTypes(x_TokenTypes);
+            e.setY_TokenTypes(y_TokenTypes);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.ExchangeBuyPoolsUpdated newExchangeBuyPoolsUpdated(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.ExchangeBuyPoolsUpdated e = new AbstractExchangeEvent.ExchangeBuyPoolsUpdated();
+
+            e.setIds(ids);
+            e.setX_TokenTypes(x_TokenTypes);
+            e.setY_TokenTypes(y_TokenTypes);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setExchangeEventId(eventId);
+            return e;
+        }
+
+        protected AbstractExchangeEvent.ExchangeTradePoolsUpdated newExchangeTradePoolsUpdated(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId) {
+            ExchangeEventId eventId = new ExchangeEventId(getState().getId(), null);
+            AbstractExchangeEvent.ExchangeTradePoolsUpdated e = new AbstractExchangeEvent.ExchangeTradePoolsUpdated();
+
+            e.setIds(ids);
+            e.setX_TokenTypes(x_TokenTypes);
+            e.setY_TokenTypes(y_TokenTypes);
             e.setSuiTimestamp(null);
             e.setSuiTxDigest(null);
             e.setSuiEventSeq(null);

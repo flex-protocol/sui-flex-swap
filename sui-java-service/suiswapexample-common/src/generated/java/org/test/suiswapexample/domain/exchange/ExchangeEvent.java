@@ -91,6 +91,51 @@ public interface ExchangeEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
     }
 
+    interface ExchangeSellPoolsUpdated extends ExchangeEvent {
+        String[] getIds();
+
+        void setIds(String[] value);
+
+        String[] getX_TokenTypes();
+
+        void setX_TokenTypes(String[] value);
+
+        String[] getY_TokenTypes();
+
+        void setY_TokenTypes(String[] value);
+
+    }
+
+    interface ExchangeBuyPoolsUpdated extends ExchangeEvent {
+        String[] getIds();
+
+        void setIds(String[] value);
+
+        String[] getX_TokenTypes();
+
+        void setX_TokenTypes(String[] value);
+
+        String[] getY_TokenTypes();
+
+        void setY_TokenTypes(String[] value);
+
+    }
+
+    interface ExchangeTradePoolsUpdated extends ExchangeEvent {
+        String[] getIds();
+
+        void setIds(String[] value);
+
+        String[] getX_TokenTypes();
+
+        void setX_TokenTypes(String[] value);
+
+        String[] getY_TokenTypes();
+
+        void setY_TokenTypes(String[] value);
+
+    }
+
     String getId();
 
     //void setId(String id);

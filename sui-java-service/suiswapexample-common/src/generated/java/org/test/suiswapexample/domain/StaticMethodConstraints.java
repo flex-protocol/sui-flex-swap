@@ -229,6 +229,30 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.tokenpair.DestroyLogic",
                     "mutate",
                     new Class[]{TokenPairState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
@@ -321,6 +345,30 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{ExchangeState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "name", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
+                    "mutate",
+                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

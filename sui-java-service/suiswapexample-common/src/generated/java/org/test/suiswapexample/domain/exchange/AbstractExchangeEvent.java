@@ -422,6 +422,141 @@ public abstract class AbstractExchangeEvent extends AbstractEvent implements Exc
 
     }
 
+    public static class ExchangeSellPoolsUpdated extends ExchangeClobEvent implements ExchangeEvent.ExchangeSellPoolsUpdated {
+
+        @Override
+        public String getEventType() {
+            return "ExchangeSellPoolsUpdated";
+        }
+
+        public String[] getIds() {
+            Object val = getDynamicProperties().get("ids");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setIds(String[] value) {
+            getDynamicProperties().put("ids", value);
+        }
+
+        public String[] getX_TokenTypes() {
+            Object val = getDynamicProperties().get("x_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setX_TokenTypes(String[] value) {
+            getDynamicProperties().put("x_TokenTypes", value);
+        }
+
+        public String[] getY_TokenTypes() {
+            Object val = getDynamicProperties().get("y_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setY_TokenTypes(String[] value) {
+            getDynamicProperties().put("y_TokenTypes", value);
+        }
+
+    }
+
+    public static class ExchangeBuyPoolsUpdated extends ExchangeClobEvent implements ExchangeEvent.ExchangeBuyPoolsUpdated {
+
+        @Override
+        public String getEventType() {
+            return "ExchangeBuyPoolsUpdated";
+        }
+
+        public String[] getIds() {
+            Object val = getDynamicProperties().get("ids");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setIds(String[] value) {
+            getDynamicProperties().put("ids", value);
+        }
+
+        public String[] getX_TokenTypes() {
+            Object val = getDynamicProperties().get("x_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setX_TokenTypes(String[] value) {
+            getDynamicProperties().put("x_TokenTypes", value);
+        }
+
+        public String[] getY_TokenTypes() {
+            Object val = getDynamicProperties().get("y_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setY_TokenTypes(String[] value) {
+            getDynamicProperties().put("y_TokenTypes", value);
+        }
+
+    }
+
+    public static class ExchangeTradePoolsUpdated extends ExchangeClobEvent implements ExchangeEvent.ExchangeTradePoolsUpdated {
+
+        @Override
+        public String getEventType() {
+            return "ExchangeTradePoolsUpdated";
+        }
+
+        public String[] getIds() {
+            Object val = getDynamicProperties().get("ids");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setIds(String[] value) {
+            getDynamicProperties().put("ids", value);
+        }
+
+        public String[] getX_TokenTypes() {
+            Object val = getDynamicProperties().get("x_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setX_TokenTypes(String[] value) {
+            getDynamicProperties().put("x_TokenTypes", value);
+        }
+
+        public String[] getY_TokenTypes() {
+            Object val = getDynamicProperties().get("y_TokenTypes");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setY_TokenTypes(String[] value) {
+            getDynamicProperties().put("y_TokenTypes", value);
+        }
+
+    }
+
 
 }
 

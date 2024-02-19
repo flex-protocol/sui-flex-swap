@@ -605,6 +605,8 @@ singletonObjects:
       #CRUD_IT_NO_UPDATE: true
       #CRUD_IT_NO_DELETE: true
       IS_MOVE_SCHEMA_VERSIONED: true
+      # If IS_MOVE_SCHEMA_VERSIONED is true, an "AdminCap" object is created and transferred to tx. sender when init().
+      # MoveAdminCapabilityName: "AdminCap" # It's the default name.
     properties:
       Name:
         type: String
@@ -736,6 +738,42 @@ singletonObjects:
             type: String
         event:
           name: ExchangeUpdated
+
+      UpdateSellPools:
+        requiredPermission: AdminCap
+        parameters:
+          Ids:
+            itemType: ID # Sell pool object IDs
+          X_TokenTypes:
+            itemType: String
+          Y_TokenTypes:
+            itemType: String
+        event:
+          name: ExchangeSellPoolsUpdated
+
+      UpdateBuyPools:
+        requiredPermission: AdminCap
+        parameters:
+          Ids:
+            itemType: ID
+          X_TokenTypes:
+            itemType: String
+          Y_TokenTypes:
+            itemType: String
+        event:
+          name: ExchangeBuyPoolsUpdated
+
+      UpdateTradePools:
+        requiredPermission: AdminCap
+        parameters:
+          Ids:
+            itemType: ID
+          X_TokenTypes:
+            itemType: String
+          Y_TokenTypes:
+            itemType: String
+        event:
+          name: ExchangeTradePoolsUpdated
 
 services:
   TokenPairService:

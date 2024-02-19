@@ -70,6 +70,18 @@ public abstract class AbstractExchangeApplicationService implements ExchangeAppl
         update(c, ar -> ar.update(c.getName(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
+    public void when(ExchangeCommands.UpdateSellPools c) {
+        update(c, ar -> ar.updateSellPools(c.getIds(), c.getX_TokenTypes(), c.getY_TokenTypes(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
+    public void when(ExchangeCommands.UpdateBuyPools c) {
+        update(c, ar -> ar.updateBuyPools(c.getIds(), c.getX_TokenTypes(), c.getY_TokenTypes(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
+    public void when(ExchangeCommands.UpdateTradePools c) {
+        update(c, ar -> ar.updateTradePools(c.getIds(), c.getX_TokenTypes(), c.getY_TokenTypes(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
     public ExchangeState get(String id) {
         ExchangeState state = getStateRepository().get(id, true);
         return state;

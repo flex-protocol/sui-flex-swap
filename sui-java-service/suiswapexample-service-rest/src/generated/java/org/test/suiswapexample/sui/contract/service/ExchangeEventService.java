@@ -20,6 +20,9 @@ import org.test.suiswapexample.sui.contract.exchange.TradePoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.SellPoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.BuyPoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.ExchangeUpdated;
+import org.test.suiswapexample.sui.contract.exchange.ExchangeSellPoolsUpdated;
+import org.test.suiswapexample.sui.contract.exchange.ExchangeBuyPoolsUpdated;
+import org.test.suiswapexample.sui.contract.exchange.ExchangeTradePoolsUpdated;
 import org.test.suiswapexample.sui.contract.repository.ExchangeEventRepository;
 import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,6 +285,126 @@ public class ExchangeEventService {
             return;
         }
         exchangeEventRepository.save(exchangeUpdated);
+    }
+
+    @Transactional
+    public void pullExchangeSellPoolsUpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getExchangeSellPoolsUpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ExchangeSellPoolsUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.EXCHANGE_MODULE_EXCHANGE_SELL_POOLS_UPDATED,
+                    cursor, limit, false, ExchangeSellPoolsUpdated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ExchangeSellPoolsUpdated> eventEnvelope : eventPage.getData()) {
+                    saveExchangeSellPoolsUpdated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getExchangeSellPoolsUpdatedEventNextCursor() {
+        AbstractExchangeEvent lastEvent = exchangeEventRepository.findFirstExchangeSellPoolsUpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveExchangeSellPoolsUpdated(SuiMoveEventEnvelope<ExchangeSellPoolsUpdated> eventEnvelope) {
+        AbstractExchangeEvent.ExchangeSellPoolsUpdated exchangeSellPoolsUpdated = DomainBeanUtils.toExchangeSellPoolsUpdated(eventEnvelope);
+        if (exchangeEventRepository.findById(exchangeSellPoolsUpdated.getExchangeEventId()).isPresent()) {
+            return;
+        }
+        exchangeEventRepository.save(exchangeSellPoolsUpdated);
+    }
+
+    @Transactional
+    public void pullExchangeBuyPoolsUpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getExchangeBuyPoolsUpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ExchangeBuyPoolsUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.EXCHANGE_MODULE_EXCHANGE_BUY_POOLS_UPDATED,
+                    cursor, limit, false, ExchangeBuyPoolsUpdated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ExchangeBuyPoolsUpdated> eventEnvelope : eventPage.getData()) {
+                    saveExchangeBuyPoolsUpdated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getExchangeBuyPoolsUpdatedEventNextCursor() {
+        AbstractExchangeEvent lastEvent = exchangeEventRepository.findFirstExchangeBuyPoolsUpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveExchangeBuyPoolsUpdated(SuiMoveEventEnvelope<ExchangeBuyPoolsUpdated> eventEnvelope) {
+        AbstractExchangeEvent.ExchangeBuyPoolsUpdated exchangeBuyPoolsUpdated = DomainBeanUtils.toExchangeBuyPoolsUpdated(eventEnvelope);
+        if (exchangeEventRepository.findById(exchangeBuyPoolsUpdated.getExchangeEventId()).isPresent()) {
+            return;
+        }
+        exchangeEventRepository.save(exchangeBuyPoolsUpdated);
+    }
+
+    @Transactional
+    public void pullExchangeTradePoolsUpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getExchangeTradePoolsUpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ExchangeTradePoolsUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.EXCHANGE_MODULE_EXCHANGE_TRADE_POOLS_UPDATED,
+                    cursor, limit, false, ExchangeTradePoolsUpdated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ExchangeTradePoolsUpdated> eventEnvelope : eventPage.getData()) {
+                    saveExchangeTradePoolsUpdated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getExchangeTradePoolsUpdatedEventNextCursor() {
+        AbstractExchangeEvent lastEvent = exchangeEventRepository.findFirstExchangeTradePoolsUpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveExchangeTradePoolsUpdated(SuiMoveEventEnvelope<ExchangeTradePoolsUpdated> eventEnvelope) {
+        AbstractExchangeEvent.ExchangeTradePoolsUpdated exchangeTradePoolsUpdated = DomainBeanUtils.toExchangeTradePoolsUpdated(eventEnvelope);
+        if (exchangeEventRepository.findById(exchangeTradePoolsUpdated.getExchangeEventId()).isPresent()) {
+            return;
+        }
+        exchangeEventRepository.save(exchangeTradePoolsUpdated);
     }
 
 

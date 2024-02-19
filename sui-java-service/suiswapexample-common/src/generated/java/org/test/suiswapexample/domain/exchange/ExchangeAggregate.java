@@ -27,6 +27,12 @@ public interface ExchangeAggregate {
 
     void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c);
 
+    void updateSellPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateSellPools c);
+
+    void updateBuyPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateBuyPools c);
+
+    void updateTradePools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateTradePools c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 

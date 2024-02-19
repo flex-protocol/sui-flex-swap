@@ -49,6 +49,9 @@
       <subclass name="AbstractExchangeEvent$SellPoolAddedToExchange" discriminator-value="SellPoolAddedToExchange" />
       <subclass name="AbstractExchangeEvent$BuyPoolAddedToExchange" discriminator-value="BuyPoolAddedToExchange" />
       <subclass name="AbstractExchangeEvent$ExchangeUpdated" discriminator-value="ExchangeUpdated" />
+      <subclass name="AbstractExchangeEvent$ExchangeSellPoolsUpdated" discriminator-value="ExchangeSellPoolsUpdated" />
+      <subclass name="AbstractExchangeEvent$ExchangeBuyPoolsUpdated" discriminator-value="ExchangeBuyPoolsUpdated" />
+      <subclass name="AbstractExchangeEvent$ExchangeTradePoolsUpdated" discriminator-value="ExchangeTradePoolsUpdated" />
     </subclass>
   </class>
 </hibernate-mapping>

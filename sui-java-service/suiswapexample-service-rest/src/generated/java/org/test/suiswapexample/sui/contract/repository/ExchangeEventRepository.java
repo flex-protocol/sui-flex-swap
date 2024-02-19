@@ -25,4 +25,10 @@ public interface ExchangeEventRepository extends JpaRepository<AbstractExchangeE
 
     AbstractExchangeEvent.ExchangeUpdated findFirstExchangeUpdatedByOrderBySuiTimestampDesc();
 
+    AbstractExchangeEvent.ExchangeSellPoolsUpdated findFirstExchangeSellPoolsUpdatedByOrderBySuiTimestampDesc();
+
+    AbstractExchangeEvent.ExchangeBuyPoolsUpdated findFirstExchangeBuyPoolsUpdatedByOrderBySuiTimestampDesc();
+
+    AbstractExchangeEvent.ExchangeTradePoolsUpdated findFirstExchangeTradePoolsUpdatedByOrderBySuiTimestampDesc();
+
 }
