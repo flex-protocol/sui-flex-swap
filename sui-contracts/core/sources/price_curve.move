@@ -213,17 +213,19 @@ module sui_swap_example::price_curve {
 
         // For an exponential curve, the spot price is multiplied by delta for each item bought
         let new_spot_price = fixed_point32::multiply_u64(spot_price, multiplier_pow_n);
-        new_spot_price = get_fractional_spot_price(
-            new_spot_price,
-            price_delta_numerator,
-            price_delta_denominator,
-            f,
-            false
-        );
-        y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            new_spot_price,
-            fixed_point32::create_from_raw_value(f)
-        );
+        if (f > 0) {
+            new_spot_price = get_fractional_spot_price(
+                new_spot_price,
+                price_delta_numerator,
+                price_delta_denominator,
+                f,
+                false
+            );
+            y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
+                new_spot_price,
+                fixed_point32::create_from_raw_value(f)
+            );
+        };
         if (amount_remainder > 0) {
             y_amount = amount_remainder * new_spot_price;
         };
@@ -257,17 +259,19 @@ module sui_swap_example::price_curve {
         );
 
         let new_spot_price = fixed_point32::multiply_u64(spot_price, inv_multiplier_pow_n);
-        new_spot_price = get_fractional_spot_price(
-            new_spot_price,
-            price_delta_numerator,
-            price_delta_denominator,
-            f,
-            true
-        );
-        y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
-            new_spot_price,
-            fixed_point32::create_from_raw_value(f)
-        );
+        if (f > 0) {
+            new_spot_price = get_fractional_spot_price(
+                new_spot_price,
+                price_delta_numerator,
+                price_delta_denominator,
+                f,
+                true
+            );
+            y_amount = y_amount + item_amount * fixed_point32::multiply_u64(
+                new_spot_price,
+                fixed_point32::create_from_raw_value(f)
+            );
+        };
         (y_amount, new_spot_price)
     }
 
