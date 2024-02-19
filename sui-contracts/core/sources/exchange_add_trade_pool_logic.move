@@ -38,13 +38,13 @@ module sui_swap_example::exchange_add_trade_pool_logic {
         let x_token_type = trade_pool_added_to_exchange::x_token_type(trade_pool_added_to_exchange);
         let y_token_type = trade_pool_added_to_exchange::y_token_type(trade_pool_added_to_exchange);
         let ids = exchange::trade_pools(exchange);
-        let x_token_types = exchange::sell_pool_x_token_types(exchange);
-        let y_token_types = exchange::sell_pool_y_token_types(exchange);
+        let x_token_types = exchange::trade_pool_x_token_types(exchange);
+        let y_token_types = exchange::trade_pool_y_token_types(exchange);
         vector::push_back(&mut ids, trade_pool_id);
         vector::push_back(&mut x_token_types, x_token_type);
         vector::push_back(&mut y_token_types, y_token_type);
-        exchange::set_sell_pools(exchange, ids);
-        exchange::set_sell_pool_x_token_types(exchange, x_token_types);
-        exchange::set_sell_pool_y_token_types(exchange, y_token_types);
+        exchange::set_trade_pools(exchange, ids);
+        exchange::set_trade_pool_x_token_types(exchange, x_token_types);
+        exchange::set_trade_pool_y_token_types(exchange, y_token_types);
     }
 }
