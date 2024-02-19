@@ -7,7 +7,6 @@ module sui_swap_example::exchange_add_buy_pool_logic {
     use sui::object::ID;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::buy_pool_added_to_exchange;
     use sui_swap_example::exchange;
 
     friend sui_swap_example::exchange_aggregate;
@@ -34,9 +33,9 @@ module sui_swap_example::exchange_add_buy_pool_logic {
         exchange: &mut exchange::Exchange,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let buy_pool_id = buy_pool_added_to_exchange::buy_pool_id(buy_pool_added_to_exchange);
-        let x_token_type = buy_pool_added_to_exchange::x_token_type(buy_pool_added_to_exchange);
-        let y_token_type = buy_pool_added_to_exchange::y_token_type(buy_pool_added_to_exchange);
+        let buy_pool_id = exchange::buy_pool_added_to_exchange_buy_pool_id(buy_pool_added_to_exchange);
+        let x_token_type = exchange::buy_pool_added_to_exchange_x_token_type(buy_pool_added_to_exchange);
+        let y_token_type = exchange::buy_pool_added_to_exchange_y_token_type(buy_pool_added_to_exchange);
         let ids = exchange::buy_pools(exchange);
         let x_token_types = exchange::buy_pool_x_token_types(exchange);
         let y_token_types = exchange::buy_pool_y_token_types(exchange);

@@ -311,12 +311,6 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
             when((AbstractExchangeEvent.BuyPoolAddedToExchange)e);
         } else if (e instanceof AbstractExchangeEvent.ExchangeUpdated) {
             when((AbstractExchangeEvent.ExchangeUpdated)e);
-        } else if (e instanceof AbstractExchangeEvent.ExchangeSellPoolsUpdated) {
-            when((AbstractExchangeEvent.ExchangeSellPoolsUpdated)e);
-        } else if (e instanceof AbstractExchangeEvent.ExchangeBuyPoolsUpdated) {
-            when((AbstractExchangeEvent.ExchangeBuyPoolsUpdated)e);
-        } else if (e instanceof AbstractExchangeEvent.ExchangeTradePoolsUpdated) {
-            when((AbstractExchangeEvent.ExchangeTradePoolsUpdated)e);
         } else {
             throw new UnsupportedOperationException(String.format("Unsupported event type: %1$s", e.getClass().getName()));
         }
@@ -607,6 +601,38 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
 
         String name = e.getName();
         String Name = name;
+        Boolean updateTokenPairs = e.getUpdateTokenPairs();
+        Boolean UpdateTokenPairs = updateTokenPairs;
+        String[] tokenPairs = e.getTokenPairs();
+        String[] TokenPairs = tokenPairs;
+        String[] tokenPairX_TokenTypes = e.getTokenPairX_TokenTypes();
+        String[] TokenPairX_TokenTypes = tokenPairX_TokenTypes;
+        String[] tokenPairY_TokenTypes = e.getTokenPairY_TokenTypes();
+        String[] TokenPairY_TokenTypes = tokenPairY_TokenTypes;
+        Boolean updateTradePools = e.getUpdateTradePools();
+        Boolean UpdateTradePools = updateTradePools;
+        String[] tradePools = e.getTradePools();
+        String[] TradePools = tradePools;
+        String[] tradePoolX_TokenTypes = e.getTradePoolX_TokenTypes();
+        String[] TradePoolX_TokenTypes = tradePoolX_TokenTypes;
+        String[] tradePoolY_TokenTypes = e.getTradePoolY_TokenTypes();
+        String[] TradePoolY_TokenTypes = tradePoolY_TokenTypes;
+        Boolean updateSellPools = e.getUpdateSellPools();
+        Boolean UpdateSellPools = updateSellPools;
+        String[] sellPools = e.getSellPools();
+        String[] SellPools = sellPools;
+        String[] sellPoolX_TokenTypes = e.getSellPoolX_TokenTypes();
+        String[] SellPoolX_TokenTypes = sellPoolX_TokenTypes;
+        String[] sellPoolY_TokenTypes = e.getSellPoolY_TokenTypes();
+        String[] SellPoolY_TokenTypes = sellPoolY_TokenTypes;
+        Boolean updateBuyPools = e.getUpdateBuyPools();
+        Boolean UpdateBuyPools = updateBuyPools;
+        String[] buyPools = e.getBuyPools();
+        String[] BuyPools = buyPools;
+        String[] buyPoolX_TokenTypes = e.getBuyPoolX_TokenTypes();
+        String[] BuyPoolX_TokenTypes = buyPoolX_TokenTypes;
+        String[] buyPoolY_TokenTypes = e.getBuyPoolY_TokenTypes();
+        String[] BuyPoolY_TokenTypes = buyPoolY_TokenTypes;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -636,173 +662,14 @@ public abstract class AbstractExchangeState implements ExchangeState.SqlExchange
         ExchangeState updatedExchangeState = (ExchangeState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.exchange.UpdateLogic",
                     "mutate",
-                    new Class[]{ExchangeState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, name, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ExchangeState.class, String.class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, name, updateTokenPairs, tokenPairs, tokenPairX_TokenTypes, tokenPairY_TokenTypes, updateTradePools, tradePools, tradePoolX_TokenTypes, tradePoolY_TokenTypes, updateSellPools, sellPools, sellPoolX_TokenTypes, sellPoolY_TokenTypes, updateBuyPools, buyPools, buyPoolX_TokenTypes, buyPoolY_TokenTypes, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiswapexample.domain.exchange;
 //
 //public class UpdateLogic {
-//    public static ExchangeState mutate(ExchangeState exchangeState, String name, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
-//    }
-//}
-
-        if (this != updatedExchangeState) { merge(updatedExchangeState); } //else do nothing
-
-    }
-
-    public void when(AbstractExchangeEvent.ExchangeSellPoolsUpdated e) {
-        throwOnWrongEvent(e);
-
-        String[] ids = e.getIds();
-        String[] Ids = ids;
-        String[] x_TokenTypes = e.getX_TokenTypes();
-        String[] X_TokenTypes = x_TokenTypes;
-        String[] y_TokenTypes = e.getY_TokenTypes();
-        String[] Y_TokenTypes = y_TokenTypes;
-        Long suiTimestamp = e.getSuiTimestamp();
-        Long SuiTimestamp = suiTimestamp;
-        String suiTxDigest = e.getSuiTxDigest();
-        String SuiTxDigest = suiTxDigest;
-        BigInteger suiEventSeq = e.getSuiEventSeq();
-        BigInteger SuiEventSeq = suiEventSeq;
-        String suiPackageId = e.getSuiPackageId();
-        String SuiPackageId = suiPackageId;
-        String suiTransactionModule = e.getSuiTransactionModule();
-        String SuiTransactionModule = suiTransactionModule;
-        String suiSender = e.getSuiSender();
-        String SuiSender = suiSender;
-        String suiType = e.getSuiType();
-        String SuiType = suiType;
-        String status = e.getStatus();
-        String Status = status;
-
-        if (this.getCreatedBy() == null){
-            this.setCreatedBy(e.getCreatedBy());
-        }
-        if (this.getCreatedAt() == null){
-            this.setCreatedAt(e.getCreatedAt());
-        }
-        this.setUpdatedBy(e.getCreatedBy());
-        this.setUpdatedAt(e.getCreatedAt());
-
-        ExchangeState updatedExchangeState = (ExchangeState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, ids, x_TokenTypes, y_TokenTypes, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
-            );
-
-//package org.test.suiswapexample.domain.exchange;
-//
-//public class UpdateSellPoolsLogic {
-//    public static ExchangeState mutate(ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
-//    }
-//}
-
-        if (this != updatedExchangeState) { merge(updatedExchangeState); } //else do nothing
-
-    }
-
-    public void when(AbstractExchangeEvent.ExchangeBuyPoolsUpdated e) {
-        throwOnWrongEvent(e);
-
-        String[] ids = e.getIds();
-        String[] Ids = ids;
-        String[] x_TokenTypes = e.getX_TokenTypes();
-        String[] X_TokenTypes = x_TokenTypes;
-        String[] y_TokenTypes = e.getY_TokenTypes();
-        String[] Y_TokenTypes = y_TokenTypes;
-        Long suiTimestamp = e.getSuiTimestamp();
-        Long SuiTimestamp = suiTimestamp;
-        String suiTxDigest = e.getSuiTxDigest();
-        String SuiTxDigest = suiTxDigest;
-        BigInteger suiEventSeq = e.getSuiEventSeq();
-        BigInteger SuiEventSeq = suiEventSeq;
-        String suiPackageId = e.getSuiPackageId();
-        String SuiPackageId = suiPackageId;
-        String suiTransactionModule = e.getSuiTransactionModule();
-        String SuiTransactionModule = suiTransactionModule;
-        String suiSender = e.getSuiSender();
-        String SuiSender = suiSender;
-        String suiType = e.getSuiType();
-        String SuiType = suiType;
-        String status = e.getStatus();
-        String Status = status;
-
-        if (this.getCreatedBy() == null){
-            this.setCreatedBy(e.getCreatedBy());
-        }
-        if (this.getCreatedAt() == null){
-            this.setCreatedAt(e.getCreatedAt());
-        }
-        this.setUpdatedBy(e.getCreatedBy());
-        this.setUpdatedAt(e.getCreatedAt());
-
-        ExchangeState updatedExchangeState = (ExchangeState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, ids, x_TokenTypes, y_TokenTypes, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
-            );
-
-//package org.test.suiswapexample.domain.exchange;
-//
-//public class UpdateBuyPoolsLogic {
-//    public static ExchangeState mutate(ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
-//    }
-//}
-
-        if (this != updatedExchangeState) { merge(updatedExchangeState); } //else do nothing
-
-    }
-
-    public void when(AbstractExchangeEvent.ExchangeTradePoolsUpdated e) {
-        throwOnWrongEvent(e);
-
-        String[] ids = e.getIds();
-        String[] Ids = ids;
-        String[] x_TokenTypes = e.getX_TokenTypes();
-        String[] X_TokenTypes = x_TokenTypes;
-        String[] y_TokenTypes = e.getY_TokenTypes();
-        String[] Y_TokenTypes = y_TokenTypes;
-        Long suiTimestamp = e.getSuiTimestamp();
-        Long SuiTimestamp = suiTimestamp;
-        String suiTxDigest = e.getSuiTxDigest();
-        String SuiTxDigest = suiTxDigest;
-        BigInteger suiEventSeq = e.getSuiEventSeq();
-        BigInteger SuiEventSeq = suiEventSeq;
-        String suiPackageId = e.getSuiPackageId();
-        String SuiPackageId = suiPackageId;
-        String suiTransactionModule = e.getSuiTransactionModule();
-        String SuiTransactionModule = suiTransactionModule;
-        String suiSender = e.getSuiSender();
-        String SuiSender = suiSender;
-        String suiType = e.getSuiType();
-        String SuiType = suiType;
-        String status = e.getStatus();
-        String Status = status;
-
-        if (this.getCreatedBy() == null){
-            this.setCreatedBy(e.getCreatedBy());
-        }
-        if (this.getCreatedAt() == null){
-            this.setCreatedAt(e.getCreatedAt());
-        }
-        this.setUpdatedBy(e.getCreatedBy());
-        this.setUpdatedAt(e.getCreatedAt());
-
-        ExchangeState updatedExchangeState = (ExchangeState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, ids, x_TokenTypes, y_TokenTypes, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
-            );
-
-//package org.test.suiswapexample.domain.exchange;
-//
-//public class UpdateTradePoolsLogic {
-//    public static ExchangeState mutate(ExchangeState exchangeState, String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
+//    public static ExchangeState mutate(ExchangeState exchangeState, String name, Boolean updateTokenPairs, String[] tokenPairs, String[] tokenPairX_TokenTypes, String[] tokenPairY_TokenTypes, Boolean updateTradePools, String[] tradePools, String[] tradePoolX_TokenTypes, String[] tradePoolY_TokenTypes, Boolean updateSellPools, String[] sellPools, String[] sellPoolX_TokenTypes, String[] sellPoolY_TokenTypes, Boolean updateBuyPools, String[] buyPools, String[] buyPoolX_TokenTypes, String[] buyPoolY_TokenTypes, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ExchangeState, ExchangeState.MutableExchangeState> mutationContext) {
 //    }
 //}
 

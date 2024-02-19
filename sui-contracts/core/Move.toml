@@ -4,11 +4,11 @@ version = "0.0.1"
 published-at = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 #Sui = { local = "../../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 #SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
 
 [addresses]
-sui_swap_example = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
-#sui_swap_example = "0x0"
+#sui_swap_example = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
+sui_swap_example = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"

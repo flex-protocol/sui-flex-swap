@@ -89,50 +89,69 @@ public interface ExchangeEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Ha
 
         void setName(String value);
 
-    }
+        Boolean getUpdateTokenPairs();
 
-    interface ExchangeSellPoolsUpdated extends ExchangeEvent {
-        String[] getIds();
+        void setUpdateTokenPairs(Boolean value);
 
-        void setIds(String[] value);
+        String[] getTokenPairs();
 
-        String[] getX_TokenTypes();
+        void setTokenPairs(String[] value);
 
-        void setX_TokenTypes(String[] value);
+        String[] getTokenPairX_TokenTypes();
 
-        String[] getY_TokenTypes();
+        void setTokenPairX_TokenTypes(String[] value);
 
-        void setY_TokenTypes(String[] value);
+        String[] getTokenPairY_TokenTypes();
 
-    }
+        void setTokenPairY_TokenTypes(String[] value);
 
-    interface ExchangeBuyPoolsUpdated extends ExchangeEvent {
-        String[] getIds();
+        Boolean getUpdateTradePools();
 
-        void setIds(String[] value);
+        void setUpdateTradePools(Boolean value);
 
-        String[] getX_TokenTypes();
+        String[] getTradePools();
 
-        void setX_TokenTypes(String[] value);
+        void setTradePools(String[] value);
 
-        String[] getY_TokenTypes();
+        String[] getTradePoolX_TokenTypes();
 
-        void setY_TokenTypes(String[] value);
+        void setTradePoolX_TokenTypes(String[] value);
 
-    }
+        String[] getTradePoolY_TokenTypes();
 
-    interface ExchangeTradePoolsUpdated extends ExchangeEvent {
-        String[] getIds();
+        void setTradePoolY_TokenTypes(String[] value);
 
-        void setIds(String[] value);
+        Boolean getUpdateSellPools();
 
-        String[] getX_TokenTypes();
+        void setUpdateSellPools(Boolean value);
 
-        void setX_TokenTypes(String[] value);
+        String[] getSellPools();
 
-        String[] getY_TokenTypes();
+        void setSellPools(String[] value);
 
-        void setY_TokenTypes(String[] value);
+        String[] getSellPoolX_TokenTypes();
+
+        void setSellPoolX_TokenTypes(String[] value);
+
+        String[] getSellPoolY_TokenTypes();
+
+        void setSellPoolY_TokenTypes(String[] value);
+
+        Boolean getUpdateBuyPools();
+
+        void setUpdateBuyPools(Boolean value);
+
+        String[] getBuyPools();
+
+        void setBuyPools(String[] value);
+
+        String[] getBuyPoolX_TokenTypes();
+
+        void setBuyPoolX_TokenTypes(String[] value);
+
+        String[] getBuyPoolY_TokenTypes();
+
+        void setBuyPoolY_TokenTypes(String[] value);
 
     }
 

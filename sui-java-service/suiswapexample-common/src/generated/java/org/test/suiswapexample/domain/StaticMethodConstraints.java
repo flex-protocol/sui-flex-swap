@@ -223,32 +223,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.exchange.UpdateLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "_", "name"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
-                    "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
-                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
-                    "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
-                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
-                    "verify",
-                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String[].class, String[].class, String[].class, VerificationContext.class},
-                    new String[]{"_", "_", "ids", "x_TokenTypes", "y_TokenTypes"}
+                    new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "name", "updateTokenPairs", "tokenPairs", "tokenPairX_TokenTypes", "tokenPairY_TokenTypes", "updateTradePools", "tradePools", "tradePoolX_TokenTypes", "tradePoolY_TokenTypes", "updateSellPools", "sellPools", "sellPoolX_TokenTypes", "sellPoolY_TokenTypes", "updateBuyPools", "buyPools", "buyPoolX_TokenTypes", "buyPoolY_TokenTypes"}
             );
 
 
@@ -343,32 +319,8 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.exchange.UpdateLogic",
                     "mutate",
-                    new Class[]{ExchangeState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "name", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateSellPoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateBuyPoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.suiswapexample.domain.exchange.UpdateTradePoolsLogic",
-                    "mutate",
-                    new Class[]{ExchangeState.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new String[]{"_", "ids", "x_TokenTypes", "y_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+                    new Class[]{ExchangeState.class, String.class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Boolean.class, String[].class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "name", "updateTokenPairs", "tokenPairs", "tokenPairX_TokenTypes", "tokenPairY_TokenTypes", "updateTradePools", "tradePools", "tradePoolX_TokenTypes", "tradePoolY_TokenTypes", "updateSellPools", "sellPools", "sellPoolX_TokenTypes", "sellPoolY_TokenTypes", "updateBuyPools", "buyPools", "buyPoolX_TokenTypes", "buyPoolY_TokenTypes", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

@@ -12,10 +12,7 @@ module sui_swap_example::exchange_aggregate {
     use sui_swap_example::exchange_add_sell_pool_logic;
     use sui_swap_example::exchange_add_token_pair_logic;
     use sui_swap_example::exchange_add_trade_pool_logic;
-    use sui_swap_example::exchange_update_buy_pools_logic;
     use sui_swap_example::exchange_update_logic;
-    use sui_swap_example::exchange_update_sell_pools_logic;
-    use sui_swap_example::exchange_update_trade_pools_logic;
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::trade_pool_initialize_trade_pool_logic;
@@ -121,12 +118,44 @@ module sui_swap_example::exchange_aggregate {
         exchange: &mut exchange::Exchange,
         admin_cap: &exchange::AdminCap,
         name: String,
+        update_token_pairs: bool,
+        token_pairs: vector<ID>,
+        token_pair_x_token_types: vector<String>,
+        token_pair_y_token_types: vector<String>,
+        update_trade_pools: bool,
+        trade_pools: vector<ID>,
+        trade_pool_x_token_types: vector<String>,
+        trade_pool_y_token_types: vector<String>,
+        update_sell_pools: bool,
+        sell_pools: vector<ID>,
+        sell_pool_x_token_types: vector<String>,
+        sell_pool_y_token_types: vector<String>,
+        update_buy_pools: bool,
+        buy_pools: vector<ID>,
+        buy_pool_x_token_types: vector<String>,
+        buy_pool_y_token_types: vector<String>,
         ctx: &mut tx_context::TxContext,
     ) {
         assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
         exchange::assert_schema_version(exchange);
         let exchange_updated = exchange_update_logic::verify(
             name,
+            update_token_pairs,
+            token_pairs,
+            token_pair_x_token_types,
+            token_pair_y_token_types,
+            update_trade_pools,
+            trade_pools,
+            trade_pool_x_token_types,
+            trade_pool_y_token_types,
+            update_sell_pools,
+            sell_pools,
+            sell_pool_x_token_types,
+            sell_pool_y_token_types,
+            update_buy_pools,
+            buy_pools,
+            buy_pool_x_token_types,
+            buy_pool_y_token_types,
             exchange,
             ctx,
         );
@@ -137,84 +166,6 @@ module sui_swap_example::exchange_aggregate {
         );
         exchange::update_object_version(exchange);
         exchange::emit_exchange_updated(exchange_updated);
-    }
-
-    public entry fun update_sell_pools(
-        exchange: &mut exchange::Exchange,
-        admin_cap: &exchange::AdminCap,
-        ids: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
-        exchange::assert_schema_version(exchange);
-        let exchange_sell_pools_updated = exchange_update_sell_pools_logic::verify(
-            ids,
-            x_token_types,
-            y_token_types,
-            exchange,
-            ctx,
-        );
-        exchange_update_sell_pools_logic::mutate(
-            &exchange_sell_pools_updated,
-            exchange,
-            ctx,
-        );
-        exchange::update_object_version(exchange);
-        exchange::emit_exchange_sell_pools_updated(exchange_sell_pools_updated);
-    }
-
-    public entry fun update_buy_pools(
-        exchange: &mut exchange::Exchange,
-        admin_cap: &exchange::AdminCap,
-        ids: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
-        exchange::assert_schema_version(exchange);
-        let exchange_buy_pools_updated = exchange_update_buy_pools_logic::verify(
-            ids,
-            x_token_types,
-            y_token_types,
-            exchange,
-            ctx,
-        );
-        exchange_update_buy_pools_logic::mutate(
-            &exchange_buy_pools_updated,
-            exchange,
-            ctx,
-        );
-        exchange::update_object_version(exchange);
-        exchange::emit_exchange_buy_pools_updated(exchange_buy_pools_updated);
-    }
-
-    public entry fun update_trade_pools(
-        exchange: &mut exchange::Exchange,
-        admin_cap: &exchange::AdminCap,
-        ids: vector<ID>,
-        x_token_types: vector<String>,
-        y_token_types: vector<String>,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        assert!(exchange::admin_cap(exchange) == sui::object::id(admin_cap), EInvalidAdminCap);
-        exchange::assert_schema_version(exchange);
-        let exchange_trade_pools_updated = exchange_update_trade_pools_logic::verify(
-            ids,
-            x_token_types,
-            y_token_types,
-            exchange,
-            ctx,
-        );
-        exchange_update_trade_pools_logic::mutate(
-            &exchange_trade_pools_updated,
-            exchange,
-            ctx,
-        );
-        exchange::update_object_version(exchange);
-        exchange::emit_exchange_trade_pools_updated(exchange_trade_pools_updated);
     }
 
 }

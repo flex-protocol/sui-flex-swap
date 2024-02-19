@@ -21,6 +21,38 @@ public class ExchangeUpdated {
 
     private String name;
 
+    private Boolean updateTokenPairs;
+
+    private String[] tokenPairs;
+
+    private String[] tokenPairX_TokenTypes;
+
+    private String[] tokenPairY_TokenTypes;
+
+    private Boolean updateTradePools;
+
+    private String[] tradePools;
+
+    private String[] tradePoolX_TokenTypes;
+
+    private String[] tradePoolY_TokenTypes;
+
+    private Boolean updateSellPools;
+
+    private String[] sellPools;
+
+    private String[] sellPoolX_TokenTypes;
+
+    private String[] sellPoolY_TokenTypes;
+
+    private Boolean updateBuyPools;
+
+    private String[] buyPools;
+
+    private String[] buyPoolX_TokenTypes;
+
+    private String[] buyPoolY_TokenTypes;
+
     public String getId() {
         return id;
     }
@@ -45,12 +77,156 @@ public class ExchangeUpdated {
         this.name = name;
     }
 
+    public Boolean getUpdateTokenPairs() {
+        return updateTokenPairs;
+    }
+
+    public void setUpdateTokenPairs(Boolean updateTokenPairs) {
+        this.updateTokenPairs = updateTokenPairs;
+    }
+
+    public String[] getTokenPairs() {
+        return tokenPairs;
+    }
+
+    public void setTokenPairs(String[] tokenPairs) {
+        this.tokenPairs = tokenPairs;
+    }
+
+    public String[] getTokenPairX_TokenTypes() {
+        return tokenPairX_TokenTypes;
+    }
+
+    public void setTokenPairX_TokenTypes(String[] tokenPairX_TokenTypes) {
+        this.tokenPairX_TokenTypes = tokenPairX_TokenTypes;
+    }
+
+    public String[] getTokenPairY_TokenTypes() {
+        return tokenPairY_TokenTypes;
+    }
+
+    public void setTokenPairY_TokenTypes(String[] tokenPairY_TokenTypes) {
+        this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
+    }
+
+    public Boolean getUpdateTradePools() {
+        return updateTradePools;
+    }
+
+    public void setUpdateTradePools(Boolean updateTradePools) {
+        this.updateTradePools = updateTradePools;
+    }
+
+    public String[] getTradePools() {
+        return tradePools;
+    }
+
+    public void setTradePools(String[] tradePools) {
+        this.tradePools = tradePools;
+    }
+
+    public String[] getTradePoolX_TokenTypes() {
+        return tradePoolX_TokenTypes;
+    }
+
+    public void setTradePoolX_TokenTypes(String[] tradePoolX_TokenTypes) {
+        this.tradePoolX_TokenTypes = tradePoolX_TokenTypes;
+    }
+
+    public String[] getTradePoolY_TokenTypes() {
+        return tradePoolY_TokenTypes;
+    }
+
+    public void setTradePoolY_TokenTypes(String[] tradePoolY_TokenTypes) {
+        this.tradePoolY_TokenTypes = tradePoolY_TokenTypes;
+    }
+
+    public Boolean getUpdateSellPools() {
+        return updateSellPools;
+    }
+
+    public void setUpdateSellPools(Boolean updateSellPools) {
+        this.updateSellPools = updateSellPools;
+    }
+
+    public String[] getSellPools() {
+        return sellPools;
+    }
+
+    public void setSellPools(String[] sellPools) {
+        this.sellPools = sellPools;
+    }
+
+    public String[] getSellPoolX_TokenTypes() {
+        return sellPoolX_TokenTypes;
+    }
+
+    public void setSellPoolX_TokenTypes(String[] sellPoolX_TokenTypes) {
+        this.sellPoolX_TokenTypes = sellPoolX_TokenTypes;
+    }
+
+    public String[] getSellPoolY_TokenTypes() {
+        return sellPoolY_TokenTypes;
+    }
+
+    public void setSellPoolY_TokenTypes(String[] sellPoolY_TokenTypes) {
+        this.sellPoolY_TokenTypes = sellPoolY_TokenTypes;
+    }
+
+    public Boolean getUpdateBuyPools() {
+        return updateBuyPools;
+    }
+
+    public void setUpdateBuyPools(Boolean updateBuyPools) {
+        this.updateBuyPools = updateBuyPools;
+    }
+
+    public String[] getBuyPools() {
+        return buyPools;
+    }
+
+    public void setBuyPools(String[] buyPools) {
+        this.buyPools = buyPools;
+    }
+
+    public String[] getBuyPoolX_TokenTypes() {
+        return buyPoolX_TokenTypes;
+    }
+
+    public void setBuyPoolX_TokenTypes(String[] buyPoolX_TokenTypes) {
+        this.buyPoolX_TokenTypes = buyPoolX_TokenTypes;
+    }
+
+    public String[] getBuyPoolY_TokenTypes() {
+        return buyPoolY_TokenTypes;
+    }
+
+    public void setBuyPoolY_TokenTypes(String[] buyPoolY_TokenTypes) {
+        this.buyPoolY_TokenTypes = buyPoolY_TokenTypes;
+    }
+
     @Override
     public String toString() {
         return "ExchangeUpdated{" +
                 "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", name=" + '\'' + name + '\'' +
+                ", updateTokenPairs=" + updateTokenPairs +
+                ", tokenPairs=" + Arrays.toString(tokenPairs) +
+                ", tokenPairX_TokenTypes=" + Arrays.toString(tokenPairX_TokenTypes) +
+                ", tokenPairY_TokenTypes=" + Arrays.toString(tokenPairY_TokenTypes) +
+                ", updateTradePools=" + updateTradePools +
+                ", tradePools=" + Arrays.toString(tradePools) +
+                ", tradePoolX_TokenTypes=" + Arrays.toString(tradePoolX_TokenTypes) +
+                ", tradePoolY_TokenTypes=" + Arrays.toString(tradePoolY_TokenTypes) +
+                ", updateSellPools=" + updateSellPools +
+                ", sellPools=" + Arrays.toString(sellPools) +
+                ", sellPoolX_TokenTypes=" + Arrays.toString(sellPoolX_TokenTypes) +
+                ", sellPoolY_TokenTypes=" + Arrays.toString(sellPoolY_TokenTypes) +
+                ", updateBuyPools=" + updateBuyPools +
+                ", buyPools=" + Arrays.toString(buyPools) +
+                ", buyPoolX_TokenTypes=" + Arrays.toString(buyPoolX_TokenTypes) +
+                ", buyPoolY_TokenTypes=" + Arrays.toString(buyPoolY_TokenTypes) +
                 '}';
     }
 

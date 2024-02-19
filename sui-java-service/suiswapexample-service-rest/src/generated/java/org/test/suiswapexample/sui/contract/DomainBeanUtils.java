@@ -42,9 +42,6 @@ import org.test.suiswapexample.sui.contract.exchange.TradePoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.SellPoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.BuyPoolAddedToExchange;
 import org.test.suiswapexample.sui.contract.exchange.ExchangeUpdated;
-import org.test.suiswapexample.sui.contract.exchange.ExchangeSellPoolsUpdated;
-import org.test.suiswapexample.sui.contract.exchange.ExchangeBuyPoolsUpdated;
-import org.test.suiswapexample.sui.contract.exchange.ExchangeTradePoolsUpdated;
 
 /**
  * Utils that convert beans in the contract package to domain beans.
@@ -671,6 +668,22 @@ public class DomainBeanUtils {
         AbstractExchangeEvent.ExchangeUpdated exchangeUpdated = new AbstractExchangeEvent.ExchangeUpdated();
         exchangeUpdated.setId(contractEvent.getId());
         exchangeUpdated.setName(contractEvent.getName());
+        exchangeUpdated.setUpdateTokenPairs(contractEvent.getUpdateTokenPairs());
+        exchangeUpdated.setTokenPairs(contractEvent.getTokenPairs());
+        exchangeUpdated.setTokenPairX_TokenTypes(contractEvent.getTokenPairX_TokenTypes());
+        exchangeUpdated.setTokenPairY_TokenTypes(contractEvent.getTokenPairY_TokenTypes());
+        exchangeUpdated.setUpdateTradePools(contractEvent.getUpdateTradePools());
+        exchangeUpdated.setTradePools(contractEvent.getTradePools());
+        exchangeUpdated.setTradePoolX_TokenTypes(contractEvent.getTradePoolX_TokenTypes());
+        exchangeUpdated.setTradePoolY_TokenTypes(contractEvent.getTradePoolY_TokenTypes());
+        exchangeUpdated.setUpdateSellPools(contractEvent.getUpdateSellPools());
+        exchangeUpdated.setSellPools(contractEvent.getSellPools());
+        exchangeUpdated.setSellPoolX_TokenTypes(contractEvent.getSellPoolX_TokenTypes());
+        exchangeUpdated.setSellPoolY_TokenTypes(contractEvent.getSellPoolY_TokenTypes());
+        exchangeUpdated.setUpdateBuyPools(contractEvent.getUpdateBuyPools());
+        exchangeUpdated.setBuyPools(contractEvent.getBuyPools());
+        exchangeUpdated.setBuyPoolX_TokenTypes(contractEvent.getBuyPoolX_TokenTypes());
+        exchangeUpdated.setBuyPoolY_TokenTypes(contractEvent.getBuyPoolY_TokenTypes());
         exchangeUpdated.setVersion(contractEvent.getVersion());
 
         exchangeUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -682,69 +695,6 @@ public class DomainBeanUtils {
         exchangeUpdated.setSuiSender(eventEnvelope.getSender());
 
         return exchangeUpdated;
-    }
-
-    public static AbstractExchangeEvent.ExchangeSellPoolsUpdated toExchangeSellPoolsUpdated(SuiMoveEventEnvelope<ExchangeSellPoolsUpdated> eventEnvelope) {
-        ExchangeSellPoolsUpdated contractEvent = eventEnvelope.getParsedJson();
-
-        AbstractExchangeEvent.ExchangeSellPoolsUpdated exchangeSellPoolsUpdated = new AbstractExchangeEvent.ExchangeSellPoolsUpdated();
-        exchangeSellPoolsUpdated.setId(contractEvent.getId());
-        exchangeSellPoolsUpdated.setIds(contractEvent.getIds());
-        exchangeSellPoolsUpdated.setX_TokenTypes(contractEvent.getX_TokenTypes());
-        exchangeSellPoolsUpdated.setY_TokenTypes(contractEvent.getY_TokenTypes());
-        exchangeSellPoolsUpdated.setVersion(contractEvent.getVersion());
-
-        exchangeSellPoolsUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        exchangeSellPoolsUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        exchangeSellPoolsUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        exchangeSellPoolsUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        exchangeSellPoolsUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        exchangeSellPoolsUpdated.setSuiSender(eventEnvelope.getSender());
-
-        return exchangeSellPoolsUpdated;
-    }
-
-    public static AbstractExchangeEvent.ExchangeBuyPoolsUpdated toExchangeBuyPoolsUpdated(SuiMoveEventEnvelope<ExchangeBuyPoolsUpdated> eventEnvelope) {
-        ExchangeBuyPoolsUpdated contractEvent = eventEnvelope.getParsedJson();
-
-        AbstractExchangeEvent.ExchangeBuyPoolsUpdated exchangeBuyPoolsUpdated = new AbstractExchangeEvent.ExchangeBuyPoolsUpdated();
-        exchangeBuyPoolsUpdated.setId(contractEvent.getId());
-        exchangeBuyPoolsUpdated.setIds(contractEvent.getIds());
-        exchangeBuyPoolsUpdated.setX_TokenTypes(contractEvent.getX_TokenTypes());
-        exchangeBuyPoolsUpdated.setY_TokenTypes(contractEvent.getY_TokenTypes());
-        exchangeBuyPoolsUpdated.setVersion(contractEvent.getVersion());
-
-        exchangeBuyPoolsUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        exchangeBuyPoolsUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        exchangeBuyPoolsUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        exchangeBuyPoolsUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        exchangeBuyPoolsUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        exchangeBuyPoolsUpdated.setSuiSender(eventEnvelope.getSender());
-
-        return exchangeBuyPoolsUpdated;
-    }
-
-    public static AbstractExchangeEvent.ExchangeTradePoolsUpdated toExchangeTradePoolsUpdated(SuiMoveEventEnvelope<ExchangeTradePoolsUpdated> eventEnvelope) {
-        ExchangeTradePoolsUpdated contractEvent = eventEnvelope.getParsedJson();
-
-        AbstractExchangeEvent.ExchangeTradePoolsUpdated exchangeTradePoolsUpdated = new AbstractExchangeEvent.ExchangeTradePoolsUpdated();
-        exchangeTradePoolsUpdated.setId(contractEvent.getId());
-        exchangeTradePoolsUpdated.setIds(contractEvent.getIds());
-        exchangeTradePoolsUpdated.setX_TokenTypes(contractEvent.getX_TokenTypes());
-        exchangeTradePoolsUpdated.setY_TokenTypes(contractEvent.getY_TokenTypes());
-        exchangeTradePoolsUpdated.setVersion(contractEvent.getVersion());
-
-        exchangeTradePoolsUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        exchangeTradePoolsUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        exchangeTradePoolsUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        exchangeTradePoolsUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        exchangeTradePoolsUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        exchangeTradePoolsUpdated.setSuiSender(eventEnvelope.getSender());
-
-        return exchangeTradePoolsUpdated;
     }
 
 

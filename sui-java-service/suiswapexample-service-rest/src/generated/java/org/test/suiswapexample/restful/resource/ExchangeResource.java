@@ -188,60 +188,6 @@ public class ExchangeResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
-
-    @PutMapping("{id}/_commands/UpdateSellPools")
-    public void updateSellPools(@PathVariable("id") String id, @RequestBody ExchangeCommands.UpdateSellPools content) {
-        try {
-
-            ExchangeCommands.UpdateSellPools cmd = content;//.toUpdateSellPools();
-            String idObj = id;
-            if (cmd.getId() == null) {
-                cmd.setId(idObj);
-            } else if (!cmd.getId().equals(idObj)) {
-                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
-            }
-            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
-            exchangeApplicationService.when(cmd);
-
-        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
-    }
-
-
-    @PutMapping("{id}/_commands/UpdateBuyPools")
-    public void updateBuyPools(@PathVariable("id") String id, @RequestBody ExchangeCommands.UpdateBuyPools content) {
-        try {
-
-            ExchangeCommands.UpdateBuyPools cmd = content;//.toUpdateBuyPools();
-            String idObj = id;
-            if (cmd.getId() == null) {
-                cmd.setId(idObj);
-            } else if (!cmd.getId().equals(idObj)) {
-                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
-            }
-            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
-            exchangeApplicationService.when(cmd);
-
-        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
-    }
-
-
-    @PutMapping("{id}/_commands/UpdateTradePools")
-    public void updateTradePools(@PathVariable("id") String id, @RequestBody ExchangeCommands.UpdateTradePools content) {
-        try {
-
-            ExchangeCommands.UpdateTradePools cmd = content;//.toUpdateTradePools();
-            String idObj = id;
-            if (cmd.getId() == null) {
-                cmd.setId(idObj);
-            } else if (!cmd.getId().equals(idObj)) {
-                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
-            }
-            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
-            exchangeApplicationService.when(cmd);
-
-        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
-    }
-
     @GetMapping("_metadata/filteringFields")
     public List<PropertyMetadataDto> getMetadataFilteringFields() {
         try {

@@ -657,6 +657,8 @@ singletonObjects:
           isObjectShared: true # Share the object after initialization.
 
       AddTokenPair:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true # No event (property-getter) module should be generated
         isInternal: true
         #shouldCallByReference: true
         typeParameters:
@@ -678,6 +680,8 @@ singletonObjects:
               type: String
 
       AddTradePool:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         typeParameters:
           X:
@@ -696,6 +700,8 @@ singletonObjects:
               type: String
 
       AddSellPool:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         typeParameters:
           X:
@@ -714,6 +720,8 @@ singletonObjects:
               type: String
 
       AddBuyPool:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         typeParameters:
           X:
@@ -732,48 +740,46 @@ singletonObjects:
               type: String
 
       Update:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         requiredPermission: AdminCap
         parameters:
           Name:
             type: String
+          UpdateTokenPairs: # Fully update token pairs
+            type: bool
+          TokenPairs: # TokenPair IDs
+            itemType: ID
+          TokenPairX_TokenTypes:
+            itemType: String
+          TokenPairY_TokenTypes:
+            itemType: String
+          UpdateTradePools: # Fully update trade pools
+            type: bool
+          TradePools:
+            itemType: ID
+          TradePoolX_TokenTypes:
+            itemType: String
+          TradePoolY_TokenTypes:
+            itemType: String
+          UpdateSellPools: # Fully update sell pools
+            type: bool
+          SellPools:
+            itemType: ID
+          SellPoolX_TokenTypes:
+            itemType: String
+          SellPoolY_TokenTypes:
+            itemType: String
+          UpdateBuyPools: # Fully update buy pools
+            type: bool
+          BuyPools:
+            itemType: ID
+          BuyPoolX_TokenTypes:
+            itemType: String
+          BuyPoolY_TokenTypes:
+            itemType: String
         event:
           name: ExchangeUpdated
-
-      UpdateSellPools:
-        requiredPermission: AdminCap
-        parameters:
-          Ids:
-            itemType: ID # Sell pool object IDs
-          X_TokenTypes:
-            itemType: String
-          Y_TokenTypes:
-            itemType: String
-        event:
-          name: ExchangeSellPoolsUpdated
-
-      UpdateBuyPools:
-        requiredPermission: AdminCap
-        parameters:
-          Ids:
-            itemType: ID
-          X_TokenTypes:
-            itemType: String
-          Y_TokenTypes:
-            itemType: String
-        event:
-          name: ExchangeBuyPoolsUpdated
-
-      UpdateTradePools:
-        requiredPermission: AdminCap
-        parameters:
-          Ids:
-            itemType: ID
-          X_TokenTypes:
-            itemType: String
-          Y_TokenTypes:
-            itemType: String
-        event:
-          name: ExchangeTradePoolsUpdated
 
 services:
   TokenPairService:

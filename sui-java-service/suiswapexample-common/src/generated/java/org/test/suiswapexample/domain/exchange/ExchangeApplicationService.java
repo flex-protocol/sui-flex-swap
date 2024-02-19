@@ -25,12 +25,6 @@ public interface ExchangeApplicationService {
 
     void when(ExchangeCommands.Update c);
 
-    void when(ExchangeCommands.UpdateSellPools c);
-
-    void when(ExchangeCommands.UpdateBuyPools c);
-
-    void when(ExchangeCommands.UpdateTradePools c);
-
     ExchangeState get(String id);
 
     Iterable<ExchangeState> getAll(Integer firstResult, Integer maxResults);

@@ -50,31 +50,7 @@ sui client call --package _PACKAGE_ID_ --module trade_pool_aggregate --function 
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update \
---args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '"string_name"' \
---gas-budget 100000
-```
-
-### UpdateSellPools method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_sell_pools \
---args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
---gas-budget 100000
-```
-
-### UpdateBuyPools method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_buy_pools \
---args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
---gas-budget 100000
-```
-
-### UpdateTradePools method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function update_trade_pools \
---args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '[id_ids_item_1,id_ids_item_2]' '["string_x_token_types_item_1","string_x_token_types_item_2"]' '["string_y_token_types_item_1","string_y_token_types_item_2"]' \
+--args exchange_Object_ID \"_EXCHANGE_ADMIN_CAP_OBJECT_ID_\" '"string_name"' bool_update_token_pairs '[id_token_pairs_item_1,id_token_pairs_item_2]' '["string_token_pair_x_token_types_item_1","string_token_pair_x_token_types_item_2"]' '["string_token_pair_y_token_types_item_1","string_token_pair_y_token_types_item_2"]' bool_update_trade_pools '[id_trade_pools_item_1,id_trade_pools_item_2]' '["string_trade_pool_x_token_types_item_1","string_trade_pool_x_token_types_item_2"]' '["string_trade_pool_y_token_types_item_1","string_trade_pool_y_token_types_item_2"]' bool_update_sell_pools '[id_sell_pools_item_1,id_sell_pools_item_2]' '["string_sell_pool_x_token_types_item_1","string_sell_pool_x_token_types_item_2"]' '["string_sell_pool_y_token_types_item_1","string_sell_pool_y_token_types_item_2"]' bool_update_buy_pools '[id_buy_pools_item_1,id_buy_pools_item_2]' '["string_buy_pool_x_token_types_item_1","string_buy_pool_x_token_types_item_2"]' '["string_buy_pool_y_token_types_item_1","string_buy_pool_y_token_types_item_2"]' \
 --gas-budget 100000
 ```
 

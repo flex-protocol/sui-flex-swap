@@ -60,12 +60,6 @@ public class ContractConstants {
 
     public static final String EXCHANGE_MODULE_EXCHANGE_UPDATED = "exchange::ExchangeUpdated";
 
-    public static final String EXCHANGE_MODULE_EXCHANGE_SELL_POOLS_UPDATED = "exchange::ExchangeSellPoolsUpdated";
-
-    public static final String EXCHANGE_MODULE_EXCHANGE_BUY_POOLS_UPDATED = "exchange::ExchangeBuyPoolsUpdated";
-
-    public static final String EXCHANGE_MODULE_EXCHANGE_TRADE_POOLS_UPDATED = "exchange::ExchangeTradePoolsUpdated";
-
 
     public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
         return new String[]{

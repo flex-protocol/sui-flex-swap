@@ -25,13 +25,7 @@ public interface ExchangeAggregate {
 
     void addBuyPool(String buyPoolId, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.AddBuyPool c);
 
-    void update(String name, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c);
-
-    void updateSellPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateSellPools c);
-
-    void updateBuyPools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateBuyPools c);
-
-    void updateTradePools(String[] ids, String[] x_TokenTypes, String[] y_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.UpdateTradePools c);
+    void update(String name, Boolean updateTokenPairs, String[] tokenPairs, String[] tokenPairX_TokenTypes, String[] tokenPairY_TokenTypes, Boolean updateTradePools, String[] tradePools, String[] tradePoolX_TokenTypes, String[] tradePoolY_TokenTypes, Boolean updateSellPools, String[] sellPools, String[] sellPoolX_TokenTypes, String[] sellPoolY_TokenTypes, Boolean updateBuyPools, String[] buyPools, String[] buyPoolX_TokenTypes, String[] buyPoolY_TokenTypes, Long offChainVersion, String commandId, String requesterId, ExchangeCommands.Update c);
 
     void throwOnInvalidStateTransition(Command c);
 }

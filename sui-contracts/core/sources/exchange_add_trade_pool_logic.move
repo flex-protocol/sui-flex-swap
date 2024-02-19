@@ -8,7 +8,6 @@ module sui_swap_example::exchange_add_trade_pool_logic {
     use sui::tx_context::TxContext;
 
     use sui_swap_example::exchange;
-    use sui_swap_example::trade_pool_added_to_exchange;
 
     friend sui_swap_example::exchange_aggregate;
 
@@ -34,9 +33,9 @@ module sui_swap_example::exchange_add_trade_pool_logic {
         exchange: &mut exchange::Exchange,
         ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let trade_pool_id = trade_pool_added_to_exchange::trade_pool_id(trade_pool_added_to_exchange);
-        let x_token_type = trade_pool_added_to_exchange::x_token_type(trade_pool_added_to_exchange);
-        let y_token_type = trade_pool_added_to_exchange::y_token_type(trade_pool_added_to_exchange);
+        let trade_pool_id = exchange::trade_pool_added_to_exchange_trade_pool_id(trade_pool_added_to_exchange);
+        let x_token_type = exchange::trade_pool_added_to_exchange_x_token_type(trade_pool_added_to_exchange);
+        let y_token_type = exchange::trade_pool_added_to_exchange_y_token_type(trade_pool_added_to_exchange);
         let ids = exchange::trade_pools(exchange);
         let x_token_types = exchange::trade_pool_x_token_types(exchange);
         let y_token_types = exchange::trade_pool_y_token_types(exchange);

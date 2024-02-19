@@ -293,234 +293,211 @@ public class ExchangeCommands {
         }
 
         /**
-         * Off Chain Version
+         * Update Token Pairs
          */
-        private Long offChainVersion;
+        private Boolean updateTokenPairs;
 
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
+        public Boolean getUpdateTokenPairs() {
+            return this.updateTokenPairs;
         }
 
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class UpdateSellPools extends AbstractExchangeCommand implements ExchangeCommand {
-
-        public String getCommandType() {
-            return "UpdateSellPools";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
+        public void setUpdateTokenPairs(Boolean updateTokenPairs) {
+            this.updateTokenPairs = updateTokenPairs;
         }
 
         /**
-         * Id
+         * Token Pairs
          */
-        private String id;
+        private String[] tokenPairs;
 
-        public String getId() {
-            return this.id;
+        public String[] getTokenPairs() {
+            return this.tokenPairs;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setTokenPairs(String[] tokenPairs) {
+            this.tokenPairs = tokenPairs;
         }
 
         /**
-         * Ids
+         * Token Pair X_ Token Types
          */
-        private String[] ids;
+        private String[] tokenPairX_TokenTypes;
 
-        public String[] getIds() {
-            return this.ids;
+        public String[] getTokenPairX_TokenTypes() {
+            return this.tokenPairX_TokenTypes;
         }
 
-        public void setIds(String[] ids) {
-            this.ids = ids;
+        public void setTokenPairX_TokenTypes(String[] tokenPairX_TokenTypes) {
+            this.tokenPairX_TokenTypes = tokenPairX_TokenTypes;
         }
 
         /**
-         * X_ Token Types
+         * Token Pair Y_ Token Types
          */
-        private String[] x_TokenTypes;
+        private String[] tokenPairY_TokenTypes;
 
-        public String[] getX_TokenTypes() {
-            return this.x_TokenTypes;
+        public String[] getTokenPairY_TokenTypes() {
+            return this.tokenPairY_TokenTypes;
         }
 
-        public void setX_TokenTypes(String[] x_TokenTypes) {
-            this.x_TokenTypes = x_TokenTypes;
+        public void setTokenPairY_TokenTypes(String[] tokenPairY_TokenTypes) {
+            this.tokenPairY_TokenTypes = tokenPairY_TokenTypes;
         }
 
         /**
-         * Y_ Token Types
+         * Update Trade Pools
          */
-        private String[] y_TokenTypes;
+        private Boolean updateTradePools;
 
-        public String[] getY_TokenTypes() {
-            return this.y_TokenTypes;
+        public Boolean getUpdateTradePools() {
+            return this.updateTradePools;
         }
 
-        public void setY_TokenTypes(String[] y_TokenTypes) {
-            this.y_TokenTypes = y_TokenTypes;
+        public void setUpdateTradePools(Boolean updateTradePools) {
+            this.updateTradePools = updateTradePools;
         }
 
         /**
-         * Off Chain Version
+         * Trade Pools
          */
-        private Long offChainVersion;
+        private String[] tradePools;
 
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
+        public String[] getTradePools() {
+            return this.tradePools;
         }
 
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class UpdateBuyPools extends AbstractExchangeCommand implements ExchangeCommand {
-
-        public String getCommandType() {
-            return "UpdateBuyPools";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
+        public void setTradePools(String[] tradePools) {
+            this.tradePools = tradePools;
         }
 
         /**
-         * Id
+         * Trade Pool X_ Token Types
          */
-        private String id;
+        private String[] tradePoolX_TokenTypes;
 
-        public String getId() {
-            return this.id;
+        public String[] getTradePoolX_TokenTypes() {
+            return this.tradePoolX_TokenTypes;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setTradePoolX_TokenTypes(String[] tradePoolX_TokenTypes) {
+            this.tradePoolX_TokenTypes = tradePoolX_TokenTypes;
         }
 
         /**
-         * Ids
+         * Trade Pool Y_ Token Types
          */
-        private String[] ids;
+        private String[] tradePoolY_TokenTypes;
 
-        public String[] getIds() {
-            return this.ids;
+        public String[] getTradePoolY_TokenTypes() {
+            return this.tradePoolY_TokenTypes;
         }
 
-        public void setIds(String[] ids) {
-            this.ids = ids;
+        public void setTradePoolY_TokenTypes(String[] tradePoolY_TokenTypes) {
+            this.tradePoolY_TokenTypes = tradePoolY_TokenTypes;
         }
 
         /**
-         * X_ Token Types
+         * Update Sell Pools
          */
-        private String[] x_TokenTypes;
+        private Boolean updateSellPools;
 
-        public String[] getX_TokenTypes() {
-            return this.x_TokenTypes;
+        public Boolean getUpdateSellPools() {
+            return this.updateSellPools;
         }
 
-        public void setX_TokenTypes(String[] x_TokenTypes) {
-            this.x_TokenTypes = x_TokenTypes;
+        public void setUpdateSellPools(Boolean updateSellPools) {
+            this.updateSellPools = updateSellPools;
         }
 
         /**
-         * Y_ Token Types
+         * Sell Pools
          */
-        private String[] y_TokenTypes;
+        private String[] sellPools;
 
-        public String[] getY_TokenTypes() {
-            return this.y_TokenTypes;
+        public String[] getSellPools() {
+            return this.sellPools;
         }
 
-        public void setY_TokenTypes(String[] y_TokenTypes) {
-            this.y_TokenTypes = y_TokenTypes;
+        public void setSellPools(String[] sellPools) {
+            this.sellPools = sellPools;
         }
 
         /**
-         * Off Chain Version
+         * Sell Pool X_ Token Types
          */
-        private Long offChainVersion;
+        private String[] sellPoolX_TokenTypes;
 
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
+        public String[] getSellPoolX_TokenTypes() {
+            return this.sellPoolX_TokenTypes;
         }
 
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class UpdateTradePools extends AbstractExchangeCommand implements ExchangeCommand {
-
-        public String getCommandType() {
-            return "UpdateTradePools";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
+        public void setSellPoolX_TokenTypes(String[] sellPoolX_TokenTypes) {
+            this.sellPoolX_TokenTypes = sellPoolX_TokenTypes;
         }
 
         /**
-         * Id
+         * Sell Pool Y_ Token Types
          */
-        private String id;
+        private String[] sellPoolY_TokenTypes;
 
-        public String getId() {
-            return this.id;
+        public String[] getSellPoolY_TokenTypes() {
+            return this.sellPoolY_TokenTypes;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setSellPoolY_TokenTypes(String[] sellPoolY_TokenTypes) {
+            this.sellPoolY_TokenTypes = sellPoolY_TokenTypes;
         }
 
         /**
-         * Ids
+         * Update Buy Pools
          */
-        private String[] ids;
+        private Boolean updateBuyPools;
 
-        public String[] getIds() {
-            return this.ids;
+        public Boolean getUpdateBuyPools() {
+            return this.updateBuyPools;
         }
 
-        public void setIds(String[] ids) {
-            this.ids = ids;
+        public void setUpdateBuyPools(Boolean updateBuyPools) {
+            this.updateBuyPools = updateBuyPools;
         }
 
         /**
-         * X_ Token Types
+         * Buy Pools
          */
-        private String[] x_TokenTypes;
+        private String[] buyPools;
 
-        public String[] getX_TokenTypes() {
-            return this.x_TokenTypes;
+        public String[] getBuyPools() {
+            return this.buyPools;
         }
 
-        public void setX_TokenTypes(String[] x_TokenTypes) {
-            this.x_TokenTypes = x_TokenTypes;
+        public void setBuyPools(String[] buyPools) {
+            this.buyPools = buyPools;
         }
 
         /**
-         * Y_ Token Types
+         * Buy Pool X_ Token Types
          */
-        private String[] y_TokenTypes;
+        private String[] buyPoolX_TokenTypes;
 
-        public String[] getY_TokenTypes() {
-            return this.y_TokenTypes;
+        public String[] getBuyPoolX_TokenTypes() {
+            return this.buyPoolX_TokenTypes;
         }
 
-        public void setY_TokenTypes(String[] y_TokenTypes) {
-            this.y_TokenTypes = y_TokenTypes;
+        public void setBuyPoolX_TokenTypes(String[] buyPoolX_TokenTypes) {
+            this.buyPoolX_TokenTypes = buyPoolX_TokenTypes;
+        }
+
+        /**
+         * Buy Pool Y_ Token Types
+         */
+        private String[] buyPoolY_TokenTypes;
+
+        public String[] getBuyPoolY_TokenTypes() {
+            return this.buyPoolY_TokenTypes;
+        }
+
+        public void setBuyPoolY_TokenTypes(String[] buyPoolY_TokenTypes) {
+            this.buyPoolY_TokenTypes = buyPoolY_TokenTypes;
         }
 
         /**

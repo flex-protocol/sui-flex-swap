@@ -8,7 +8,6 @@ module sui_swap_example::exchange_add_sell_pool_logic {
     use sui::tx_context::TxContext;
 
     use sui_swap_example::exchange;
-    use sui_swap_example::sell_pool_added_to_exchange;
 
     friend sui_swap_example::exchange_aggregate;
 
@@ -34,9 +33,9 @@ module sui_swap_example::exchange_add_sell_pool_logic {
         exchange: &mut exchange::Exchange,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let sell_pool_id = sell_pool_added_to_exchange::sell_pool_id(sell_pool_added_to_exchange);
-        let x_token_type = sell_pool_added_to_exchange::x_token_type(sell_pool_added_to_exchange);
-        let y_token_type = sell_pool_added_to_exchange::y_token_type(sell_pool_added_to_exchange);
+        let sell_pool_id = exchange::sell_pool_added_to_exchange_sell_pool_id(sell_pool_added_to_exchange);
+        let x_token_type = exchange::sell_pool_added_to_exchange_x_token_type(sell_pool_added_to_exchange);
+        let y_token_type = exchange::sell_pool_added_to_exchange_y_token_type(sell_pool_added_to_exchange);
         let ids = exchange::sell_pools(exchange);
         let x_token_types = exchange::sell_pool_x_token_types(exchange);
         let y_token_types = exchange::sell_pool_y_token_types(exchange);

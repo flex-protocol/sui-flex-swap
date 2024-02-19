@@ -8,8 +8,6 @@ module sui_swap_example::exchange_add_token_pair_logic {
     use sui::tx_context::TxContext;
 
     use sui_swap_example::exchange;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::token_pair_added_to_exchange;
 
     friend sui_swap_example::exchange_aggregate;
 
@@ -37,9 +35,9 @@ module sui_swap_example::exchange_add_token_pair_logic {
         exchange: &mut exchange::Exchange,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let token_pair_id = token_pair_added_to_exchange::token_pair_id(token_pair_added_to_exchange);
-        let x_token_type = token_pair_added_to_exchange::x_token_type(token_pair_added_to_exchange);
-        let y_token_type = token_pair_added_to_exchange::y_token_type(token_pair_added_to_exchange);
+        let token_pair_id = exchange::token_pair_added_to_exchange_token_pair_id(token_pair_added_to_exchange);
+        let x_token_type = exchange::token_pair_added_to_exchange_x_token_type(token_pair_added_to_exchange);
+        let y_token_type = exchange::token_pair_added_to_exchange_y_token_type(token_pair_added_to_exchange);
         let ids = exchange::token_pairs(exchange);
         let x_token_types = exchange::token_pair_x_token_types(exchange);
         let y_token_types = exchange::token_pair_y_token_types(exchange);
