@@ -24,6 +24,10 @@ module sui_swap_example::price_curve {
         curve_type == LINEAR_CURVE || curve_type == EXPONENTIAL_CURVE
     }
 
+    /// This module accepts price type of u64,
+    /// so if it is necessary to handle prices with decimals,
+    /// the client code that calls it needs to pass in a "scaled price"
+    /// and then perform decimal processing on the return value itself.
     public fun get_buy_info(
         curve_type: u8,
         amount: u64,
@@ -277,7 +281,7 @@ module sui_swap_example::price_curve {
         ))
     }
 
-    /// Apply an adjustment because of the presence of the fractional part.
+    /// Need to apply an additional price adjustment if the presence of the fractional part.
     fun get_fractional_spot_price(
         spot_price: u64,
         price_delta_numerator: u64,
