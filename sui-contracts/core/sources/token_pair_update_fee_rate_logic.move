@@ -1,12 +1,12 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::token_pair_update_fee_rate_logic {
+module sui_swap_core::token_pair_update_fee_rate_logic {
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::liquidity_token;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::token_pair;
+    use sui_swap_core::liquidity_token;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::token_pair;
 
-    friend sui_swap_example::token_pair_aggregate;
+    friend sui_swap_core::token_pair_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
 

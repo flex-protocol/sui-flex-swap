@@ -1,13 +1,13 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::exchange_update_logic {
+module sui_swap_core::exchange_update_logic {
     use std::string::String;
 
     use sui::object::ID;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::exchange;
+    use sui_swap_core::exchange;
 
-    friend sui_swap_example::exchange_aggregate;
+    friend sui_swap_core::exchange_aggregate;
 
     public(friend) fun verify(
         name: String,

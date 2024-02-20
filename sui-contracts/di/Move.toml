@@ -6,7 +6,7 @@ version = "0.0.1"
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 #Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
-sui_swap_example = { local = "../core" }
+sui_swap_core = { local = "../core" }
 nft_service_impl = { local = "../nft-service-impl" }
 
 [addresses]

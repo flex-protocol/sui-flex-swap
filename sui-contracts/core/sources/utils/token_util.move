@@ -1,8 +1,8 @@
-module sui_swap_example::token_util {
+module sui_swap_core::token_util {
     use std::bcs;
     use std::type_name;
 
-    use sui_swap_example::compare;
+    use sui_swap_core::compare;
 
     //const EQUAL: u8 = 0;
     const LESS_THAN: u8 = 1;

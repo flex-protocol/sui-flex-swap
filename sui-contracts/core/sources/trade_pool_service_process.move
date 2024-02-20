@@ -1,15 +1,15 @@
-module sui_swap_example::trade_pool_service_process {
+module sui_swap_core::trade_pool_service_process {
     use sui::coin::Coin;
     use sui::object;
     use sui::tx_context;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::coin_util;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::nft_service;
-    use sui_swap_example::trade_pool;
-    use sui_swap_example::trade_pool_aggregate;
+    use sui_swap_core::coin_util;
+    use sui_swap_core::exchange::Exchange;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::nft_service;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::trade_pool_aggregate;
 
     const EMismatchedObjectId: u64 = 10;
 
@@ -130,8 +130,8 @@ module sui_swap_example::trade_pool_service_process {
 /*
 module xxx_di_package_id::trade_pool_service_process {
     use sui::tx_context::TxContext;
-    use sui_swap_example::trade_pool_service_process;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_core::trade_pool_service_process;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
     use ns_impl_package_id::ns_nft_service_impl as ns;
 
     public fun initialize_trade_pool<X: key + store, Y>(

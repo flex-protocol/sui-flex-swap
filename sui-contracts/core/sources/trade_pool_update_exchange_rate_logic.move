@@ -1,17 +1,17 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::trade_pool_update_exchange_rate_logic {
+module sui_swap_core::trade_pool_update_exchange_rate_logic {
     use std::string;
     use std::type_name;
 
     use sui::tx_context;
     use sui::tx_context::TxContext;
-    use sui_swap_example::pool_type::trade_pool;
+    use sui_swap_core::pool_type::trade_pool;
 
-    use sui_swap_example::liquidity_token;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::trade_pool;
+    use sui_swap_core::liquidity_token;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::trade_pool;
 
-    friend sui_swap_example::trade_pool_aggregate;
+    friend sui_swap_core::trade_pool_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
     const EInvalidExchangeRateNumerator: u64 = 11;

@@ -1,5 +1,5 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::trade_pool_remove_x_token_logic {
+module sui_swap_core::trade_pool_remove_x_token_logic {
     use std::string;
     use std::type_name;
 
@@ -8,12 +8,12 @@ module sui_swap_example::trade_pool_remove_x_token_logic {
     use sui::table;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_example::liquidity_token;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::trade_pool;
-    use sui_swap_example::pool_x_token_removed;
+    use sui_swap_core::liquidity_token;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::pool_x_token_removed;
 
-    friend sui_swap_example::trade_pool_aggregate;
+    friend sui_swap_core::trade_pool_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
     const EInvalidXTokenId: u64 = 11;

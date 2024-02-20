@@ -6,12 +6,12 @@ module sui_swap_di::movescription_token_pair_service {
     use sui::tx_context::TxContext;
     use nft_service_impl::movescription_service_impl as ns;
     use smartinscription::movescription::Movescription;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
-    use sui_swap_example::token_pair;
-    use sui_swap_example::token_pair::TokenPair;
-    use sui_swap_example::token_pair_service_process;
+    use sui_swap_core::exchange::Exchange;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
+    use sui_swap_core::token_pair;
+    use sui_swap_core::token_pair::TokenPair;
+    use sui_swap_core::token_pair_service_process;
 
     #[lint_allow(self_transfer)]
     public fun initialize_liquidity_then_add<Y>(

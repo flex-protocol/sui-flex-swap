@@ -1,4 +1,4 @@
-module sui_swap_example::pool_type {
+module sui_swap_core::pool_type {
     const TRADE_POOL: u8 = 0;
     const SELL_POOL: u8 = 1;
     const BUY_POOL: u8 = 2;

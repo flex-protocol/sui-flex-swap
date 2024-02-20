@@ -1,11 +1,11 @@
 module sui_swap_di::movescription_buy_pool_service {
     use sui::coin::Coin;
     use sui::tx_context::TxContext;
-    use sui_swap_example::buy_pool_service_process;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_core::buy_pool_service_process;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
     use nft_service_impl::movescription_service_impl as ns;
     use smartinscription::movescription::Movescription;
-    use sui_swap_example::trade_pool::TradePool;
+    use sui_swap_core::trade_pool::TradePool;
 
     public fun sell_x<Y>(
         _nft_service_config: &NftServiceConfig,

@@ -1,13 +1,13 @@
-module sui_swap_example::token_pair_service {
+module sui_swap_core::token_pair_service {
 
     use sui::coin::{Self, Coin};
     use sui::object::ID;
     use sui::transfer;
     use sui::tx_context;
-    use sui_swap_example::coin_util;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::token_pair::TokenPair;
-    use sui_swap_example::token_pair_aggregate;
+    use sui_swap_core::coin_util;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::token_pair::TokenPair;
+    use sui_swap_core::token_pair_aggregate;
 
     public entry fun remove_liquidity<X: key + store, Y>(
         token_pair: &mut TokenPair<X, Y>,

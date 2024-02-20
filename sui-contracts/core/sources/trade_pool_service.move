@@ -1,4 +1,4 @@
-module sui_swap_example::trade_pool_service {
+module sui_swap_core::trade_pool_service {
 
     use sui::coin;
     use sui::coin::Coin;
@@ -6,10 +6,10 @@ module sui_swap_example::trade_pool_service {
     use sui::transfer;
     use sui::tx_context;
 
-    use sui_swap_example::coin_util;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::trade_pool::TradePool;
-    use sui_swap_example::trade_pool_aggregate;
+    use sui_swap_core::coin_util;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::trade_pool::TradePool;
+    use sui_swap_core::trade_pool_aggregate;
 
     public entry fun remove_x_token<X: key + store, Y>(
         pool: &mut TradePool<X, Y>,

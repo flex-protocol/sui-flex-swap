@@ -1,4 +1,4 @@
-module sui_swap_example::fixed_point32_util {
+module sui_swap_core::fixed_point32_util {
     use std::fixed_point32::{Self, FixedPoint32};
 
     const SCALING_FACTOR: u64 = 1 << 32;

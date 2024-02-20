@@ -1,4 +1,4 @@
-module sui_swap_example::coin_util {
+module sui_swap_core::coin_util {
 
     use sui::balance::Balance;
     use sui::coin::{Self, Coin};

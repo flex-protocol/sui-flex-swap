@@ -1,5 +1,5 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::trade_pool_sell_x_logic {
+module sui_swap_core::trade_pool_sell_x_logic {
     use std::string;
     use std::type_name;
     use sui::balance;
@@ -9,13 +9,13 @@ module sui_swap_example::trade_pool_sell_x_logic {
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_example::pool_type::trade_pool;
-    use sui_swap_example::pool_type;
+    use sui_swap_core::pool_type::trade_pool;
+    use sui_swap_core::pool_type;
 
-    use sui_swap_example::trade_pool;
-    use sui_swap_example::price_curve;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::price_curve;
 
-    friend sui_swap_example::trade_pool_aggregate;
+    friend sui_swap_core::trade_pool_aggregate;
 
     const EInsufficientYAmountOut: u64 = 10;
     const EInsufficientYReserve: u64 = 11;

@@ -1,12 +1,12 @@
-module sui_swap_example::buy_pool_service_process {
+module sui_swap_core::buy_pool_service_process {
     use sui::coin;
     use sui::coin::Coin;
     use sui::object;
     use sui::tx_context;
     use sui::tx_context::TxContext;
-    use sui_swap_example::trade_pool::TradePool;
-    use sui_swap_example::trade_pool_aggregate;
-    use sui_swap_example::nft_service;
+    use sui_swap_core::trade_pool::TradePool;
+    use sui_swap_core::trade_pool_aggregate;
+    use sui_swap_core::nft_service;
 
     const EMismatchedObjectId: u64 = 10;
 
@@ -80,8 +80,8 @@ module sui_swap_example::buy_pool_service_process {
 /*
 module xxx_di_package_id::buy_pool_service_process {
     use sui::tx_context::TxContext;
-    use sui_swap_example::buy_pool_service_process;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_core::buy_pool_service_process;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
     use ns_impl_package_id::ns_nft_service_impl as ns;
 
     public fun sell_x<X: key + store, Y>(

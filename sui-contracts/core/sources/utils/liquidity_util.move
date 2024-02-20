@@ -1,4 +1,4 @@
-module sui_swap_example::liquidity_util {
+module sui_swap_core::liquidity_util {
     use sui::math;
 
     const MINIMUM_LIQUIDITY: u128 = 1000;

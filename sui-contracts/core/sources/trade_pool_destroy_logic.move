@@ -1,15 +1,15 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::trade_pool_destroy_logic {
+module sui_swap_core::trade_pool_destroy_logic {
     use sui::balance;
     use sui::object_table;
     use sui::table;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::liquidity_token;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::trade_pool;
+    use sui_swap_core::liquidity_token;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::trade_pool;
 
-    friend sui_swap_example::trade_pool_aggregate;
+    friend sui_swap_core::trade_pool_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
     const EObjectTableNotEmpty: u64 = 11;

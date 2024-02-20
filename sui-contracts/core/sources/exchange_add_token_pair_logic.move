@@ -1,5 +1,5 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::exchange_add_token_pair_logic {
+module sui_swap_core::exchange_add_token_pair_logic {
     use std::string;
     use std::type_name;
     use std::vector;
@@ -7,9 +7,9 @@ module sui_swap_example::exchange_add_token_pair_logic {
     use sui::object::ID;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::exchange;
+    use sui_swap_core::exchange;
 
-    friend sui_swap_example::exchange_aggregate;
+    friend sui_swap_core::exchange_aggregate;
 
     //const ETokenPairExists: u64 = 100;
 

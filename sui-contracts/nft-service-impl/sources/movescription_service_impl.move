@@ -1,6 +1,6 @@
 module nft_service_impl::movescription_service_impl {
-    use sui_swap_example::nft_service;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_core::nft_service;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
     use smartinscription::movescription::{Self, Movescription};
 
     struct MovescriptionServiceImpl has drop {}

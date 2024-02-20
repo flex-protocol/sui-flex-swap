@@ -1,5 +1,5 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::token_pair_add_liquidity_logic {
+module sui_swap_core::token_pair_add_liquidity_logic {
     use std::string;
     use std::type_name;
 
@@ -9,13 +9,13 @@ module sui_swap_example::token_pair_add_liquidity_logic {
     use sui::table;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_example::liquidity_added;
-    use sui_swap_example::liquidity_token::{Self, LiquidityToken};
-    use sui_swap_example::liquidity_util;
-    use sui_swap_example::token_pair;
-    use sui_swap_example::token_pair::TokenPair;
+    use sui_swap_core::liquidity_added;
+    use sui_swap_core::liquidity_token::{Self, LiquidityToken};
+    use sui_swap_core::liquidity_util;
+    use sui_swap_core::token_pair;
+    use sui_swap_core::token_pair::TokenPair;
 
-    friend sui_swap_example::token_pair_aggregate;
+    friend sui_swap_core::token_pair_aggregate;
 
     const EInvalidLiquidityToken: u64 = 10;
     const EAddInvalidLiquidity: u64 = 100;

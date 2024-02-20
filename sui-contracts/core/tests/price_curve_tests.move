@@ -1,11 +1,11 @@
 #[test_only]
-module sui_swap_example::price_curve_tests {
+module sui_swap_core::price_curve_tests {
 
     use std::debug;
     use std::fixed_point32;
 
-    use sui_swap_example::fixed_point32_util;
-    use sui_swap_example::price_curve;
+    use sui_swap_core::fixed_point32_util;
+    use sui_swap_core::price_curve;
 
     #[test]
     public fun test_price_curve_1() {

@@ -7,7 +7,7 @@ published-at = "0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 #Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
-sui_swap_example = { local = "../core" }
+sui_swap_core = { local = "../core" }
 
 [addresses]
 nft_service_impl = "0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351d5"

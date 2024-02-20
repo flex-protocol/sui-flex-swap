@@ -1,9 +1,9 @@
-module sui_swap_example::liquidity_token_mint_logic {
+module sui_swap_core::liquidity_token_mint_logic {
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::liquidity_token;
+    use sui_swap_core::liquidity_token;
 
-    friend sui_swap_example::liquidity_token_aggregate;
+    friend sui_swap_core::liquidity_token_aggregate;
 
     #[allow(unused_mut_parameter)]
     public(friend) fun verify<X: key + store, Y>(

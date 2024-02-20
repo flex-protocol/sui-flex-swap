@@ -1,5 +1,5 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-module sui_swap_example::token_pair_swap_y_logic {
+module sui_swap_core::token_pair_swap_y_logic {
     use std::string;
     use std::type_name;
 
@@ -9,10 +9,10 @@ module sui_swap_example::token_pair_swap_y_logic {
     use sui::table;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_example::swap_util;
-    use sui_swap_example::token_pair;
+    use sui_swap_core::swap_util;
+    use sui_swap_core::token_pair;
 
-    friend sui_swap_example::token_pair_aggregate;
+    friend sui_swap_core::token_pair_aggregate;
 
     const EInvalidXTokenId: u64 = 11;
     const ESwapLastXToken: u64 = 12;

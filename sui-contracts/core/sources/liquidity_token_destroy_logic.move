@@ -1,8 +1,8 @@
-module sui_swap_example::liquidity_token_destroy_logic {
+module sui_swap_core::liquidity_token_destroy_logic {
     use sui::tx_context::TxContext;
-    use sui_swap_example::liquidity_token;
+    use sui_swap_core::liquidity_token;
 
-    friend sui_swap_example::liquidity_token_aggregate;
+    friend sui_swap_core::liquidity_token_aggregate;
 
     public(friend) fun verify<X: key + store, Y>(
         liquidity_token: &liquidity_token::LiquidityToken<X, Y>,

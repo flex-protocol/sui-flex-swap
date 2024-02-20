@@ -1,12 +1,12 @@
-module sui_swap_example::buy_pool_service {
+module sui_swap_core::buy_pool_service {
     use sui::coin::Coin;
     use sui::transfer;
     use sui::tx_context;
 
-    use sui_swap_example::coin_util;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::trade_pool;
-    use sui_swap_example::trade_pool_aggregate;
+    use sui_swap_core::coin_util;
+    use sui_swap_core::exchange::Exchange;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::trade_pool_aggregate;
 
     public entry fun initialize_buy_pool<X: key + store, Y>(
         exchange: &mut Exchange,

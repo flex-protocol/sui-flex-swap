@@ -127,7 +127,7 @@ wubuku/dddappp:0.0.1 \
 --dddmlDirectoryPath /myapp/dddml \
 --boundedContextName Test.SuiSwapExample \
 --suiMoveProjectDirectoryPath /myapp/sui-contracts/core \
---boundedContextSuiPackageName sui_swap_example \
+--boundedContextSuiPackageName sui_swap_core \
 --boundedContextJavaPackageName org.test.suiswapexample \
 --javaProjectsDirectoryPath /myapp/sui-java-service \
 --javaProjectNamePrefix suiswapexample \
@@ -279,7 +279,7 @@ Modify `sui-contracts/core/Move.toml`:
 published-at = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
 
 [addresses]
-sui_swap_example = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
+sui_swap_core = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
 ```
 
 #### Contract upgrade records

@@ -1,14 +1,14 @@
-module sui_swap_example::token_pair_service_process {
+module sui_swap_core::token_pair_service_process {
     use sui::coin::{Self, Coin};
     use sui::object;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_example::coin_util;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::liquidity_token::LiquidityToken;
-    use sui_swap_example::nft_service;
-    use sui_swap_example::token_pair::{Self, TokenPair};
-    use sui_swap_example::token_pair_aggregate;
+    use sui_swap_core::coin_util;
+    use sui_swap_core::exchange::Exchange;
+    use sui_swap_core::liquidity_token::LiquidityToken;
+    use sui_swap_core::nft_service;
+    use sui_swap_core::token_pair::{Self, TokenPair};
+    use sui_swap_core::token_pair_aggregate;
 
     const EMismatchedObjectId: u64 = 10;
 
@@ -227,8 +227,8 @@ module sui_swap_example::token_pair_service_process {
 /*
 module xxx_di_package_id::token_pair_service_process {
     use sui::tx_context::TxContext;
-    use sui_swap_example::token_pair_service_process;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
+    use sui_swap_core::token_pair_service_process;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
     use ns_impl_package_id::ns_nft_service_impl as ns;
 
     public fun initialize_liquidity<X: key + store, Y>(

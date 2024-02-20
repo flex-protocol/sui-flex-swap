@@ -2,14 +2,14 @@
 
 [move]
 version = 0
-manifest_digest = "8D44434DC535569FC3E74D965C083A25CE1D803D8E2D60C7A7C339F119A1AA55"
+manifest_digest = "E1ED82EDCED045CEFE5917C304CAADA941AA6DDF91AD833BCF4914F311D05538"
 deps_digest = "F9B494B64F0615AED0E98FC12A85B85ECD2BC5185C22D30E7F67786BB52E507C"
 
 dependencies = [
   { name = "SmartInscription" },
   { name = "Sui" },
   { name = "nft_service_impl" },
-  { name = "sui_swap_example" },
+  { name = "sui_swap_core" },
 ]
 
 [[move.package]]
@@ -39,11 +39,11 @@ source = { local = "../nft-service-impl" }
 dependencies = [
   { name = "SmartInscription" },
   { name = "Sui" },
-  { name = "sui_swap_example" },
+  { name = "sui_swap_core" },
 ]
 
 [[move.package]]
-name = "sui_swap_example"
+name = "sui_swap_core"
 source = { local = "../core" }
 
 dependencies = [

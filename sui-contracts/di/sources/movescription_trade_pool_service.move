@@ -4,10 +4,10 @@ module sui_swap_di::movescription_trade_pool_service {
     use sui::tx_context::{Self, TxContext};
     use nft_service_impl::movescription_service_impl as ns;
     use smartinscription::movescription::Movescription;
-    use sui_swap_example::exchange::Exchange;
-    use sui_swap_example::nft_service_config::NftServiceConfig;
-    use sui_swap_example::trade_pool;
-    use sui_swap_example::trade_pool_service_process;
+    use sui_swap_core::exchange::Exchange;
+    use sui_swap_core::nft_service_config::NftServiceConfig;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::trade_pool_service_process;
 
     #[lint_allow(self_transfer)]
     public fun initialize_trade_pool<Y>(

@@ -1,11 +1,11 @@
 // #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
-// module sui_swap_example::liquidity_token_split_logic {
+// module sui_swap_core::liquidity_token_split_logic {
 //     use sui::tx_context::TxContext;
 //
-//     use sui_swap_example::liquidity_token::{Self, LiquidityToken};
-//     use sui_swap_example::liquidity_token_split;
+//     use sui_swap_core::liquidity_token::{Self, LiquidityToken};
+//     use sui_swap_core::liquidity_token_split;
 //
-//     friend sui_swap_example::liquidity_token_aggregate;
+//     friend sui_swap_core::liquidity_token_aggregate;
 //
 //     const EInvalidAmount: u64 = 100;
 //

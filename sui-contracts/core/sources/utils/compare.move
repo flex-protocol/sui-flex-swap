@@ -1,5 +1,5 @@
 /// Utilities for comparing Move values based on their representation in BCS.
-module sui_swap_example::compare {
+module sui_swap_core::compare {
     use std::vector;
 
     // Move does not have signed integers, so we cannot use the usual 0, -1, 1 convention to
