@@ -9,7 +9,7 @@ module sui_swap_core::token_pair_swap_x_logic {
     use sui::table;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_core::swap_util;
+    use sui_swap_utils::swap_util;
     use sui_swap_core::token_pair;
 
     friend sui_swap_core::token_pair_aggregate;

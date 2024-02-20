@@ -4,7 +4,7 @@ module sui_swap_core::trade_pool_service_process {
     use sui::tx_context;
     use sui::tx_context::TxContext;
 
-    use sui_swap_core::coin_util;
+    use sui_swap_utils::coin_util;
     use sui_swap_core::exchange::Exchange;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::nft_service;

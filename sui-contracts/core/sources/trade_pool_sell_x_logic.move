@@ -2,18 +2,17 @@
 module sui_swap_core::trade_pool_sell_x_logic {
     use std::string;
     use std::type_name;
-    use sui::balance;
 
+    use sui::balance;
     use sui::balance::Balance;
     use sui::object;
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_core::pool_type::trade_pool;
-    use sui_swap_core::pool_type;
+    use sui_swap_utils::pool_type;
+    use sui_swap_utils::price_curve;
 
     use sui_swap_core::trade_pool;
-    use sui_swap_core::price_curve;
 
     friend sui_swap_core::trade_pool_aggregate;
 

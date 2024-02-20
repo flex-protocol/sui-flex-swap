@@ -3,7 +3,7 @@ module sui_swap_core::buy_pool_service {
     use sui::transfer;
     use sui::tx_context;
 
-    use sui_swap_core::coin_util;
+    use sui_swap_utils::coin_util;
     use sui_swap_core::exchange::Exchange;
     use sui_swap_core::trade_pool;
     use sui_swap_core::trade_pool_aggregate;

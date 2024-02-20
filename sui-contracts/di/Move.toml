@@ -8,6 +8,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 SmartInscription = { local = "../../../../movescriptions/movescriptions/sui" }
 sui_swap_core = { local = "../core" }
 nft_service_impl = { local = "../nft-service-impl" }
+sui_swap_utils = { local = "../utils" }
 
 [addresses]
 sui_swap_di = "0x0"

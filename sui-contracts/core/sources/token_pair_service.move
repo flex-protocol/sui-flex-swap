@@ -4,7 +4,7 @@ module sui_swap_core::token_pair_service {
     use sui::object::ID;
     use sui::transfer;
     use sui::tx_context;
-    use sui_swap_core::coin_util;
+    use sui_swap_utils::coin_util;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::token_pair::TokenPair;
     use sui_swap_core::token_pair_aggregate;

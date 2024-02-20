@@ -11,7 +11,7 @@ module sui_swap_core::token_pair_add_liquidity_logic {
 
     use sui_swap_core::liquidity_added;
     use sui_swap_core::liquidity_token::{Self, LiquidityToken};
-    use sui_swap_core::liquidity_util;
+    use sui_swap_utils::liquidity_util;
     use sui_swap_core::token_pair;
     use sui_swap_core::token_pair::TokenPair;
 

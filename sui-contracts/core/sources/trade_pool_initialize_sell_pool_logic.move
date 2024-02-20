@@ -8,15 +8,15 @@ module sui_swap_core::trade_pool_initialize_sell_pool_logic {
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_core::pool_type;
 
     use sui_swap_core::exchange::Exchange;
     use sui_swap_core::exchange_aggregate;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::liquidity_token_aggregate;
-    use sui_swap_core::price_curve;
     use sui_swap_core::trade_pool;
     use sui_swap_core::sell_pool_initialized;
+    use sui_swap_utils::price_curve;
+    use sui_swap_utils::pool_type;
 
     friend sui_swap_core::trade_pool_aggregate;
 

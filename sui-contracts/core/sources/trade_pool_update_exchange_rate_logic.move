@@ -5,7 +5,6 @@ module sui_swap_core::trade_pool_update_exchange_rate_logic {
 
     use sui::tx_context;
     use sui::tx_context::TxContext;
-    use sui_swap_core::pool_type::trade_pool;
 
     use sui_swap_core::liquidity_token;
     use sui_swap_core::liquidity_token::LiquidityToken;

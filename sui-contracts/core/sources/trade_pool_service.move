@@ -6,7 +6,7 @@ module sui_swap_core::trade_pool_service {
     use sui::transfer;
     use sui::tx_context;
 
-    use sui_swap_core::coin_util;
+    use sui_swap_utils::coin_util;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::trade_pool::TradePool;
     use sui_swap_core::trade_pool_aggregate;

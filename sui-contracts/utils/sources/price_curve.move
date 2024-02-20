@@ -1,8 +1,8 @@
-module sui_swap_core::price_curve {
+module sui_swap_utils::price_curve {
     use std::fixed_point32;
     use std::fixed_point32::FixedPoint32;
 
-    use sui_swap_core::fixed_point32_util;
+    use sui_swap_utils::fixed_point32_util;
 
     const EInvalidCurveType: u64 = 10;
     const EMultiplierLessThanOne: u64 = 11;

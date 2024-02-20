@@ -16,7 +16,7 @@ module sui_swap_core::token_pair_initialize_liquidity_logic {
     use sui_swap_core::exchange_aggregate;
     use sui_swap_core::liquidity_initialized;
     use sui_swap_core::liquidity_token_aggregate;
-    use sui_swap_core::liquidity_util;
+    use sui_swap_utils::liquidity_util;
     use sui_swap_core::token_pair;
 
     friend sui_swap_core::token_pair_aggregate;

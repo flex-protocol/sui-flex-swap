@@ -3,7 +3,7 @@ module sui_swap_core::token_pair_service_process {
     use sui::object;
     use sui::tx_context::{Self, TxContext};
 
-    use sui_swap_core::coin_util;
+    use sui_swap_utils::coin_util;
     use sui_swap_core::exchange::Exchange;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::nft_service;

@@ -1,4 +1,4 @@
-module sui_swap_core::swap_util {
+module sui_swap_utils::swap_util {
 
     const MIN_X_FEE: u128 = 1;
     const MIN_Y_FEE: u128 = 1;

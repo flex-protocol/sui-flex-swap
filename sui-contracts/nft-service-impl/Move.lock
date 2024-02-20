@@ -2,13 +2,14 @@
 
 [move]
 version = 0
-manifest_digest = "17458D5709993675D3BACF65C12B2062D08E383E9ACEB6F65C8844DF5A4A8F30"
-deps_digest = "060AD7E57DFB13104F21BE5F5C3759D03F0553FC3229247D9A7A6B45F50D03A3"
+manifest_digest = "621B1E4465F25FC4DD3C34E1CC014F44CA91B848A07F85A2D0F60A3694BD3837"
+deps_digest = "F9B494B64F0615AED0E98FC12A85B85ECD2BC5185C22D30E7F67786BB52E507C"
 
 dependencies = [
   { name = "SmartInscription" },
   { name = "Sui" },
   { name = "sui_swap_core" },
+  { name = "sui_swap_utils" },
 ]
 
 [[move.package]]
@@ -34,6 +35,15 @@ dependencies = [
 [[move.package]]
 name = "sui_swap_core"
 source = { local = "../core" }
+
+dependencies = [
+  { name = "Sui" },
+  { name = "sui_swap_utils" },
+]
+
+[[move.package]]
+name = "sui_swap_utils"
+source = { local = "../utils" }
 
 dependencies = [
   { name = "Sui" },
