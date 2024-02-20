@@ -7,3 +7,4 @@ sui-contracts/nft-service-impl/build
 Move.lock
 sui-contracts/example_tokens/build
 sui-contracts/utils/build
+sui-contracts/utils/testnet_utils_publish.json

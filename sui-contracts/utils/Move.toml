@@ -1,11 +1,12 @@
 [package]
+published-at = "0x2ceb4a156c6c535295ed4f7154629c76b81c550fcfaa1cea64f7c5e203f6ec8e"
 name = "sui_swap_utils"
 version = "0.0.1"
-#published-at = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 #Sui = { local = "../../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-sui_swap_utils = "0x0"
+sui_swap_utils = "0x2ceb4a156c6c535295ed4f7154629c76b81c550fcfaa1cea64f7c5e203f6ec8e"
+#sui_swap_utils = "0x0"
