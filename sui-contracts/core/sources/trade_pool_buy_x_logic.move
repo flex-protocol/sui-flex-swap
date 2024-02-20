@@ -11,7 +11,6 @@ module sui_swap_example::trade_pool_buy_x_logic {
     use sui::tx_context::{Self, TxContext};
 
     use sui_swap_example::pool_type;
-    use sui_swap_example::pool_y_swapped_for_x;
     use sui_swap_example::price_curve;
     use sui_swap_example::trade_pool;
 
@@ -80,7 +79,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         pool: &mut trade_pool::TradePool<X, Y>,
         _ctx: &mut TxContext, // modify the reference to mutable if needed
     ): X {
-        let y_amount_required = pool_y_swapped_for_x::y_amount(pool_y_swapped_for_x);
+        let y_amount_required = trade_pool::pool_y_swapped_for_x_y_amount(pool_y_swapped_for_x);
         let y_amount_i = balance::value(&y_amount);
         assert!(y_amount_i >= y_amount_required, EInsufficientYAmount);
         if (y_amount_i > y_amount_required) {
@@ -89,8 +88,8 @@ module sui_swap_example::trade_pool_buy_x_logic {
             let c = sui::coin::from_balance(r, _ctx);
             transfer::public_transfer(c, tx_context::sender(_ctx));
         };
-        let x_amount = pool_y_swapped_for_x::x_amount(pool_y_swapped_for_x);
-        let new_exchange_rate_numerator = pool_y_swapped_for_x::new_exchange_rate_numerator(
+        let x_amount = trade_pool::pool_y_swapped_for_x_x_amount(pool_y_swapped_for_x);
+        let new_exchange_rate_numerator = trade_pool::pool_y_swapped_for_x_new_exchange_rate_numerator(
             pool_y_swapped_for_x
         );
         trade_pool::set_exchange_rate_numerator(pool, new_exchange_rate_numerator);
@@ -98,7 +97,7 @@ module sui_swap_example::trade_pool_buy_x_logic {
         let y_reserve = trade_pool::borrow_mut_y_reserve(pool);
         sui::balance::join(y_reserve, y_amount);
 
-        let x_id = pool_y_swapped_for_x::x_id(pool_y_swapped_for_x);
+        let x_id = trade_pool::pool_y_swapped_for_x_x_id(pool_y_swapped_for_x);
         let (x, _x_total_amount) = remove_sold_x_token<X, Y>(
             pool,
             x_id,

@@ -9,10 +9,10 @@ module sui_swap_example::trade_pool_sell_x_logic {
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
+    use sui_swap_example::pool_type::trade_pool;
     use sui_swap_example::pool_type;
 
     use sui_swap_example::trade_pool;
-    use sui_swap_example::pool_x_swapped_for_y;
     use sui_swap_example::price_curve;
 
     friend sui_swap_example::trade_pool_aggregate;
@@ -81,10 +81,10 @@ module sui_swap_example::trade_pool_sell_x_logic {
         pool: &mut trade_pool::TradePool<X, Y>,
         ctx: &TxContext, // modify the reference to mutable if needed
     ): Balance<Y> {
-        let x_amount = pool_x_swapped_for_y::x_amount(pool_x_swapped_for_y);
-        let y_amount = pool_x_swapped_for_y::y_amount(pool_x_swapped_for_y);
+        let x_amount = trade_pool::pool_x_swapped_for_y_x_amount(pool_x_swapped_for_y);
+        let y_amount = trade_pool::pool_x_swapped_for_y_y_amount(pool_x_swapped_for_y);
 
-        let new_exchange_rate_numerator = pool_x_swapped_for_y::new_exchange_rate_numerator(
+        let new_exchange_rate_numerator = trade_pool::pool_x_swapped_for_y_new_exchange_rate_numerator(
             pool_x_swapped_for_y
         );
         trade_pool::set_exchange_rate_numerator(pool, new_exchange_rate_numerator);

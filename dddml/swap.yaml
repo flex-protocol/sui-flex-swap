@@ -169,6 +169,8 @@ aggregates:
               type: ID #ObjectID
 
       Destroy:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isDeletionCommand: true
         typeParameters:
           X: {}
@@ -187,6 +189,8 @@ aggregates:
               type: ID #ObjectID
 
       SwapX:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         typeParameters:
           X: {}
@@ -222,6 +226,8 @@ aggregates:
               type: ID
 
       SwapY:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         typeParameters:
           X: {}
           Y: {}
@@ -252,6 +258,8 @@ aggregates:
               type: u64
 
       UpdateFeeRate:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         typeParameters:
           X: {}
           Y: {}
@@ -443,6 +451,8 @@ aggregates:
             #  type: ID
 
       UpdateExchangeRate:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         event:
           name: PoolExchangeRateUpdated
 
@@ -463,12 +473,16 @@ aggregates:
           name: PoolYReserveWithdrawn
 
       Destroy:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isDeletionCommand: true
         event:
           name: PoolDestroyed
 
       BuyX:
         description: "Buy X token from pool. i.e. swap Y for X"
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         parameters:
           Y_Amount:
             type: Balance<Y>
@@ -496,6 +510,8 @@ aggregates:
 
       SellX:
         description: "Sell X token to pool. i.e. swap X for Y"
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
         isInternal: true
         parameters:
           X:

@@ -8,7 +8,6 @@ module sui_swap_example::token_pair_destroy_logic {
     use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
-    use sui_swap_example::token_pair_destroyed;
 
     friend sui_swap_example::token_pair_aggregate;
 
@@ -36,11 +35,11 @@ module sui_swap_example::token_pair_destroy_logic {
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        token_pair_destroyed: &token_pair::TokenPairDestroyed,
+        _token_pair_destroyed: &token_pair::TokenPairDestroyed,
         token_pair: token_pair::TokenPair<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ): token_pair::TokenPair<X, Y> {
-        let _liquidity_token_id = token_pair_destroyed::liquidity_token_id(token_pair_destroyed);
+        //let _liquidity_token_id = token_pair::token_pair_destroyed_liquidity_token_id(token_pair_destroyed);
         token_pair
     }
 }

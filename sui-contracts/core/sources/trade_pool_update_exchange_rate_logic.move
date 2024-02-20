@@ -5,11 +5,11 @@ module sui_swap_example::trade_pool_update_exchange_rate_logic {
 
     use sui::tx_context;
     use sui::tx_context::TxContext;
+    use sui_swap_example::pool_type::trade_pool;
 
     use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::trade_pool;
-    use sui_swap_example::pool_exchange_rate_updated;
 
     friend sui_swap_example::trade_pool_aggregate;
 
@@ -60,22 +60,22 @@ module sui_swap_example::trade_pool_update_exchange_rate_logic {
         pool: &mut trade_pool::TradePool<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        let start_exchange_rate_numerator = pool_exchange_rate_updated::start_exchange_rate_numerator(
+        let start_exchange_rate_numerator = trade_pool::pool_exchange_rate_updated_start_exchange_rate_numerator(
             pool_exchange_rate_updated
         );
-        let exchange_rate_numerator = pool_exchange_rate_updated::exchange_rate_numerator(
+        let exchange_rate_numerator = trade_pool::pool_exchange_rate_updated_exchange_rate_numerator(
             pool_exchange_rate_updated
         );
-        let exchange_rate_denominator = pool_exchange_rate_updated::exchange_rate_denominator(
+        let exchange_rate_denominator = trade_pool::pool_exchange_rate_updated_exchange_rate_denominator(
             pool_exchange_rate_updated
         );
-        let price_delta_x_amount = pool_exchange_rate_updated::price_delta_x_amount(
+        let price_delta_x_amount = trade_pool::pool_exchange_rate_updated_price_delta_x_amount(
             pool_exchange_rate_updated
         );
-        let price_delta_numerator = pool_exchange_rate_updated::price_delta_numerator(
+        let price_delta_numerator = trade_pool::pool_exchange_rate_updated_price_delta_numerator(
             pool_exchange_rate_updated
         );
-        let price_delta_denominator = pool_exchange_rate_updated::price_delta_denominator(
+        let price_delta_denominator = trade_pool::pool_exchange_rate_updated_price_delta_denominator(
             pool_exchange_rate_updated
         );
 

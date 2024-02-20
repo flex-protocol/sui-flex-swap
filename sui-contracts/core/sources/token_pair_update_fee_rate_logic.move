@@ -2,7 +2,6 @@
 module sui_swap_example::token_pair_update_fee_rate_logic {
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::fee_rate_updated;
     use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
@@ -34,10 +33,8 @@ module sui_swap_example::token_pair_update_fee_rate_logic {
         token_pair: &mut token_pair::TokenPair<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ) {
-        //let liquidity_token_id = fee_rate_updated::liquidity_token_id(fee_rate_updated);
-        let fee_numerator = fee_rate_updated::fee_numerator(fee_rate_updated);
-        let fee_denominator = fee_rate_updated::fee_denominator(fee_rate_updated);
-        //let id = token_pair::id(token_pair);
+        let fee_numerator = token_pair::fee_rate_updated_fee_numerator(fee_rate_updated);
+        let fee_denominator = token_pair::fee_rate_updated_fee_denominator(fee_rate_updated);
 
         token_pair::set_fee_numerator(token_pair, fee_numerator);
         token_pair::set_fee_denominator(token_pair, fee_denominator);

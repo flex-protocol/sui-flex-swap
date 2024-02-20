@@ -11,7 +11,6 @@ module sui_swap_example::token_pair_swap_x_logic {
 
     use sui_swap_example::swap_util;
     use sui_swap_example::token_pair;
-    use sui_swap_example::x_swapped_for_y;
 
     friend sui_swap_example::token_pair_aggregate;
 
@@ -58,8 +57,8 @@ module sui_swap_example::token_pair_swap_x_logic {
         //let sender = x_swapped_for_y::sender(x_swapped_for_y);
         //let x_token_type = x_swapped_for_y::x_token_type(x_swapped_for_y);
         //let y_token_type = x_swapped_for_y::y_token_type(x_swapped_for_y);
-        let x_amount = x_swapped_for_y::x_amount(x_swapped_for_y);
-        let y_amount = x_swapped_for_y::y_amount(x_swapped_for_y);
+        let x_amount = token_pair::x_swapped_for_y_x_amount(x_swapped_for_y);
+        let y_amount = token_pair::x_swapped_for_y_y_amount(x_swapped_for_y);
 
         let x_id = object::id(&x);
         let x_reserve = token_pair::borrow_mut_x_reserve(token_pair);

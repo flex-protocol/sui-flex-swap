@@ -8,7 +8,6 @@ module sui_swap_example::trade_pool_destroy_logic {
     use sui_swap_example::liquidity_token;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::trade_pool;
-    use sui_swap_example::pool_destroyed;
 
     friend sui_swap_example::trade_pool_aggregate;
 
@@ -36,11 +35,11 @@ module sui_swap_example::trade_pool_destroy_logic {
     }
 
     public(friend) fun mutate<X: key + store, Y>(
-        pool_destroyed: &trade_pool::PoolDestroyed,
+        _pool_destroyed: &trade_pool::PoolDestroyed,
         trade_pool: trade_pool::TradePool<X, Y>,
         _ctx: &TxContext, // modify the reference to mutable if needed
     ): trade_pool::TradePool<X, Y> {
-        let _liquidity_token_id = pool_destroyed::liquidity_token_id(pool_destroyed);
+        //let _liquidity_token_id = trade_pool::pool_destroyed_liquidity_token_id(pool_destroyed);
         trade_pool
     }
 }
