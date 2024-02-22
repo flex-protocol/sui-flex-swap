@@ -293,6 +293,9 @@ aggregates:
       name: Id
       type: UID
     properties:
+      PoolType:
+        type: PoolType
+        description: "0: Trade pool; 1: Sell; 2: Buy"
     methods:
       InitializeTradePool:
         isInternal: true
@@ -801,6 +804,17 @@ singletonObjects:
         event:
           name: ExchangeUpdated
 
+enumObjects:
+  PoolType:
+    baseType: u8
+    values:
+      TradePool:
+        value: 0
+      SellPool:
+        value: 1
+      BuyPool:
+        value: 2
+
 services:
   TokenPairService:
     methods:
@@ -1218,9 +1232,6 @@ superObjects:
       Y:
         isPhantom: true
     properties:
-      PoolType:
-        type: u8
-        description: "0: Trade pool; 1: Sell; 2: Buy"
       X_Reserve:
         type: "ObjectTable<ID, X>"
         sequenceNumber: 10

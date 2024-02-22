@@ -16,7 +16,7 @@ module sui_swap_core::trade_pool_initialize_trade_pool_logic {
     use sui_swap_core::liquidity_token_aggregate;
     use sui_swap_core::trade_pool;
     use sui_swap_core::trade_pool_initialized;
-    use sui_swap_utils::pool_type;
+    use sui_swap_core::pool_type;
     use sui_swap_utils::price_curve;
 
     friend sui_swap_core::trade_pool_aggregate;

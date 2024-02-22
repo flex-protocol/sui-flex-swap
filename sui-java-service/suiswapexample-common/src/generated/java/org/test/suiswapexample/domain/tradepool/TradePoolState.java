@@ -20,6 +20,8 @@ public interface TradePoolState extends SellOrBuyPool, VersionedSuiMoveObject
 
     String getId();
 
+    Integer getPoolType();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -40,6 +42,8 @@ public interface TradePoolState extends SellOrBuyPool, VersionedSuiMoveObject
 
     interface MutableTradePoolState extends TradePoolState, SellOrBuyPool.MutableSellOrBuyPool, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
+
+        void setPoolType(Integer poolType);
 
         void setOffChainVersion(Long offChainVersion);
 

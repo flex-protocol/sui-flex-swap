@@ -9,10 +9,9 @@ module sui_swap_core::trade_pool_sell_x_logic {
     use sui::object_table;
     use sui::table;
     use sui::tx_context::{Self, TxContext};
-    use sui_swap_utils::pool_type;
-    use sui_swap_utils::price_curve;
-
+    use sui_swap_core::pool_type;
     use sui_swap_core::trade_pool;
+    use sui_swap_utils::price_curve;
 
     friend sui_swap_core::trade_pool_aggregate;
 
@@ -27,7 +26,8 @@ module sui_swap_core::trade_pool_sell_x_logic {
         pool: &trade_pool::TradePool<X, Y>,
         ctx: &TxContext,
     ): trade_pool::PoolXSwappedForY {
-        assert!(pool_type::is_trade_pool_or_buy_pool(trade_pool::pool_type(pool)), EInvalidPoolType);
+        let pool_type = trade_pool::pool_type(pool);
+        assert!(pool_type::trade_pool() == pool_type || pool_type::sell_pool() == pool_type, EInvalidPoolType);
         let _ = x;
         //let x_reserve_amount = trade_pool::x_total_amount(trade_pool);
         let y_reserve_amount = balance::value(trade_pool::borrow_y_reserve(pool));

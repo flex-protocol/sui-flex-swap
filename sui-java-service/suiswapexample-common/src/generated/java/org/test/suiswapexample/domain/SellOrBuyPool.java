@@ -10,8 +10,6 @@ import java.util.*;
 
 public interface SellOrBuyPool {
 
-    Integer getPoolType();
-
     ObjectTable getX_Reserve();
 
     Table getX_Amounts();
@@ -41,8 +39,6 @@ public interface SellOrBuyPool {
     BigInteger getPriceDeltaDenominator();
 
     interface MutableSellOrBuyPool {
-
-        void setPoolType(Integer p);
 
         void setX_Reserve(ObjectTable p);
 

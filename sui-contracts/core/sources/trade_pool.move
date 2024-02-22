@@ -32,6 +32,7 @@ module sui_swap_core::trade_pool {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
+    const EInvalidEnumValue: u64 = 106;
     const EEmptyObjectID: u64 = 107;
 
     /// Not the right admin for the object
@@ -91,6 +92,7 @@ module sui_swap_core::trade_pool {
     }
 
     public(friend) fun set_pool_type<X: key + store, Y>(trade_pool: &mut TradePool<X, Y>, pool_type: u8) {
+        assert!(sui_swap_core::pool_type::is_valid(pool_type), EInvalidEnumValue);
         trade_pool.pool_type = pool_type;
     }
 
@@ -227,6 +229,7 @@ module sui_swap_core::trade_pool {
         price_delta_denominator: u64,
         ctx: &mut TxContext,
     ): TradePool<X, Y> {
+        assert!(sui_swap_core::pool_type::is_valid(pool_type), EInvalidEnumValue);
         let admin_cap = AdminCap {
             id: object::new(ctx),
         };
