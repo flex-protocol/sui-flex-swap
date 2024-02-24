@@ -1,5 +1,5 @@
 [package]
-published-at = "0x28ce8f319702a75784bd5b4417ca20fcffe4c60c3ca52bfa8c0aec53a1f09d93"
+published-at = "0x5c1c6b4a7d0de95b540e7b78e9b0a79573bc1d079f5999cdc9bdb0bfe2c99554"
 name = "sui_swap_utils"
 version = "0.0.1"
 
@@ -8,5 +8,5 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 #Sui = { local = "../../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-sui_swap_utils = "0x28ce8f319702a75784bd5b4417ca20fcffe4c60c3ca52bfa8c0aec53a1f09d93"
+sui_swap_utils = "0x5c1c6b4a7d0de95b540e7b78e9b0a79573bc1d079f5999cdc9bdb0bfe2c99554"
 #sui_swap_utils = "0x0"
