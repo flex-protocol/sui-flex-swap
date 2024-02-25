@@ -185,6 +185,7 @@ we have used the following placeholders, please note that they need to be replac
 * `{DI_PACKAGE_ID}`: The package ID of the `di` project.
 * `{EXCHANGE_OBJECT_ID}`: The object ID of the `Exchange` object.
 * `{NFT_SERVICE_CONFIG_OBJECT_ID}`: The object ID of the `NftServiceConfig` object.
+* `{NFT_SERVICE_CONFIG_CAP_OBJECT_ID}`: The object ID of the `NftServiceConfigCap` object.
 
 These placeholders also appear in the example output below, indicating the position of the actual value as it appears in the output.
 
@@ -288,32 +289,31 @@ sui client publish --gas-budget 900000000 --skip-fetch-latest-git-deps --skip-de
 If the command is executed successfully, the transaction digest of this publication will be output. For example:
 
 ```text
-Transaction Digest: GtfTaWTn3zeYGHosDKGXMUQWAagsDDA7bGg6pbJKCKMv
+Transaction Digest: {PUBLISH_CORE_PROJECT_TRANSACTION_DIGEST}
 ```
 
-Take note of this transaction digest, for example, `GtfTaWTn3zeYGHosDKGXMUQWAagsDDA7bGg6pbJKCKMv`.
-When setting up the off-chain service, we will need it.
+Take note of this transaction digest. When setting up the off-chain service, we will need it.
 
-And record the package ID of the `core` project in the output of the command:
-
-```text
-│ Published Objects:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            │
-│  ┌──                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          │
-│  │ PackageID: {CORE_PACKAGE_ID}
-```
-
-And record information about a number of objects created in the output of the command, such as the object ID of the `NftServiceConfig` object, etc. 
+And record the package ID of the `core` project and a number of objects created in the output of the command, 
+such as the object ID of the `NftServiceConfig` object, etc.
 We use the following object IDs for the next tests:
 
 ```text
-ObjectID: {NFT_SERVICE_CONFIG_OBJECT_ID}
-ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfig
+│ Published Objects:
+│  ┌──
+│  │ PackageID: {CORE_PACKAGE_ID}
 
-ObjectID: {NFT_SERVICE_CONFIG_CAP_OBJECT_ID}
-ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfigCap
+│ Created Objects:
+│  ┌──
 
-ObjectID: {EXCHANGE_OBJECT_ID}
-ObjectType: {CORE_PACKAGE_ID}::exchange::Exchange
+│  │ ObjectID: {NFT_SERVICE_CONFIG_OBJECT_ID}
+│  │ ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfig
+
+│  │ ObjectID: {NFT_SERVICE_CONFIG_CAP_OBJECT_ID}
+│  │ ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfigCap
+
+│  │ ObjectID: {EXCHANGE_OBJECT_ID}
+│  │ ObjectType: {CORE_PACKAGE_ID}::exchange::Exchange
 ```
 
 Modify `sui-contracts/core/Move.toml`:
@@ -352,7 +352,7 @@ sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps --skip-de
 Record the following information:
 
 ```text
-Transaction Digest: H4HZjQzhCxph18nWTCYLggsX22EbyY3MWxngPWc2kh4Y
+Transaction Digest: {PUBLISH_NFT_SERVICE_IMPL_PROJECT_TRANSACTION_DIGEST}
 
 │ Published Objects:                                                                               │
 │  ┌──                                                                                             │
@@ -387,7 +387,7 @@ sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps --skip-de
 Record the following information:
 
 ```text
-Transaction Digest: EjRQqgfDfwGqfd94266HxdQCFiFAjCrZwJFzRaXPacet
+Transaction Digest: {PUBLISH_DI_PROJECT_TRANSACTION_DIGEST}
 
 │ Published Objects:                                                                               │
 │  ┌──                                                                                             │
@@ -458,7 +458,6 @@ sui client call --package {DI_PACKAGE_ID} --module movescription_sell_pool_servi
 ```
 
 Note the output IDs of `TradePool` object (**it's actually a sell pool**) and `LiquidityToken` object:
-(we need to use it when adding liquidity):
 
 ```text
 │  │ ObjectID: 0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630
@@ -622,7 +621,6 @@ sui client call --package {CORE_PACKAGE_ID} --module buy_pool_service --function
 ```
 
 Note the output IDs of `TradePool` object (**it's actually a buy pool**) and `LiquidityToken` object:
-(we need to use it when adding liquidity):
 
 ```text
 │  │ ObjectID: 0x5c87d86c0ebfad6d969c16e6acedf2f7413d7fab2e263cca2bf35474f55c6914
@@ -732,7 +730,6 @@ sui client call --package {DI_PACKAGE_ID} --module movescription_trade_pool_serv
 ```
 
 Note the output IDs of `TradePool` object and `LiquidityToken` object:
-(we need to use it when adding liquidity):
 
 ```text
 │  │ ObjectID: 0x6367c30fc72767b43c0be0e3c50184a6b1302c03c8fa95c2236ee6477e55a3ef
