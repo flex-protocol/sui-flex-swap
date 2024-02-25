@@ -465,7 +465,7 @@ So, execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module sell_pool_service --function buy_x \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630 ' \
+--args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"10000000"' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
@@ -485,7 +485,7 @@ Execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function remove_x_token \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630 ' \
+--args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
 --gas-budget 100000000
@@ -505,7 +505,7 @@ Execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function withdraw_y_reserve \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630 ' \
+--args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
 '"10000000"' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
@@ -530,7 +530,7 @@ Execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_aggregate --function update_exchange_rate \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630 ' \
+--args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
 '"11112"' \
 '"11112"' \
@@ -607,7 +607,7 @@ Execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function deposit_y_reserve \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630 ' \
+--args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"1000000"' \
@@ -741,7 +741,7 @@ So, execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module sell_pool_service --function buy_x \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0x6367c30fc72767b43c0be0e3c50184a6b1302c03c8fa95c2236ee6477e55a3ef ' \
+--args '0x6367c30fc72767b43c0be0e3c50184a6b1302c03c8fa95c2236ee6477e55a3ef' \
 '0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
 '"120000"' \
 '0x221fe24766ee163ca1fcee68ffb894a189815f5d324cd7e5db2ea505dbb46b9b' \
@@ -839,8 +839,8 @@ sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc
 --type-args '0x2::sui::SUI' \
 --args \
 '0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
+'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23' \
 '0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"1000000"' \
@@ -864,8 +864,8 @@ Execute the following command:
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function remove_liquidity \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
-'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23 ' \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
+'0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23' \
 '0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 --gas-budget 100000000
@@ -891,7 +891,7 @@ sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc
 --type-args '0x2::sui::SUI' \
 --args \
 '0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+'0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"100"' \
@@ -912,7 +912,7 @@ So, execute the following command:
 ```shell
 sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function swap_y \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
---args '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c ' \
+--args '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"1000000"' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
