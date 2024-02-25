@@ -1,5 +1,5 @@
 [package]
-published-at = "0xd7d71b9d93b091ff574eb31fff14216e121ed328bbf5b885e543e535c230c4aa"
+published-at = "0x25775005d52eaff53e3a21ef8309269cee2360b35f7edbea451edd87d272e861"
 name = "sui_swap_core"
 version = "0.0.1"
 
@@ -9,6 +9,6 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 sui_swap_utils = { local = "../utils" }
 
 [addresses]
-sui_swap_core = "0xd7d71b9d93b091ff574eb31fff14216e121ed328bbf5b885e543e535c230c4aa"
+sui_swap_core = "0x25775005d52eaff53e3a21ef8309269cee2360b35f7edbea451edd87d272e861"
 #sui_swap_core = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"

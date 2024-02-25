@@ -13,3 +13,5 @@ sui-contracts/di/testnet_di_publish.json
 sui-contracts/nft-service-impl/testnet_nft_service_impl_publish.json
 testnet_exchange_object.json
 testnet_initialize_trade_pool.json
+testnet_initialize_buy_pool.json
+testnet_initialize_sell_pool.json

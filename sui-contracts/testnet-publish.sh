@@ -2,16 +2,17 @@
 
 # External Package IDs
 movescription_package_id="0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff"
+
 # The following are the object IDs of the Movescription objects that are used in the following script.
-movescription_object_id_1="0x2ede4f6c857093fbb27f1e44138fca1c241a7d382002555a97120e34dfde38fd"
-movescription_object_id_2="0xad72a343daab8e54521f5b3b9acd24ac46857860fd3da6ebccc6c2f0f310e232"
-movescription_object_id_3="0xb8ac97816b4e8f9e46823deebb566e69a3b83e1f9c3457181b81feac3c3f8674"
-movescription_object_id_4="0xf6ccd8a908073c3d895e074cb0ae066295aa1a2d0737d511b1e63d79c8ec52cd"
+movescription_object_id_1="0x0ddbf12915c8e3cc9de1db797dbdefa89d2982e6ac11ff6abd7d0eddce5e77eb"
+movescription_object_id_2="0xc4032f7eb37d042fd399517cef4600a240461ef2efda421c0b76acca60e80cd6"
+movescription_object_id_3="0xbc10e2dbc741226bc38496725312352b2ac84c1db130c6ab7b30ac161515e39b"
+movescription_object_id_4="0x82c08a1b87d324ce8811401b90f2d588eded8b9b03ee94d0577da0998c16a86c"
 
 # The following are the object IDs of the SUI objects that are used in the following script.
 # Make sure the amounts of the following SUI objects are greater than 200000000
-sui_coin_object_id_1="0x5aadefbb991bfeb763894ab4250a80e8be3e0f1667b80f90dffb45bfd5033b48"
-sui_coin_object_id_2="0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c"
+sui_coin_object_id_1="0x8683661e73108ac8be7f798bc04f069848f72c0428e86a8b5170d3593ed3de10"
+sui_coin_object_id_2="0x9a0719083018191aca3975f73841d194e0d9106df078d313eb168fdcaa2c40cf"
 
 # -------- Constants --------
 move_toml_file="Move.toml"
@@ -293,7 +294,7 @@ sui client call --package "$di_package_id" --module movescription_sell_pool_serv
 '"10"' \
 '"100"' \
 --gas-budget 100000000 --json > testnet_initialize_sell_pool.json
-sell_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("sell_pool::SellPool<")).objectId' testnet_initialize_sell_pool.json)
+sell_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_sell_pool.json)
 echo "sell_pool_id_1: $sell_pool_id_1" | tee -a "$log_file"
 sell_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_sell_pool.json)
 echo "sell_pool_liquidity_token_id_1: $sell_pool_liquidity_token_id_1" | tee -a "$log_file"
@@ -312,7 +313,7 @@ sui client call --package "$core_package_id" --module buy_pool_service --functio
 '"10"' \
 '"100"' \
 --gas-budget 100000000 --json > testnet_initialize_buy_pool.json
-buy_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("buy_pool::BuyPool<")).objectId' testnet_initialize_buy_pool.json)
+buy_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_buy_pool.json)
 echo "buy_pool_id_1: $buy_pool_id_1" | tee -a "$log_file"
 buy_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_buy_pool.json)
 echo "buy_pool_liquidity_token_id_1: $buy_pool_liquidity_token_id_1" | tee -a "$log_file"
@@ -334,9 +335,9 @@ sui client call --package "$di_package_id" --module movescription_trade_pool_ser
 '"100"' \
 --gas-budget 100000000 --json > testnet_initialize_trade_pool.json
 trade_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_trade_pool.json)
-ehco "trade_pool_id_1: $trade_pool_id_1" | tee -a "$log_file"
+echo "trade_pool_id_1: $trade_pool_id_1" | tee -a "$log_file"
 trade_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_trade_pool.json)
-ehco "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -a "$log_file"
+echo "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -a "$log_file"
 
 ## -------- Get pool IDs from exchange object --------
 #exchange_object_id="0x01e4361f1bcf6529e5f68517d2dcd68b25b57bee016cc34a9b7639c2bd8b72fb"
@@ -349,6 +350,16 @@ ehco "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -
 #
 #trade_pool_id_1=$(jq -r '.content.fields.trade_pools[]' testnet_exchange_object.json)
 #echo "trade_pool_id_1: $trade_pool_id_1" | tee -a "$log_file"
+
+## -------- Get liquidity token IDs from pool objects --------
+#sell_pool_liquidity_token_id_1=$(sui client object "$sell_pool_id_1" --json | jq -r '.content.fields.liquidity_token_id')
+#echo "sell_pool_liquidity_token_id_1: $sell_pool_liquidity_token_id_1" | tee -a "$log_file"
+#
+#buy_pool_liquidity_token_id_1=$(sui client object "$buy_pool_id_1" --json | jq -r '.content.fields.liquidity_token_id')
+#echo "buy_pool_liquidity_token_id_1: $buy_pool_liquidity_token_id_1" | tee -a "$log_file"
+#
+#trade_pool_liquidity_token_id_1=$(sui client object "$trade_pool_id_1" --json | jq -r '.content.fields.liquidity_token_id')
+#echo "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -a "$log_file"
 
 # ----------------------------------------------------------------------------------------
 # Do some operations on the initialized trade pool

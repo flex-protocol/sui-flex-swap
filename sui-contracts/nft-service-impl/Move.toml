@@ -1,5 +1,5 @@
 [package]
-published-at = "0x9815664745b59f0ab09f247bb196ce80d0f635aee403ed15216b163175f3a8bd"
+published-at = "0x2ed8c1021013a9de6a1a469adc8e7510c76f6fee0fea2c92bd48766e6de2ecda"
 name = "nft_service_impl"
 version = "0.0.1"
 
@@ -11,6 +11,6 @@ sui_swap_core = { local = "../core" }
 sui_swap_utils = { local = "../utils" }
 
 [addresses]
-nft_service_impl = "0x9815664745b59f0ab09f247bb196ce80d0f635aee403ed15216b163175f3a8bd"
+nft_service_impl = "0x2ed8c1021013a9de6a1a469adc8e7510c76f6fee0fea2c92bd48766e6de2ecda"
 #nft_service_impl = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"

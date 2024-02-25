@@ -176,6 +176,33 @@ That's the whole programming routine, isn't it simple?
 
 ## Test Application
 
+In the sample commands below for test, 
+we have used the following placeholders, please note that they need to be replaced with actual values:
+
+* `{UTILS_PACKAGE_ID}`: The package ID of the `utils` project.
+* `{CORE_PACKAGE_ID}`: The package ID of the `core` project.
+* `{NFT_SERVICE_IMPL_PACKAGE_ID}`: The package ID of the `nft-service-impl` project.
+* `{DI_PACKAGE_ID}`: The package ID of the `di` project.
+* `{EXCHANGE_OBJECT_ID}`: The object ID of the `Exchange` object.
+* `{NFT_SERVICE_CONFIG_OBJECT_ID}`: The object ID of the `NftServiceConfig` object.
+
+These placeholders also appear in the example output below, indicating the position of the actual value as it appears in the output.
+
+For the following tests, we default to on testnet.
+
+On the Sui testnet, we deployed as well as set up a set of test contracts with the values of these placeholders:
+
+| Placeholder                      | Value |
+|----------------------------------|--------------------------------------------------------------------|
+| UTILS_PACKAGE_ID                 | 0x741492d3d074f1f645c901eb57688a486b82306b2e66e176ce869461d87e6ead |
+| CORE_PACKAGE_ID                  | 0x25775005d52eaff53e3a21ef8309269cee2360b35f7edbea451edd87d272e861 |
+| NFT_SERVICE_IMPL_PACKAGE_ID      | 0x2ed8c1021013a9de6a1a469adc8e7510c76f6fee0fea2c92bd48766e6de2ecda |
+| DI_PACKAGE_ID                    | 0x3cf62b54b2d2e39e5869aee61b348dd42a300ab9794f60f766958894f875cd9c |
+| EXCHANGE_OBJECT_ID               | 0x22dc8e8b61944f8ffe5983bab67d8f6124d5bcafd908f68d56a69c02118f9966 |
+| NFT_SERVICE_CONFIG_OBJECT_ID     | 0xf98a3f52aa00b202064af91e7f1082af98d0b4b52b13446a5ecad8053f69e8c6 |
+| NFT_SERVICE_CONFIG_CAP_OBJECT_ID | 0x26faff5ef8767ec156241ea5a05d56a9f9e31de52ee561f6cb45504eec6c31c4 |
+
+
 ### Some preparations might be needed
 
 #### Prepare some SUI coins
@@ -210,7 +237,7 @@ sui client switch --env testnet
 
 Mint some test inscriptions (please allow one minute between each mint),
 Note that the third parameter, `0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c` 
-in the example below should be changed to the ID of one of your SUI Coin objects.
+in the example below should be changed to the ID of one of your owned SUI Coin objects.
 
 ```shell
 sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function mint --args 0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64 \"MOVE\" 0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c \"0x6\" --gas-budget 19000000
@@ -223,6 +250,32 @@ sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23a
 ```
 
 ### Deploy contracts
+
+#### Deploy utils project
+
+Execute the following command in the directory `sui-contracts/utils` to publish the `utils` project on chain:
+
+```shell
+sui client publish --gas-budget 200000000 --skip-fetch-latest-git-deps --skip-dependency-verification
+```
+
+Take note of the deployed `utils` package ID in the output of the command:
+
+```text
+│ Published Objects:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            │
+│  ┌──                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          │
+│  │ PackageID: {UTILS_PACKAGE_ID}
+```
+
+Modify `sui-contracts/utils/Move.toml`:
+
+```toml
+[package]
+published-at = "{UTILS_PACKAGE_ID}"
+
+[addresses]
+sui_swap_core = "{UTILS_PACKAGE_ID}
+```
 
 #### Deploy core project
 
@@ -241,50 +294,41 @@ Transaction Digest: GtfTaWTn3zeYGHosDKGXMUQWAagsDDA7bGg6pbJKCKMv
 Take note of this transaction digest, for example, `GtfTaWTn3zeYGHosDKGXMUQWAagsDDA7bGg6pbJKCKMv`.
 When setting up the off-chain service, we will need it.
 
-For the next tests, we assume the deployed `core` package ID:
+And record the package ID of the `core` project in the output of the command:
 
 ```text
 │ Published Objects:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            │
 │  ┌──                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          │
-│  │ PackageID: 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963
+│  │ PackageID: {CORE_PACKAGE_ID}
 ```
 
-Record information about a number of objects created at the time of publishing. 
+And record information about a number of objects created in the output of the command, such as the object ID of the `NftServiceConfig` object, etc. 
 We use the following object IDs for the next tests:
 
 ```text
-ObjectID: 0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0
-ObjectType: 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963::nft_service_config::NftServiceConfig
+ObjectID: {NFT_SERVICE_CONFIG_OBJECT_ID}
+ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfig
 
-ObjectID: 0xe99e121cf1655217abb95701fa3036d0d133724440ca67e548ac3e959b4584b1
-ObjectType: 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963::nft_service_config::NftServiceConfigCap
+ObjectID: {NFT_SERVICE_CONFIG_CAP_OBJECT_ID}
+ObjectType: {CORE_PACKAGE_ID}::nft_service_config::NftServiceConfigCap
 
-ObjectID: 0x31122cb454b7b6f75e0b1d73bb0eba08019680b306006402f5de299669ac11cc
-ObjectType: 0x2::package::Publisher
-
-ObjectID: 0xda777f0e755e8ce390180a9b834c5781c9dab352d8bddd0475910c1758a2f0e8
-ObjectType: 0x2::package::Publisher
-
-ObjectID: 0x1a90bea1c6230db57c4d70cb0873921b625bfe149b9c7f9ce6904c1e06cbacb3
-ObjectType: 0x2::package::Publisher
-
-ObjectID: 0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9
-ObjectType: 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963::exchange::Exchange
+ObjectID: {EXCHANGE_OBJECT_ID}
+ObjectType: {CORE_PACKAGE_ID}::exchange::Exchange
 ```
 
 Modify `sui-contracts/core/Move.toml`:
 
 ```toml
 [package]
-published-at = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
+published-at = "{CORE_PACKAGE_ID}"
 
 [addresses]
-sui_swap_core = "0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963"
+sui_swap_core = "{CORE_PACKAGE_ID}"
 ```
 
 #### Contract upgrade records
 
-~~Note that the current "core" project package ID of the latest version on testnet is `0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963`.~~
+~~Note that the current "core" project package ID of the latest version on testnet is `{CORE_PACKAGE_ID}`.~~
 
 The new version fixes some bugs.
 If you need to call functions in the "core" package, use the latest version if possible.
@@ -312,21 +356,20 @@ Transaction Digest: H4HZjQzhCxph18nWTCYLggsX22EbyY3MWxngPWc2kh4Y
 
 │ Published Objects:                                                                               │
 │  ┌──                                                                                             │
-│  │ PackageID: 0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351d5                 │
+│  │ PackageID: {NFT_SERVICE_IMPL_PACKAGE_ID}                 │
 ```
 
 Modify the file `/sui-contracts/nft-service-impl/Move.toml`:
 
 ```text
 [package]
-published-at = "0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351d5"
+published-at = "{NFT_SERVICE_IMPL_PACKAGE_ID}"
 
 [addresses]
-nft_service_impl = "0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351d5"
+nft_service_impl = "{NFT_SERVICE_IMPL_PACKAGE_ID}"
 ```
 
 #### Deploy "di" project
-
 
 In theory, the `di` projects are not absolutely necessary to deploy.
 We can consider utilizing Sui's [PTB](https://docs.sui.io/concepts/transactions/prog-txn-blocks) feature
@@ -348,7 +391,7 @@ Transaction Digest: EjRQqgfDfwGqfd94266HxdQCFiFAjCrZwJFzRaXPacet
 
 │ Published Objects:                                                                               │
 │  ┌──                                                                                             │
-│  │ PackageID: 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607                 │
+│  │ PackageID: {DI_PACKAGE_ID}                 │
 ```
 
 #### Configure dependency injection allowlist
@@ -356,9 +399,9 @@ Transaction Digest: EjRQqgfDfwGqfd94266HxdQCFiFAjCrZwJFzRaXPacet
 Execute the following:
 
 ```shell
-sui client call --function add_allowed_impl --module nft_service_config --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 \
---type-args '0xc52e590ef8bcb259314a435c772ddea7035646bc7af18a3fb653974eb30351d5::movescription_service_impl::MovescriptionServiceImpl' \
---args 0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0 0xe99e121cf1655217abb95701fa3036d0d133724440ca67e548ac3e959b4584b1 \
+sui client call --function add_allowed_impl --module nft_service_config --package {CORE_PACKAGE_ID} \
+--type-args '{NFT_SERVICE_IMPL_PACKAGE_ID}::movescription_service_impl::MovescriptionServiceImpl' \
+--args {NFT_SERVICE_CONFIG_OBJECT_ID} {NFT_SERVICE_CONFIG_CAP_OBJECT_ID} \
 --gas-budget 300000000
 ```
 
@@ -386,8 +429,8 @@ Sell pool properties related to price settings:
 
 Note the arguments required by the function, which are assumed by the following commands:
 
-* `_nft_service_config: &NftServiceConfig`: `0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0`.
-* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `_nft_service_config: &NftServiceConfig`: `{NFT_SERVICE_CONFIG_OBJECT_ID}`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
 * `x: Movescription`: The ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
 * `exchange_rate_numerator: u64`: We are going to set exchange rate of X to Y as 11110/100.
 * `exchange_rate_denominator: u64`.
@@ -399,11 +442,11 @@ Note the arguments required by the function, which are assumed by the following 
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_sell_pool_service --function initialize_sell_pool \
+sui client call --package {DI_PACKAGE_ID} --module movescription_sell_pool_service --function initialize_sell_pool \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
+'{EXCHANGE_OBJECT_ID}' \
 '0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
 '"11110"' \
 '"100"' \
@@ -433,7 +476,7 @@ Note the output IDs of `TradePool` object (**it's actually a sell pool**) and `L
 
 The function parameters:
 
-* `_nft_service_config: &NftServiceConfig`: `0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0`.
+* `_nft_service_config: &NftServiceConfig`: `{NFT_SERVICE_CONFIG_OBJECT_ID}`.
 * `pool: &mut TradePool<Movescription, Y>`: The ID of sell pool or trade pool object.
 * `liquidity_token: &LiquidityToken<Movescription, Y>`.
 * `x: Movescription`: The ID of the `Movescription` object is `0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9`.
@@ -441,10 +484,10 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_sell_pool_service --function add_x_token \
+sui client call --package {DI_PACKAGE_ID} --module movescription_sell_pool_service --function add_x_token \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
 '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
@@ -463,7 +506,7 @@ The function parameters:
 So, execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module sell_pool_service --function buy_x \
+sui client call --package {CORE_PACKAGE_ID} --module sell_pool_service --function buy_x \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
@@ -472,7 +515,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 --gas-budget 100000000
 ```
 
-~~Note the package ID above, we are using a newer version than `0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963`.~~
+~~Note the package ID above, we are using a newer version than `{CORE_PACKAGE_ID}`.~~
 
 #### Owner remove X token from sell pool
 
@@ -483,7 +526,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 Execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function remove_x_token \
+sui client call --package {CORE_PACKAGE_ID} --module trade_pool_service --function remove_x_token \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
@@ -503,7 +546,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function withdraw_y_reserve \
+sui client call --package {CORE_PACKAGE_ID} --module trade_pool_service --function withdraw_y_reserve \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
@@ -528,7 +571,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_aggregate --function update_exchange_rate \
+sui client call --package {CORE_PACKAGE_ID} --module trade_pool_aggregate --function update_exchange_rate \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
@@ -541,7 +584,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 --gas-budget 100000000
 ```
 
-~~Note the package ID above, we are using a newer version than `0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963`.~~
+~~Note the package ID above, we are using a newer version than `{CORE_PACKAGE_ID}`.~~
 
 ### Buy Pool tests
 
@@ -550,7 +593,7 @@ sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3
 
 Note the arguments required by the function, which are assumed by the following commands:
 
-* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
 * `y_coin: Coin<Y>`: The ID of SUI coin object.
 * `y_amount: u64`: The initial amount deposited into the pool.
 * `exchange_rate_numerator: u64`: We are going to set exchange rate of X to Y as 11110/100.
@@ -563,10 +606,10 @@ Note the arguments required by the function, which are assumed by the following 
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module buy_pool_service --function initialize_buy_pool \
+sui client call --package {CORE_PACKAGE_ID} --module buy_pool_service --function initialize_buy_pool \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args \
-'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'{EXCHANGE_OBJECT_ID}' \
 '0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
 '"200000000"' \
 '"11110"' \
@@ -605,7 +648,7 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module trade_pool_service --function deposit_y_reserve \
+sui client call --package {CORE_PACKAGE_ID} --module trade_pool_service --function deposit_y_reserve \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x0f765d3333b23314721ca5f434f1a3c3d2274986538b9989b3ca43f722647630' \
 '0x3979a8a594b8dc192c164b48a8e9f428e213d31f41a0e2ee4c50a0c76392f38c' \
@@ -627,10 +670,10 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_buy_pool_service --function sell_x \
+sui client call --package {DI_PACKAGE_ID} --module movescription_buy_pool_service --function sell_x \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
 '0x5c87d86c0ebfad6d969c16e6acedf2f7413d7fab2e263cca2bf35474f55c6914' \
 '0x46aa287745397cfc88fc007b53ed9142c22433ac370d4a761cc572fd85602c0c' \
 '0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
@@ -657,7 +700,7 @@ Same as "Owner update exchange rate" of sell pool.
 The function parameters:
 
 * `_nft_service_config: &NftServiceConfig`.
-* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
 * `x: Movescription`: The ID of the `Movescription` object. Assume it's `0xc9d176d57cd8b51ca8cfed99cc22ecd10b013cec55a2850c96c7cf8c72cde3dc`.
 * `y_coin: Coin<Y>`: The ID of SUI coin object. Assume it's `0xfc63af4bf36bf4b4ba18e6dc7a9936942ba8e192f77766fcc3b67f20dd9a541e`.
 * `y_amount: u64`: The initial amount deposited into the pool.
@@ -671,11 +714,11 @@ The function parameters:
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_trade_pool_service --function initialize_trade_pool \
+sui client call --package {DI_PACKAGE_ID} --module movescription_trade_pool_service --function initialize_trade_pool \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
+'{EXCHANGE_OBJECT_ID}' \
 '0xc9d176d57cd8b51ca8cfed99cc22ecd10b013cec55a2850c96c7cf8c72cde3dc' \
 '0xfc63af4bf36bf4b4ba18e6dc7a9936942ba8e192f77766fcc3b67f20dd9a541e' \
 '"200000000"' \
@@ -716,10 +759,10 @@ Same as "Sell X token to buy pool". The function parameters:
 For example:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_buy_pool_service --function sell_x \
+sui client call --package {DI_PACKAGE_ID} --module movescription_buy_pool_service --function sell_x \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
 '0x6367c30fc72767b43c0be0e3c50184a6b1302c03c8fa95c2236ee6477e55a3ef' \
 '0x221fe24766ee163ca1fcee68ffb894a189815f5d324cd7e5db2ea505dbb46b9b' \
 '0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
@@ -739,7 +782,7 @@ Same as "Buy X token from sell pool". The function parameters:
 So, execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module sell_pool_service --function buy_x \
+sui client call --package {CORE_PACKAGE_ID} --module sell_pool_service --function buy_x \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0x6367c30fc72767b43c0be0e3c50184a6b1302c03c8fa95c2236ee6477e55a3ef' \
 '0x4f2a2f3f3b564276d6ef103ade6f321d7a857b28236d8e0d6a628af416bb332a' \
@@ -773,8 +816,8 @@ Unlike other Pools that use linear or exponential price curves,
 
 Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
 
-* `_nft_service_config: &NftServiceConfig`: `0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0`.
-* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9`.
+* `_nft_service_config: &NftServiceConfig`: `{NFT_SERVICE_CONFIG_OBJECT_ID}`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
 * `x: Movescription`: The ID of the `Movescription` object is `0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0`.
 * `y_coin: Coin<Y>`: SUI coin object ID is `0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0`.
 * `y_amount: u64`: `1000000`.
@@ -784,11 +827,11 @@ Note the arguments required by the "initialize liquidity" function, which are as
 So, the command that needs to be executed is similar to the following:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function initialize_liquidity \
+sui client call --package {DI_PACKAGE_ID} --module movescription_token_pair_service --function initialize_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
-'0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
+'{EXCHANGE_OBJECT_ID}' \
 '0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
 '"1000000"' \
@@ -820,7 +863,7 @@ Use the following command to view the `Exchange` object,
 and you can see the token pairs that have been created as well as the sell pools.
 
 ```shell
-sui client object 0x661485bb0b8b79e615be891737902f4eccbaa73160a8e20ba66d0ea6111da6f9
+sui client object {EXCHANGE_OBJECT_ID}
 ```
 
 #### Add liquidity
@@ -835,10 +878,10 @@ Add liquidity, the function parameters:
 * `y_amount: u64`.
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function add_liquidity \
+sui client call --package {DI_PACKAGE_ID} --module movescription_token_pair_service --function add_liquidity \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
 '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
 '0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23' \
 '0x265d67ce5eea98b8a482c846537b0e0cb84b911d6b2d34cc78b3c81fc11d73d0' \
@@ -861,7 +904,7 @@ Remove liquidity, the function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function remove_liquidity \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function remove_liquidity \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args \
 '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
@@ -887,10 +930,10 @@ The function parameters:
 Execute the following command:
 
 ```shell
-sui client call --package 0x9e8f5ecfa426c2eb00a8f719d38e031c1a12291835f1cfcd27fc5cf4bfbd9607 --module movescription_token_pair_service --function swap_x \
+sui client call --package {DI_PACKAGE_ID} --module movescription_token_pair_service --function swap_x \
 --type-args '0x2::sui::SUI' \
 --args \
-'0xb5698d86a2087df20878068f46691b357a26824e33f67d7f836550d25402fce0' \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
 '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
 '0x28d7b12157b33cfaecfd5f62d971d80ccc0ad59ceb7265915104a124654cf6b9' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
@@ -910,7 +953,7 @@ In the opposite direction, token Y is exchanged for token X (NFT). The function 
 So, execute the following command:
 
 ```shell
-sui client call --package 0xe36d537bbb7342557e0a9cdf5ed4a6372537fcec532ab2a0e9d3d1e733011963 --module token_pair_service --function swap_y \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_y \
 --type-args '0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff::movescription::Movescription' '0x2::sui::SUI' \
 --args '0xb7355c68ca3a475549124774603de9626ecec27dad223cd177e7422be2c2933c' \
 '0x2d5aa8072b01f29fe074d4d0be89a33ebc4c4d63b6fc3bd0b611fde655a703e0' \
