@@ -204,11 +204,17 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 | NFT_SERVICE_CONFIG_CAP_OBJECT_ID | 0x26faff5ef8767ec156241ea5a05d56a9f9e31de52ee561f6cb45504eec6c31c4 |
 
 
+Note that when testing with the Sui CLI, switch the environment to testnet first:
+
+```shell
+sui client switch --env testnet
+```
+
 ### Some preparations might be needed
 
 #### Prepare some SUI coins
 
-View the SUI coin objects in the current account:
+View the SUI coin objects in the current Sui CLI account:
 
 ```shell
 sui client gas
@@ -229,12 +235,6 @@ We use Movescription token `MOVE` as test NFT. Movescription is a community-driv
 We have deployed a movescription test contract on testnet with package ID: `0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff`.
 
 Object ID of the `TickRecord` used to mint the `MOVE` inscription: `0x34fccc1a953d02f3a7ddbd546e7982aff89c6989c8181d34e788bd855cb6ff64`.
-
-Note that when testing with the Sui CLI, switch the environment to testnet first:
-
-```shell
-sui client switch --env testnet
-```
 
 Mint some test inscriptions (please allow one minute between each mint),
 Note that the third parameter, `0x44e677e7fbfebef80d484eca63e350a1e8d9d5da4ab5a1e757d7e22a2d0a7b2c` 
@@ -396,7 +396,7 @@ Transaction Digest: {PUBLISH_DI_PROJECT_TRANSACTION_DIGEST}
 
 #### Configure dependency injection allowlist
 
-Execute the following:
+Only the publisher of the `core` project package can do this. Execute the following:
 
 ```shell
 sui client call --function add_allowed_impl --module nft_service_config --package {CORE_PACKAGE_ID} \
@@ -427,7 +427,7 @@ Sell pool properties related to price settings:
 
 #### Initialize sell pool
 
-Note the arguments required by the function, which are assumed by the following commands:
+Note the arguments required by the function, which are assumed by the following test command:
 
 * `_nft_service_config: &NftServiceConfig`: `{NFT_SERVICE_CONFIG_OBJECT_ID}`.
 * `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
@@ -590,7 +590,7 @@ sui client call --package {CORE_PACKAGE_ID} --module trade_pool_aggregate --func
 #### Initialize buy pool
 
 
-Note the arguments required by the function, which are assumed by the following commands:
+Note the arguments required by the function, which are assumed by the following test command:
 
 * `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
 * `y_coin: Coin<Y>`: The ID of SUI coin object.
@@ -737,10 +737,10 @@ Note the output IDs of `TradePool` object and `LiquidityToken` object:
 │  │ Owner: Shared
 │  │ ObjectType: 0x...::trade_pool::TradePool<...>
 
-│  │ ObjectID: 0x31604eb60c53ec66ac66937496fdc98715bd0551a374807ce51c63d614c3fb92                    │
-│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
-│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
-│  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>                                         │
+│  │ ObjectID: 0x31604eb60c53ec66ac66937496fdc98715bd0551a374807ce51c63d614c3fb92
+│  │ Sender: 0x...
+│  │ Owner: Account Address ...
+│  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>
 ```
 
 #### Sell X token to trade pool
@@ -811,7 +811,7 @@ Unlike other Pools that use linear or exponential price curves,
 
 #### Initialize liquidity
 
-Note the arguments required by the "initialize liquidity" function, which are assumed by the following commands:
+Note the arguments required by the "initialize liquidity" function, which are assumed by the following test command:
 
 * `_nft_service_config: &NftServiceConfig`: `{NFT_SERVICE_CONFIG_OBJECT_ID}`.
 * `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
@@ -849,11 +849,11 @@ Note the ID of the output `TokenPair` object (we need to use it when adding liqu
 And note the ID of the output `LiquidityToken` object:
 
 ```text
-│  ┌──                                                                                               │
-│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23                    │
-│  │ Sender: 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2                      │
-│  │ Owner: Account Address ( 0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2 )   │
-│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>                                    │
+│  ┌──
+│  │ ObjectID: 0x22d93db8e5f477492b0c1ebfacaae89e3836dae62937ecd07215e5d52dd07e23
+│  │ Sender: 0x...
+│  │ Owner: Account Address ...
+│  │ ObjectType: 0xf832b...::liquidity_token::LiquidityToken<...>
 ```
 
 Use the following command to view the `Exchange` object,
@@ -1000,7 +1000,7 @@ java -jar ./suiswapexample-service-cli/target/suiswapexample-service-cli-0.0.1-S
 
 #### Starting off-chain service
 
-In the `sui-java-service` directory, run the following command to start the off-chain service:
+In the `sui-java-service` directory, execute the following command to start the off-chain service:
 
 ```shell
 mvn -pl suiswapexample-service-rest -am spring-boot:run
