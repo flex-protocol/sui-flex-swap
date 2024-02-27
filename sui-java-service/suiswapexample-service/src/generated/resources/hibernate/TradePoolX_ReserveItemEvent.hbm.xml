@@ -4,10 +4,10 @@
   <class name="AbstractTradePoolX_ReserveItemEvent" table="trade_pool_x_reserve_item_event" abstract="true">
     <composite-id name="tradePoolX_ReserveItemEventId" class="org.test.suiswapexample.domain.tradepool.TradePoolX_ReserveItemEventId">
       <key-property name="tradePoolId">
-        <column name="trade_pool_x_reserve_item_id_trade_pool_id" sql-type="VARCHAR(66)" />
+        <column name="trade_pool_id" sql-type="VARCHAR(66)" />
       </key-property>
       <key-property name="key">
-        <column name="trade_pool_x_reserve_item_id_key" sql-type="VARCHAR(66)" />
+        <column name="key_" sql-type="VARCHAR(66)" />
       </key-property>
       <key-property name="version">
         <column name="version" sql-type="DECIMAL(20,0)" />

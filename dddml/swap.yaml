@@ -1427,3 +1427,5 @@ configuration:
     hibernateTypes:
       JsonObject:
         mappingType: "io.hypersistence.utils.hibernate.type.json.JsonType"
+        parameters:
+          "org.hibernate.type.ParameterType": "java.util.HashMap"

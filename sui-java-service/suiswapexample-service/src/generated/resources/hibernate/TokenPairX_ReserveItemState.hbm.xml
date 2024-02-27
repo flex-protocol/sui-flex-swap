@@ -4,15 +4,15 @@
   <class name="org.test.suiswapexample.domain.tokenpair.AbstractTokenPairX_ReserveItemState$SimpleTokenPairX_ReserveItemState" table="token_pair_x_reserve_item">
     <composite-id name="tokenPairX_ReserveItemId" class="org.test.suiswapexample.domain.tokenpair.TokenPairX_ReserveItemId">
       <key-property name="tokenPairId">
-        <column name="token_pair_x_reserve_item_id_token_pair_id" sql-type="VARCHAR(66)" />
+        <column name="token_pair_id" sql-type="VARCHAR(66)" />
       </key-property>
       <key-property name="key">
-        <column name="token_pair_x_reserve_item_id_key" sql-type="VARCHAR(66)" />
+        <column name="key_" sql-type="VARCHAR(66)" />
       </key-property>
     </composite-id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
     <many-to-one name="protectedTokenPairState" class="org.test.suiswapexample.domain.tokenpair.AbstractTokenPairState$SimpleTokenPairState" insert="false" update="false">
-      <column name="token_pair_x_reserve_item_id_token_pair_id" />
+      <column name="token_pair_id" />
     </many-to-one>
     <property name="value">
       <column name="value" sql-type="json" />

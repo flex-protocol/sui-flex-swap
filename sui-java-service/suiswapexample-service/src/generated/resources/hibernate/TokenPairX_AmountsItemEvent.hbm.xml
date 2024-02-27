@@ -4,10 +4,10 @@
   <class name="AbstractTokenPairX_AmountsItemEvent" table="token_pair_x_amounts_item_event" abstract="true">
     <composite-id name="tokenPairX_AmountsItemEventId" class="org.test.suiswapexample.domain.tokenpair.TokenPairX_AmountsItemEventId">
       <key-property name="tokenPairId">
-        <column name="token_pair_x_amounts_item_id_token_pair_id" sql-type="VARCHAR(66)" />
+        <column name="token_pair_id" sql-type="VARCHAR(66)" />
       </key-property>
       <key-property name="key">
-        <column name="token_pair_x_amounts_item_id_key" sql-type="VARCHAR(66)" />
+        <column name="key_" sql-type="VARCHAR(66)" />
       </key-property>
       <key-property name="version">
         <column name="version" sql-type="DECIMAL(20,0)" />
