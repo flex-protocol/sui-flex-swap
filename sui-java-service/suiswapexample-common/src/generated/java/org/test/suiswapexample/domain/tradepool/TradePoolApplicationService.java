@@ -37,5 +37,13 @@ public interface TradePoolApplicationService {
 
     TradePoolState getHistoryState(String id, long version);
 
+    TradePoolX_ReserveItemState getTradePoolX_ReserveItem(String tradePoolId, String key);
+
+    Iterable<TradePoolX_ReserveItemState> getTradePoolX_ReserveItems(String tradePoolId, Criterion filter, List<String> orders);
+
+    TradePoolX_AmountsItemState getTradePoolX_AmountsItem(String tradePoolId, String key);
+
+    Iterable<TradePoolX_AmountsItemState> getTradePoolX_AmountsItems(String tradePoolId, Criterion filter, List<String> orders);
+
 }
 

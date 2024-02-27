@@ -102,6 +102,22 @@ public abstract class AbstractTokenPairApplicationService implements TokenPairAp
         return new AbstractTokenPairState.SimpleTokenPairState(eventStream.getEvents());
     }
 
+    public TokenPairX_ReserveItemState getTokenPairX_ReserveItem(String tokenPairId, String key) {
+        return getStateQueryRepository().getTokenPairX_ReserveItem(tokenPairId, key);
+    }
+
+    public Iterable<TokenPairX_ReserveItemState> getTokenPairX_ReserveItems(String tokenPairId, Criterion filter, List<String> orders) {
+        return getStateQueryRepository().getTokenPairX_ReserveItems(tokenPairId, filter, orders);
+    }
+
+    public TokenPairX_AmountsItemState getTokenPairX_AmountsItem(String tokenPairId, String key) {
+        return getStateQueryRepository().getTokenPairX_AmountsItem(tokenPairId, key);
+    }
+
+    public Iterable<TokenPairX_AmountsItemState> getTokenPairX_AmountsItems(String tokenPairId, Criterion filter, List<String> orders) {
+        return getStateQueryRepository().getTokenPairX_AmountsItems(tokenPairId, filter, orders);
+    }
+
 
     public TokenPairAggregate getTokenPairAggregate(TokenPairState state) {
         return new AbstractTokenPairAggregate.SimpleTokenPairAggregate(state);

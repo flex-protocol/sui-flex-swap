@@ -102,6 +102,22 @@ public abstract class AbstractTradePoolApplicationService implements TradePoolAp
         return new AbstractTradePoolState.SimpleTradePoolState(eventStream.getEvents());
     }
 
+    public TradePoolX_ReserveItemState getTradePoolX_ReserveItem(String tradePoolId, String key) {
+        return getStateQueryRepository().getTradePoolX_ReserveItem(tradePoolId, key);
+    }
+
+    public Iterable<TradePoolX_ReserveItemState> getTradePoolX_ReserveItems(String tradePoolId, Criterion filter, List<String> orders) {
+        return getStateQueryRepository().getTradePoolX_ReserveItems(tradePoolId, filter, orders);
+    }
+
+    public TradePoolX_AmountsItemState getTradePoolX_AmountsItem(String tradePoolId, String key) {
+        return getStateQueryRepository().getTradePoolX_AmountsItem(tradePoolId, key);
+    }
+
+    public Iterable<TradePoolX_AmountsItemState> getTradePoolX_AmountsItems(String tradePoolId, Criterion filter, List<String> orders) {
+        return getStateQueryRepository().getTradePoolX_AmountsItems(tradePoolId, filter, orders);
+    }
+
 
     public TradePoolAggregate getTradePoolAggregate(TradePoolState state) {
         return new AbstractTradePoolAggregate.SimpleTradePoolAggregate(state);

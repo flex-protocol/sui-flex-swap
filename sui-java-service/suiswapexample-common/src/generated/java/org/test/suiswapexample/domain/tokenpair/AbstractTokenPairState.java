@@ -13,7 +13,7 @@ import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 import org.test.suiswapexample.domain.tokenpair.TokenPairEvent.*;
 
-public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenPairState {
+public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenPairState, Saveable {
 
     private String id;
 
@@ -209,6 +209,46 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         return this.getOffChainVersion() == null;
     }
 
+    private Set<TokenPairX_ReserveItemState> protectedTokenPairX_ReserveItems = new HashSet<>();
+
+    protected Set<TokenPairX_ReserveItemState> getProtectedTokenPairX_ReserveItems() {
+        return this.protectedTokenPairX_ReserveItems;
+    }
+
+    protected void setProtectedTokenPairX_ReserveItems(Set<TokenPairX_ReserveItemState> protectedTokenPairX_ReserveItems) {
+        this.protectedTokenPairX_ReserveItems = protectedTokenPairX_ReserveItems;
+    }
+
+    private EntityStateCollection<String, TokenPairX_ReserveItemState> tokenPairX_ReserveItems;
+
+    public EntityStateCollection<String, TokenPairX_ReserveItemState> getTokenPairX_ReserveItems() {
+        return this.tokenPairX_ReserveItems;
+    }
+
+    public void setTokenPairX_ReserveItems(EntityStateCollection<String, TokenPairX_ReserveItemState> tokenPairX_ReserveItems) {
+        this.tokenPairX_ReserveItems = tokenPairX_ReserveItems;
+    }
+
+    private Set<TokenPairX_AmountsItemState> protectedTokenPairX_AmountsItems = new HashSet<>();
+
+    protected Set<TokenPairX_AmountsItemState> getProtectedTokenPairX_AmountsItems() {
+        return this.protectedTokenPairX_AmountsItems;
+    }
+
+    protected void setProtectedTokenPairX_AmountsItems(Set<TokenPairX_AmountsItemState> protectedTokenPairX_AmountsItems) {
+        this.protectedTokenPairX_AmountsItems = protectedTokenPairX_AmountsItems;
+    }
+
+    private EntityStateCollection<String, TokenPairX_AmountsItemState> tokenPairX_AmountsItems;
+
+    public EntityStateCollection<String, TokenPairX_AmountsItemState> getTokenPairX_AmountsItems() {
+        return this.tokenPairX_AmountsItems;
+    }
+
+    public void setTokenPairX_AmountsItems(EntityStateCollection<String, TokenPairX_AmountsItemState> tokenPairX_AmountsItems) {
+        this.tokenPairX_AmountsItems = tokenPairX_AmountsItems;
+    }
+
     private Boolean stateReadOnly;
 
     public Boolean getStateReadOnly() { return this.stateReadOnly; }
@@ -248,6 +288,8 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
     }
     
     protected void initializeProperties() {
+        tokenPairX_ReserveItems = new SimpleTokenPairX_ReserveItemStateCollection();
+        tokenPairX_AmountsItems = new SimpleTokenPairX_AmountsItemStateCollection();
     }
 
     @Override
@@ -294,6 +336,78 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
         this.setActive(s.getActive());
         this.setX_TokenType(s.getX_TokenType());
         this.setY_TokenType(s.getY_TokenType());
+
+        if (s.getTokenPairX_ReserveItems() != null) {
+            Iterable<TokenPairX_ReserveItemState> iterable;
+            if (s.getTokenPairX_ReserveItems().isLazy()) {
+                iterable = s.getTokenPairX_ReserveItems().getLoadedStates();
+            } else {
+                iterable = s.getTokenPairX_ReserveItems();
+            }
+            if (iterable != null) {
+                for (TokenPairX_ReserveItemState ss : iterable) {
+                    TokenPairX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_ReserveItemState>)this.getTokenPairX_ReserveItems()).getOrAddDefault(ss.getKey());
+                    ((AbstractTokenPairX_ReserveItemState) thisInnerState).merge(ss);
+                }
+            }
+        }
+        if (s.getTokenPairX_ReserveItems() != null) {
+            if (s.getTokenPairX_ReserveItems() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
+                if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getTokenPairX_ReserveItems()).getRemovedStates() != null) {
+                    for (TokenPairX_ReserveItemState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, TokenPairX_ReserveItemState>)s.getTokenPairX_ReserveItems()).getRemovedStates()) {
+                        TokenPairX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_ReserveItemState>)this.getTokenPairX_ReserveItems()).getOrAddDefault(ss.getKey());
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTokenPairX_ReserveItems()).removeState(thisInnerState);
+                    }
+                }
+            } else {
+                if (s.getTokenPairX_ReserveItems().isAllLoaded()) {
+                    Set<String> removedStateIds = new HashSet<>(this.getTokenPairX_ReserveItems().stream().map(i -> i.getKey()).collect(java.util.stream.Collectors.toList()));
+                    s.getTokenPairX_ReserveItems().forEach(i -> removedStateIds.remove(i.getKey()));
+                    for (String i : removedStateIds) {
+                        TokenPairX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_ReserveItemState>)this.getTokenPairX_ReserveItems()).getOrAddDefault(i);
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTokenPairX_ReserveItems()).removeState(thisInnerState);
+                    }
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
+
+        if (s.getTokenPairX_AmountsItems() != null) {
+            Iterable<TokenPairX_AmountsItemState> iterable;
+            if (s.getTokenPairX_AmountsItems().isLazy()) {
+                iterable = s.getTokenPairX_AmountsItems().getLoadedStates();
+            } else {
+                iterable = s.getTokenPairX_AmountsItems();
+            }
+            if (iterable != null) {
+                for (TokenPairX_AmountsItemState ss : iterable) {
+                    TokenPairX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_AmountsItemState>)this.getTokenPairX_AmountsItems()).getOrAddDefault(ss.getKey());
+                    ((AbstractTokenPairX_AmountsItemState) thisInnerState).merge(ss);
+                }
+            }
+        }
+        if (s.getTokenPairX_AmountsItems() != null) {
+            if (s.getTokenPairX_AmountsItems() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
+                if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getTokenPairX_AmountsItems()).getRemovedStates() != null) {
+                    for (TokenPairX_AmountsItemState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, TokenPairX_AmountsItemState>)s.getTokenPairX_AmountsItems()).getRemovedStates()) {
+                        TokenPairX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_AmountsItemState>)this.getTokenPairX_AmountsItems()).getOrAddDefault(ss.getKey());
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTokenPairX_AmountsItems()).removeState(thisInnerState);
+                    }
+                }
+            } else {
+                if (s.getTokenPairX_AmountsItems().isAllLoaded()) {
+                    Set<String> removedStateIds = new HashSet<>(this.getTokenPairX_AmountsItems().stream().map(i -> i.getKey()).collect(java.util.stream.Collectors.toList()));
+                    s.getTokenPairX_AmountsItems().forEach(i -> removedStateIds.remove(i.getKey()));
+                    for (String i : removedStateIds) {
+                        TokenPairX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_AmountsItemState>)this.getTokenPairX_AmountsItems()).getOrAddDefault(i);
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTokenPairX_AmountsItems()).removeState(thisInnerState);
+                    }
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
     }
 
     public void when(AbstractTokenPairEvent.LiquidityAdded e) {
@@ -525,6 +639,12 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
     }
 
     public void save() {
+        if (tokenPairX_ReserveItems instanceof Saveable) {
+            ((Saveable)tokenPairX_ReserveItems).save();
+        }
+        if (tokenPairX_AmountsItems instanceof Saveable) {
+            ((Saveable)tokenPairX_AmountsItems).save();
+        }
     }
 
     protected void throwOnWrongEvent(TokenPairEvent event) {
@@ -557,6 +677,248 @@ public abstract class AbstractTokenPairState implements TokenPairState.SqlTokenP
 
     }
 
+
+    class SimpleTokenPairX_ReserveItemStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_ReserveItemState>, Collection<TokenPairX_ReserveItemState> {
+
+        @Override
+        public TokenPairX_ReserveItemState get(String key) {
+            return protectedTokenPairX_ReserveItems.stream().filter(
+                            e -> e.getKey().equals(key))
+                    .findFirst().orElse(null);
+        }
+
+        @Override
+        public boolean isLazy() {
+            return false;
+        }
+
+        @Override
+        public boolean isAllLoaded() {
+            return true;
+        }
+
+        @Override
+        public Collection<TokenPairX_ReserveItemState> getLoadedStates() {
+            return protectedTokenPairX_ReserveItems;
+        }
+
+        @Override
+        public TokenPairX_ReserveItemState getOrAddDefault(String key) {
+            TokenPairX_ReserveItemState s = get(key);
+            if (s == null) {
+                TokenPairX_ReserveItemId globalId = new TokenPairX_ReserveItemId(getId(), key);
+                AbstractTokenPairX_ReserveItemState state = new AbstractTokenPairX_ReserveItemState.SimpleTokenPairX_ReserveItemState();
+                state.setTokenPairX_ReserveItemId(globalId);
+                add(state);
+                s = state;
+            }
+            return s;
+        }
+
+        @Override
+        public int size() {
+            return protectedTokenPairX_ReserveItems.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return protectedTokenPairX_ReserveItems.isEmpty();
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return protectedTokenPairX_ReserveItems.contains(o);
+        }
+
+        @Override
+        public Iterator<TokenPairX_ReserveItemState> iterator() {
+            return protectedTokenPairX_ReserveItems.iterator();
+        }
+
+        @Override
+        public java.util.stream.Stream<TokenPairX_ReserveItemState> stream() {
+            return protectedTokenPairX_ReserveItems.stream();
+        }
+
+        @Override
+        public Object[] toArray() {
+            return protectedTokenPairX_ReserveItems.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return protectedTokenPairX_ReserveItems.toArray(a);
+        }
+
+        @Override
+        public boolean add(TokenPairX_ReserveItemState s) {
+            if (s instanceof AbstractTokenPairX_ReserveItemState) {
+                AbstractTokenPairX_ReserveItemState state = (AbstractTokenPairX_ReserveItemState) s;
+                state.setProtectedTokenPairState(AbstractTokenPairState.this);
+            }
+            return protectedTokenPairX_ReserveItems.add(s);
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (o instanceof AbstractTokenPairX_ReserveItemState) {
+                AbstractTokenPairX_ReserveItemState s = (AbstractTokenPairX_ReserveItemState) o;
+                s.setProtectedTokenPairState(null);
+            }
+            return protectedTokenPairX_ReserveItems.remove(o);
+        }
+
+        @Override
+        public boolean removeState(TokenPairX_ReserveItemState s) {
+            return remove(s);
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return protectedTokenPairX_ReserveItems.contains(c);
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends TokenPairX_ReserveItemState> c) {
+            return protectedTokenPairX_ReserveItems.addAll(c);
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return protectedTokenPairX_ReserveItems.removeAll(c);
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return protectedTokenPairX_ReserveItems.retainAll(c);
+        }
+
+        @Override
+        public void clear() {
+            protectedTokenPairX_ReserveItems.clear();
+        }
+    }
+
+    class SimpleTokenPairX_AmountsItemStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_AmountsItemState>, Collection<TokenPairX_AmountsItemState> {
+
+        @Override
+        public TokenPairX_AmountsItemState get(String key) {
+            return protectedTokenPairX_AmountsItems.stream().filter(
+                            e -> e.getKey().equals(key))
+                    .findFirst().orElse(null);
+        }
+
+        @Override
+        public boolean isLazy() {
+            return false;
+        }
+
+        @Override
+        public boolean isAllLoaded() {
+            return true;
+        }
+
+        @Override
+        public Collection<TokenPairX_AmountsItemState> getLoadedStates() {
+            return protectedTokenPairX_AmountsItems;
+        }
+
+        @Override
+        public TokenPairX_AmountsItemState getOrAddDefault(String key) {
+            TokenPairX_AmountsItemState s = get(key);
+            if (s == null) {
+                TokenPairX_AmountsItemId globalId = new TokenPairX_AmountsItemId(getId(), key);
+                AbstractTokenPairX_AmountsItemState state = new AbstractTokenPairX_AmountsItemState.SimpleTokenPairX_AmountsItemState();
+                state.setTokenPairX_AmountsItemId(globalId);
+                add(state);
+                s = state;
+            }
+            return s;
+        }
+
+        @Override
+        public int size() {
+            return protectedTokenPairX_AmountsItems.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return protectedTokenPairX_AmountsItems.isEmpty();
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return protectedTokenPairX_AmountsItems.contains(o);
+        }
+
+        @Override
+        public Iterator<TokenPairX_AmountsItemState> iterator() {
+            return protectedTokenPairX_AmountsItems.iterator();
+        }
+
+        @Override
+        public java.util.stream.Stream<TokenPairX_AmountsItemState> stream() {
+            return protectedTokenPairX_AmountsItems.stream();
+        }
+
+        @Override
+        public Object[] toArray() {
+            return protectedTokenPairX_AmountsItems.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return protectedTokenPairX_AmountsItems.toArray(a);
+        }
+
+        @Override
+        public boolean add(TokenPairX_AmountsItemState s) {
+            if (s instanceof AbstractTokenPairX_AmountsItemState) {
+                AbstractTokenPairX_AmountsItemState state = (AbstractTokenPairX_AmountsItemState) s;
+                state.setProtectedTokenPairState(AbstractTokenPairState.this);
+            }
+            return protectedTokenPairX_AmountsItems.add(s);
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (o instanceof AbstractTokenPairX_AmountsItemState) {
+                AbstractTokenPairX_AmountsItemState s = (AbstractTokenPairX_AmountsItemState) o;
+                s.setProtectedTokenPairState(null);
+            }
+            return protectedTokenPairX_AmountsItems.remove(o);
+        }
+
+        @Override
+        public boolean removeState(TokenPairX_AmountsItemState s) {
+            return remove(s);
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return protectedTokenPairX_AmountsItems.contains(c);
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends TokenPairX_AmountsItemState> c) {
+            return protectedTokenPairX_AmountsItems.addAll(c);
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return protectedTokenPairX_AmountsItems.removeAll(c);
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return protectedTokenPairX_AmountsItems.retainAll(c);
+        }
+
+        @Override
+        public void clear() {
+            protectedTokenPairX_AmountsItems.clear();
+        }
+    }
 
 
 }

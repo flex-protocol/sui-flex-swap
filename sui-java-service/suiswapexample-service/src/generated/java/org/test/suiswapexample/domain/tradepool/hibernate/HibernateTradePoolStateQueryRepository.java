@@ -31,7 +31,7 @@ public class HibernateTradePoolStateQueryRepository implements TradePoolStateQue
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "PoolType", "Version", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "X_BoughtAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "PoolType", "Version", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "X_BoughtAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "TradePoolX_ReserveItems", "TradePoolX_AmountsItems", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -48,7 +48,7 @@ public class HibernateTradePoolStateQueryRepository implements TradePoolStateQue
 
         TradePoolState state = (TradePoolState)getCurrentSession().get(AbstractTradePoolState.SimpleTradePoolState.class, id);
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (TradePoolState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TradePoolState.SqlTradePoolState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (TradePoolState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TradePoolState.SqlTradePoolState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }
@@ -128,6 +128,38 @@ public class HibernateTradePoolStateQueryRepository implements TradePoolStateQue
         }
         addNotDeletedRestriction(criteria);
         return (long)criteria.uniqueResult();
+    }
+
+    @Transactional(readOnly = true)
+    public TradePoolX_ReserveItemState getTradePoolX_ReserveItem(String tradePoolId, String key) {
+        TradePoolX_ReserveItemId entityId = new TradePoolX_ReserveItemId(tradePoolId, key);
+        return (TradePoolX_ReserveItemState) getCurrentSession().get(AbstractTradePoolX_ReserveItemState.SimpleTradePoolX_ReserveItemState.class, entityId);
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TradePoolX_ReserveItemState> getTradePoolX_ReserveItems(String tradePoolId, org.dddml.support.criterion.Criterion filter, List<String> orders) {
+        Criteria criteria = getCurrentSession().createCriteria(AbstractTradePoolX_ReserveItemState.SimpleTradePoolX_ReserveItemState.class);
+        org.hibernate.criterion.Junction partIdCondition = org.hibernate.criterion.Restrictions.conjunction()
+            .add(org.hibernate.criterion.Restrictions.eq("tradePoolX_ReserveItemId.tradePoolId", tradePoolId))
+            ;
+        HibernateUtils.criteriaAddFilterAndOrdersAndSetFirstResultAndMaxResults(criteria, filter, orders, 0, Integer.MAX_VALUE);
+        return criteria.add(partIdCondition).list();
+    }
+
+    @Transactional(readOnly = true)
+    public TradePoolX_AmountsItemState getTradePoolX_AmountsItem(String tradePoolId, String key) {
+        TradePoolX_AmountsItemId entityId = new TradePoolX_AmountsItemId(tradePoolId, key);
+        return (TradePoolX_AmountsItemState) getCurrentSession().get(AbstractTradePoolX_AmountsItemState.SimpleTradePoolX_AmountsItemState.class, entityId);
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TradePoolX_AmountsItemState> getTradePoolX_AmountsItems(String tradePoolId, org.dddml.support.criterion.Criterion filter, List<String> orders) {
+        Criteria criteria = getCurrentSession().createCriteria(AbstractTradePoolX_AmountsItemState.SimpleTradePoolX_AmountsItemState.class);
+        org.hibernate.criterion.Junction partIdCondition = org.hibernate.criterion.Restrictions.conjunction()
+            .add(org.hibernate.criterion.Restrictions.eq("tradePoolX_AmountsItemId.tradePoolId", tradePoolId))
+            ;
+        HibernateUtils.criteriaAddFilterAndOrdersAndSetFirstResultAndMaxResults(criteria, filter, orders, 0, Integer.MAX_VALUE);
+        return criteria.add(partIdCondition).list();
     }
 
 

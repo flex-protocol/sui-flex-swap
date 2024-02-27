@@ -248,6 +248,112 @@ public class TokenPairResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
+    /**
+     * Retrieve.
+     * Retrieves TokenPairX_ReserveItem with the specified Key.
+     */
+    @GetMapping("{id}/TokenPairX_ReserveItems/{key}")
+    @Transactional(readOnly = true)
+    public TokenPairX_ReserveItemStateDto getTokenPairX_ReserveItem(@PathVariable("id") String id, @PathVariable("key") String key) {
+        try {
+
+            TokenPairX_ReserveItemState state = tokenPairApplicationService.getTokenPairX_ReserveItem(id, key);
+            if (state == null) { return null; }
+            TokenPairX_ReserveItemStateDto.DtoConverter dtoConverter = new TokenPairX_ReserveItemStateDto.DtoConverter();
+            TokenPairX_ReserveItemStateDto stateDto = dtoConverter.toTokenPairX_ReserveItemStateDto(state);
+            dtoConverter.setAllFieldsReturned(true);
+            return stateDto;
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * TokenPairX_ReserveItem List
+     */
+    @GetMapping("{id}/TokenPairX_ReserveItems")
+    @Transactional(readOnly = true)
+    public TokenPairX_ReserveItemStateDto[] getTokenPairX_ReserveItems(@PathVariable("id") String id,
+                    @RequestParam(value = "sort", required = false) String sort,
+                    @RequestParam(value = "fields", required = false) String fields,
+                    @RequestParam(value = "filter", required = false) String filter,
+                     HttpServletRequest request) {
+        try {
+            CriterionDto criterion = null;
+            if (!StringHelper.isNullOrEmpty(filter)) {
+                criterion = new ObjectMapper().readValue(filter, CriterionDto.class);
+            } else {
+                criterion = QueryParamUtils.getQueryCriterionDto(request.getParameterMap().entrySet().stream()
+                    .filter(kv -> TokenPairResourceUtils.getTokenPairX_ReserveItemFilterPropertyName(kv.getKey()) != null)
+                    .collect(Collectors.toMap(kv -> kv.getKey(), kv -> kv.getValue())));
+            }
+            Criterion c = CriterionDto.toSubclass(criterion, getCriterionTypeConverter(), getPropertyTypeResolver(), 
+                n -> (TokenPairX_ReserveItemMetadata.aliasMap.containsKey(n) ? TokenPairX_ReserveItemMetadata.aliasMap.get(n) : n));
+            Iterable<TokenPairX_ReserveItemState> states = tokenPairApplicationService.getTokenPairX_ReserveItems(id, c,
+                    TokenPairResourceUtils.getTokenPairX_ReserveItemQuerySorts(request.getParameterMap()));
+            if (states == null) { return null; }
+            TokenPairX_ReserveItemStateDto.DtoConverter dtoConverter = new TokenPairX_ReserveItemStateDto.DtoConverter();
+            if (StringHelper.isNullOrEmpty(fields)) {
+                dtoConverter.setAllFieldsReturned(true);
+            } else {
+                dtoConverter.setReturnedFieldsString(fields);
+            }
+            return dtoConverter.toTokenPairX_ReserveItemStateDtoArray(states);
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * Retrieve.
+     * Retrieves TokenPairX_AmountsItem with the specified Key.
+     */
+    @GetMapping("{id}/TokenPairX_AmountsItems/{key}")
+    @Transactional(readOnly = true)
+    public TokenPairX_AmountsItemStateDto getTokenPairX_AmountsItem(@PathVariable("id") String id, @PathVariable("key") String key) {
+        try {
+
+            TokenPairX_AmountsItemState state = tokenPairApplicationService.getTokenPairX_AmountsItem(id, key);
+            if (state == null) { return null; }
+            TokenPairX_AmountsItemStateDto.DtoConverter dtoConverter = new TokenPairX_AmountsItemStateDto.DtoConverter();
+            TokenPairX_AmountsItemStateDto stateDto = dtoConverter.toTokenPairX_AmountsItemStateDto(state);
+            dtoConverter.setAllFieldsReturned(true);
+            return stateDto;
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * TokenPairX_AmountsItem List
+     */
+    @GetMapping("{id}/TokenPairX_AmountsItems")
+    @Transactional(readOnly = true)
+    public TokenPairX_AmountsItemStateDto[] getTokenPairX_AmountsItems(@PathVariable("id") String id,
+                    @RequestParam(value = "sort", required = false) String sort,
+                    @RequestParam(value = "fields", required = false) String fields,
+                    @RequestParam(value = "filter", required = false) String filter,
+                     HttpServletRequest request) {
+        try {
+            CriterionDto criterion = null;
+            if (!StringHelper.isNullOrEmpty(filter)) {
+                criterion = new ObjectMapper().readValue(filter, CriterionDto.class);
+            } else {
+                criterion = QueryParamUtils.getQueryCriterionDto(request.getParameterMap().entrySet().stream()
+                    .filter(kv -> TokenPairResourceUtils.getTokenPairX_AmountsItemFilterPropertyName(kv.getKey()) != null)
+                    .collect(Collectors.toMap(kv -> kv.getKey(), kv -> kv.getValue())));
+            }
+            Criterion c = CriterionDto.toSubclass(criterion, getCriterionTypeConverter(), getPropertyTypeResolver(), 
+                n -> (TokenPairX_AmountsItemMetadata.aliasMap.containsKey(n) ? TokenPairX_AmountsItemMetadata.aliasMap.get(n) : n));
+            Iterable<TokenPairX_AmountsItemState> states = tokenPairApplicationService.getTokenPairX_AmountsItems(id, c,
+                    TokenPairResourceUtils.getTokenPairX_AmountsItemQuerySorts(request.getParameterMap()));
+            if (states == null) { return null; }
+            TokenPairX_AmountsItemStateDto.DtoConverter dtoConverter = new TokenPairX_AmountsItemStateDto.DtoConverter();
+            if (StringHelper.isNullOrEmpty(fields)) {
+                dtoConverter.setAllFieldsReturned(true);
+            } else {
+                dtoConverter.setReturnedFieldsString(fields);
+            }
+            return dtoConverter.toTokenPairX_AmountsItemStateDtoArray(states);
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
 
 
     //protected  TokenPairStateEventDtoConverter getTokenPairStateEventDtoConverter() {
@@ -263,6 +369,24 @@ public class TokenPairResource {
             @Override
             public Class resolveTypeByPropertyName(String propertyName) {
                 return TokenPairResourceUtils.getFilterPropertyType(propertyName);
+            }
+        };
+    }
+
+    protected PropertyTypeResolver getTokenPairX_ReserveItemPropertyTypeResolver() {
+        return new PropertyTypeResolver() {
+            @Override
+            public Class resolveTypeByPropertyName(String propertyName) {
+                return TokenPairResourceUtils.getTokenPairX_ReserveItemFilterPropertyType(propertyName);
+            }
+        };
+    }
+
+    protected PropertyTypeResolver getTokenPairX_AmountsItemPropertyTypeResolver() {
+        return new PropertyTypeResolver() {
+            @Override
+            public Class resolveTypeByPropertyName(String propertyName) {
+                return TokenPairResourceUtils.getTokenPairX_AmountsItemFilterPropertyType(propertyName);
             }
         };
     }
@@ -321,6 +445,102 @@ public class TokenPairResource {
                     String pName = getFilterPropertyName(key);
                     if (!StringHelper.isNullOrEmpty(pName)) {
                         Class pClass = getFilterPropertyType(pName);
+                        filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
+                    }
+                }
+            });
+            return filter.entrySet();
+        }
+
+        public static List<String> getTokenPairX_ReserveItemQueryOrders(String str, String separator) {
+            return QueryParamUtils.getQueryOrders(str, separator, TokenPairX_ReserveItemMetadata.aliasMap);
+        }
+
+        public static List<String> getTokenPairX_ReserveItemQuerySorts(Map<String, String[]> queryNameValuePairs) {
+            String[] values = queryNameValuePairs.get("sort");
+            return QueryParamUtils.getQuerySorts(values, TokenPairX_ReserveItemMetadata.aliasMap);
+        }
+
+        public static String getTokenPairX_ReserveItemFilterPropertyName(String fieldName) {
+            if ("sort".equalsIgnoreCase(fieldName)
+                    || "firstResult".equalsIgnoreCase(fieldName)
+                    || "maxResults".equalsIgnoreCase(fieldName)
+                    || "fields".equalsIgnoreCase(fieldName)) {
+                return null;
+            }
+            if (TokenPairX_ReserveItemMetadata.aliasMap.containsKey(fieldName)) {
+                return TokenPairX_ReserveItemMetadata.aliasMap.get(fieldName);
+            }
+            return null;
+        }
+
+        public static Class getTokenPairX_ReserveItemFilterPropertyType(String propertyName) {
+            if (TokenPairX_ReserveItemMetadata.propertyTypeMap.containsKey(propertyName)) {
+                String propertyType = TokenPairX_ReserveItemMetadata.propertyTypeMap.get(propertyName);
+                if (!StringHelper.isNullOrEmpty(propertyType)) {
+                    if (BoundedContextMetadata.CLASS_MAP.containsKey(propertyType)) {
+                        return BoundedContextMetadata.CLASS_MAP.get(propertyType);
+                    }
+                }
+            }
+            return String.class;
+        }
+
+        public static Iterable<Map.Entry<String, Object>> getTokenPairX_ReserveItemQueryFilterMap(Map<String, String[]> queryNameValuePairs) {
+            Map<String, Object> filter = new HashMap<>();
+            queryNameValuePairs.forEach((key, values) -> {
+                if (values.length > 0) {
+                    String pName = getTokenPairX_ReserveItemFilterPropertyName(key);
+                    if (!StringHelper.isNullOrEmpty(pName)) {
+                        Class pClass = getTokenPairX_ReserveItemFilterPropertyType(pName);
+                        filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
+                    }
+                }
+            });
+            return filter.entrySet();
+        }
+
+        public static List<String> getTokenPairX_AmountsItemQueryOrders(String str, String separator) {
+            return QueryParamUtils.getQueryOrders(str, separator, TokenPairX_AmountsItemMetadata.aliasMap);
+        }
+
+        public static List<String> getTokenPairX_AmountsItemQuerySorts(Map<String, String[]> queryNameValuePairs) {
+            String[] values = queryNameValuePairs.get("sort");
+            return QueryParamUtils.getQuerySorts(values, TokenPairX_AmountsItemMetadata.aliasMap);
+        }
+
+        public static String getTokenPairX_AmountsItemFilterPropertyName(String fieldName) {
+            if ("sort".equalsIgnoreCase(fieldName)
+                    || "firstResult".equalsIgnoreCase(fieldName)
+                    || "maxResults".equalsIgnoreCase(fieldName)
+                    || "fields".equalsIgnoreCase(fieldName)) {
+                return null;
+            }
+            if (TokenPairX_AmountsItemMetadata.aliasMap.containsKey(fieldName)) {
+                return TokenPairX_AmountsItemMetadata.aliasMap.get(fieldName);
+            }
+            return null;
+        }
+
+        public static Class getTokenPairX_AmountsItemFilterPropertyType(String propertyName) {
+            if (TokenPairX_AmountsItemMetadata.propertyTypeMap.containsKey(propertyName)) {
+                String propertyType = TokenPairX_AmountsItemMetadata.propertyTypeMap.get(propertyName);
+                if (!StringHelper.isNullOrEmpty(propertyType)) {
+                    if (BoundedContextMetadata.CLASS_MAP.containsKey(propertyType)) {
+                        return BoundedContextMetadata.CLASS_MAP.get(propertyType);
+                    }
+                }
+            }
+            return String.class;
+        }
+
+        public static Iterable<Map.Entry<String, Object>> getTokenPairX_AmountsItemQueryFilterMap(Map<String, String[]> queryNameValuePairs) {
+            Map<String, Object> filter = new HashMap<>();
+            queryNameValuePairs.forEach((key, values) -> {
+                if (values.length > 0) {
+                    String pName = getTokenPairX_AmountsItemFilterPropertyName(key);
+                    if (!StringHelper.isNullOrEmpty(pName)) {
+                        Class pClass = getTokenPairX_AmountsItemFilterPropertyType(pName);
                         filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
                     }
                 }

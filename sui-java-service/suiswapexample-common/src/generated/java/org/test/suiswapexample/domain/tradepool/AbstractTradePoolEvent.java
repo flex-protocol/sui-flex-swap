@@ -173,6 +173,58 @@ public abstract class AbstractTradePoolEvent extends AbstractEvent implements Tr
         this.tradePoolEventId = eventId;
     }
 
+    protected TradePoolX_ReserveItemEventDao getTradePoolX_ReserveItemEventDao() {
+        return (TradePoolX_ReserveItemEventDao)ApplicationContext.current.get("tradePoolX_ReserveItemEventDao");
+    }
+
+    protected TradePoolX_ReserveItemEventId newTradePoolX_ReserveItemEventId(String key)
+    {
+        TradePoolX_ReserveItemEventId eventId = new TradePoolX_ReserveItemEventId(this.getTradePoolEventId().getId(), 
+            key, 
+            this.getTradePoolEventId().getVersion());
+        return eventId;
+    }
+
+    protected void throwOnInconsistentEventIds(TradePoolX_ReserveItemEvent.SqlTradePoolX_ReserveItemEvent e)
+    {
+        throwOnInconsistentEventIds(this, e);
+    }
+
+    public static void throwOnInconsistentEventIds(TradePoolEvent.SqlTradePoolEvent oe, TradePoolX_ReserveItemEvent.SqlTradePoolX_ReserveItemEvent e)
+    {
+        if (!oe.getTradePoolEventId().getId().equals(e.getTradePoolX_ReserveItemEventId().getTradePoolId()))
+        { 
+            throw DomainError.named("inconsistentEventIds", "Outer Id Id %1$s but inner id TradePoolId %2$s", 
+                oe.getTradePoolEventId().getId(), e.getTradePoolX_ReserveItemEventId().getTradePoolId());
+        }
+    }
+
+    protected TradePoolX_AmountsItemEventDao getTradePoolX_AmountsItemEventDao() {
+        return (TradePoolX_AmountsItemEventDao)ApplicationContext.current.get("tradePoolX_AmountsItemEventDao");
+    }
+
+    protected TradePoolX_AmountsItemEventId newTradePoolX_AmountsItemEventId(String key)
+    {
+        TradePoolX_AmountsItemEventId eventId = new TradePoolX_AmountsItemEventId(this.getTradePoolEventId().getId(), 
+            key, 
+            this.getTradePoolEventId().getVersion());
+        return eventId;
+    }
+
+    protected void throwOnInconsistentEventIds(TradePoolX_AmountsItemEvent.SqlTradePoolX_AmountsItemEvent e)
+    {
+        throwOnInconsistentEventIds(this, e);
+    }
+
+    public static void throwOnInconsistentEventIds(TradePoolEvent.SqlTradePoolEvent oe, TradePoolX_AmountsItemEvent.SqlTradePoolX_AmountsItemEvent e)
+    {
+        if (!oe.getTradePoolEventId().getId().equals(e.getTradePoolX_AmountsItemEventId().getTradePoolId()))
+        { 
+            throw DomainError.named("inconsistentEventIds", "Outer Id Id %1$s but inner id TradePoolId %2$s", 
+                oe.getTradePoolEventId().getId(), e.getTradePoolX_AmountsItemEventId().getTradePoolId());
+        }
+    }
+
 
     public abstract String getEventType();
 

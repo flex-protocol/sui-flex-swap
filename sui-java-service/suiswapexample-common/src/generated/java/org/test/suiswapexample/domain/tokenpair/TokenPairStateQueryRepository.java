@@ -31,5 +31,13 @@ public interface TokenPairStateQueryRepository {
 
     long getCount(Criterion filter);
 
+    TokenPairX_ReserveItemState getTokenPairX_ReserveItem(String tokenPairId, String key);
+
+    Iterable<TokenPairX_ReserveItemState> getTokenPairX_ReserveItems(String tokenPairId, Criterion filter, List<String> orders);
+
+    TokenPairX_AmountsItemState getTokenPairX_AmountsItem(String tokenPairId, String key);
+
+    Iterable<TokenPairX_AmountsItemState> getTokenPairX_AmountsItems(String tokenPairId, Criterion filter, List<String> orders);
+
 }
 

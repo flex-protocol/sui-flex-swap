@@ -31,7 +31,7 @@ public class HibernateTradePoolStateRepository implements TradePoolStateReposito
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "PoolType", "Version", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "X_BoughtAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "PoolType", "Version", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "LiquidityTokenId", "X_SoldAmount", "X_BoughtAmount", "StartExchangeRateNumerator", "ExchangeRateNumerator", "ExchangeRateDenominator", "PriceCurveType", "PriceDeltaX_Amount", "PriceDeltaNumerator", "PriceDeltaDenominator", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "TradePoolX_ReserveItems", "TradePoolX_AmountsItems", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -51,7 +51,7 @@ public class HibernateTradePoolStateRepository implements TradePoolStateReposito
             state.setId(id);
         }
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (TradePoolState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TradePoolState.SqlTradePoolState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (TradePoolState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TradePoolState.SqlTradePoolState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }

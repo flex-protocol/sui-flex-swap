@@ -248,6 +248,112 @@ public class TradePoolResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
+    /**
+     * Retrieve.
+     * Retrieves TradePoolX_ReserveItem with the specified Key.
+     */
+    @GetMapping("{id}/TradePoolX_ReserveItems/{key}")
+    @Transactional(readOnly = true)
+    public TradePoolX_ReserveItemStateDto getTradePoolX_ReserveItem(@PathVariable("id") String id, @PathVariable("key") String key) {
+        try {
+
+            TradePoolX_ReserveItemState state = tradePoolApplicationService.getTradePoolX_ReserveItem(id, key);
+            if (state == null) { return null; }
+            TradePoolX_ReserveItemStateDto.DtoConverter dtoConverter = new TradePoolX_ReserveItemStateDto.DtoConverter();
+            TradePoolX_ReserveItemStateDto stateDto = dtoConverter.toTradePoolX_ReserveItemStateDto(state);
+            dtoConverter.setAllFieldsReturned(true);
+            return stateDto;
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * TradePoolX_ReserveItem List
+     */
+    @GetMapping("{id}/TradePoolX_ReserveItems")
+    @Transactional(readOnly = true)
+    public TradePoolX_ReserveItemStateDto[] getTradePoolX_ReserveItems(@PathVariable("id") String id,
+                    @RequestParam(value = "sort", required = false) String sort,
+                    @RequestParam(value = "fields", required = false) String fields,
+                    @RequestParam(value = "filter", required = false) String filter,
+                     HttpServletRequest request) {
+        try {
+            CriterionDto criterion = null;
+            if (!StringHelper.isNullOrEmpty(filter)) {
+                criterion = new ObjectMapper().readValue(filter, CriterionDto.class);
+            } else {
+                criterion = QueryParamUtils.getQueryCriterionDto(request.getParameterMap().entrySet().stream()
+                    .filter(kv -> TradePoolResourceUtils.getTradePoolX_ReserveItemFilterPropertyName(kv.getKey()) != null)
+                    .collect(Collectors.toMap(kv -> kv.getKey(), kv -> kv.getValue())));
+            }
+            Criterion c = CriterionDto.toSubclass(criterion, getCriterionTypeConverter(), getPropertyTypeResolver(), 
+                n -> (TradePoolX_ReserveItemMetadata.aliasMap.containsKey(n) ? TradePoolX_ReserveItemMetadata.aliasMap.get(n) : n));
+            Iterable<TradePoolX_ReserveItemState> states = tradePoolApplicationService.getTradePoolX_ReserveItems(id, c,
+                    TradePoolResourceUtils.getTradePoolX_ReserveItemQuerySorts(request.getParameterMap()));
+            if (states == null) { return null; }
+            TradePoolX_ReserveItemStateDto.DtoConverter dtoConverter = new TradePoolX_ReserveItemStateDto.DtoConverter();
+            if (StringHelper.isNullOrEmpty(fields)) {
+                dtoConverter.setAllFieldsReturned(true);
+            } else {
+                dtoConverter.setReturnedFieldsString(fields);
+            }
+            return dtoConverter.toTradePoolX_ReserveItemStateDtoArray(states);
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * Retrieve.
+     * Retrieves TradePoolX_AmountsItem with the specified Key.
+     */
+    @GetMapping("{id}/TradePoolX_AmountsItems/{key}")
+    @Transactional(readOnly = true)
+    public TradePoolX_AmountsItemStateDto getTradePoolX_AmountsItem(@PathVariable("id") String id, @PathVariable("key") String key) {
+        try {
+
+            TradePoolX_AmountsItemState state = tradePoolApplicationService.getTradePoolX_AmountsItem(id, key);
+            if (state == null) { return null; }
+            TradePoolX_AmountsItemStateDto.DtoConverter dtoConverter = new TradePoolX_AmountsItemStateDto.DtoConverter();
+            TradePoolX_AmountsItemStateDto stateDto = dtoConverter.toTradePoolX_AmountsItemStateDto(state);
+            dtoConverter.setAllFieldsReturned(true);
+            return stateDto;
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * TradePoolX_AmountsItem List
+     */
+    @GetMapping("{id}/TradePoolX_AmountsItems")
+    @Transactional(readOnly = true)
+    public TradePoolX_AmountsItemStateDto[] getTradePoolX_AmountsItems(@PathVariable("id") String id,
+                    @RequestParam(value = "sort", required = false) String sort,
+                    @RequestParam(value = "fields", required = false) String fields,
+                    @RequestParam(value = "filter", required = false) String filter,
+                     HttpServletRequest request) {
+        try {
+            CriterionDto criterion = null;
+            if (!StringHelper.isNullOrEmpty(filter)) {
+                criterion = new ObjectMapper().readValue(filter, CriterionDto.class);
+            } else {
+                criterion = QueryParamUtils.getQueryCriterionDto(request.getParameterMap().entrySet().stream()
+                    .filter(kv -> TradePoolResourceUtils.getTradePoolX_AmountsItemFilterPropertyName(kv.getKey()) != null)
+                    .collect(Collectors.toMap(kv -> kv.getKey(), kv -> kv.getValue())));
+            }
+            Criterion c = CriterionDto.toSubclass(criterion, getCriterionTypeConverter(), getPropertyTypeResolver(), 
+                n -> (TradePoolX_AmountsItemMetadata.aliasMap.containsKey(n) ? TradePoolX_AmountsItemMetadata.aliasMap.get(n) : n));
+            Iterable<TradePoolX_AmountsItemState> states = tradePoolApplicationService.getTradePoolX_AmountsItems(id, c,
+                    TradePoolResourceUtils.getTradePoolX_AmountsItemQuerySorts(request.getParameterMap()));
+            if (states == null) { return null; }
+            TradePoolX_AmountsItemStateDto.DtoConverter dtoConverter = new TradePoolX_AmountsItemStateDto.DtoConverter();
+            if (StringHelper.isNullOrEmpty(fields)) {
+                dtoConverter.setAllFieldsReturned(true);
+            } else {
+                dtoConverter.setReturnedFieldsString(fields);
+            }
+            return dtoConverter.toTradePoolX_AmountsItemStateDtoArray(states);
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
 
 
     //protected  TradePoolStateEventDtoConverter getTradePoolStateEventDtoConverter() {
@@ -263,6 +369,24 @@ public class TradePoolResource {
             @Override
             public Class resolveTypeByPropertyName(String propertyName) {
                 return TradePoolResourceUtils.getFilterPropertyType(propertyName);
+            }
+        };
+    }
+
+    protected PropertyTypeResolver getTradePoolX_ReserveItemPropertyTypeResolver() {
+        return new PropertyTypeResolver() {
+            @Override
+            public Class resolveTypeByPropertyName(String propertyName) {
+                return TradePoolResourceUtils.getTradePoolX_ReserveItemFilterPropertyType(propertyName);
+            }
+        };
+    }
+
+    protected PropertyTypeResolver getTradePoolX_AmountsItemPropertyTypeResolver() {
+        return new PropertyTypeResolver() {
+            @Override
+            public Class resolveTypeByPropertyName(String propertyName) {
+                return TradePoolResourceUtils.getTradePoolX_AmountsItemFilterPropertyType(propertyName);
             }
         };
     }
@@ -321,6 +445,102 @@ public class TradePoolResource {
                     String pName = getFilterPropertyName(key);
                     if (!StringHelper.isNullOrEmpty(pName)) {
                         Class pClass = getFilterPropertyType(pName);
+                        filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
+                    }
+                }
+            });
+            return filter.entrySet();
+        }
+
+        public static List<String> getTradePoolX_ReserveItemQueryOrders(String str, String separator) {
+            return QueryParamUtils.getQueryOrders(str, separator, TradePoolX_ReserveItemMetadata.aliasMap);
+        }
+
+        public static List<String> getTradePoolX_ReserveItemQuerySorts(Map<String, String[]> queryNameValuePairs) {
+            String[] values = queryNameValuePairs.get("sort");
+            return QueryParamUtils.getQuerySorts(values, TradePoolX_ReserveItemMetadata.aliasMap);
+        }
+
+        public static String getTradePoolX_ReserveItemFilterPropertyName(String fieldName) {
+            if ("sort".equalsIgnoreCase(fieldName)
+                    || "firstResult".equalsIgnoreCase(fieldName)
+                    || "maxResults".equalsIgnoreCase(fieldName)
+                    || "fields".equalsIgnoreCase(fieldName)) {
+                return null;
+            }
+            if (TradePoolX_ReserveItemMetadata.aliasMap.containsKey(fieldName)) {
+                return TradePoolX_ReserveItemMetadata.aliasMap.get(fieldName);
+            }
+            return null;
+        }
+
+        public static Class getTradePoolX_ReserveItemFilterPropertyType(String propertyName) {
+            if (TradePoolX_ReserveItemMetadata.propertyTypeMap.containsKey(propertyName)) {
+                String propertyType = TradePoolX_ReserveItemMetadata.propertyTypeMap.get(propertyName);
+                if (!StringHelper.isNullOrEmpty(propertyType)) {
+                    if (BoundedContextMetadata.CLASS_MAP.containsKey(propertyType)) {
+                        return BoundedContextMetadata.CLASS_MAP.get(propertyType);
+                    }
+                }
+            }
+            return String.class;
+        }
+
+        public static Iterable<Map.Entry<String, Object>> getTradePoolX_ReserveItemQueryFilterMap(Map<String, String[]> queryNameValuePairs) {
+            Map<String, Object> filter = new HashMap<>();
+            queryNameValuePairs.forEach((key, values) -> {
+                if (values.length > 0) {
+                    String pName = getTradePoolX_ReserveItemFilterPropertyName(key);
+                    if (!StringHelper.isNullOrEmpty(pName)) {
+                        Class pClass = getTradePoolX_ReserveItemFilterPropertyType(pName);
+                        filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
+                    }
+                }
+            });
+            return filter.entrySet();
+        }
+
+        public static List<String> getTradePoolX_AmountsItemQueryOrders(String str, String separator) {
+            return QueryParamUtils.getQueryOrders(str, separator, TradePoolX_AmountsItemMetadata.aliasMap);
+        }
+
+        public static List<String> getTradePoolX_AmountsItemQuerySorts(Map<String, String[]> queryNameValuePairs) {
+            String[] values = queryNameValuePairs.get("sort");
+            return QueryParamUtils.getQuerySorts(values, TradePoolX_AmountsItemMetadata.aliasMap);
+        }
+
+        public static String getTradePoolX_AmountsItemFilterPropertyName(String fieldName) {
+            if ("sort".equalsIgnoreCase(fieldName)
+                    || "firstResult".equalsIgnoreCase(fieldName)
+                    || "maxResults".equalsIgnoreCase(fieldName)
+                    || "fields".equalsIgnoreCase(fieldName)) {
+                return null;
+            }
+            if (TradePoolX_AmountsItemMetadata.aliasMap.containsKey(fieldName)) {
+                return TradePoolX_AmountsItemMetadata.aliasMap.get(fieldName);
+            }
+            return null;
+        }
+
+        public static Class getTradePoolX_AmountsItemFilterPropertyType(String propertyName) {
+            if (TradePoolX_AmountsItemMetadata.propertyTypeMap.containsKey(propertyName)) {
+                String propertyType = TradePoolX_AmountsItemMetadata.propertyTypeMap.get(propertyName);
+                if (!StringHelper.isNullOrEmpty(propertyType)) {
+                    if (BoundedContextMetadata.CLASS_MAP.containsKey(propertyType)) {
+                        return BoundedContextMetadata.CLASS_MAP.get(propertyType);
+                    }
+                }
+            }
+            return String.class;
+        }
+
+        public static Iterable<Map.Entry<String, Object>> getTradePoolX_AmountsItemQueryFilterMap(Map<String, String[]> queryNameValuePairs) {
+            Map<String, Object> filter = new HashMap<>();
+            queryNameValuePairs.forEach((key, values) -> {
+                if (values.length > 0) {
+                    String pName = getTradePoolX_AmountsItemFilterPropertyName(key);
+                    if (!StringHelper.isNullOrEmpty(pName)) {
+                        Class pClass = getTradePoolX_AmountsItemFilterPropertyType(pName);
                         filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
                     }
                 }

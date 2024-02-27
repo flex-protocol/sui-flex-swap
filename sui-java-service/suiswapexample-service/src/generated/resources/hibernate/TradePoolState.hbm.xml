@@ -7,6 +7,18 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
+    <set name="protectedTradePoolX_ReserveItems" inverse="true" cascade="all-delete-orphan" fetch="join">
+      <key>
+        <column name="trade_pool_x_reserve_item_id_trade_pool_id" />
+      </key>
+      <one-to-many class="org.test.suiswapexample.domain.tradepool.AbstractTradePoolX_ReserveItemState$SimpleTradePoolX_ReserveItemState" />
+    </set>
+    <set name="protectedTradePoolX_AmountsItems" inverse="true" cascade="all-delete-orphan" fetch="join">
+      <key>
+        <column name="trade_pool_x_amounts_item_id_trade_pool_id" />
+      </key>
+      <one-to-many class="org.test.suiswapexample.domain.tradepool.AbstractTradePoolX_AmountsItemState$SimpleTradePoolX_AmountsItemState" />
+    </set>
     <property name="poolType">
       <column name="pool_type" />
     </property>

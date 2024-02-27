@@ -40,6 +40,10 @@ public interface TradePoolState extends SellOrBuyPool, VersionedSuiMoveObject
 
     String getY_TokenType();
 
+    EntityStateCollection<String, TradePoolX_ReserveItemState> getTradePoolX_ReserveItems();
+
+    EntityStateCollection<String, TradePoolX_AmountsItemState> getTradePoolX_AmountsItems();
+
     interface MutableTradePoolState extends TradePoolState, SellOrBuyPool.MutableSellOrBuyPool, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 

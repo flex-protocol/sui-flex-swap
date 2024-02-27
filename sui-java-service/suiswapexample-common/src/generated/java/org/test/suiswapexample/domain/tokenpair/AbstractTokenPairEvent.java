@@ -173,6 +173,58 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
         this.tokenPairEventId = eventId;
     }
 
+    protected TokenPairX_ReserveItemEventDao getTokenPairX_ReserveItemEventDao() {
+        return (TokenPairX_ReserveItemEventDao)ApplicationContext.current.get("tokenPairX_ReserveItemEventDao");
+    }
+
+    protected TokenPairX_ReserveItemEventId newTokenPairX_ReserveItemEventId(String key)
+    {
+        TokenPairX_ReserveItemEventId eventId = new TokenPairX_ReserveItemEventId(this.getTokenPairEventId().getId(), 
+            key, 
+            this.getTokenPairEventId().getVersion());
+        return eventId;
+    }
+
+    protected void throwOnInconsistentEventIds(TokenPairX_ReserveItemEvent.SqlTokenPairX_ReserveItemEvent e)
+    {
+        throwOnInconsistentEventIds(this, e);
+    }
+
+    public static void throwOnInconsistentEventIds(TokenPairEvent.SqlTokenPairEvent oe, TokenPairX_ReserveItemEvent.SqlTokenPairX_ReserveItemEvent e)
+    {
+        if (!oe.getTokenPairEventId().getId().equals(e.getTokenPairX_ReserveItemEventId().getTokenPairId()))
+        { 
+            throw DomainError.named("inconsistentEventIds", "Outer Id Id %1$s but inner id TokenPairId %2$s", 
+                oe.getTokenPairEventId().getId(), e.getTokenPairX_ReserveItemEventId().getTokenPairId());
+        }
+    }
+
+    protected TokenPairX_AmountsItemEventDao getTokenPairX_AmountsItemEventDao() {
+        return (TokenPairX_AmountsItemEventDao)ApplicationContext.current.get("tokenPairX_AmountsItemEventDao");
+    }
+
+    protected TokenPairX_AmountsItemEventId newTokenPairX_AmountsItemEventId(String key)
+    {
+        TokenPairX_AmountsItemEventId eventId = new TokenPairX_AmountsItemEventId(this.getTokenPairEventId().getId(), 
+            key, 
+            this.getTokenPairEventId().getVersion());
+        return eventId;
+    }
+
+    protected void throwOnInconsistentEventIds(TokenPairX_AmountsItemEvent.SqlTokenPairX_AmountsItemEvent e)
+    {
+        throwOnInconsistentEventIds(this, e);
+    }
+
+    public static void throwOnInconsistentEventIds(TokenPairEvent.SqlTokenPairEvent oe, TokenPairX_AmountsItemEvent.SqlTokenPairX_AmountsItemEvent e)
+    {
+        if (!oe.getTokenPairEventId().getId().equals(e.getTokenPairX_AmountsItemEventId().getTokenPairId()))
+        { 
+            throw DomainError.named("inconsistentEventIds", "Outer Id Id %1$s but inner id TokenPairId %2$s", 
+                oe.getTokenPairEventId().getId(), e.getTokenPairX_AmountsItemEventId().getTokenPairId());
+        }
+    }
+
 
     public abstract String getEventType();
 

@@ -54,6 +54,10 @@ public interface TokenPairState extends VersionedSuiMoveObject
 
     String getY_TokenType();
 
+    EntityStateCollection<String, TokenPairX_ReserveItemState> getTokenPairX_ReserveItems();
+
+    EntityStateCollection<String, TokenPairX_AmountsItemState> getTokenPairX_AmountsItems();
+
     interface MutableTokenPairState extends TokenPairState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
 

@@ -13,7 +13,7 @@ import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 import org.test.suiswapexample.domain.tradepool.TradePoolEvent.*;
 
-public abstract class AbstractTradePoolState implements TradePoolState.SqlTradePoolState {
+public abstract class AbstractTradePoolState implements TradePoolState.SqlTradePoolState, Saveable {
 
     private String id;
 
@@ -279,6 +279,46 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
         return this.getOffChainVersion() == null;
     }
 
+    private Set<TradePoolX_ReserveItemState> protectedTradePoolX_ReserveItems = new HashSet<>();
+
+    protected Set<TradePoolX_ReserveItemState> getProtectedTradePoolX_ReserveItems() {
+        return this.protectedTradePoolX_ReserveItems;
+    }
+
+    protected void setProtectedTradePoolX_ReserveItems(Set<TradePoolX_ReserveItemState> protectedTradePoolX_ReserveItems) {
+        this.protectedTradePoolX_ReserveItems = protectedTradePoolX_ReserveItems;
+    }
+
+    private EntityStateCollection<String, TradePoolX_ReserveItemState> tradePoolX_ReserveItems;
+
+    public EntityStateCollection<String, TradePoolX_ReserveItemState> getTradePoolX_ReserveItems() {
+        return this.tradePoolX_ReserveItems;
+    }
+
+    public void setTradePoolX_ReserveItems(EntityStateCollection<String, TradePoolX_ReserveItemState> tradePoolX_ReserveItems) {
+        this.tradePoolX_ReserveItems = tradePoolX_ReserveItems;
+    }
+
+    private Set<TradePoolX_AmountsItemState> protectedTradePoolX_AmountsItems = new HashSet<>();
+
+    protected Set<TradePoolX_AmountsItemState> getProtectedTradePoolX_AmountsItems() {
+        return this.protectedTradePoolX_AmountsItems;
+    }
+
+    protected void setProtectedTradePoolX_AmountsItems(Set<TradePoolX_AmountsItemState> protectedTradePoolX_AmountsItems) {
+        this.protectedTradePoolX_AmountsItems = protectedTradePoolX_AmountsItems;
+    }
+
+    private EntityStateCollection<String, TradePoolX_AmountsItemState> tradePoolX_AmountsItems;
+
+    public EntityStateCollection<String, TradePoolX_AmountsItemState> getTradePoolX_AmountsItems() {
+        return this.tradePoolX_AmountsItems;
+    }
+
+    public void setTradePoolX_AmountsItems(EntityStateCollection<String, TradePoolX_AmountsItemState> tradePoolX_AmountsItems) {
+        this.tradePoolX_AmountsItems = tradePoolX_AmountsItems;
+    }
+
     private Boolean stateReadOnly;
 
     public Boolean getStateReadOnly() { return this.stateReadOnly; }
@@ -318,6 +358,8 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
     }
     
     protected void initializeProperties() {
+        tradePoolX_ReserveItems = new SimpleTradePoolX_ReserveItemStateCollection();
+        tradePoolX_AmountsItems = new SimpleTradePoolX_AmountsItemStateCollection();
     }
 
     @Override
@@ -371,6 +413,78 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
         this.setActive(s.getActive());
         this.setX_TokenType(s.getX_TokenType());
         this.setY_TokenType(s.getY_TokenType());
+
+        if (s.getTradePoolX_ReserveItems() != null) {
+            Iterable<TradePoolX_ReserveItemState> iterable;
+            if (s.getTradePoolX_ReserveItems().isLazy()) {
+                iterable = s.getTradePoolX_ReserveItems().getLoadedStates();
+            } else {
+                iterable = s.getTradePoolX_ReserveItems();
+            }
+            if (iterable != null) {
+                for (TradePoolX_ReserveItemState ss : iterable) {
+                    TradePoolX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_ReserveItemState>)this.getTradePoolX_ReserveItems()).getOrAddDefault(ss.getKey());
+                    ((AbstractTradePoolX_ReserveItemState) thisInnerState).merge(ss);
+                }
+            }
+        }
+        if (s.getTradePoolX_ReserveItems() != null) {
+            if (s.getTradePoolX_ReserveItems() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
+                if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getTradePoolX_ReserveItems()).getRemovedStates() != null) {
+                    for (TradePoolX_ReserveItemState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, TradePoolX_ReserveItemState>)s.getTradePoolX_ReserveItems()).getRemovedStates()) {
+                        TradePoolX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_ReserveItemState>)this.getTradePoolX_ReserveItems()).getOrAddDefault(ss.getKey());
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTradePoolX_ReserveItems()).removeState(thisInnerState);
+                    }
+                }
+            } else {
+                if (s.getTradePoolX_ReserveItems().isAllLoaded()) {
+                    Set<String> removedStateIds = new HashSet<>(this.getTradePoolX_ReserveItems().stream().map(i -> i.getKey()).collect(java.util.stream.Collectors.toList()));
+                    s.getTradePoolX_ReserveItems().forEach(i -> removedStateIds.remove(i.getKey()));
+                    for (String i : removedStateIds) {
+                        TradePoolX_ReserveItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_ReserveItemState>)this.getTradePoolX_ReserveItems()).getOrAddDefault(i);
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTradePoolX_ReserveItems()).removeState(thisInnerState);
+                    }
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
+
+        if (s.getTradePoolX_AmountsItems() != null) {
+            Iterable<TradePoolX_AmountsItemState> iterable;
+            if (s.getTradePoolX_AmountsItems().isLazy()) {
+                iterable = s.getTradePoolX_AmountsItems().getLoadedStates();
+            } else {
+                iterable = s.getTradePoolX_AmountsItems();
+            }
+            if (iterable != null) {
+                for (TradePoolX_AmountsItemState ss : iterable) {
+                    TradePoolX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_AmountsItemState>)this.getTradePoolX_AmountsItems()).getOrAddDefault(ss.getKey());
+                    ((AbstractTradePoolX_AmountsItemState) thisInnerState).merge(ss);
+                }
+            }
+        }
+        if (s.getTradePoolX_AmountsItems() != null) {
+            if (s.getTradePoolX_AmountsItems() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
+                if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getTradePoolX_AmountsItems()).getRemovedStates() != null) {
+                    for (TradePoolX_AmountsItemState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, TradePoolX_AmountsItemState>)s.getTradePoolX_AmountsItems()).getRemovedStates()) {
+                        TradePoolX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_AmountsItemState>)this.getTradePoolX_AmountsItems()).getOrAddDefault(ss.getKey());
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTradePoolX_AmountsItems()).removeState(thisInnerState);
+                    }
+                }
+            } else {
+                if (s.getTradePoolX_AmountsItems().isAllLoaded()) {
+                    Set<String> removedStateIds = new HashSet<>(this.getTradePoolX_AmountsItems().stream().map(i -> i.getKey()).collect(java.util.stream.Collectors.toList()));
+                    s.getTradePoolX_AmountsItems().forEach(i -> removedStateIds.remove(i.getKey()));
+                    for (String i : removedStateIds) {
+                        TradePoolX_AmountsItemState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_AmountsItemState>)this.getTradePoolX_AmountsItems()).getOrAddDefault(i);
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getTradePoolX_AmountsItems()).removeState(thisInnerState);
+                    }
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
     }
 
     public void when(AbstractTradePoolEvent.PoolExchangeRateUpdated e) {
@@ -604,6 +718,12 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
     }
 
     public void save() {
+        if (tradePoolX_ReserveItems instanceof Saveable) {
+            ((Saveable)tradePoolX_ReserveItems).save();
+        }
+        if (tradePoolX_AmountsItems instanceof Saveable) {
+            ((Saveable)tradePoolX_AmountsItems).save();
+        }
     }
 
     protected void throwOnWrongEvent(TradePoolEvent event) {
@@ -636,6 +756,248 @@ public abstract class AbstractTradePoolState implements TradePoolState.SqlTradeP
 
     }
 
+
+    class SimpleTradePoolX_ReserveItemStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_ReserveItemState>, Collection<TradePoolX_ReserveItemState> {
+
+        @Override
+        public TradePoolX_ReserveItemState get(String key) {
+            return protectedTradePoolX_ReserveItems.stream().filter(
+                            e -> e.getKey().equals(key))
+                    .findFirst().orElse(null);
+        }
+
+        @Override
+        public boolean isLazy() {
+            return false;
+        }
+
+        @Override
+        public boolean isAllLoaded() {
+            return true;
+        }
+
+        @Override
+        public Collection<TradePoolX_ReserveItemState> getLoadedStates() {
+            return protectedTradePoolX_ReserveItems;
+        }
+
+        @Override
+        public TradePoolX_ReserveItemState getOrAddDefault(String key) {
+            TradePoolX_ReserveItemState s = get(key);
+            if (s == null) {
+                TradePoolX_ReserveItemId globalId = new TradePoolX_ReserveItemId(getId(), key);
+                AbstractTradePoolX_ReserveItemState state = new AbstractTradePoolX_ReserveItemState.SimpleTradePoolX_ReserveItemState();
+                state.setTradePoolX_ReserveItemId(globalId);
+                add(state);
+                s = state;
+            }
+            return s;
+        }
+
+        @Override
+        public int size() {
+            return protectedTradePoolX_ReserveItems.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return protectedTradePoolX_ReserveItems.isEmpty();
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return protectedTradePoolX_ReserveItems.contains(o);
+        }
+
+        @Override
+        public Iterator<TradePoolX_ReserveItemState> iterator() {
+            return protectedTradePoolX_ReserveItems.iterator();
+        }
+
+        @Override
+        public java.util.stream.Stream<TradePoolX_ReserveItemState> stream() {
+            return protectedTradePoolX_ReserveItems.stream();
+        }
+
+        @Override
+        public Object[] toArray() {
+            return protectedTradePoolX_ReserveItems.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return protectedTradePoolX_ReserveItems.toArray(a);
+        }
+
+        @Override
+        public boolean add(TradePoolX_ReserveItemState s) {
+            if (s instanceof AbstractTradePoolX_ReserveItemState) {
+                AbstractTradePoolX_ReserveItemState state = (AbstractTradePoolX_ReserveItemState) s;
+                state.setProtectedTradePoolState(AbstractTradePoolState.this);
+            }
+            return protectedTradePoolX_ReserveItems.add(s);
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (o instanceof AbstractTradePoolX_ReserveItemState) {
+                AbstractTradePoolX_ReserveItemState s = (AbstractTradePoolX_ReserveItemState) o;
+                s.setProtectedTradePoolState(null);
+            }
+            return protectedTradePoolX_ReserveItems.remove(o);
+        }
+
+        @Override
+        public boolean removeState(TradePoolX_ReserveItemState s) {
+            return remove(s);
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return protectedTradePoolX_ReserveItems.contains(c);
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends TradePoolX_ReserveItemState> c) {
+            return protectedTradePoolX_ReserveItems.addAll(c);
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return protectedTradePoolX_ReserveItems.removeAll(c);
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return protectedTradePoolX_ReserveItems.retainAll(c);
+        }
+
+        @Override
+        public void clear() {
+            protectedTradePoolX_ReserveItems.clear();
+        }
+    }
+
+    class SimpleTradePoolX_AmountsItemStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_AmountsItemState>, Collection<TradePoolX_AmountsItemState> {
+
+        @Override
+        public TradePoolX_AmountsItemState get(String key) {
+            return protectedTradePoolX_AmountsItems.stream().filter(
+                            e -> e.getKey().equals(key))
+                    .findFirst().orElse(null);
+        }
+
+        @Override
+        public boolean isLazy() {
+            return false;
+        }
+
+        @Override
+        public boolean isAllLoaded() {
+            return true;
+        }
+
+        @Override
+        public Collection<TradePoolX_AmountsItemState> getLoadedStates() {
+            return protectedTradePoolX_AmountsItems;
+        }
+
+        @Override
+        public TradePoolX_AmountsItemState getOrAddDefault(String key) {
+            TradePoolX_AmountsItemState s = get(key);
+            if (s == null) {
+                TradePoolX_AmountsItemId globalId = new TradePoolX_AmountsItemId(getId(), key);
+                AbstractTradePoolX_AmountsItemState state = new AbstractTradePoolX_AmountsItemState.SimpleTradePoolX_AmountsItemState();
+                state.setTradePoolX_AmountsItemId(globalId);
+                add(state);
+                s = state;
+            }
+            return s;
+        }
+
+        @Override
+        public int size() {
+            return protectedTradePoolX_AmountsItems.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return protectedTradePoolX_AmountsItems.isEmpty();
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return protectedTradePoolX_AmountsItems.contains(o);
+        }
+
+        @Override
+        public Iterator<TradePoolX_AmountsItemState> iterator() {
+            return protectedTradePoolX_AmountsItems.iterator();
+        }
+
+        @Override
+        public java.util.stream.Stream<TradePoolX_AmountsItemState> stream() {
+            return protectedTradePoolX_AmountsItems.stream();
+        }
+
+        @Override
+        public Object[] toArray() {
+            return protectedTradePoolX_AmountsItems.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return protectedTradePoolX_AmountsItems.toArray(a);
+        }
+
+        @Override
+        public boolean add(TradePoolX_AmountsItemState s) {
+            if (s instanceof AbstractTradePoolX_AmountsItemState) {
+                AbstractTradePoolX_AmountsItemState state = (AbstractTradePoolX_AmountsItemState) s;
+                state.setProtectedTradePoolState(AbstractTradePoolState.this);
+            }
+            return protectedTradePoolX_AmountsItems.add(s);
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (o instanceof AbstractTradePoolX_AmountsItemState) {
+                AbstractTradePoolX_AmountsItemState s = (AbstractTradePoolX_AmountsItemState) o;
+                s.setProtectedTradePoolState(null);
+            }
+            return protectedTradePoolX_AmountsItems.remove(o);
+        }
+
+        @Override
+        public boolean removeState(TradePoolX_AmountsItemState s) {
+            return remove(s);
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return protectedTradePoolX_AmountsItems.contains(c);
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends TradePoolX_AmountsItemState> c) {
+            return protectedTradePoolX_AmountsItems.addAll(c);
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return protectedTradePoolX_AmountsItems.removeAll(c);
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return protectedTradePoolX_AmountsItems.retainAll(c);
+        }
+
+        @Override
+        public void clear() {
+            protectedTradePoolX_AmountsItems.clear();
+        }
+    }
 
 
 }

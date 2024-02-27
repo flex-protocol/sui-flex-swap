@@ -315,10 +315,34 @@ public class TradePoolStateDto {
         this.updatedAt = updatedAt;
     }
 
+    private TradePoolX_ReserveItemStateDto[] tradePoolX_ReserveItems;
+
+    public TradePoolX_ReserveItemStateDto[] getTradePoolX_ReserveItems()
+    {
+        return this.tradePoolX_ReserveItems;
+    }    
+
+    public void setTradePoolX_ReserveItems(TradePoolX_ReserveItemStateDto[] tradePoolX_ReserveItems)
+    {
+        this.tradePoolX_ReserveItems = tradePoolX_ReserveItems;
+    }
+
+    private TradePoolX_AmountsItemStateDto[] tradePoolX_AmountsItems;
+
+    public TradePoolX_AmountsItemStateDto[] getTradePoolX_AmountsItems()
+    {
+        return this.tradePoolX_AmountsItems;
+    }    
+
+    public void setTradePoolX_AmountsItems(TradePoolX_AmountsItemStateDto[] tradePoolX_AmountsItems)
+    {
+        this.tradePoolX_AmountsItems = tradePoolX_AmountsItems;
+    }
+
 
     public static class DtoConverter extends AbstractStateDtoConverter
     {
-        public static Collection<String> collectionFieldNames = Arrays.asList(new String[]{});
+        public static Collection<String> collectionFieldNames = Arrays.asList(new String[]{"TradePoolX_ReserveItems", "TradePoolX_AmountsItems"});
 
         @Override
         protected boolean isCollectionField(String fieldName) {
@@ -418,6 +442,30 @@ public class TradePoolStateDto {
             }
             if (returnedFieldsContains("UpdatedAt")) {
                 dto.setUpdatedAt(state.getUpdatedAt());
+            }
+            if (returnedFieldsContains("TradePoolX_ReserveItems")) {
+                ArrayList<TradePoolX_ReserveItemStateDto> arrayList = new ArrayList();
+                if (state.getTradePoolX_ReserveItems() != null) {
+                    TradePoolX_ReserveItemStateDto.DtoConverter conv = new TradePoolX_ReserveItemStateDto.DtoConverter();
+                    String returnFS = CollectionUtils.mapGetValueIgnoringCase(getReturnedFields(), "TradePoolX_ReserveItems");
+                    if(returnFS != null) { conv.setReturnedFieldsString(returnFS); } else { conv.setAllFieldsReturned(this.getAllFieldsReturned()); }
+                    for (TradePoolX_ReserveItemState s : state.getTradePoolX_ReserveItems()) {
+                        arrayList.add(conv.toTradePoolX_ReserveItemStateDto(s));
+                    }
+                }
+                dto.setTradePoolX_ReserveItems(arrayList.toArray(new TradePoolX_ReserveItemStateDto[0]));
+            }
+            if (returnedFieldsContains("TradePoolX_AmountsItems")) {
+                ArrayList<TradePoolX_AmountsItemStateDto> arrayList = new ArrayList();
+                if (state.getTradePoolX_AmountsItems() != null) {
+                    TradePoolX_AmountsItemStateDto.DtoConverter conv = new TradePoolX_AmountsItemStateDto.DtoConverter();
+                    String returnFS = CollectionUtils.mapGetValueIgnoringCase(getReturnedFields(), "TradePoolX_AmountsItems");
+                    if(returnFS != null) { conv.setReturnedFieldsString(returnFS); } else { conv.setAllFieldsReturned(this.getAllFieldsReturned()); }
+                    for (TradePoolX_AmountsItemState s : state.getTradePoolX_AmountsItems()) {
+                        arrayList.add(conv.toTradePoolX_AmountsItemStateDto(s));
+                    }
+                }
+                dto.setTradePoolX_AmountsItems(arrayList.toArray(new TradePoolX_AmountsItemStateDto[0]));
             }
             return dto;
         }

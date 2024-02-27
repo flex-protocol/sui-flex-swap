@@ -31,7 +31,7 @@ public class HibernateTokenPairStateRepository implements TokenPairStateReposito
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "TokenPairX_ReserveItems", "TokenPairX_AmountsItems", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -51,7 +51,7 @@ public class HibernateTokenPairStateRepository implements TokenPairStateReposito
             state.setId(id);
         }
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (TokenPairState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TokenPairState.SqlTokenPairState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (TokenPairState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TokenPairState.SqlTokenPairState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }

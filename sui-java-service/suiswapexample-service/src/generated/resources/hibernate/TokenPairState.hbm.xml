@@ -7,6 +7,18 @@
       <generator class="assigned" />
     </id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
+    <set name="protectedTokenPairX_ReserveItems" inverse="true" cascade="all-delete-orphan" fetch="join">
+      <key>
+        <column name="token_pair_x_reserve_item_id_token_pair_id" />
+      </key>
+      <one-to-many class="org.test.suiswapexample.domain.tokenpair.AbstractTokenPairX_ReserveItemState$SimpleTokenPairX_ReserveItemState" />
+    </set>
+    <set name="protectedTokenPairX_AmountsItems" inverse="true" cascade="all-delete-orphan" fetch="join">
+      <key>
+        <column name="token_pair_x_amounts_item_id_token_pair_id" />
+      </key>
+      <one-to-many class="org.test.suiswapexample.domain.tokenpair.AbstractTokenPairX_AmountsItemState$SimpleTokenPairX_AmountsItemState" />
+    </set>
     <component name="x_Reserve" class="org.test.suiswapexample.domain.ObjectTable">
       <property name="id">
         <column name="x_reserve_id" sql-type="VARCHAR(66)" />

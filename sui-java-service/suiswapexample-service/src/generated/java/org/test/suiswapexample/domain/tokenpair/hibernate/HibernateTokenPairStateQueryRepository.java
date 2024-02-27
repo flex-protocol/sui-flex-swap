@@ -31,7 +31,7 @@ public class HibernateTokenPairStateQueryRepository implements TokenPairStateQue
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "X_Amounts", "X_TotalAmount", "Y_Reserve", "TotalLiquidity", "LiquidityTokenId", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "TokenPairX_ReserveItems", "TokenPairX_AmountsItems", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -48,7 +48,7 @@ public class HibernateTokenPairStateQueryRepository implements TokenPairStateQue
 
         TokenPairState state = (TokenPairState)getCurrentSession().get(AbstractTokenPairState.SimpleTokenPairState.class, id);
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (TokenPairState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TokenPairState.SqlTokenPairState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (TokenPairState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{TokenPairState.SqlTokenPairState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }
@@ -128,6 +128,38 @@ public class HibernateTokenPairStateQueryRepository implements TokenPairStateQue
         }
         addNotDeletedRestriction(criteria);
         return (long)criteria.uniqueResult();
+    }
+
+    @Transactional(readOnly = true)
+    public TokenPairX_ReserveItemState getTokenPairX_ReserveItem(String tokenPairId, String key) {
+        TokenPairX_ReserveItemId entityId = new TokenPairX_ReserveItemId(tokenPairId, key);
+        return (TokenPairX_ReserveItemState) getCurrentSession().get(AbstractTokenPairX_ReserveItemState.SimpleTokenPairX_ReserveItemState.class, entityId);
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TokenPairX_ReserveItemState> getTokenPairX_ReserveItems(String tokenPairId, org.dddml.support.criterion.Criterion filter, List<String> orders) {
+        Criteria criteria = getCurrentSession().createCriteria(AbstractTokenPairX_ReserveItemState.SimpleTokenPairX_ReserveItemState.class);
+        org.hibernate.criterion.Junction partIdCondition = org.hibernate.criterion.Restrictions.conjunction()
+            .add(org.hibernate.criterion.Restrictions.eq("tokenPairX_ReserveItemId.tokenPairId", tokenPairId))
+            ;
+        HibernateUtils.criteriaAddFilterAndOrdersAndSetFirstResultAndMaxResults(criteria, filter, orders, 0, Integer.MAX_VALUE);
+        return criteria.add(partIdCondition).list();
+    }
+
+    @Transactional(readOnly = true)
+    public TokenPairX_AmountsItemState getTokenPairX_AmountsItem(String tokenPairId, String key) {
+        TokenPairX_AmountsItemId entityId = new TokenPairX_AmountsItemId(tokenPairId, key);
+        return (TokenPairX_AmountsItemState) getCurrentSession().get(AbstractTokenPairX_AmountsItemState.SimpleTokenPairX_AmountsItemState.class, entityId);
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<TokenPairX_AmountsItemState> getTokenPairX_AmountsItems(String tokenPairId, org.dddml.support.criterion.Criterion filter, List<String> orders) {
+        Criteria criteria = getCurrentSession().createCriteria(AbstractTokenPairX_AmountsItemState.SimpleTokenPairX_AmountsItemState.class);
+        org.hibernate.criterion.Junction partIdCondition = org.hibernate.criterion.Restrictions.conjunction()
+            .add(org.hibernate.criterion.Restrictions.eq("tokenPairX_AmountsItemId.tokenPairId", tokenPairId))
+            ;
+        HibernateUtils.criteriaAddFilterAndOrdersAndSetFirstResultAndMaxResults(criteria, filter, orders, 0, Integer.MAX_VALUE);
+        return criteria.add(partIdCondition).list();
     }
 
 

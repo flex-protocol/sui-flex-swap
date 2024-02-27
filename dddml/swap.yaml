@@ -14,6 +14,7 @@ aggregates:
         isPhantom: true
         keyable: true
         storable: true
+        persistenceType: JsonObject
       Y:
         isPhantom: true
     properties:
@@ -1229,6 +1230,7 @@ superObjects:
         isPhantom: true
         keyable: true
         storable: true
+        persistenceType: JsonObject
       Y:
         isPhantom: true
     properties:
@@ -1414,32 +1416,14 @@ superObjects:
             LiquidityTokenId:
               type: ID #ObjectID
 
-#typeDefinitions:
-#  Movescription:
-#    moveType: "smartinscription::movescription::Movescription"
-#    isResource: true
-#    dataStruct:
-#      properties:
-#        Id:
-#          type: UID
-#        Amount:
-#          type: u64
-#        Tick:
-#          type: AsciiString
-#        AttachCoin:
-#          type: u64
-#        Acc:
-#          type: Balance<SUI>
-#        Metadata:
-#          type: MovescriptionMetadata
-#          optional: true
-#
-#  MovescriptionMetadata:
-#    moveType: "smartinscription::movescription::Metadata"
-#    isResource: false
-#    dataStruct:
-#      properties:
-#        ContentType:
-#            type: String
-#        Content:
-#            type: vector<u8>
+typeDefinitions:
+  JsonObject:
+    javaType: "java.util.Map<String, Object>"
+    sqlType: "json"
+
+configuration:
+  sequenceNumber: 1000
+  hibernate:
+    hibernateTypes:
+      JsonObject:
+        mappingType: "io.hypersistence.utils.hibernate.type.json.JsonType"

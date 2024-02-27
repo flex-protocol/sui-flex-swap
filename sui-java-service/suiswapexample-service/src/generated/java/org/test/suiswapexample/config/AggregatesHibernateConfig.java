@@ -31,6 +31,20 @@ public class AggregatesHibernateConfig {
 
 
     @Bean
+    public TokenPairX_ReserveItemEventDao tokenPairX_ReserveItemEventDao(SessionFactory hibernateSessionFactory) {
+        HibernateTokenPairX_ReserveItemEventDao dao = new HibernateTokenPairX_ReserveItemEventDao();
+        dao.setSessionFactory(hibernateSessionFactory);
+        return dao;
+    }
+
+    @Bean
+    public TokenPairX_AmountsItemEventDao tokenPairX_AmountsItemEventDao(SessionFactory hibernateSessionFactory) {
+        HibernateTokenPairX_AmountsItemEventDao dao = new HibernateTokenPairX_AmountsItemEventDao();
+        dao.setSessionFactory(hibernateSessionFactory);
+        return dao;
+    }
+
+    @Bean
     public TokenPairStateRepository tokenPairStateRepository(
             SessionFactory hibernateSessionFactory,
             ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
@@ -74,6 +88,20 @@ public class AggregatesHibernateConfig {
     }
 
 
+
+    @Bean
+    public TradePoolX_ReserveItemEventDao tradePoolX_ReserveItemEventDao(SessionFactory hibernateSessionFactory) {
+        HibernateTradePoolX_ReserveItemEventDao dao = new HibernateTradePoolX_ReserveItemEventDao();
+        dao.setSessionFactory(hibernateSessionFactory);
+        return dao;
+    }
+
+    @Bean
+    public TradePoolX_AmountsItemEventDao tradePoolX_AmountsItemEventDao(SessionFactory hibernateSessionFactory) {
+        HibernateTradePoolX_AmountsItemEventDao dao = new HibernateTradePoolX_AmountsItemEventDao();
+        dao.setSessionFactory(hibernateSessionFactory);
+        return dao;
+    }
 
     @Bean
     public TradePoolStateRepository tradePoolStateRepository(
