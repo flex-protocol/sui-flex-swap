@@ -27,7 +27,7 @@ module sui_swap_core::trade_pool_sell_x_logic {
         ctx: &TxContext,
     ): trade_pool::PoolXSwappedForY {
         let pool_type = trade_pool::pool_type(pool);
-        assert!(pool_type::trade_pool() == pool_type || pool_type::sell_pool() == pool_type, EInvalidPoolType);
+        assert!(pool_type::trade_pool() == pool_type || pool_type::buy_pool() == pool_type, EInvalidPoolType);
         let _ = x;
         //let x_reserve_amount = trade_pool::x_total_amount(trade_pool);
         let y_reserve_amount = balance::value(trade_pool::borrow_y_reserve(pool));
