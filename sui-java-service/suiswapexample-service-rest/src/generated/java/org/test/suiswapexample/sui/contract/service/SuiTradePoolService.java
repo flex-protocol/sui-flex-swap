@@ -31,7 +31,11 @@ public class SuiTradePoolService {
                     TradePoolState.MutableTradePoolState s = new AbstractTradePoolState.SimpleTradePoolState();
                     s.setId(id);
                     return s;
-                }
+                },
+                (tradePoolState, key) -> (TradePoolX_ReserveItemState.MutableTradePoolX_ReserveItemState)
+                        ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_ReserveItemState>) tradePoolState.getTradePoolX_ReserveItems()).getOrAddDefault(key),
+                (tradePoolState, key) -> (TradePoolX_AmountsItemState.MutableTradePoolX_AmountsItemState)
+                        ((EntityStateCollection.ModifiableEntityStateCollection<String, TradePoolX_AmountsItemState>) tradePoolState.getTradePoolX_AmountsItems()).getOrAddDefault(key)
         );
     }
 

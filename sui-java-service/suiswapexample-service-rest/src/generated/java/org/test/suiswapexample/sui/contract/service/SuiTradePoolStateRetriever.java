@@ -21,12 +21,18 @@ public class SuiTradePoolStateRetriever {
     private SuiJsonRpcClient suiJsonRpcClient;
 
     private Function<String, TradePoolState.MutableTradePoolState> tradePoolStateFactory;
+    private BiFunction<TradePoolState, String, TradePoolX_ReserveItemState.MutableTradePoolX_ReserveItemState> tradePoolX_ReserveItemStateFactory;
+    private BiFunction<TradePoolState, String, TradePoolX_AmountsItemState.MutableTradePoolX_AmountsItemState> tradePoolX_AmountsItemStateFactory;
 
     public SuiTradePoolStateRetriever(SuiJsonRpcClient suiJsonRpcClient,
-                                  Function<String, TradePoolState.MutableTradePoolState> tradePoolStateFactory
+                                  Function<String, TradePoolState.MutableTradePoolState> tradePoolStateFactory,
+                                  BiFunction<TradePoolState, String, TradePoolX_ReserveItemState.MutableTradePoolX_ReserveItemState> tradePoolX_ReserveItemStateFactory,
+                                  BiFunction<TradePoolState, String, TradePoolX_AmountsItemState.MutableTradePoolX_AmountsItemState> tradePoolX_AmountsItemStateFactory
     ) {
         this.suiJsonRpcClient = suiJsonRpcClient;
         this.tradePoolStateFactory = tradePoolStateFactory;
+        this.tradePoolX_ReserveItemStateFactory = tradePoolX_ReserveItemStateFactory;
+        this.tradePoolX_AmountsItemStateFactory = tradePoolX_AmountsItemStateFactory;
     }
 
     public TradePoolState retrieveTradePoolState(String objectId) {
@@ -61,7 +67,80 @@ public class SuiTradePoolStateRetriever {
         tradePoolState.setPriceDeltaDenominator(tradePool.getPriceDeltaDenominator());
         tradePoolState.setX_TokenType(typeArgs.get(0));
         tradePoolState.setY_TokenType(typeArgs.get(1));
+        if (tradePool.getX_Reserve() != null) {
+            String tradePoolX_ReserveItemTableId = tradePool.getX_Reserve().getFields().getId().getId();
+            List<TradePoolX_ReserveItemState> tradePoolX_ReserveItems = getTradePoolX_ReserveItems(tradePoolState, tradePoolX_ReserveItemTableId);
+            for (TradePoolX_ReserveItemState i : tradePoolX_ReserveItems) {
+                ((EntityStateCollection.ModifiableEntityStateCollection)tradePoolState.getTradePoolX_ReserveItems()).add(i);
+            }
+        }
+
+        if (tradePool.getX_Amounts() != null) {
+            String tradePoolX_AmountsItemTableId = tradePool.getX_Amounts().getFields().getId().getId();
+            List<TradePoolX_AmountsItemState> tradePoolX_AmountsItems = getTradePoolX_AmountsItems(tradePoolState, tradePoolX_AmountsItemTableId);
+            for (TradePoolX_AmountsItemState i : tradePoolX_AmountsItems) {
+                ((EntityStateCollection.ModifiableEntityStateCollection)tradePoolState.getTradePoolX_AmountsItems()).add(i);
+            }
+        }
+
         return tradePoolState;
+    }
+
+    private TradePoolX_ReserveItemState toTradePoolX_ReserveItemState(TradePoolState tradePoolState, String key, java.util.Map<String, Object> value) {
+        TradePoolX_ReserveItemState.MutableTradePoolX_ReserveItemState tradePoolX_ReserveItemState = tradePoolX_ReserveItemStateFactory.apply(tradePoolState, key);
+        tradePoolX_ReserveItemState.setValue(value);
+        return tradePoolX_ReserveItemState;
+    }
+
+    private TradePoolX_AmountsItemState toTradePoolX_AmountsItemState(TradePoolState tradePoolState, String key, BigInteger value) {
+        TradePoolX_AmountsItemState.MutableTradePoolX_AmountsItemState tradePoolX_AmountsItemState = tradePoolX_AmountsItemStateFactory.apply(tradePoolState, key);
+        tradePoolX_AmountsItemState.setValue(value);
+        return tradePoolX_AmountsItemState;
+    }
+
+    private List<TradePoolX_ReserveItemState> getTradePoolX_ReserveItems(TradePoolState tradePoolState, String tradePoolX_ReserveItemTableId) {
+        List<TradePoolX_ReserveItemState> tradePoolX_ReserveItems = new ArrayList<>();
+        String cursor = null;
+        while (true) {
+            DynamicFieldPage<String> tradePoolX_ReserveItemFieldPage = suiJsonRpcClient.getDynamicFields(tradePoolX_ReserveItemTableId, cursor, null, String.class);
+            for (DynamicFieldInfo<String> tradePoolX_ReserveItemFieldInfo : tradePoolX_ReserveItemFieldPage.getData()) {
+                String fieldObjectId = tradePoolX_ReserveItemFieldInfo.getObjectId();
+                SuiMoveObjectResponse<java.util.Map<String, Object>> getTradePoolX_ReserveItemFieldResponse
+                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<Map<String, Object>>>() {});
+                String key = tradePoolX_ReserveItemFieldInfo.getName().getValue();
+                java.util.Map<String, Object> value = getTradePoolX_ReserveItemFieldResponse
+                        .getData().getContent().getFields();
+                TradePoolX_ReserveItemState tradePoolX_ReserveItemState = toTradePoolX_ReserveItemState(tradePoolState, key, value);
+                tradePoolX_ReserveItems.add(tradePoolX_ReserveItemState);
+            }
+            cursor = tradePoolX_ReserveItemFieldPage.getNextCursor();
+            if (!Page.hasNextPage(tradePoolX_ReserveItemFieldPage)) {
+                break;
+            }
+        }
+        return tradePoolX_ReserveItems;
+    }
+
+    private List<TradePoolX_AmountsItemState> getTradePoolX_AmountsItems(TradePoolState tradePoolState, String tradePoolX_AmountsItemTableId) {
+        List<TradePoolX_AmountsItemState> tradePoolX_AmountsItems = new ArrayList<>();
+        String cursor = null;
+        while (true) {
+            DynamicFieldPage<?> tradePoolX_AmountsItemFieldPage = suiJsonRpcClient.getDynamicFields(tradePoolX_AmountsItemTableId, cursor, null);
+            for (DynamicFieldInfo tradePoolX_AmountsItemFieldInfo : tradePoolX_AmountsItemFieldPage.getData()) {
+                String fieldObjectId = tradePoolX_AmountsItemFieldInfo.getObjectId();
+                SuiMoveObjectResponse<SimpleDynamicField<String, BigInteger>> getTradePoolX_AmountsItemFieldResponse
+                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<SimpleDynamicField<String, BigInteger>>>() {});
+                String key = getTradePoolX_AmountsItemFieldResponse.getData().getContent().getFields().getName();
+                BigInteger value = getTradePoolX_AmountsItemFieldResponse.getData().getContent().getFields().getValue();
+                TradePoolX_AmountsItemState tradePoolX_AmountsItemState = toTradePoolX_AmountsItemState(tradePoolState, key, value);
+                tradePoolX_AmountsItems.add(tradePoolX_AmountsItemState);
+            }
+            cursor = tradePoolX_AmountsItemFieldPage.getNextCursor();
+            if (!Page.hasNextPage(tradePoolX_AmountsItemFieldPage)) {
+                break;
+            }
+        }
+        return tradePoolX_AmountsItems;
     }
 
     

@@ -31,7 +31,11 @@ public class SuiTokenPairService {
                     TokenPairState.MutableTokenPairState s = new AbstractTokenPairState.SimpleTokenPairState();
                     s.setId(id);
                     return s;
-                }
+                },
+                (tokenPairState, key) -> (TokenPairX_ReserveItemState.MutableTokenPairX_ReserveItemState)
+                        ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_ReserveItemState>) tokenPairState.getTokenPairX_ReserveItems()).getOrAddDefault(key),
+                (tokenPairState, key) -> (TokenPairX_AmountsItemState.MutableTokenPairX_AmountsItemState)
+                        ((EntityStateCollection.ModifiableEntityStateCollection<String, TokenPairX_AmountsItemState>) tokenPairState.getTokenPairX_AmountsItems()).getOrAddDefault(key)
         );
     }
 
