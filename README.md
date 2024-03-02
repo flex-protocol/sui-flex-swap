@@ -176,7 +176,7 @@ That's the whole programming routine, isn't it simple?
 
 ## Test Application
 
-In the sample commands below for test, 
+In the example commands below for test, 
 we have used the following placeholders, please note that they need to be replaced with actual values:
 
 * `{UTILS_PACKAGE_ID}`: The package ID of the `utils` project.
@@ -193,15 +193,16 @@ For the following tests, we default to on testnet.
 
 On the Sui testnet, we deployed as well as set up a set of test contracts with the values of these placeholders:
 
-| Placeholder                      | Value |
+| Placeholder                      | Value                                                              |
 |----------------------------------|--------------------------------------------------------------------|
-| UTILS_PACKAGE_ID                 | 0x741492d3d074f1f645c901eb57688a486b82306b2e66e176ce869461d87e6ead |
-| CORE_PACKAGE_ID                  | 0x25775005d52eaff53e3a21ef8309269cee2360b35f7edbea451edd87d272e861 |
-| NFT_SERVICE_IMPL_PACKAGE_ID      | 0x2ed8c1021013a9de6a1a469adc8e7510c76f6fee0fea2c92bd48766e6de2ecda |
-| DI_PACKAGE_ID                    | 0x3cf62b54b2d2e39e5869aee61b348dd42a300ab9794f60f766958894f875cd9c |
-| EXCHANGE_OBJECT_ID               | 0x22dc8e8b61944f8ffe5983bab67d8f6124d5bcafd908f68d56a69c02118f9966 |
-| NFT_SERVICE_CONFIG_OBJECT_ID     | 0xf98a3f52aa00b202064af91e7f1082af98d0b4b52b13446a5ecad8053f69e8c6 |
-| NFT_SERVICE_CONFIG_CAP_OBJECT_ID | 0x26faff5ef8767ec156241ea5a05d56a9f9e31de52ee561f6cb45504eec6c31c4 |
+| UTILS_PACKAGE_ID                 | 0xf08c2f0fce586a3d0b6e4964b31a4e8b46e060fe17bb591b6c8deb5514f67c22 |
+| CORE_PACKAGE_ID                  | 0x4d6c3dd86aac1db8f2337fe78fb087ef5ea6812715edec09e4d9fa363872c261 |
+| NFT_SERVICE_IMPL_PACKAGE_ID      | 0xeb8c7f34a456fa3b5114c376a7eb5a1a5535625cc023f10ad70822a02eaffdb7 |
+| DI_PACKAGE_ID                    | 0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79 |
+| EXCHANGE_OBJECT_ID               | 0xdb548141e56f50ade96f9a8c16070f79c89e71408c43f8a1636ad82f958de45b |
+| NFT_SERVICE_CONFIG_OBJECT_ID     | 0xb60641282c6d3f96fd6942c093f0ce2c8cf6c54a09fd8834a68777de73b03b36 |
+| NFT_SERVICE_CONFIG_CAP_OBJECT_ID | 0xdff5d4f408cef1ea52e43ac39b361485c6f2489970c2864588a261b511f96c06 |
+| PUBLISH_CORE_PROJECT_TRANSACTION_DIGEST | 9JE4EGWDNgFpw93Yt3WWUPaiytbkncUcTuSogzh6THZN                       |
 
 
 Note that when testing with the Sui CLI, switch the environment to testnet first:

@@ -4,15 +4,16 @@
 movescription_package_id="0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff"
 
 # The following are the object IDs of the Movescription objects that are used in the following script.
-movescription_object_id_1="0x0ddbf12915c8e3cc9de1db797dbdefa89d2982e6ac11ff6abd7d0eddce5e77eb"
-movescription_object_id_2="0xc4032f7eb37d042fd399517cef4600a240461ef2efda421c0b76acca60e80cd6"
-movescription_object_id_3="0xbc10e2dbc741226bc38496725312352b2ac84c1db130c6ab7b30ac161515e39b"
-movescription_object_id_4="0x82c08a1b87d324ce8811401b90f2d588eded8b9b03ee94d0577da0998c16a86c"
+movescription_object_id_1="0xf7f07fe483d4e23db541e835505ac5cabdb4e405db40c13eaf12ce25b3fd87ca"
+movescription_object_id_2="0x457824b0c2c95c7ea1018d2e5aa46626d917a81bacdab9abc938fad01915836a"
+movescription_object_id_3="0x03e5e2206413a762c0eb17d883b66f4017c2fa444e3f6c3589c163456f9b704f"
+movescription_object_id_4="0xefcea26c23f5bfc9f99930450cce4378519bc3b2212760c0b51fd56b36e52440"
+movescription_object_id_5="0xa62f7319d67f1611aba7bd9bfeb3b41023661223df4ba79968dd2adea0922731"
 
 # The following are the object IDs of the SUI objects that are used in the following script.
 # Make sure the amounts of the following SUI objects are greater than 200000000
-sui_coin_object_id_1="0x8683661e73108ac8be7f798bc04f069848f72c0428e86a8b5170d3593ed3de10"
-sui_coin_object_id_2="0x9a0719083018191aca3975f73841d194e0d9106df078d313eb168fdcaa2c40cf"
+sui_coin_object_id_1="0xfdf3344392babaf053e0293218cb901236dd43c3abf52a1cf3b5af17ee1b9e20"
+sui_coin_object_id_2="0xdd4aea51975a506e1e5451e38f340c3444ae03c4b2533afd04253f7a53a8b4d0"
 
 # -------- Constants --------
 move_toml_file="Move.toml"
@@ -417,6 +418,18 @@ sui client call --package "$core_package_id" --module trade_pool_service --funct
 "$trade_pool_liquidity_token_id_1" \
 '"1000"' \
 "$sui_coin_object_id_1" \
+--gas-budget 100000000
+
+# -------- buy pool tests --------
+# Sell X token to buy pool
+sui client call --package "$di_package_id" --module movescription_buy_pool_service --function sell_x \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$buy_pool_id_1" \
+"$movescription_object_id_5" \
+"$sui_coin_object_id_1" \
+'"100"' \
 --gas-budget 100000000
 
 # ----------------------------------------------------------------------------------------
