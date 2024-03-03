@@ -98,11 +98,10 @@ public class SuiTokenPairStateRetriever {
             DynamicFieldPage<String> tokenPairX_ReserveItemFieldPage = suiJsonRpcClient.getDynamicFields(tokenPairX_ReserveItemTableId, cursor, null, String.class);
             for (DynamicFieldInfo<String> tokenPairX_ReserveItemFieldInfo : tokenPairX_ReserveItemFieldPage.getData()) {
                 String fieldObjectId = tokenPairX_ReserveItemFieldInfo.getObjectId();
+                SuiMoveObjectResponse<java.util.Map<String, Object>> getTokenPairX_ReserveItemObjectResponse
+                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<java.util.Map<String, Object>>>() {});
                 String key = tokenPairX_ReserveItemFieldInfo.getName().getValue();
-                SuiMoveObjectResponse<java.util.Map<String, Object>> getTokenPairX_ReserveItemFieldResponse
-                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<Map<String, Object>>>() {});
-                java.util.Map<String, Object> value = getTokenPairX_ReserveItemFieldResponse
-                        .getData().getContent().getFields();
+                java.util.Map<String, Object> value = getTokenPairX_ReserveItemObjectResponse.getData().getContent().getFields();
                 TokenPairX_ReserveItemState tokenPairX_ReserveItemState = toTokenPairX_ReserveItemState(tokenPairState, key, value);
                 tokenPairX_ReserveItems.add(tokenPairX_ReserveItemState);
             }

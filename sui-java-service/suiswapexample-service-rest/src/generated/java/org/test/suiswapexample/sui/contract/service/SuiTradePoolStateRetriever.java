@@ -105,11 +105,10 @@ public class SuiTradePoolStateRetriever {
             DynamicFieldPage<String> tradePoolX_ReserveItemFieldPage = suiJsonRpcClient.getDynamicFields(tradePoolX_ReserveItemTableId, cursor, null, String.class);
             for (DynamicFieldInfo<String> tradePoolX_ReserveItemFieldInfo : tradePoolX_ReserveItemFieldPage.getData()) {
                 String fieldObjectId = tradePoolX_ReserveItemFieldInfo.getObjectId();
-                SuiMoveObjectResponse<java.util.Map<String, Object>> getTradePoolX_ReserveItemFieldResponse
-                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<Map<String, Object>>>() {});
+                SuiMoveObjectResponse<java.util.Map<String, Object>> getTradePoolX_ReserveItemObjectResponse
+                        = suiJsonRpcClient.getMoveObject(fieldObjectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), new com.fasterxml.jackson.core.type.TypeReference<SuiMoveObjectResponse<java.util.Map<String, Object>>>() {});
                 String key = tradePoolX_ReserveItemFieldInfo.getName().getValue();
-                java.util.Map<String, Object> value = getTradePoolX_ReserveItemFieldResponse
-                        .getData().getContent().getFields();
+                java.util.Map<String, Object> value = getTradePoolX_ReserveItemObjectResponse.getData().getContent().getFields();
                 TradePoolX_ReserveItemState tradePoolX_ReserveItemState = toTradePoolX_ReserveItemState(tradePoolState, key, value);
                 tradePoolX_ReserveItems.add(tradePoolX_ReserveItemState);
             }
