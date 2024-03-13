@@ -69,6 +69,27 @@ Split 一个铭文：
 sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function split --args  0xfc8debdede996da1901ec9090ac8d6cda8478705f6c8bad64056b540ff6b4f8c '"1000"' --gas-budget 19000000
 ```
 
+```shell
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '1' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '2' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '3' --gas-budget 11000000
+```
+
+#### Mint 一些测试 NFTs
+
+为了测试，我们可以部署这个合约： `./sui-contracts/example_tokens/sources/equipment.move`。
+
+在 testnet 我们已经把这个合约部署在地址（Package ID）： `0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c`。
+
+（在 testnet 上，我们还在另外一个地址部署了该合约：`0xb1744c9cf5a47a736bf82a410d874bbc6a9d101b39e25bb11a4fa48774e8bac2`。）
+
+然后，我们可以这样 mint 一些 NFTs 用于测试：
+
+```shell
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '1' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '2' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '3' --gas-budget 11000000
+```
 
 ### 部署合约
 

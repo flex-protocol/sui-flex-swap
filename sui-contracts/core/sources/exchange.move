@@ -87,12 +87,28 @@ module sui_swap_core::exchange {
         exchange.name = name;
     }
 
+    public fun borrow_token_pairs(exchange: &Exchange): &vector<ID> {
+        &exchange.token_pairs
+    }
+
+    public(friend) fun borrow_mut_token_pairs(exchange: &mut Exchange): &mut vector<ID> {
+        &mut exchange.token_pairs
+    }
+
     public fun token_pairs(exchange: &Exchange): vector<ID> {
         exchange.token_pairs
     }
 
     public(friend) fun set_token_pairs(exchange: &mut Exchange, token_pairs: vector<ID>) {
         exchange.token_pairs = token_pairs;
+    }
+
+    public fun borrow_token_pair_x_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.token_pair_x_token_types
+    }
+
+    public(friend) fun borrow_mut_token_pair_x_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.token_pair_x_token_types
     }
 
     public fun token_pair_x_token_types(exchange: &Exchange): vector<String> {
@@ -103,12 +119,28 @@ module sui_swap_core::exchange {
         exchange.token_pair_x_token_types = token_pair_x_token_types;
     }
 
+    public fun borrow_token_pair_y_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.token_pair_y_token_types
+    }
+
+    public(friend) fun borrow_mut_token_pair_y_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.token_pair_y_token_types
+    }
+
     public fun token_pair_y_token_types(exchange: &Exchange): vector<String> {
         exchange.token_pair_y_token_types
     }
 
     public(friend) fun set_token_pair_y_token_types(exchange: &mut Exchange, token_pair_y_token_types: vector<String>) {
         exchange.token_pair_y_token_types = token_pair_y_token_types;
+    }
+
+    public fun borrow_trade_pools(exchange: &Exchange): &vector<ID> {
+        &exchange.trade_pools
+    }
+
+    public(friend) fun borrow_mut_trade_pools(exchange: &mut Exchange): &mut vector<ID> {
+        &mut exchange.trade_pools
     }
 
     public fun trade_pools(exchange: &Exchange): vector<ID> {
@@ -119,12 +151,28 @@ module sui_swap_core::exchange {
         exchange.trade_pools = trade_pools;
     }
 
+    public fun borrow_trade_pool_x_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.trade_pool_x_token_types
+    }
+
+    public(friend) fun borrow_mut_trade_pool_x_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.trade_pool_x_token_types
+    }
+
     public fun trade_pool_x_token_types(exchange: &Exchange): vector<String> {
         exchange.trade_pool_x_token_types
     }
 
     public(friend) fun set_trade_pool_x_token_types(exchange: &mut Exchange, trade_pool_x_token_types: vector<String>) {
         exchange.trade_pool_x_token_types = trade_pool_x_token_types;
+    }
+
+    public fun borrow_trade_pool_y_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.trade_pool_y_token_types
+    }
+
+    public(friend) fun borrow_mut_trade_pool_y_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.trade_pool_y_token_types
     }
 
     public fun trade_pool_y_token_types(exchange: &Exchange): vector<String> {
@@ -135,12 +183,28 @@ module sui_swap_core::exchange {
         exchange.trade_pool_y_token_types = trade_pool_y_token_types;
     }
 
+    public fun borrow_sell_pools(exchange: &Exchange): &vector<ID> {
+        &exchange.sell_pools
+    }
+
+    public(friend) fun borrow_mut_sell_pools(exchange: &mut Exchange): &mut vector<ID> {
+        &mut exchange.sell_pools
+    }
+
     public fun sell_pools(exchange: &Exchange): vector<ID> {
         exchange.sell_pools
     }
 
     public(friend) fun set_sell_pools(exchange: &mut Exchange, sell_pools: vector<ID>) {
         exchange.sell_pools = sell_pools;
+    }
+
+    public fun borrow_sell_pool_x_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.sell_pool_x_token_types
+    }
+
+    public(friend) fun borrow_mut_sell_pool_x_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.sell_pool_x_token_types
     }
 
     public fun sell_pool_x_token_types(exchange: &Exchange): vector<String> {
@@ -151,12 +215,28 @@ module sui_swap_core::exchange {
         exchange.sell_pool_x_token_types = sell_pool_x_token_types;
     }
 
+    public fun borrow_sell_pool_y_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.sell_pool_y_token_types
+    }
+
+    public(friend) fun borrow_mut_sell_pool_y_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.sell_pool_y_token_types
+    }
+
     public fun sell_pool_y_token_types(exchange: &Exchange): vector<String> {
         exchange.sell_pool_y_token_types
     }
 
     public(friend) fun set_sell_pool_y_token_types(exchange: &mut Exchange, sell_pool_y_token_types: vector<String>) {
         exchange.sell_pool_y_token_types = sell_pool_y_token_types;
+    }
+
+    public fun borrow_buy_pools(exchange: &Exchange): &vector<ID> {
+        &exchange.buy_pools
+    }
+
+    public(friend) fun borrow_mut_buy_pools(exchange: &mut Exchange): &mut vector<ID> {
+        &mut exchange.buy_pools
     }
 
     public fun buy_pools(exchange: &Exchange): vector<ID> {
@@ -167,12 +247,28 @@ module sui_swap_core::exchange {
         exchange.buy_pools = buy_pools;
     }
 
+    public fun borrow_buy_pool_x_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.buy_pool_x_token_types
+    }
+
+    public(friend) fun borrow_mut_buy_pool_x_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.buy_pool_x_token_types
+    }
+
     public fun buy_pool_x_token_types(exchange: &Exchange): vector<String> {
         exchange.buy_pool_x_token_types
     }
 
     public(friend) fun set_buy_pool_x_token_types(exchange: &mut Exchange, buy_pool_x_token_types: vector<String>) {
         exchange.buy_pool_x_token_types = buy_pool_x_token_types;
+    }
+
+    public fun borrow_buy_pool_y_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.buy_pool_y_token_types
+    }
+
+    public(friend) fun borrow_mut_buy_pool_y_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.buy_pool_y_token_types
     }
 
     public fun buy_pool_y_token_types(exchange: &Exchange): vector<String> {

@@ -197,7 +197,7 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 |----------------------------------|--------------------------------------------------------------------|
 | UTILS_PACKAGE_ID                 | 0xf08c2f0fce586a3d0b6e4964b31a4e8b46e060fe17bb591b6c8deb5514f67c22 |
 | CORE_PACKAGE_ID                  | 0x4d6c3dd86aac1db8f2337fe78fb087ef5ea6812715edec09e4d9fa363872c261 |
-| NFT_SERVICE_IMPL_PACKAGE_ID      | 0xeb8c7f34a456fa3b5114c376a7eb5a1a5535625cc023f10ad70822a02eaffdb7 |
+| NFT_SERVICE_IMPL_PACKAGE_ID      | 0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223 |
 | DI_PACKAGE_ID                    | 0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79 |
 | EXCHANGE_OBJECT_ID               | 0xdb548141e56f50ade96f9a8c16070f79c89e71408c43f8a1636ad82f958de45b |
 | NFT_SERVICE_CONFIG_OBJECT_ID     | 0xb60641282c6d3f96fd6942c093f0ce2c8cf6c54a09fd8834a68777de73b03b36 |
@@ -249,6 +249,22 @@ Maybe you want to quickly make some more inscription objects for testing, then, 
 
 ```shell
 sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23ae402ee80a6ff --module movescription --function split --args  0x221fe24766ee163ca1fcee68ffb894a189815f5d324cd7e5db2ea505dbb46b9b '"1000"' --gas-budget 19000000
+```
+
+#### Mint Some test NFTs
+
+For testing, we can deploy this contract: `. /sui-contracts/example_tokens/sources/equipment.move`.
+
+On testnet we have deployed this contract at address (Package ID): `0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c`.
+
+(On testnet, we also deployed the contract at another address: `0xb1744c9cf5a47a736bf82a410d874bbc6a9d101b39e25bb11a4fa48774e8bac2`.)
+
+We can then mint some NFTs for testing like this:
+
+```shell
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '1' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '2' --gas-budget 11000000
+sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '3' --gas-budget 11000000
 ```
 
 ### Deploy contracts
@@ -402,6 +418,11 @@ Only the publisher of the `core` project package can do this. Execute the follow
 ```shell
 sui client call --function add_allowed_impl --module nft_service_config --package {CORE_PACKAGE_ID} \
 --type-args '{NFT_SERVICE_IMPL_PACKAGE_ID}::movescription_service_impl::MovescriptionServiceImpl' \
+--args {NFT_SERVICE_CONFIG_OBJECT_ID} {NFT_SERVICE_CONFIG_CAP_OBJECT_ID} \
+--gas-budget 300000000
+
+sui client call --function add_allowed_impl --module nft_service_config --package {CORE_PACKAGE_ID} \
+--type-args '{NFT_SERVICE_IMPL_PACKAGE_ID}::test_equipment_service_impl::TestEquipmentServiceImpl' \
 --args {NFT_SERVICE_CONFIG_OBJECT_ID} {NFT_SERVICE_CONFIG_CAP_OBJECT_ID} \
 --gas-budget 300000000
 ```

@@ -45,7 +45,7 @@ module sui_swap_core::token_pair {
 
 
     fun init(otw: TOKEN_PAIR, ctx: &mut TxContext) {
-        sui::package::claim_and_keep(otw, ctx)
+        sui::package::claim_and_keep(otw, ctx);
     }
 
     public fun assert_schema_version<X: key + store, Y>(token_pair: &TokenPair<X, Y>) {

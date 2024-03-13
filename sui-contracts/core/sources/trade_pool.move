@@ -50,7 +50,7 @@ module sui_swap_core::trade_pool {
 
 
     fun init(otw: TRADE_POOL, ctx: &mut TxContext) {
-        sui::package::claim_and_keep(otw, ctx)
+        sui::package::claim_and_keep(otw, ctx);
     }
 
     public fun assert_schema_version<X: key + store, Y>(trade_pool: &TradePool<X, Y>) {
