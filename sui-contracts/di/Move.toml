@@ -1,5 +1,6 @@
 [package]
-published-at = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
+#published-at = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
+published-at = "0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099"
 name = "sui_swap_di"
 version = "0.0.1"
 
@@ -12,6 +13,7 @@ nft_service_impl = { local = "../nft-service-impl" }
 sui_swap_utils = { local = "../utils" }
 
 [addresses]
-sui_swap_di = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
+#sui_swap_di = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
+sui_swap_di = "0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099"
 #sui_swap_di = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"

@@ -2,7 +2,7 @@
 
 [move]
 version = 0
-manifest_digest = "D27F979C8CBD60315D9F437EE6AA87C212BA6B2715D5EE8E19F558A03C2CFFB3"
+manifest_digest = "695D0EE14B2BA005E88A54A31EA722AF92660006ECB6FAA05BCF624E1A8D9929"
 deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
 
 dependencies = [
@@ -34,12 +34,21 @@ dependencies = [
 ]
 
 [[move.package]]
+name = "example_tokens"
+source = { local = "../example_tokens" }
+
+dependencies = [
+  { name = "Sui" },
+]
+
+[[move.package]]
 name = "nft_service_impl"
 source = { local = "../nft-service-impl" }
 
 dependencies = [
   { name = "SmartInscription" },
   { name = "Sui" },
+  { name = "example_tokens" },
   { name = "sui_swap_core" },
   { name = "sui_swap_utils" },
 ]
@@ -60,3 +69,8 @@ source = { local = "../utils" }
 dependencies = [
   { name = "Sui" },
 ]
+
+[move.toolchain-version]
+compiler-version = "1.17.3"
+edition = "legacy"
+flavor = "sui"

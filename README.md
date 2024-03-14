@@ -198,7 +198,7 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 | UTILS_PACKAGE_ID                 | 0xf08c2f0fce586a3d0b6e4964b31a4e8b46e060fe17bb591b6c8deb5514f67c22 |
 | CORE_PACKAGE_ID                  | 0x4d6c3dd86aac1db8f2337fe78fb087ef5ea6812715edec09e4d9fa363872c261 |
 | NFT_SERVICE_IMPL_PACKAGE_ID      | 0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223 |
-| DI_PACKAGE_ID                    | 0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79 |
+| DI_PACKAGE_ID                    | 0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099 |
 | EXCHANGE_OBJECT_ID               | 0xdb548141e56f50ade96f9a8c16070f79c89e71408c43f8a1636ad82f958de45b |
 | NFT_SERVICE_CONFIG_OBJECT_ID     | 0xb60641282c6d3f96fd6942c093f0ce2c8cf6c54a09fd8834a68777de73b03b36 |
 | NFT_SERVICE_CONFIG_CAP_OBJECT_ID | 0xdff5d4f408cef1ea52e43ac39b361485c6f2489970c2864588a261b511f96c06 |
@@ -715,7 +715,7 @@ Same as "Owner update exchange rate" of sell pool.
 
 ### Trade Pool tests
 
-#### Initialize trade pool
+#### Initialize Movescription trade pool
 
 The function parameters:
 
@@ -765,7 +765,57 @@ Note the output IDs of `TradePool` object and `LiquidityToken` object:
 │  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...>
 ```
 
-#### Sell X token to trade pool
+#### Initialize test NFT trade pool
+
+The function parameters:
+
+* `_nft_service_config: &NftServiceConfig`.
+* `exchange: &mut Exchange`: Assuming the ID of the `Exchange` object is `{EXCHANGE_OBJECT_ID}`.
+* `x: Equipment`: The ID of the test `Equipment` object. Assume it's `0xbbdd0d9ff7307aa7a5af62219c45786070786ca1d805c14bb416235824cd3e3f`.
+* `y_coin: Coin<Y>`: The ID of SUI coin object. Assume it's `0x09d2790f76f11f12898e4049c2c72aaeaf32a0341797d797d038dae836457433`.
+* `y_amount: u64`: The initial amount deposited into the pool.
+* `exchange_rate_numerator: u64`: We are going to set exchange rate of X to Y as 11110/100.
+* `exchange_rate_denominator: u64`.
+* `price_curve_type: u8`: We are going to use a linear price curve (1).
+* `price_delta_x_amount: u64`. Every 1 (amount) X token sold, the price of X token will increase by 6%.
+* `price_delta_numerator: u64`: 6.
+* `price_delta_denominator: u64`: 100.
+
+So, the command that needs to be executed is similar to the following:
+
+```shell
+sui client call --package {DI_PACKAGE_ID} --module test_equipment_trade_pool_service --function initialize_trade_pool \
+--type-args '0x2::sui::SUI' \
+--args \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
+'{EXCHANGE_OBJECT_ID}' \
+'0xbbdd0d9ff7307aa7a5af62219c45786070786ca1d805c14bb416235824cd3e3f' \
+'0x09d2790f76f11f12898e4049c2c72aaeaf32a0341797d797d038dae836457433' \
+'"100000000"' \
+'"11110"' \
+'"100"' \
+'0' \
+'"1"' \
+'"6"' \
+'"100"' \
+--gas-budget 100000000
+```
+
+Note the output IDs of `TradePool` object and `LiquidityToken` object:
+
+```text
+│  │ ObjectID: 0xe564b59c43af59f002feb538851fe86fc85ad07fa2048320ad0c876f9ff9210a
+│  │ Sender: 0x...
+│  │ Owner: Shared
+│  │ ObjectType: 0x...::trade_pool::TradePool<...::equipment::Equipment, 0x2::sui::SUI>
+
+│  │ ObjectID: 0x21c448da7d23ec11780dbdfda720a509d450ac9f590486134f63ce7440e55b69
+│  │ Sender: 0x...
+│  │ Owner: Account Address ...
+│  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...::equipment::Equipment, 0x2::sui::SU>
+```
+
+#### Sell Movescription token to trade pool
 
 Same as "Sell X token to buy pool". The function parameters:
 
@@ -789,7 +839,31 @@ sui client call --package {DI_PACKAGE_ID} --module movescription_buy_pool_servic
 --gas-budget 100000000
 ```
 
-#### Buy X token from trade pool
+#### Sell test NFT token to trade pool
+
+Same as "Sell X token to buy pool". The function parameters:
+
+* `_nft_service_config: &NftServiceConfig`.
+* `pool: &mut TradePool<Equipment, Y>`: The ID of buy pool or trade pool object.
+* `x: Equipment`: The ID of the `Equipment` object. Assume it's `0x221fe24766ee163ca1fcee68ffb894a189815f5d324cd7e5db2ea505dbb46b9b`.
+* `y_coin: &mut Coin<Y>`: The SUI Coin object you own to accept the balance.
+* `expected_y_amount_out: u64`: The minimum acceptable output amount is expected.
+
+For example:
+
+```shell
+sui client call --package {DI_PACKAGE_ID} --module test_equipment_buy_pool_service --function sell_x \
+--type-args '0x2::sui::SUI' \
+--args \
+'{NFT_SERVICE_CONFIG_OBJECT_ID}' \
+'0xe564b59c43af59f002feb538851fe86fc85ad07fa2048320ad0c876f9ff9210a' \
+'0x2b36b930f80ce73acc91456aa84021edf7de3d8ff27c4559305aef8d2b2b311c' \
+'0x09d2790f76f11f12898e4049c2c72aaeaf32a0341797d797d038dae836457433' \
+'"100"' \
+--gas-budget 100000000
+```
+
+#### Buy Movescription token from trade pool
 
 Same as "Buy X token from sell pool". The function parameters:
 
