@@ -61,7 +61,7 @@ public class ContractConstants {
     public static final String EXCHANGE_MODULE_EXCHANGE_UPDATED = "exchange::ExchangeUpdated";
 
 
-    public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
+    public static String[] getDefaultPackageIdGeneratorObjectTypes(String packageId) {
         return new String[]{
         };
     }
