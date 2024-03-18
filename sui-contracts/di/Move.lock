@@ -69,3 +69,8 @@ source = { local = "../utils" }
 dependencies = [
   { name = "Sui" },
 ]
+
+[move.toolchain-version]
+compiler-version = "1.17.3"
+edition = "legacy"
+flavor = "sui"
