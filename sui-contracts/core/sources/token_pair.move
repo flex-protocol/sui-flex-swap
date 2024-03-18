@@ -243,8 +243,8 @@ module sui_swap_core::token_pair {
         liquidity_initialized.liquidity_token_id
     }
 
-    public(friend) fun set_liquidity_initialized_liquidity_token_id(liquidity_initialized: &mut LiquidityInitialized, liquidity_token_id: ID) {
-        liquidity_initialized.liquidity_token_id = option::some(liquidity_token_id);
+    public(friend) fun set_liquidity_initialized_liquidity_token_id(liquidity_initialized: &mut LiquidityInitialized, liquidity_token_id: Option<ID>) {
+        liquidity_initialized.liquidity_token_id = liquidity_token_id;
     }
 
     public fun liquidity_initialized_x_id(liquidity_initialized: &LiquidityInitialized): ID {

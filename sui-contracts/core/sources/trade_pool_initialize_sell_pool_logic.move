@@ -98,7 +98,7 @@ module sui_swap_core::trade_pool_initialize_sell_pool_logic {
 
         let liquidity_token = liquidity_token_aggregate::mint<X, Y>(ctx);
         let liquidity_token_id = object::id(&liquidity_token);
-        trade_pool::set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized, liquidity_token_id);
+        trade_pool::set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized, option::some(liquidity_token_id));
 
         let start_exchange_rate_numerator = exchange_rate_numerator;
         let trade_pool = trade_pool::new_trade_pool<X, Y>(

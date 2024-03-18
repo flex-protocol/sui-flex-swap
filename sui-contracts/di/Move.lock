@@ -2,7 +2,7 @@
 
 [move]
 version = 0
-manifest_digest = "695D0EE14B2BA005E88A54A31EA722AF92660006ECB6FAA05BCF624E1A8D9929"
+manifest_digest = "25416EE94C1B0459E1BE24AC17441EB9958EB13FC25F87B7E02274544926AF81"
 deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
 
 dependencies = [
@@ -69,8 +69,3 @@ source = { local = "../utils" }
 dependencies = [
   { name = "Sui" },
 ]
-
-[move.toolchain-version]
-compiler-version = "1.17.3"
-edition = "legacy"
-flavor = "sui"

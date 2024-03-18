@@ -342,8 +342,8 @@ module sui_swap_core::trade_pool {
         trade_pool_initialized.liquidity_token_id
     }
 
-    public(friend) fun set_trade_pool_initialized_liquidity_token_id(trade_pool_initialized: &mut TradePoolInitialized, liquidity_token_id: ID) {
-        trade_pool_initialized.liquidity_token_id = option::some(liquidity_token_id);
+    public(friend) fun set_trade_pool_initialized_liquidity_token_id(trade_pool_initialized: &mut TradePoolInitialized, liquidity_token_id: Option<ID>) {
+        trade_pool_initialized.liquidity_token_id = liquidity_token_id;
     }
 
     public fun trade_pool_initialized_x_id(trade_pool_initialized: &TradePoolInitialized): ID {
@@ -459,8 +459,8 @@ module sui_swap_core::trade_pool {
         sell_pool_initialized.liquidity_token_id
     }
 
-    public(friend) fun set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized: &mut SellPoolInitialized, liquidity_token_id: ID) {
-        sell_pool_initialized.liquidity_token_id = option::some(liquidity_token_id);
+    public(friend) fun set_sell_pool_initialized_liquidity_token_id(sell_pool_initialized: &mut SellPoolInitialized, liquidity_token_id: Option<ID>) {
+        sell_pool_initialized.liquidity_token_id = liquidity_token_id;
     }
 
     public fun sell_pool_initialized_x_id(sell_pool_initialized: &SellPoolInitialized): ID {
@@ -573,8 +573,8 @@ module sui_swap_core::trade_pool {
         buy_pool_initialized.liquidity_token_id
     }
 
-    public(friend) fun set_buy_pool_initialized_liquidity_token_id(buy_pool_initialized: &mut BuyPoolInitialized, liquidity_token_id: ID) {
-        buy_pool_initialized.liquidity_token_id = option::some(liquidity_token_id);
+    public(friend) fun set_buy_pool_initialized_liquidity_token_id(buy_pool_initialized: &mut BuyPoolInitialized, liquidity_token_id: Option<ID>) {
+        buy_pool_initialized.liquidity_token_id = liquidity_token_id;
     }
 
     #[allow(unused_type_parameter)]
