@@ -1084,11 +1084,6 @@ module sui_swap_core::trade_pool {
     }
 
 
-    public(friend) fun transfer_object<X: key + store, Y>(trade_pool: TradePool<X, Y>, recipient: address) {
-        assert!(trade_pool.version == 0, EInappropriateVersion);
-        transfer::transfer(trade_pool, recipient);
-    }
-
     public(friend) fun update_version_and_transfer_object<X: key + store, Y>(trade_pool: TradePool<X, Y>, recipient: address) {
         update_object_version(&mut trade_pool);
         transfer::transfer(trade_pool, recipient);
@@ -1098,18 +1093,6 @@ module sui_swap_core::trade_pool {
     public fun share_object<X: key + store, Y>(trade_pool: TradePool<X, Y>) {
         assert!(trade_pool.version == 0, EInappropriateVersion);
         transfer::share_object(trade_pool);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun freeze_object<X: key + store, Y>(trade_pool: TradePool<X, Y>) {
-        assert!(trade_pool.version == 0, EInappropriateVersion);
-        transfer::freeze_object(trade_pool);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun update_version_and_freeze_object<X: key + store, Y>(trade_pool: TradePool<X, Y>) {
-        update_object_version(&mut trade_pool);
-        transfer::freeze_object(trade_pool);
     }
 
     public(friend) fun update_object_version<X: key + store, Y>(trade_pool: &mut TradePool<X, Y>) {

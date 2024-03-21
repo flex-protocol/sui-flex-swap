@@ -627,11 +627,6 @@ module sui_swap_core::token_pair {
     }
 
 
-    public(friend) fun transfer_object<X: key + store, Y>(token_pair: TokenPair<X, Y>, recipient: address) {
-        assert!(token_pair.version == 0, EInappropriateVersion);
-        transfer::transfer(token_pair, recipient);
-    }
-
     public(friend) fun update_version_and_transfer_object<X: key + store, Y>(token_pair: TokenPair<X, Y>, recipient: address) {
         update_object_version(&mut token_pair);
         transfer::transfer(token_pair, recipient);
@@ -641,18 +636,6 @@ module sui_swap_core::token_pair {
     public fun share_object<X: key + store, Y>(token_pair: TokenPair<X, Y>) {
         assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::share_object(token_pair);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun freeze_object<X: key + store, Y>(token_pair: TokenPair<X, Y>) {
-        assert!(token_pair.version == 0, EInappropriateVersion);
-        transfer::freeze_object(token_pair);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun update_version_and_freeze_object<X: key + store, Y>(token_pair: TokenPair<X, Y>) {
-        update_object_version(&mut token_pair);
-        transfer::freeze_object(token_pair);
     }
 
     public(friend) fun update_object_version<X: key + store, Y>(token_pair: &mut TokenPair<X, Y>) {

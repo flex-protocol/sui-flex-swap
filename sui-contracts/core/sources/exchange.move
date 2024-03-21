@@ -629,30 +629,10 @@ module sui_swap_core::exchange {
     }
 
 
-    public(friend) fun transfer_object(exchange: Exchange, recipient: address) {
-        assert!(exchange.version == 0, EInappropriateVersion);
-        transfer::transfer(exchange, recipient);
-    }
-
-    public(friend) fun update_version_and_transfer_object(exchange: Exchange, recipient: address) {
-        update_object_version(&mut exchange);
-        transfer::transfer(exchange, recipient);
-    }
-
     #[lint_allow(share_owned)]
     public(friend) fun share_object(exchange: Exchange) {
         assert!(exchange.version == 0, EInappropriateVersion);
         transfer::share_object(exchange);
-    }
-
-    public(friend) fun freeze_object(exchange: Exchange) {
-        assert!(exchange.version == 0, EInappropriateVersion);
-        transfer::freeze_object(exchange);
-    }
-
-    public(friend) fun update_version_and_freeze_object(exchange: Exchange) {
-        update_object_version(&mut exchange);
-        transfer::freeze_object(exchange);
     }
 
     public(friend) fun update_object_version(exchange: &mut Exchange) {
