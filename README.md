@@ -257,7 +257,7 @@ sui client call --package 0xf4090a30c92074412c3004906c3c3e14a9d353ad84008ac2c23a
 
 For testing, we can deploy this contract: `. /sui-contracts/example_tokens/sources/equipment.move`.
 
-On testnet we have deployed this contract at address (Package ID): `0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c`.
+On testnet we have deployed this contract at address (package ID): `0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c`.
 
 We can then mint some NFTs for testing like this:
 
@@ -267,8 +267,12 @@ sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b9
 sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '3' --gas-budget 11000000
 ```
 
-(On testnet, we also deployed the contract at another address: `0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920`.
-Transaction Digest: `44kiFkx9im8G4RNs5ZaBpB1KN9LL7tRLHZXWRZ8FvKGm`.)
+> **Hint**
+> 
+> On testnet, we also deployed the contract at another address (package ID): `0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920`.
+> The publishing transaction digest: `44kiFkx9im8G4RNs5ZaBpB1KN9LL7tRLHZXWRZ8FvKGm`.
+> The package ID of the corresponding "nft-service-impl" contract for this contract is: `0x091e6daa7d6e000290fbdae96cd12b44619e98b956af9838921a7942e17ab5e2`.
+> The package ID of the corresponding DI contract is: `0x9418aace582389a2f0108b9b7092bfcc26658e09eff1eb1c2564d4a1f4b278e2`.
 
 
 ### Deploy contracts
