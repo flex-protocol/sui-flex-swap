@@ -81,8 +81,6 @@ sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b9
 
 在 testnet 我们已经把这个合约部署在地址（Package ID）： `0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c`。
 
-（在 testnet 上，我们还在另外一个地址部署了该合约：`0xb1744c9cf5a47a736bf82a410d874bbc6a9d101b39e25bb11a4fa48774e8bac2`。）
-
 然后，我们可以这样 mint 一些 NFTs 用于测试：
 
 ```shell
@@ -90,6 +88,10 @@ sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b9
 sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '2' --gas-budget 11000000
 sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c --module equipment --function mint --args '3' --gas-budget 11000000
 ```
+
+（在 testnet 上，我们还在另外一个地址部署了该合约：`0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920`。
+Transaction Digest: `44kiFkx9im8G4RNs5ZaBpB1KN9LL7tRLHZXWRZ8FvKGm`。
+）
 
 ### 部署合约
 
