@@ -1075,8 +1075,8 @@ After setting, it should look like this:
 sui:
   contract:
     jsonrpc:
-      url: "https://fullnode.devnet.sui.io/"
-    package-publish-transaction: "GtfTaWTn3zeYGHosDKGXMUQWAagsDDA7bGg6pbJKCKMv"
+      url: "https://fullnode.testnet.sui.io/"
+    package-publish-transaction: "{PUBLISH_CORE_PROJECT_TRANSACTION_DIGEST}"
 ```
 
 This is the only place where off-chain service need to be configured, and it's that simple.
