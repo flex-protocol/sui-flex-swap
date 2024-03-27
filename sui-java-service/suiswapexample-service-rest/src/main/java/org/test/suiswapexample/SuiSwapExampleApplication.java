@@ -12,8 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
-//@EnableSwagger2
+@EnableOpenApi
 @SpringBootApplication(exclude = {
         SecurityAutoConfiguration.class
 })
