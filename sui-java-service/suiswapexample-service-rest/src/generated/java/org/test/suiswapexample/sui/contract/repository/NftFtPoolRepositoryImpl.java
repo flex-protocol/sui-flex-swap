@@ -13,7 +13,11 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId, String subtypeFieldName, String subtypeValue) {
+    public List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
+                                       String subtypeFieldName, String subtypeValue) {
+        if (!IdentifierValidator.isValidFieldName(subtypeFieldName)) {
+            throw new IllegalArgumentException("Invalid subtypeFieldName");
+        }
         StringBuilder queryBuilder = new StringBuilder("SELECT\n" +
                 "    a.key_ AS assetObjectId, a.value AS assetAmount,\n" +
                 "    a.trade_pool_id as poolObjectId,\n" +
