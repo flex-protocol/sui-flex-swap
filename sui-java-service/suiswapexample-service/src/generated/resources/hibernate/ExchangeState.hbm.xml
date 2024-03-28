@@ -27,65 +27,65 @@
     </property>
     <property name="createdAt" column="created_at" />
     <property name="updatedAt" column="updated_at" />
-    <list name="tokenPairs" table="exchange_token_pairs" lazy="false">
+    <list name="tokenPairs" table="exchange_token_pair_id" lazy="false">
       <key column="Id" />
-      <index column="token_pairs_index" />
-      <element column="token_pairs_item" type="string" not-null="true" />
+      <index column="exchange_token_pair_id_index" />
+      <element column="exchange_token_pair_id_item" type="string" not-null="true" />
     </list>
-    <list name="tokenPairX_TokenTypes" table="exchange_token_pair_x_token_types" lazy="false">
+    <list name="tokenPairX_TokenTypes" table="exchange_token_pair_x_token_type" lazy="false">
       <key column="Id" />
-      <index column="token_pair_x_token_types_index" />
-      <element column="token_pair_x_token_types_item" type="string" not-null="true" />
+      <index column="exchange_token_pair_x_token_type_index" />
+      <element column="exchange_token_pair_x_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="tokenPairY_TokenTypes" table="exchange_token_pair_y_token_types" lazy="false">
+    <list name="tokenPairY_TokenTypes" table="exchange_token_pair_y_token_type" lazy="false">
       <key column="Id" />
-      <index column="token_pair_y_token_types_index" />
-      <element column="token_pair_y_token_types_item" type="string" not-null="true" />
+      <index column="exchange_token_pair_y_token_type_index" />
+      <element column="exchange_token_pair_y_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="tradePools" table="exchange_trade_pools" lazy="false">
+    <list name="tradePools" table="exchange_trade_pool_id" lazy="false">
       <key column="Id" />
-      <index column="trade_pools_index" />
-      <element column="trade_pools_item" type="string" not-null="true" />
+      <index column="exchange_trade_pool_id_index" />
+      <element column="exchange_trade_pool_id_item" type="string" not-null="true" />
     </list>
-    <list name="tradePoolX_TokenTypes" table="exchange_trade_pool_x_token_types" lazy="false">
+    <list name="tradePoolX_TokenTypes" table="exchange_trade_pool_x_token_type" lazy="false">
       <key column="Id" />
-      <index column="trade_pool_x_token_types_index" />
-      <element column="trade_pool_x_token_types_item" type="string" not-null="true" />
+      <index column="exchange_trade_pool_x_token_type_index" />
+      <element column="exchange_trade_pool_x_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="tradePoolY_TokenTypes" table="exchange_trade_pool_y_token_types" lazy="false">
+    <list name="tradePoolY_TokenTypes" table="exchange_trade_pool_y_token_type" lazy="false">
       <key column="Id" />
-      <index column="trade_pool_y_token_types_index" />
-      <element column="trade_pool_y_token_types_item" type="string" not-null="true" />
+      <index column="exchange_trade_pool_y_token_type_index" />
+      <element column="exchange_trade_pool_y_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="sellPools" table="exchange_sell_pools" lazy="false">
+    <list name="sellPools" table="exchange_sell_pool_id" lazy="false">
       <key column="Id" />
-      <index column="sell_pools_index" />
-      <element column="sell_pools_item" type="string" not-null="true" />
+      <index column="exchange_sell_pool_id_index" />
+      <element column="exchange_sell_pool_id_item" type="string" not-null="true" />
     </list>
-    <list name="sellPoolX_TokenTypes" table="exchange_sell_pool_x_token_types" lazy="false">
+    <list name="sellPoolX_TokenTypes" table="exchange_sell_pool_x_token_type" lazy="false">
       <key column="Id" />
-      <index column="sell_pool_x_token_types_index" />
-      <element column="sell_pool_x_token_types_item" type="string" not-null="true" />
+      <index column="exchange_sell_pool_x_token_type_index" />
+      <element column="exchange_sell_pool_x_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="sellPoolY_TokenTypes" table="exchange_sell_pool_y_token_types" lazy="false">
+    <list name="sellPoolY_TokenTypes" table="exchange_sell_pool_y_token_type" lazy="false">
       <key column="Id" />
-      <index column="sell_pool_y_token_types_index" />
-      <element column="sell_pool_y_token_types_item" type="string" not-null="true" />
+      <index column="exchange_sell_pool_y_token_type_index" />
+      <element column="exchange_sell_pool_y_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="buyPools" table="exchange_buy_pools" lazy="false">
+    <list name="buyPools" table="exchange_buy_pool_id" lazy="false">
       <key column="Id" />
-      <index column="buy_pools_index" />
-      <element column="buy_pools_item" type="string" not-null="true" />
+      <index column="exchange_buy_pool_id_index" />
+      <element column="exchange_buy_pool_id_item" type="string" not-null="true" />
     </list>
-    <list name="buyPoolX_TokenTypes" table="exchange_buy_pool_x_token_types" lazy="false">
+    <list name="buyPoolX_TokenTypes" table="exchange_buy_pool_x_token_type" lazy="false">
       <key column="Id" />
-      <index column="buy_pool_x_token_types_index" />
-      <element column="buy_pool_x_token_types_item" type="string" not-null="true" />
+      <index column="exchange_buy_pool_x_token_type_index" />
+      <element column="exchange_buy_pool_x_token_type_item" type="string" not-null="true" />
     </list>
-    <list name="buyPoolY_TokenTypes" table="exchange_buy_pool_y_token_types" lazy="false">
+    <list name="buyPoolY_TokenTypes" table="exchange_buy_pool_y_token_type" lazy="false">
       <key column="Id" />
-      <index column="buy_pool_y_token_types_index" />
-      <element column="buy_pool_y_token_types_item" type="string" not-null="true" />
+      <index column="exchange_buy_pool_y_token_type_index" />
+      <element column="exchange_buy_pool_y_token_type_item" type="string" not-null="true" />
     </list>
   </class>
 </hibernate-mapping>

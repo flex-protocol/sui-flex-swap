@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"[]>
+<hibernate-mapping package="org.test.suiswapexample.domain.nftcollection">
+  <class name="AbstractNftCollectionSubtypeEvent" table="nft_collection_subtype_event" abstract="true">
+    <composite-id name="nftCollectionSubtypeEventId" class="org.test.suiswapexample.domain.nftcollection.NftCollectionSubtypeEventId">
+      <key-property name="nftCollectionCollectionType">
+        <column name="nft_collection_subtype_id_nft_collection_collection_type" length="500" />
+      </key-property>
+      <key-property name="name">
+        <column name="nft_collection_subtype_id_name" length="200" />
+      </key-property>
+      <key-property name="version">
+        <column name="version" sql-type="DECIMAL(20,0)" />
+      </key-property>
+    </composite-id>
+    <discriminator column="event_type" type="string" />
+    <property name="createdBy" column="created_by" />
+    <property name="createdAt" column="created_at" />
+    <property name="commandId" column="command_id" />
+  </class>
+</hibernate-mapping>

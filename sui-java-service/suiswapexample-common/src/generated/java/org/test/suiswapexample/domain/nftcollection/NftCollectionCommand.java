@@ -18,10 +18,6 @@ public interface NftCollectionCommand extends Command {
 
     void setCollectionType(String collectionType);
 
-    String getId_();
-
-    void setId_(String id);
-
     Long getOffChainVersion();
 
     void setOffChainVersion(Long offChainVersion);

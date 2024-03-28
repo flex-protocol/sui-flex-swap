@@ -28,21 +28,6 @@ public abstract class AbstractNftCollectionCommandDto extends AbstractCommand {
     }
 
     /**
-     * Id
-     */
-    private String id_;
-
-    public String getId_()
-    {
-        return this.id_;
-    }
-
-    public void setId_(String id)
-    {
-        this.id_ = id;
-    }
-
-    /**
      * Off Chain Version
      */
     private Long offChainVersion;
@@ -60,7 +45,6 @@ public abstract class AbstractNftCollectionCommandDto extends AbstractCommand {
 
     public void copyTo(NftCollectionCommand command) {
         command.setCollectionType(this.getCollectionType());
-        command.setId_(this.getId_());
         command.setOffChainVersion(this.getOffChainVersion());
         
         command.setRequesterId(this.getRequesterId());

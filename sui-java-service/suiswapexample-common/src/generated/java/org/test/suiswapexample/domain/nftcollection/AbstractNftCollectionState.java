@@ -13,7 +13,7 @@ import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
 import org.test.suiswapexample.domain.nftcollection.NftCollectionEvent.*;
 
-public abstract class AbstractNftCollectionState implements NftCollectionState.SqlNftCollectionState {
+public abstract class AbstractNftCollectionState implements NftCollectionState.SqlNftCollectionState, Saveable {
 
     private String collectionType;
 
@@ -23,16 +23,6 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
 
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
-    }
-
-    private String id_;
-
-    public String getId_() {
-        return this.id_;
-    }
-
-    public void setId_(String id) {
-        this.id_ = id;
     }
 
     private String name;
@@ -189,6 +179,26 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
         return this.getOffChainVersion() == null;
     }
 
+    private Set<NftCollectionSubtypeState> protectedSubtypes = new HashSet<>();
+
+    protected Set<NftCollectionSubtypeState> getProtectedSubtypes() {
+        return this.protectedSubtypes;
+    }
+
+    protected void setProtectedSubtypes(Set<NftCollectionSubtypeState> protectedSubtypes) {
+        this.protectedSubtypes = protectedSubtypes;
+    }
+
+    private EntityStateCollection<String, NftCollectionSubtypeState> subtypes;
+
+    public EntityStateCollection<String, NftCollectionSubtypeState> getSubtypes() {
+        return this.subtypes;
+    }
+
+    public void setSubtypes(EntityStateCollection<String, NftCollectionSubtypeState> subtypes) {
+        this.subtypes = subtypes;
+    }
+
     private Boolean stateReadOnly;
 
     public Boolean getStateReadOnly() { return this.stateReadOnly; }
@@ -228,6 +238,7 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
     }
     
     protected void initializeProperties() {
+        subtypes = new SimpleNftCollectionSubtypeStateCollection();
     }
 
     @Override
@@ -267,9 +278,48 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
         this.setBasicUnitAmount(s.getBasicUnitAmount());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
+
+        if (s.getSubtypes() != null) {
+            Iterable<NftCollectionSubtypeState> iterable;
+            if (s.getSubtypes().isLazy()) {
+                iterable = s.getSubtypes().getLoadedStates();
+            } else {
+                iterable = s.getSubtypes();
+            }
+            if (iterable != null) {
+                for (NftCollectionSubtypeState ss : iterable) {
+                    NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getName());
+                    ((AbstractNftCollectionSubtypeState) thisInnerState).merge(ss);
+                }
+            }
+        }
+        if (s.getSubtypes() != null) {
+            if (s.getSubtypes() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
+                if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getSubtypes()).getRemovedStates() != null) {
+                    for (NftCollectionSubtypeState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, NftCollectionSubtypeState>)s.getSubtypes()).getRemovedStates()) {
+                        NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getName());
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getSubtypes()).removeState(thisInnerState);
+                    }
+                }
+            } else {
+                if (s.getSubtypes().isAllLoaded()) {
+                    Set<String> removedStateIds = new HashSet<>(this.getSubtypes().stream().map(i -> i.getName()).collect(java.util.stream.Collectors.toList()));
+                    s.getSubtypes().forEach(i -> removedStateIds.remove(i.getName()));
+                    for (String i : removedStateIds) {
+                        NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(i);
+                        ((EntityStateCollection.ModifiableEntityStateCollection)this.getSubtypes()).removeState(thisInnerState);
+                    }
+                } else {
+                    throw new UnsupportedOperationException();
+                }
+            }
+        }
     }
 
     public void save() {
+        if (subtypes instanceof Saveable) {
+            ((Saveable)subtypes).save();
+        }
     }
 
     protected void throwOnWrongEvent(NftCollectionEvent event) {
@@ -302,6 +352,127 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
 
     }
 
+
+    class SimpleNftCollectionSubtypeStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>, Collection<NftCollectionSubtypeState> {
+
+        @Override
+        public NftCollectionSubtypeState get(String name) {
+            return protectedSubtypes.stream().filter(
+                            e -> e.getName().equals(name))
+                    .findFirst().orElse(null);
+        }
+
+        @Override
+        public boolean isLazy() {
+            return false;
+        }
+
+        @Override
+        public boolean isAllLoaded() {
+            return true;
+        }
+
+        @Override
+        public Collection<NftCollectionSubtypeState> getLoadedStates() {
+            return protectedSubtypes;
+        }
+
+        @Override
+        public NftCollectionSubtypeState getOrAddDefault(String name) {
+            NftCollectionSubtypeState s = get(name);
+            if (s == null) {
+                NftCollectionSubtypeId globalId = new NftCollectionSubtypeId(getCollectionType(), name);
+                AbstractNftCollectionSubtypeState state = new AbstractNftCollectionSubtypeState.SimpleNftCollectionSubtypeState();
+                state.setNftCollectionSubtypeId(globalId);
+                add(state);
+                s = state;
+            }
+            return s;
+        }
+
+        @Override
+        public int size() {
+            return protectedSubtypes.size();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return protectedSubtypes.isEmpty();
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return protectedSubtypes.contains(o);
+        }
+
+        @Override
+        public Iterator<NftCollectionSubtypeState> iterator() {
+            return protectedSubtypes.iterator();
+        }
+
+        @Override
+        public java.util.stream.Stream<NftCollectionSubtypeState> stream() {
+            return protectedSubtypes.stream();
+        }
+
+        @Override
+        public Object[] toArray() {
+            return protectedSubtypes.toArray();
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return protectedSubtypes.toArray(a);
+        }
+
+        @Override
+        public boolean add(NftCollectionSubtypeState s) {
+            if (s instanceof AbstractNftCollectionSubtypeState) {
+                AbstractNftCollectionSubtypeState state = (AbstractNftCollectionSubtypeState) s;
+                state.setProtectedNftCollectionState(AbstractNftCollectionState.this);
+            }
+            return protectedSubtypes.add(s);
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (o instanceof AbstractNftCollectionSubtypeState) {
+                AbstractNftCollectionSubtypeState s = (AbstractNftCollectionSubtypeState) o;
+                s.setProtectedNftCollectionState(null);
+            }
+            return protectedSubtypes.remove(o);
+        }
+
+        @Override
+        public boolean removeState(NftCollectionSubtypeState s) {
+            return remove(s);
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return protectedSubtypes.contains(c);
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends NftCollectionSubtypeState> c) {
+            return protectedSubtypes.addAll(c);
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return protectedSubtypes.removeAll(c);
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return protectedSubtypes.retainAll(c);
+        }
+
+        @Override
+        public void clear() {
+            protectedSubtypes.clear();
+        }
+    }
 
 
 }

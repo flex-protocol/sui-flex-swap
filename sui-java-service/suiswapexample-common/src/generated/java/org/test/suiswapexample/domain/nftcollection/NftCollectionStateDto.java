@@ -27,18 +27,6 @@ public class NftCollectionStateDto {
         this.collectionType = collectionType;
     }
 
-    private String id_;
-
-    public String getId_()
-    {
-        return this.id_;
-    }
-
-    public void setId_(String id)
-    {
-        this.id_ = id;
-    }
-
     private String name;
 
     public String getName()
@@ -207,10 +195,22 @@ public class NftCollectionStateDto {
         this.updatedAt = updatedAt;
     }
 
+    private NftCollectionSubtypeStateDto[] subtypes;
+
+    public NftCollectionSubtypeStateDto[] getSubtypes()
+    {
+        return this.subtypes;
+    }    
+
+    public void setSubtypes(NftCollectionSubtypeStateDto[] subtypes)
+    {
+        this.subtypes = subtypes;
+    }
+
 
     public static class DtoConverter extends AbstractStateDtoConverter
     {
-        public static Collection<String> collectionFieldNames = Arrays.asList(new String[]{});
+        public static Collection<String> collectionFieldNames = Arrays.asList(new String[]{"Subtypes"});
 
         @Override
         protected boolean isCollectionField(String fieldName) {
@@ -238,9 +238,6 @@ public class NftCollectionStateDto {
             NftCollectionStateDto dto = new NftCollectionStateDto();
             if (returnedFieldsContains("CollectionType")) {
                 dto.setCollectionType(state.getCollectionType());
-            }
-            if (returnedFieldsContains("Id_")) {
-                dto.setId_(state.getId_());
             }
             if (returnedFieldsContains("Name")) {
                 dto.setName(state.getName());
@@ -283,6 +280,18 @@ public class NftCollectionStateDto {
             }
             if (returnedFieldsContains("UpdatedAt")) {
                 dto.setUpdatedAt(state.getUpdatedAt());
+            }
+            if (returnedFieldsContains("Subtypes")) {
+                ArrayList<NftCollectionSubtypeStateDto> arrayList = new ArrayList();
+                if (state.getSubtypes() != null) {
+                    NftCollectionSubtypeStateDto.DtoConverter conv = new NftCollectionSubtypeStateDto.DtoConverter();
+                    String returnFS = CollectionUtils.mapGetValueIgnoringCase(getReturnedFields(), "Subtypes");
+                    if(returnFS != null) { conv.setReturnedFieldsString(returnFS); } else { conv.setAllFieldsReturned(this.getAllFieldsReturned()); }
+                    for (NftCollectionSubtypeState s : state.getSubtypes()) {
+                        arrayList.add(conv.toNftCollectionSubtypeStateDto(s));
+                    }
+                }
+                dto.setSubtypes(arrayList.toArray(new NftCollectionSubtypeStateDto[0]));
             }
             return dto;
         }

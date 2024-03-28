@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"[]>
+<hibernate-mapping package="org.test.suiswapexample.domain.nftcollection">
+  <class name="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionSubtypeState$SimpleNftCollectionSubtypeState" table="nft_collection_subtype">
+    <composite-id name="nftCollectionSubtypeId" class="org.test.suiswapexample.domain.nftcollection.NftCollectionSubtypeId">
+      <key-property name="nftCollectionCollectionType">
+        <column name="nft_collection_subtype_id_nft_collection_collection_type" length="500" />
+      </key-property>
+      <key-property name="name">
+        <column name="nft_collection_subtype_id_name" length="200" />
+      </key-property>
+    </composite-id>
+    <version name="offChainVersion" column="off_chain_version" type="long" />
+    <many-to-one name="protectedNftCollectionState" class="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionState$SimpleNftCollectionState" insert="false" update="false">
+      <column name="nft_collection_subtype_id_nft_collection_collection_type" />
+    </many-to-one>
+    <property name="subtypeFieldName">
+      <column name="subtype_field_name" length="200" />
+    </property>
+    <property name="subtypeValue">
+      <column name="subtype_value" length="200" />
+    </property>
+    <property name="imageUrl">
+      <column name="image_url" length="500" />
+    </property>
+    <property name="createdBy">
+      <column name="created_by" />
+    </property>
+    <property name="updatedBy">
+      <column name="updated_by" />
+    </property>
+    <property name="active">
+      <column name="active" />
+    </property>
+    <property name="deleted">
+      <column name="deleted" />
+    </property>
+    <property name="createdAt" column="created_at" />
+    <property name="updatedAt" column="updated_at" />
+  </class>
+</hibernate-mapping>

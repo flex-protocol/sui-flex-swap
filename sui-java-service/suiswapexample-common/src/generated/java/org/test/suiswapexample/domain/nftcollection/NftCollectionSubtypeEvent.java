@@ -6,28 +6,23 @@
 package org.test.suiswapexample.domain.nftcollection;
 
 import java.util.*;
-import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
 
-public interface NftCollectionEvent extends Event, SuiEventEnvelope, SuiMoveEvent, HasStatus {
+public interface NftCollectionSubtypeEvent extends Event {
 
-    interface SqlNftCollectionEvent extends NftCollectionEvent {
-        NftCollectionEventId getNftCollectionEventId();
+    interface SqlNftCollectionSubtypeEvent extends NftCollectionSubtypeEvent {
+        NftCollectionSubtypeEventId getNftCollectionSubtypeEventId();
 
         boolean getEventReadOnly();
 
         void setEventReadOnly(boolean readOnly);
     }
 
-    String getCollectionType();
+    String getName();
 
-    //void setCollectionType(String collectionType);
-
-    BigInteger getVersion();
-    
-    //void setVersion(BigInteger version);
+    //void setName(String name);
 
     String getCreatedBy();
 

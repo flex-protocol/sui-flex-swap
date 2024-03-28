@@ -31,7 +31,7 @@ public class HibernateNftCollectionStateRepository implements NftCollectionState
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "Subtypes", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -51,7 +51,7 @@ public class HibernateNftCollectionStateRepository implements NftCollectionState
             state.setCollectionType(id);
         }
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (NftCollectionState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{NftCollectionState.SqlNftCollectionState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (NftCollectionState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{NftCollectionState.SqlNftCollectionState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }

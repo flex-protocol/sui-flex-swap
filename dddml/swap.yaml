@@ -616,11 +616,13 @@ aggregates:
 #          type: LiquidityToken<Y>
 #        event:
 #          name: LiquidityTokenSplit
+
   NftCollection:
     id:
       name: CollectionType
       type: String
       length: 500
+    noSurrogateId: true
     properties:
       Name:
         type: String
@@ -640,6 +642,24 @@ aggregates:
         type: String
       BasicUnitAmount:
         type: u64
+      Subtypes:
+        itemType: NftCollectionSubtype
+    entities:
+      NftCollectionSubtype:
+        id:
+          name: Name
+          type: String
+          length: 200
+        properties:
+          SubtypeFieldName:
+            type: String
+            length: 200
+          SubtypeValue:
+            type: String
+            length: 200
+          ImageUrl:
+            type: String
+            length: 500
 
 singletonObjects:
   Exchange:
@@ -665,39 +685,51 @@ singletonObjects:
       TokenPairs:
         itemType: ID #ObjectID
         isList: true
+        tableName: exchange_token_pair_id
       TokenPairX_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_token_pair_x_token_type
       TokenPairY_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_token_pair_y_token_type
       TradePools:
         itemType: ID #ObjectID
         isList: true
+        tableName: exchange_trade_pool_id
       TradePoolX_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_trade_pool_x_token_type
       TradePoolY_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_trade_pool_y_token_type
       SellPools:
         itemType: ID #ObjectID
         isList: true
+        tableName: exchange_sell_pool_id
       SellPoolX_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_sell_pool_x_token_type
       SellPoolY_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_sell_pool_y_token_type
       BuyPools:
         itemType: ID #ObjectID
         isList: true
+        tableName: exchange_buy_pool_id
       BuyPoolX_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_buy_pool_x_token_type
       BuyPoolY_TokenTypes:
         itemType: String
         isList: true
+        tableName: exchange_buy_pool_y_token_type
 
     methods:
       "__Init__":

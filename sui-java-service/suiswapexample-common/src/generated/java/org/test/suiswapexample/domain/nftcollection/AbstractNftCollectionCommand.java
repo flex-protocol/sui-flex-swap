@@ -25,18 +25,6 @@ public abstract class AbstractNftCollectionCommand extends AbstractCommand imple
         this.collectionType = collectionType;
     }
 
-    private String id_;
-
-    public String getId_()
-    {
-        return this.id_;
-    }
-
-    public void setId_(String id)
-    {
-        this.id_ = id;
-    }
-
     private Long offChainVersion;
 
     public Long getOffChainVersion()

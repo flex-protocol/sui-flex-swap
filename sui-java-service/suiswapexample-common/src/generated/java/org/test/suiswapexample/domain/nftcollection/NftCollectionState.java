@@ -20,8 +20,6 @@ public interface NftCollectionState extends VersionedSuiMoveObject
 
     String getCollectionType();
 
-    String getId_();
-
     String getName();
 
     String getImageUrl();
@@ -50,10 +48,10 @@ public interface NftCollectionState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    EntityStateCollection<String, NftCollectionSubtypeState> getSubtypes();
+
     interface MutableNftCollectionState extends NftCollectionState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setCollectionType(String collectionType);
-
-        void setId_(String id);
 
         void setName(String name);
 

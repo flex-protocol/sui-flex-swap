@@ -31,7 +31,7 @@ public class HibernateNftCollectionStateQueryRepository implements NftCollection
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "Subtypes", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -48,7 +48,7 @@ public class HibernateNftCollectionStateQueryRepository implements NftCollection
 
         NftCollectionState state = (NftCollectionState)getCurrentSession().get(AbstractNftCollectionState.SimpleNftCollectionState.class, id);
         if (getReadOnlyProxyGenerator() != null && state != null) {
-            return (NftCollectionState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{NftCollectionState.SqlNftCollectionState.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
+            return (NftCollectionState) getReadOnlyProxyGenerator().createProxy(state, new Class[]{NftCollectionState.SqlNftCollectionState.class, Saveable.class}, "getStateReadOnly", readOnlyPropertyPascalCaseNames);
         }
         return state;
     }
@@ -128,6 +128,22 @@ public class HibernateNftCollectionStateQueryRepository implements NftCollection
         }
         addNotDeletedRestriction(criteria);
         return (long)criteria.uniqueResult();
+    }
+
+    @Transactional(readOnly = true)
+    public NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String name) {
+        NftCollectionSubtypeId entityId = new NftCollectionSubtypeId(nftCollectionCollectionType, name);
+        return (NftCollectionSubtypeState) getCurrentSession().get(AbstractNftCollectionSubtypeState.SimpleNftCollectionSubtypeState.class, entityId);
+    }
+
+    @Transactional(readOnly = true)
+    public Iterable<NftCollectionSubtypeState> getNftCollectionSubtypes(String nftCollectionCollectionType, org.dddml.support.criterion.Criterion filter, List<String> orders) {
+        Criteria criteria = getCurrentSession().createCriteria(AbstractNftCollectionSubtypeState.SimpleNftCollectionSubtypeState.class);
+        org.hibernate.criterion.Junction partIdCondition = org.hibernate.criterion.Restrictions.conjunction()
+            .add(org.hibernate.criterion.Restrictions.eq("nftCollectionSubtypeId.nftCollectionCollectionType", nftCollectionCollectionType))
+            ;
+        HibernateUtils.criteriaAddFilterAndOrdersAndSetFirstResultAndMaxResults(criteria, filter, orders, 0, Integer.MAX_VALUE);
+        return criteria.add(partIdCondition).list();
     }
 
 

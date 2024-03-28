@@ -37,6 +37,7 @@ public class M {
         typeToAggMap.put("TradePool", "TradePool");
         typeToAggMap.put("LiquidityToken", "LiquidityToken");
         typeToAggMap.put("NftCollection", "NftCollection");
+        typeToAggMap.put("NftCollectionSubtype", "NftCollection");
         typeToAggMap.put("TokenPairX_ReserveItem", "TokenPair");
         typeToAggMap.put("TokenPairX_AmountsItem", "TokenPair");
         typeToAggMap.put("TradePoolX_ReserveItem", "TradePool");
@@ -953,6 +954,105 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
+    }
+
+    private static void initPropertyTypeMap() {
+        for (int i = 0; i < propertyNames.length; i++ ) {
+            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
+        }
+    }
+
+  }
+
+
+  // /////////////////////////////////////////////////////////  
+  public static class NftCollectionSubtypeMetadata {
+
+    private NftCollectionSubtypeMetadata() {
+    }
+
+    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
+    public static final String PROPERTY_NAME_ACTIVE       = "active";
+    public static final String PROPERTY_NAME_DELETED      = "deleted";
+    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
+    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
+    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
+    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
+
+    public static final String[] propertyNames = new String[] {
+            "name",
+            "subtypeFieldName",
+            "subtypeValue",
+            "imageUrl",
+            "offChainVersion",
+            "createdBy",
+            "createdAt",
+            "updatedBy",
+            "updatedAt",
+            "active",
+            "deleted",
+            "nftCollectionCollectionType",
+            "nftCollectionSubtypeId.nftCollectionCollectionType",
+            "nftCollectionSubtypeId.name",
+    };
+
+    public static final String[] propertyTypes = new String[] {
+            "String",
+            "String",
+            "String",
+            "String",
+            "Long",
+            "String",
+            "Date",
+            "String",
+            "Date",
+            "Boolean",
+            "Boolean",
+            "String",
+            "String",
+            "String",
+    };
+
+    public static final Map<String, String> propertyTypeMap;
+
+    public static final Map<String, String> aliasMap;
+
+    static {
+        propertyTypeMap = new HashMap<String, String>();
+        initPropertyTypeMap();
+        aliasMap = new HashMap<String, String>();
+        initAliasMap();
+    }
+
+    private static  void initAliasMap() {
+        aliasMap.put("name", "nftCollectionSubtypeId.name");
+        aliasMap.put("Name", "nftCollectionSubtypeId.name");
+        aliasMap.put("subtypeFieldName", "subtypeFieldName");
+        aliasMap.put("SubtypeFieldName", "subtypeFieldName");
+        aliasMap.put("subtypeValue", "subtypeValue");
+        aliasMap.put("SubtypeValue", "subtypeValue");
+        aliasMap.put("imageUrl", "imageUrl");
+        aliasMap.put("ImageUrl", "imageUrl");
+        aliasMap.put("offChainVersion", "offChainVersion");
+        aliasMap.put("OffChainVersion", "offChainVersion");
+        aliasMap.put("createdBy", "createdBy");
+        aliasMap.put("CreatedBy", "createdBy");
+        aliasMap.put("createdAt", "createdAt");
+        aliasMap.put("CreatedAt", "createdAt");
+        aliasMap.put("updatedBy", "updatedBy");
+        aliasMap.put("UpdatedBy", "updatedBy");
+        aliasMap.put("updatedAt", "updatedAt");
+        aliasMap.put("UpdatedAt", "updatedAt");
+        aliasMap.put("active", "active");
+        aliasMap.put("Active", "active");
+        aliasMap.put("deleted", "deleted");
+        aliasMap.put("Deleted", "deleted");
+        aliasMap.put("nftCollectionCollectionType", "nftCollectionSubtypeId.nftCollectionCollectionType");
+        aliasMap.put("NftCollectionCollectionType", "nftCollectionSubtypeId.nftCollectionCollectionType");
+        aliasMap.put("nftCollectionSubtypeId.nftCollectionCollectionType", "nftCollectionSubtypeId.nftCollectionCollectionType");
+        aliasMap.put("NftCollectionSubtypeId.NftCollectionCollectionType", "nftCollectionSubtypeId.nftCollectionCollectionType");
+        aliasMap.put("nftCollectionSubtypeId.name", "nftCollectionSubtypeId.name");
+        aliasMap.put("NftCollectionSubtypeId.Name", "nftCollectionSubtypeId.name");
     }
 
     private static void initPropertyTypeMap() {

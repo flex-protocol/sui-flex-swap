@@ -212,6 +212,59 @@ public class NftCollectionResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
+    /**
+     * Retrieve.
+     * Retrieves NftCollectionSubtype with the specified Name.
+     */
+    @GetMapping("{collectionType}/NftCollectionSubtypes/{name}")
+    @Transactional(readOnly = true)
+    public NftCollectionSubtypeStateDto getNftCollectionSubtype(@PathVariable("collectionType") String collectionType, @PathVariable("name") String name) {
+        try {
+
+            NftCollectionSubtypeState state = nftCollectionApplicationService.getNftCollectionSubtype(collectionType, name);
+            if (state == null) { return null; }
+            NftCollectionSubtypeStateDto.DtoConverter dtoConverter = new NftCollectionSubtypeStateDto.DtoConverter();
+            NftCollectionSubtypeStateDto stateDto = dtoConverter.toNftCollectionSubtypeStateDto(state);
+            dtoConverter.setAllFieldsReturned(true);
+            return stateDto;
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+    /**
+     * NftCollectionSubtype List
+     */
+    @GetMapping("{collectionType}/NftCollectionSubtypes")
+    @Transactional(readOnly = true)
+    public NftCollectionSubtypeStateDto[] getNftCollectionSubtypes(@PathVariable("collectionType") String collectionType,
+                    @RequestParam(value = "sort", required = false) String sort,
+                    @RequestParam(value = "fields", required = false) String fields,
+                    @RequestParam(value = "filter", required = false) String filter,
+                     HttpServletRequest request) {
+        try {
+            CriterionDto criterion = null;
+            if (!StringHelper.isNullOrEmpty(filter)) {
+                criterion = new ObjectMapper().readValue(filter, CriterionDto.class);
+            } else {
+                criterion = QueryParamUtils.getQueryCriterionDto(request.getParameterMap().entrySet().stream()
+                    .filter(kv -> NftCollectionResourceUtils.getNftCollectionSubtypeFilterPropertyName(kv.getKey()) != null)
+                    .collect(Collectors.toMap(kv -> kv.getKey(), kv -> kv.getValue())));
+            }
+            Criterion c = CriterionDto.toSubclass(criterion, getCriterionTypeConverter(), getPropertyTypeResolver(), 
+                n -> (NftCollectionSubtypeMetadata.aliasMap.containsKey(n) ? NftCollectionSubtypeMetadata.aliasMap.get(n) : n));
+            Iterable<NftCollectionSubtypeState> states = nftCollectionApplicationService.getNftCollectionSubtypes(collectionType, c,
+                    NftCollectionResourceUtils.getNftCollectionSubtypeQuerySorts(request.getParameterMap()));
+            if (states == null) { return null; }
+            NftCollectionSubtypeStateDto.DtoConverter dtoConverter = new NftCollectionSubtypeStateDto.DtoConverter();
+            if (StringHelper.isNullOrEmpty(fields)) {
+                dtoConverter.setAllFieldsReturned(true);
+            } else {
+                dtoConverter.setReturnedFieldsString(fields);
+            }
+            return dtoConverter.toNftCollectionSubtypeStateDtoArray(states);
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
 
 
     //protected  NftCollectionStateEventDtoConverter getNftCollectionStateEventDtoConverter() {
@@ -227,6 +280,15 @@ public class NftCollectionResource {
             @Override
             public Class resolveTypeByPropertyName(String propertyName) {
                 return NftCollectionResourceUtils.getFilterPropertyType(propertyName);
+            }
+        };
+    }
+
+    protected PropertyTypeResolver getNftCollectionSubtypePropertyTypeResolver() {
+        return new PropertyTypeResolver() {
+            @Override
+            public Class resolveTypeByPropertyName(String propertyName) {
+                return NftCollectionResourceUtils.getNftCollectionSubtypeFilterPropertyType(propertyName);
             }
         };
     }
@@ -285,6 +347,54 @@ public class NftCollectionResource {
                     String pName = getFilterPropertyName(key);
                     if (!StringHelper.isNullOrEmpty(pName)) {
                         Class pClass = getFilterPropertyType(pName);
+                        filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
+                    }
+                }
+            });
+            return filter.entrySet();
+        }
+
+        public static List<String> getNftCollectionSubtypeQueryOrders(String str, String separator) {
+            return QueryParamUtils.getQueryOrders(str, separator, NftCollectionSubtypeMetadata.aliasMap);
+        }
+
+        public static List<String> getNftCollectionSubtypeQuerySorts(Map<String, String[]> queryNameValuePairs) {
+            String[] values = queryNameValuePairs.get("sort");
+            return QueryParamUtils.getQuerySorts(values, NftCollectionSubtypeMetadata.aliasMap);
+        }
+
+        public static String getNftCollectionSubtypeFilterPropertyName(String fieldName) {
+            if ("sort".equalsIgnoreCase(fieldName)
+                    || "firstResult".equalsIgnoreCase(fieldName)
+                    || "maxResults".equalsIgnoreCase(fieldName)
+                    || "fields".equalsIgnoreCase(fieldName)) {
+                return null;
+            }
+            if (NftCollectionSubtypeMetadata.aliasMap.containsKey(fieldName)) {
+                return NftCollectionSubtypeMetadata.aliasMap.get(fieldName);
+            }
+            return null;
+        }
+
+        public static Class getNftCollectionSubtypeFilterPropertyType(String propertyName) {
+            if (NftCollectionSubtypeMetadata.propertyTypeMap.containsKey(propertyName)) {
+                String propertyType = NftCollectionSubtypeMetadata.propertyTypeMap.get(propertyName);
+                if (!StringHelper.isNullOrEmpty(propertyType)) {
+                    if (BoundedContextMetadata.CLASS_MAP.containsKey(propertyType)) {
+                        return BoundedContextMetadata.CLASS_MAP.get(propertyType);
+                    }
+                }
+            }
+            return String.class;
+        }
+
+        public static Iterable<Map.Entry<String, Object>> getNftCollectionSubtypeQueryFilterMap(Map<String, String[]> queryNameValuePairs) {
+            Map<String, Object> filter = new HashMap<>();
+            queryNameValuePairs.forEach((key, values) -> {
+                if (values.length > 0) {
+                    String pName = getNftCollectionSubtypeFilterPropertyName(key);
+                    if (!StringHelper.isNullOrEmpty(pName)) {
+                        Class pClass = getNftCollectionSubtypeFilterPropertyType(pName);
                         filter.put(pName, ApplicationContext.current.getTypeConverter().convertFromString(pClass, values[0]));
                     }
                 }

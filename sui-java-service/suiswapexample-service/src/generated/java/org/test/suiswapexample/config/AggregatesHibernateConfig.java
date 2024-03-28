@@ -197,6 +197,13 @@ public class AggregatesHibernateConfig {
 
 
     @Bean
+    public NftCollectionSubtypeEventDao nftCollectionSubtypeEventDao(SessionFactory hibernateSessionFactory) {
+        HibernateNftCollectionSubtypeEventDao dao = new HibernateNftCollectionSubtypeEventDao();
+        dao.setSessionFactory(hibernateSessionFactory);
+        return dao;
+    }
+
+    @Bean
     public NftCollectionStateRepository nftCollectionStateRepository(
             SessionFactory hibernateSessionFactory,
             ReadOnlyProxyGenerator stateReadOnlyProxyGenerator

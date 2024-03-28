@@ -45,16 +45,6 @@ public abstract class AbstractNftCollectionEvent extends AbstractEvent implement
         getNftCollectionEventId().setVersion(version);
     }
 
-    private String id_;
-
-    public String getId_() {
-        return this.id_;
-    }
-    
-    public void setId_(String id) {
-        this.id_ = id;
-    }
-
     private Long suiTimestamp;
 
     public Long getSuiTimestamp() {
@@ -181,6 +171,32 @@ public abstract class AbstractNftCollectionEvent extends AbstractEvent implement
 
     protected AbstractNftCollectionEvent(NftCollectionEventId eventId) {
         this.nftCollectionEventId = eventId;
+    }
+
+    protected NftCollectionSubtypeEventDao getNftCollectionSubtypeEventDao() {
+        return (NftCollectionSubtypeEventDao)ApplicationContext.current.get("nftCollectionSubtypeEventDao");
+    }
+
+    protected NftCollectionSubtypeEventId newNftCollectionSubtypeEventId(String name)
+    {
+        NftCollectionSubtypeEventId eventId = new NftCollectionSubtypeEventId(this.getNftCollectionEventId().getCollectionType(), 
+            name, 
+            this.getNftCollectionEventId().getVersion());
+        return eventId;
+    }
+
+    protected void throwOnInconsistentEventIds(NftCollectionSubtypeEvent.SqlNftCollectionSubtypeEvent e)
+    {
+        throwOnInconsistentEventIds(this, e);
+    }
+
+    public static void throwOnInconsistentEventIds(NftCollectionEvent.SqlNftCollectionEvent oe, NftCollectionSubtypeEvent.SqlNftCollectionSubtypeEvent e)
+    {
+        if (!oe.getNftCollectionEventId().getCollectionType().equals(e.getNftCollectionSubtypeEventId().getNftCollectionCollectionType()))
+        { 
+            throw DomainError.named("inconsistentEventIds", "Outer Id CollectionType %1$s but inner id NftCollectionCollectionType %2$s", 
+                oe.getNftCollectionEventId().getCollectionType(), e.getNftCollectionSubtypeEventId().getNftCollectionCollectionType());
+        }
     }
 
 
