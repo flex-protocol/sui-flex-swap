@@ -44,6 +44,8 @@ sui client call --package _PACKAGE_ID_ --module trade_pool_aggregate --function 
 
 ## LiquidityToken aggregate
 
+## NftCollection aggregate
+
 ## Exchange singleton object
 
 ### Update method

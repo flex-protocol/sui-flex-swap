@@ -14,6 +14,7 @@ import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.tradepool.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
+import org.test.suiswapexample.domain.nftcollection.*;
 import org.test.suiswapexample.domain.exchange.*;
 
 public class StaticMethodConstraints {

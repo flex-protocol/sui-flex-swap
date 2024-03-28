@@ -616,6 +616,30 @@ aggregates:
 #          type: LiquidityToken<Y>
 #        event:
 #          name: LiquidityTokenSplit
+  NftCollection:
+    id:
+      name: CollectionType
+      type: String
+      length: 500
+    properties:
+      Name:
+        type: String
+        length: 200
+      ImageUrl:
+        type: String
+        length: 500
+      DiPackageId:
+        type: ID
+      DiBuyPoolServiceModuleName:
+        type: String
+        length: 200
+      DiSellPoolServiceModuleName:
+        type: String
+        length: 200
+      DiTradePoolServiceModuleName:
+        type: String
+      BasicUnitAmount:
+        type: u64
 
 singletonObjects:
   Exchange:
@@ -1429,3 +1453,6 @@ configuration:
         mappingType: "io.hypersistence.utils.hibernate.type.json.JsonType"
         parameters:
           "org.hibernate.type.ParameterType": "java.util.HashMap"
+  sui:
+    offChainObjectNames: [ "NftCollection" ]
+

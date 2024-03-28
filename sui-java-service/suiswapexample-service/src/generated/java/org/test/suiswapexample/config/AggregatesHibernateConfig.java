@@ -14,6 +14,9 @@ import org.test.suiswapexample.domain.tradepool.hibernate.*;
 import org.test.suiswapexample.domain.liquiditytoken.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.liquiditytoken.hibernate.*;
+import org.test.suiswapexample.domain.nftcollection.*;
+import org.test.suiswapexample.domain.*;
+import org.test.suiswapexample.domain.nftcollection.hibernate.*;
 import org.test.suiswapexample.domain.exchange.*;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.exchange.hibernate.*;
@@ -187,6 +190,51 @@ public class AggregatesHibernateConfig {
                 liquidityTokenEventStore,
                 liquidityTokenStateRepository,
                 liquidityTokenStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public NftCollectionStateRepository nftCollectionStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateNftCollectionStateRepository repository = new HibernateNftCollectionStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public NftCollectionStateQueryRepository nftCollectionStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateNftCollectionStateQueryRepository repository = new HibernateNftCollectionStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateNftCollectionEventStore nftCollectionEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateNftCollectionEventStore eventStore = new HibernateNftCollectionEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractNftCollectionApplicationService.SimpleNftCollectionApplicationService nftCollectionApplicationService(
+            @Qualifier("nftCollectionEventStore") EventStore nftCollectionEventStore,
+            NftCollectionStateRepository nftCollectionStateRepository,
+            NftCollectionStateQueryRepository nftCollectionStateQueryRepository
+    ) {
+        AbstractNftCollectionApplicationService.SimpleNftCollectionApplicationService applicationService = new AbstractNftCollectionApplicationService.SimpleNftCollectionApplicationService(
+                nftCollectionEventStore,
+                nftCollectionStateRepository,
+                nftCollectionStateQueryRepository
         );
         return applicationService;
     }
