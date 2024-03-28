@@ -34,6 +34,10 @@ public interface NftCollectionState extends VersionedSuiMoveObject
 
     BigInteger getBasicUnitAmount();
 
+    String getAmountFieldName();
+
+    String getSubtypeFieldName();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -66,6 +70,10 @@ public interface NftCollectionState extends VersionedSuiMoveObject
         void setDiTradePoolServiceModuleName(String diTradePoolServiceModuleName);
 
         void setBasicUnitAmount(BigInteger basicUnitAmount);
+
+        void setAmountFieldName(String amountFieldName);
+
+        void setSubtypeFieldName(String subtypeFieldName);
 
         void setOffChainVersion(Long offChainVersion);
 

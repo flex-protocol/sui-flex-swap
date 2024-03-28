@@ -414,9 +414,9 @@ Record the following information:
 ```text
 Transaction Digest: {PUBLISH_DI_PROJECT_TRANSACTION_DIGEST}
 
-│ Published Objects:                                                                               │
-│  ┌──                                                                                             │
-│  │ PackageID: {DI_PACKAGE_ID}                 │
+│ Published Objects:
+│  ┌──
+│  │ PackageID: {DI_PACKAGE_ID}
 ```
 
 #### Configure dependency injection allowlist

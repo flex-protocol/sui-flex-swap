@@ -31,7 +31,7 @@ public class HibernateNftCollectionStateQueryRepository implements NftCollection
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "Subtypes", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("CollectionType", "Name", "ImageUrl", "DiPackageId", "DiBuyPoolServiceModuleName", "DiSellPoolServiceModuleName", "DiTradePoolServiceModuleName", "BasicUnitAmount", "AmountFieldName", "SubtypeFieldName", "Subtypes", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

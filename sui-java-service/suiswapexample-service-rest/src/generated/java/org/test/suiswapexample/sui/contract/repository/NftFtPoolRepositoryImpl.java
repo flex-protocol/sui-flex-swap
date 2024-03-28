@@ -14,8 +14,8 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
 
     @Override
     public List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
-                                       String subtypeFieldName, String subtypeValue) {
-        if (!IdentifierValidator.isValidFieldName(subtypeFieldName)) {
+                                       String subtypeFieldName, String subtypeValue, Boolean buyable) {
+        if (subtypeFieldName != null && !IdentifierValidator.isValidFieldName(subtypeFieldName)) {
             throw new IllegalArgumentException("Invalid subtypeFieldName");
         }
         StringBuilder queryBuilder = new StringBuilder("SELECT\n" +
@@ -42,6 +42,15 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         }
         if (subtypeFieldName != null && subtypeValue != null) {
             queryBuilder.append(" AND JSON_UNQUOTE(JSON_EXTRACT(r.value, CONCAT('$.','").append(subtypeFieldName).append("'))) = :subtypeValue");
+        }
+        // PoolType:
+        //    const TRADE_POOL: u8 = 0;
+        //    const SELL_POOL: u8 = 1;
+        //    const BUY_POOL: u8 = 2;
+        //
+        // TradePool and SellPool are buyable.
+        if (buyable != null && buyable) {
+            queryBuilder.append(" AND p.pool_type IN (0, 1)");
         }
         Query query = entityManager.createNativeQuery(queryBuilder.toString(), "NftAssetDtoMapping");
         query.setParameter("nftType", nftType);

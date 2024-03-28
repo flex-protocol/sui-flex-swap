@@ -111,6 +111,30 @@ public class NftCollectionStateDto {
         this.basicUnitAmount = basicUnitAmount;
     }
 
+    private String amountFieldName;
+
+    public String getAmountFieldName()
+    {
+        return this.amountFieldName;
+    }
+
+    public void setAmountFieldName(String amountFieldName)
+    {
+        this.amountFieldName = amountFieldName;
+    }
+
+    private String subtypeFieldName;
+
+    public String getSubtypeFieldName()
+    {
+        return this.subtypeFieldName;
+    }
+
+    public void setSubtypeFieldName(String subtypeFieldName)
+    {
+        this.subtypeFieldName = subtypeFieldName;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -259,6 +283,12 @@ public class NftCollectionStateDto {
             }
             if (returnedFieldsContains("BasicUnitAmount")) {
                 dto.setBasicUnitAmount(state.getBasicUnitAmount());
+            }
+            if (returnedFieldsContains("AmountFieldName")) {
+                dto.setAmountFieldName(state.getAmountFieldName());
+            }
+            if (returnedFieldsContains("SubtypeFieldName")) {
+                dto.setSubtypeFieldName(state.getSubtypeFieldName());
             }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());

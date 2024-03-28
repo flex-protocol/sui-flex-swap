@@ -132,7 +132,56 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 ### 测试链下服务
 
-### 链下服务 API
+#### 获取 NFT collection 的列表
+
+```shell
+curl -X GET "http://localhost:1023/api/NftCollections" -H "accept: application/json"
+```
+
+注意：CoinType 属于池子的信息，不属于 NFT collection 的信息。
+
+#### 获取 一个 NFT collection 的信息
+
+```shell
+curl -X GET "http://localhost:1023/api/NftCollections/0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment" -H "accept: application/json"
+```
+
+#### 获取池子中的 NFT 资产
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI" -H "accept: application/json"
+```
+
+如果只想要获得“可购买的”（即在 trade pool 或者 sell pool 中的资产），可以加上查询参数 `buyable=true`：
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI&buyable=true" -H "accept: application/json"
+```
+
+#### 获取某个地址拥有的 NFT 资产
+
+这个方法实际上是 Sui JSON-RPC `suix_getOwnedObjects` 以及 `sui_getObject` 方法的封装。获取的的链上某个地址（而不是池子）拥有的 NFT 资产。
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/ownedAssets?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&address=0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2" -H "accept: application/json"
+```
+
+
+#### 获取 Pools 的列表
+
+使用默认生成的接口：
+
+```shell
+curl -X GET "http://localhost:1023/api/TradePools" -H "accept: application/json"
+```
+
+这里可以根据池子的类型过滤池子的列表（当然其他属性也可以作为过滤条件）：
+
+```shell
+curl -X GET "http://localhost:1023/api/TradePools?poolType=2" -H "accept: application/json"
+```
+
+### 关于链下服务 API
 
 我们的链下服务将链上的对象状态拉取到链下的 SQL 数据库，以提供查询功能。
 

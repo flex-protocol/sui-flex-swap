@@ -14,9 +14,6 @@
     <many-to-one name="protectedNftCollectionState" class="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionState$SimpleNftCollectionState" insert="false" update="false">
       <column name="nft_collection_subtype_id_nft_collection_collection_type" />
     </many-to-one>
-    <property name="subtypeFieldName">
-      <column name="subtype_field_name" length="200" />
-    </property>
     <property name="subtypeValue">
       <column name="subtype_value" length="200" />
     </property>

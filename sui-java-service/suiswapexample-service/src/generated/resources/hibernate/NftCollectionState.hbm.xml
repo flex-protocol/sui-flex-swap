@@ -33,6 +33,12 @@
     <property name="basicUnitAmount">
       <column name="basic_unit_amount" sql-type="DECIMAL(20,0)" />
     </property>
+    <property name="amountFieldName">
+      <column name="amount_field_name" length="200" />
+    </property>
+    <property name="subtypeFieldName">
+      <column name="subtype_field_name" length="200" />
+    </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
     </property>

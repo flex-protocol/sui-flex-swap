@@ -26,18 +26,6 @@ public class NftCollectionSubtypeStateDto {
         this.name = name;
     }
 
-    private String subtypeFieldName;
-
-    public String getSubtypeFieldName()
-    {
-        return this.subtypeFieldName;
-    }
-
-    public void setSubtypeFieldName(String subtypeFieldName)
-    {
-        this.subtypeFieldName = subtypeFieldName;
-    }
-
     private String subtypeValue;
 
     public String getSubtypeValue()
@@ -177,9 +165,6 @@ public class NftCollectionSubtypeStateDto {
             NftCollectionSubtypeStateDto dto = new NftCollectionSubtypeStateDto();
             if (returnedFieldsContains("Name")) {
                 dto.setName(state.getName());
-            }
-            if (returnedFieldsContains("SubtypeFieldName")) {
-                dto.setSubtypeFieldName(state.getSubtypeFieldName());
             }
             if (returnedFieldsContains("SubtypeValue")) {
                 dto.setSubtypeValue(state.getSubtypeValue());

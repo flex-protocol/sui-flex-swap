@@ -642,6 +642,12 @@ aggregates:
         type: String
       BasicUnitAmount:
         type: u64
+      AmountFieldName:
+        type: String
+        length: 200
+      SubtypeFieldName:
+        type: String
+        length: 200
       Subtypes:
         itemType: NftCollectionSubtype
     entities:
@@ -651,9 +657,6 @@ aggregates:
           type: String
           length: 200
         properties:
-          SubtypeFieldName:
-            type: String
-            length: 200
           SubtypeValue:
             type: String
             length: 200

@@ -19,8 +19,6 @@ public interface NftCollectionSubtypeState
 
     String getName();
 
-    String getSubtypeFieldName();
-
     String getSubtypeValue();
 
     String getImageUrl();
@@ -43,8 +41,6 @@ public interface NftCollectionSubtypeState
 
     interface MutableNftCollectionSubtypeState extends NftCollectionSubtypeState {
         void setName(String name);
-
-        void setSubtypeFieldName(String subtypeFieldName);
 
         void setSubtypeValue(String subtypeValue);
 

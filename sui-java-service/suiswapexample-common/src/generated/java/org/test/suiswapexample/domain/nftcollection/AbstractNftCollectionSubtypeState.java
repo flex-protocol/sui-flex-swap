@@ -60,16 +60,6 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
         this.getNftCollectionSubtypeId().setName(name);
     }
 
-    private String subtypeFieldName;
-
-    public String getSubtypeFieldName() {
-        return this.subtypeFieldName;
-    }
-
-    public void setSubtypeFieldName(String subtypeFieldName) {
-        this.subtypeFieldName = subtypeFieldName;
-    }
-
     private String subtypeValue;
 
     public String getSubtypeValue() {
@@ -222,7 +212,6 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
         if (s == this) {
             return;
         }
-        this.setSubtypeFieldName(s.getSubtypeFieldName());
         this.setSubtypeValue(s.getSubtypeValue());
         this.setImageUrl(s.getImageUrl());
         this.setActive(s.getActive());

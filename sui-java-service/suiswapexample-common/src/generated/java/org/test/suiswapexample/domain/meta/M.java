@@ -881,6 +881,8 @@ public class M {
             "diSellPoolServiceModuleName",
             "diTradePoolServiceModuleName",
             "basicUnitAmount",
+            "amountFieldName",
+            "subtypeFieldName",
             "version",
             "offChainVersion",
             "createdBy",
@@ -900,6 +902,8 @@ public class M {
             "String",
             "String",
             "BigInteger",
+            "String",
+            "String",
             "BigInteger",
             "Long",
             "String",
@@ -938,6 +942,10 @@ public class M {
         aliasMap.put("DiTradePoolServiceModuleName", "diTradePoolServiceModuleName");
         aliasMap.put("basicUnitAmount", "basicUnitAmount");
         aliasMap.put("BasicUnitAmount", "basicUnitAmount");
+        aliasMap.put("amountFieldName", "amountFieldName");
+        aliasMap.put("AmountFieldName", "amountFieldName");
+        aliasMap.put("subtypeFieldName", "subtypeFieldName");
+        aliasMap.put("SubtypeFieldName", "subtypeFieldName");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");
@@ -981,7 +989,6 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "name",
-            "subtypeFieldName",
             "subtypeValue",
             "imageUrl",
             "offChainVersion",
@@ -997,7 +1004,6 @@ public class M {
     };
 
     public static final String[] propertyTypes = new String[] {
-            "String",
             "String",
             "String",
             "String",
@@ -1027,8 +1033,6 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("name", "nftCollectionSubtypeId.name");
         aliasMap.put("Name", "nftCollectionSubtypeId.name");
-        aliasMap.put("subtypeFieldName", "subtypeFieldName");
-        aliasMap.put("SubtypeFieldName", "subtypeFieldName");
         aliasMap.put("subtypeValue", "subtypeValue");
         aliasMap.put("SubtypeValue", "subtypeValue");
         aliasMap.put("imageUrl", "imageUrl");
