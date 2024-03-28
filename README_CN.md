@@ -166,6 +166,18 @@ curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437
 curl -X GET "http://localhost:1023/api/nftPools/ownedAssets?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&address=0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2" -H "accept: application/json"
 ```
 
+### 获取某个地址拥有的池子的列表
+
+这个方法先调用 Sui JSON-RPC `suix_getOwnedObjects` 方法获取某个地址拥有的 Liquidity token 对象，
+然后查询链下数据库获取这些 Liquidity token 对象对应的池子,
+然后调用 Sui JSON-RPC `sui_getObject` 方法获取池子的详细信息。
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/ownedPools?address=0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2" -H "accept: application/json"
+```
+
+如果需要过滤不同类型的池子，客户端可以获取全部类型的池子后自行过滤。
+
 
 #### 获取 Pools 的列表
 

@@ -11,8 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.test.suiswapexample.domain.nftcollection.NftCollectionState;
 import org.test.suiswapexample.domain.nftcollection.NftCollectionStateRepository;
+import org.test.suiswapexample.domain.tradepool.TradePoolState;
+import org.test.suiswapexample.domain.tradepool.TradePoolStateQueryRepository;
+import org.test.suiswapexample.sui.contract.ContractConstants;
+import org.test.suiswapexample.sui.contract.SuiPackage;
+import org.test.suiswapexample.sui.contract.TradePool;
 import org.test.suiswapexample.sui.contract.repository.NftFtPoolRepository;
+import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +35,12 @@ public class NftPoolResource {
 
     @Autowired
     private NftCollectionStateRepository nftCollectionStateRepository;
+
+    @Autowired
+    private SuiPackageRepository suiPackageRepository;
+
+    @Autowired
+    private TradePoolStateQueryRepository tradePoolStateQueryRepository;
 
     @GetMapping(path = "assets")
     @Transactional(readOnly = true)
@@ -46,13 +59,47 @@ public class NftPoolResource {
     public List<NftFtPoolRepository.NftAssetDto> getOwnedAssets(
             @RequestParam String nftType,
             @RequestParam String address) {
-        List<String> objectIds = getOwnedAssetIds(nftType, address);
+        List<String> assetObjIds = getOwnedObjectIds(nftType, address);
 
-        return objectIds.stream().map(objectId -> {
+        return assetObjIds.stream().map(objectId -> {
             String[] amountAndSubtype = getAssetAmountAndSubtype(objectId, nftType);
             return new NftFtPoolRepository.NftAssetDto(objectId, amountAndSubtype[0], amountAndSubtype[1],
                     null, null, null, nftType, null);
         }).collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "ownedPools")
+    public List<TradePool> getOwnedPools(
+            @RequestParam String address
+    ) {
+        String liquidityTokenPackageId = getDefaultSuiPackageId();
+        List<String> liquidityTokenObjIds = getOwnedObjectIds(
+                liquidityTokenPackageId + "::liquidity_token::LiquidityToken", address);
+        List<String> poolObjIds = liquidityTokenObjIds.stream().map(i -> getPoolIdByLiquidityTokenId(i))
+                .filter(i -> i != null)
+                .collect(Collectors.toList());
+        return poolObjIds.stream().map(objectId -> {
+            SuiMoveObjectResponse<TradePool> suiObjectResponse = suiJsonRpcClient.getMoveObject(objectId,
+                    new SuiObjectDataOptions(
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            false,
+                            false
+                    ),
+                    TradePool.class
+            );
+            return suiObjectResponse.getData().getContent().getFields();
+        }).collect(Collectors.toList());
+    }
+
+    private String getPoolIdByLiquidityTokenId(String liquidityTokenId) {
+        List<java.util.Map.Entry<String, Object>> filter = new ArrayList<>();
+        filter.add(new AbstractMap.SimpleEntry<>("liquidityTokenId", liquidityTokenId));
+        TradePoolState pool = tradePoolStateQueryRepository.getFirst(filter, null);
+        return pool == null ? null : pool.getId();
     }
 
     private String[] getAssetAmountAndSubtype(String objectId, String nftType) {
@@ -83,8 +130,8 @@ public class NftPoolResource {
         }
     }
 
-    private List<String> getOwnedAssetIds(String nftType, String address) {
-        SuiObjectDataFilter filter = new SuiObjectDataFilter.StructType(nftType);
+    private List<String> getOwnedObjectIds(String objectType, String address) {
+        SuiObjectDataFilter filter = new SuiObjectDataFilter.StructType(objectType);
         SuiObjectResponseQuery query = new SuiObjectResponseQuery(filter, null);
         String cursor = null;
         List<String> objectIds = new ArrayList<>();
@@ -106,5 +153,9 @@ public class NftPoolResource {
         return objectIds;
     }
 
+    private String getDefaultSuiPackageId() {
+        return suiPackageRepository.findById(ContractConstants.DEFAULT_SUI_PACKAGE_NAME)
+                .map(SuiPackage::getObjectId).orElse(null);
+    }
 
 }
