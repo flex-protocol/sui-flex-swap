@@ -43,14 +43,9 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         if (subtypeFieldName != null && subtypeValue != null) {
             queryBuilder.append(" AND JSON_UNQUOTE(JSON_EXTRACT(r.value, CONCAT('$.','").append(subtypeFieldName).append("'))) = :subtypeValue");
         }
-        // PoolType:
-        //    const TRADE_POOL: u8 = 0;
-        //    const SELL_POOL: u8 = 1;
-        //    const BUY_POOL: u8 = 2;
-        //
         // TradePool and SellPool are buyable.
         if (buyable != null && buyable) {
-            queryBuilder.append(" AND p.pool_type IN (0, 1)");
+            queryBuilder.append(" AND p.pool_type IN (" + TRADE_POOL + ", " + SELL_POOL + ")");
         }
         Query query = entityManager.createNativeQuery(queryBuilder.toString(), "NftAssetDtoMapping");
         query.setParameter("nftType", nftType);

@@ -134,6 +134,8 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 #### 获取 NFT collection 的列表
 
+可以使用低代码工具默认即从模型生成的接口：
+
 ```shell
 curl -X GET "http://localhost:1023/api/NftCollections" -H "accept: application/json"
 ```
@@ -146,7 +148,9 @@ curl -X GET "http://localhost:1023/api/NftCollections" -H "accept: application/j
 curl -X GET "http://localhost:1023/api/NftCollections/0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment" -H "accept: application/json"
 ```
 
-#### 获取池子中的 NFT 资产
+#### 获取多个池子中的 NFT 资产
+
+注意：NFT/FT 池子支持的 CoinType（FT type）不只是 SUI coin，所以这里需要传入 coinType 参数（如果目前只支持 SUI coin，那么这里可以先硬编码为 SUI coin）。
 
 ```shell
 curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI" -H "accept: application/json"
@@ -156,6 +160,12 @@ curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437
 
 ```shell
 curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI&buyable=true" -H "accept: application/json"
+# PoolType:
+#    const TRADE_POOL: u8 = 0;
+#    const SELL_POOL: u8 = 1;
+#    const BUY_POOL: u8 = 2;
+# TradePool and SellPool are buyable.
+# TradePool and BuyPool are sellable.
 ```
 
 #### 获取某个地址拥有的 NFT 资产
@@ -176,21 +186,33 @@ curl -X GET "http://localhost:1023/api/nftPools/ownedAssets?nftType=0x507d2aacb7
 curl -X GET "http://localhost:1023/api/nftPools/ownedPools?address=0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2" -H "accept: application/json"
 ```
 
-如果需要过滤不同类型的池子，客户端可以获取全部类型的池子后自行过滤。
+一般而言，一个地址拥有的池子数量不会太多。如果需要过滤不同类型的池子，客户端可以获取全部类型的池子后自行过滤。
 
 
 #### 获取 Pools 的列表
 
-使用默认生成的接口：
+获取池子的信息可以使用低代码工具默认生成的接口：
 
 ```shell
 curl -X GET "http://localhost:1023/api/TradePools" -H "accept: application/json"
 ```
 
-这里可以根据池子的类型过滤池子的列表（当然其他属性也可以作为过滤条件）：
+可以根据池子的类型过滤池子的列表：
 
 ```shell
 curl -X GET "http://localhost:1023/api/TradePools?poolType=2" -H "accept: application/json"
+```
+
+过滤出 trade pool 和 buy pool 的列表（可以向这两种池子卖出 NFT），重复的查询参数表示 OR 关系：
+
+```shell
+curl -X GET "http://localhost:1023/api/TradePools?poolType=0&poolType=2" -H "accept: application/json"
+```
+
+根据池子的 Token pair 的类型过滤池子的列表（当然其他属性也可以作为过滤条件）：
+
+```shell
+curl -X GET "http://localhost:1023/api/TradePools?x_TokenType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c::equipment::Equipment&y_TokenType=0x2::sui::SUI" -H "accept: application/json"
 ```
 
 ### 关于链下服务 API

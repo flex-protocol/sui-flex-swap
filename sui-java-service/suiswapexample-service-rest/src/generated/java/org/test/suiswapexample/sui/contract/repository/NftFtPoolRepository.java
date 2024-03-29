@@ -4,6 +4,10 @@ import java.util.List;
 
 public interface NftFtPoolRepository {
 
+    byte TRADE_POOL = 0;
+    byte SELL_POOL = 1;
+    byte BUY_POOL = 2;
+
     List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
                                 String subtypeFieldName, String subtypeValue, Boolean buyable);
 
