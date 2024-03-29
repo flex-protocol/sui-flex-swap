@@ -140,7 +140,8 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 curl -X GET "http://localhost:1023/api/NftCollections" -H "accept: application/json"
 ```
 
-注意：CoinType 属于池子的信息，不属于 NFT collection 的信息。
+注意：CoinType 属于池子的信息，不属于 NFT collection 的信息。因为一个 NFT 协议（项目）不会关心我们的池子使用什么 CoinType 和它们的 NFT 组成流动性。
+
 
 #### 获取 一个 NFT collection 的信息
 
@@ -150,11 +151,13 @@ curl -X GET "http://localhost:1023/api/NftCollections/0x507d2aacb7425085612e0d56
 
 #### 获取多个池子中的 NFT 资产
 
-注意：NFT/FT 池子支持的 CoinType（FT type）不只是 SUI coin，所以这里需要传入 coinType 参数（如果目前只支持 SUI coin，那么这里可以先硬编码为 SUI coin）。
+需要注意 NFT/FT 池子支持的 CoinType（FT type）不只是 SUI coin，所以这里需要传入 coinType 参数（如果目前只支持 SUI coin，那么这里可以先硬编码为 SUI coin）。
 
 ```shell
 curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI" -H "accept: application/json"
 ```
+
+提示：路径 `/api/nftPools/` 下的接口是“定制开发”的，不是低代码工具生成的。
 
 如果只想要获得“可购买的”（即在 trade pool 或者 sell pool 中的资产），可以加上查询参数 `buyable=true`：
 
@@ -176,7 +179,7 @@ curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437
 curl -X GET "http://localhost:1023/api/nftPools/ownedAssets?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&address=0xfc50aa2363f3b3c5d80631cae512ec51a8ba94080500a981f4ae1a2ce4d201c2" -H "accept: application/json"
 ```
 
-### 获取某个地址拥有的池子的列表
+#### 获取某个地址拥有的池子的列表
 
 这个方法先调用 Sui JSON-RPC `suix_getOwnedObjects` 方法获取某个地址拥有的 Liquidity token 对象，
 然后查询链下数据库获取这些 Liquidity token 对象对应的池子,
@@ -196,6 +199,14 @@ curl -X GET "http://localhost:1023/api/nftPools/ownedPools?address=0xfc50aa2363f
 ```shell
 curl -X GET "http://localhost:1023/api/TradePools" -H "accept: application/json"
 ```
+
+> **注意**
+>
+> 你可能已经注意到这个接口返回的“池子”的数据结构，和“获取某个地址拥有的池子的列表”所返回的数据结构有差异。
+这是因为这个接口是直接查询链下数据库，然后把查询结果返回给客户端，数据结构更接近链下数据库的数据结构；
+而“获取某个地址拥有的池子的列表”是将调用 Sui JSON-RPC 接口获取的池子对象的信息直接返回给客户端。这两者的数据结构存在差异。
+（调整成一致的数据结构需要更多的工作，先这样吧。）
+
 
 可以根据池子的类型过滤池子的列表：
 
