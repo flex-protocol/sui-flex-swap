@@ -1110,18 +1110,20 @@ In the `sui-java-service` directory, execute the following command to start the 
 mvn -pl suiswapexample-service-rest -am spring-boot:run
 ```
 
-### Off-chain service API
+### About Off-Chain Services APIs
 
 Our off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
+Such an off-chain service is sometimes called an indexer.
 
 We can certainly start by using Sui's official API service, see: https://docs.sui.io/references/sui-api
 
 However, there are some application-specific query requirements that Sui's official API service may not be able to fulfill, 
 so it should be necessary to build your own or use enhanced query or indexer services provided by third parties.
 
-By default, the off-chain services we generate provide some out-of-the-box APIs. for example:
+By default, the off-chain services we generate provide some out-of-the-box APIs.
+You can read the DDDML model files and then refer to the examples below to infer what APIs are available.
 
-Get a list of token pairs:
+For example, in our project, you can HTTP GET the list of token pairs from the URL like this:
 
 ```text
 http://localhost:1023/api/TokenPairs
@@ -1151,7 +1153,7 @@ Get the information of a liquidity token:
 http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
 ```
 
-#### Query parameters for getting lists
+#### Query parameters for getting entity lists
 
 Query parameters that can be supported in the request URL for getting a list, including:
 
@@ -1164,7 +1166,7 @@ Query parameters that can be supported in the request URL for getting a list, in
 * `firstResult`: The ordinal number of the first record returned in the result, starting from `0`.
 * `maxResults`: The maximum number of records returned in the result.
 
-#### Getting the list's page envelope
+#### Getting the entity list's page envelope
 
 I personally don't like page "envelope", 
 but because some developers requested it, 
