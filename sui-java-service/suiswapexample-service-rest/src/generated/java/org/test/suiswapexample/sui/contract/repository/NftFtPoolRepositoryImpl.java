@@ -35,7 +35,7 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
                 "        LEFT JOIN\n" +
                 "    trade_pool p ON a.trade_pool_id = p.id\n" +
                 "        LEFT JOIN\n" +
-                "    trade_pool_x_reserve_item r ON a.trade_pool_id = r.trade_pool_id\n" +
+                "    trade_pool_x_reserve_item r ON a.key_ = r.key_\n" +
                 "WHERE\n x_token_type = :nftType AND y_token_type = :coinType");
         if (liquidityTokenObjectId != null) {
             queryBuilder.append(" AND p.liquidity_token_id = :liquidityTokenObjectId");
