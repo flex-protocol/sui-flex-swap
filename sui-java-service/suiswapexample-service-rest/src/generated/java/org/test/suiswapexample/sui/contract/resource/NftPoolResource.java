@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "nftPools", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class NftPoolResource {
+    public static final int PAGE_MAX_SIZE = 50;
+
     @Autowired
     private NftFtPoolRepository nftPoolRepository;
 
@@ -63,7 +65,9 @@ public class NftPoolResource {
 
         return assetObjIds.stream().map(objectId -> {
             String[] amountAndSubtype = getAssetAmountAndSubtype(objectId, nftType);
-            return new NftFtPoolRepository.NftAssetDto(objectId, amountAndSubtype[0], amountAndSubtype[1],
+            String assetAmount = amountAndSubtype != null && amountAndSubtype.length > 0 ? amountAndSubtype[0] : null;
+            String assetSubtype = amountAndSubtype != null && amountAndSubtype.length > 1 ? amountAndSubtype[1] : null;
+            return new NftFtPoolRepository.NftAssetDto(objectId, assetAmount, assetSubtype,
                     null, null, null, nftType, null);
         }).collect(Collectors.toList());
     }
@@ -95,6 +99,7 @@ public class NftPoolResource {
         }).collect(Collectors.toList());
     }
 
+    //todo cache this?
     private String getPoolIdByLiquidityTokenId(String liquidityTokenId) {
         List<java.util.Map.Entry<String, Object>> filter = new ArrayList<>();
         filter.add(new AbstractMap.SimpleEntry<>("liquidityTokenId", liquidityTokenId));
@@ -102,10 +107,11 @@ public class NftPoolResource {
         return pool == null ? null : pool.getId();
     }
 
+    //todo cache this?
     private String[] getAssetAmountAndSubtype(String objectId, String nftType) {
         NftCollectionState c = nftCollectionStateRepository.get(nftType, true);
         if (c == null) {
-            return new String[]{null, null};
+            return null;//new String[]{null, null};
         }
         String amountFieldName = c.getAmountFieldName();
         String subtypeFieldName = c.getSubtypeFieldName();
@@ -122,11 +128,11 @@ public class NftPoolResource {
         );
         if (suiObjectResponse.getData().getContent() instanceof SuiParsedData.MoveObject) {
             SuiParsedData.MoveObject moveObject = (SuiParsedData.MoveObject) suiObjectResponse.getData().getContent();
-            String amount = String.valueOf(moveObject.getFields().get(amountFieldName));
-            String subtype = String.valueOf(moveObject.getFields().get(subtypeFieldName));
+            String amount = moveObject.getFields().containsKey(amountFieldName) ? String.valueOf(moveObject.getFields().get(amountFieldName)) : null;
+            String subtype = moveObject.getFields().containsKey(subtypeFieldName) ? String.valueOf(moveObject.getFields().get(subtypeFieldName)) : null;
             return new String[]{amount, subtype};
         } else {
-            return new String[]{null, null};
+            return null;//new String[]{null, null};
         }
     }
 
@@ -137,7 +143,7 @@ public class NftPoolResource {
         List<String> objectIds = new ArrayList<>();
         while (true) {
             ObjectsPage ownedObjects = suiJsonRpcClient.getOwnedObjects(address,
-                    query, cursor, 50);
+                    query, cursor, PAGE_MAX_SIZE);
             for (SuiObjectResponse suiObj : ownedObjects.getData()) {
                 if (suiObj.getData() != null) {
                     objectIds.add(suiObj.getData().getObjectId());
@@ -153,6 +159,7 @@ public class NftPoolResource {
         return objectIds;
     }
 
+    //todo cache this?
     private String getDefaultSuiPackageId() {
         return suiPackageRepository.findById(ContractConstants.DEFAULT_SUI_PACKAGE_NAME)
                 .map(SuiPackage::getObjectId).orElse(null);
