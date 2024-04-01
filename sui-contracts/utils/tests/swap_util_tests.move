@@ -1,6 +1,6 @@
 #[test_only]
-module sui_swap_core::swap_util_tests {
-    use sui_swap_core::swap_util;
+module sui_swap_utils::swap_util_tests {
+    use sui_swap_utils::swap_util;
 
     const FEE_NUMERATOR: u64 = 3;
     const FEE_DENOMINATOR: u64 = 1000;

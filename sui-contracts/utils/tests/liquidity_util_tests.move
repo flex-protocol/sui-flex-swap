@@ -1,8 +1,8 @@
 #[test_only]
-module sui_swap_core::liquidity_util_tests {
+module sui_swap_utils::liquidity_util_tests {
     use std::debug;
 
-    use sui_swap_core::liquidity_util;
+    use sui_swap_utils::liquidity_util;
 
     #[test]
     public fun liquidity_util_test() {
