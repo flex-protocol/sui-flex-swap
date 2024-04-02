@@ -67,12 +67,28 @@ public class NftPoolResource {
             String[] amountAndSubtype = getAssetAmountAndSubtype(objectId, nftType);
             String assetAmount = amountAndSubtype != null && amountAndSubtype.length > 0 ? amountAndSubtype[0] : null;
             String assetSubtype = amountAndSubtype != null && amountAndSubtype.length > 1 ? amountAndSubtype[1] : null;
-            return new NftFtPoolRepository.NftAssetDto(objectId, assetAmount, assetSubtype,
+            NftFtPoolRepository.NftAssetDto assetDto = new NftFtPoolRepository.NftAssetDto(objectId, assetAmount, assetSubtype,
                     null, null, null, nftType, null);
+            SuiObjectResponse suiObjectResponse = suiJsonRpcClient.getObject(objectId,
+                    new SuiObjectDataOptions(
+                            true,
+                            true,
+                            true,
+                            true,
+                            true,
+                            false,
+                            false
+                    )
+            );
+            if (suiObjectResponse.getData() != null && suiObjectResponse.getData().getDisplay() != null) {
+                assetDto.setDisplay(suiObjectResponse.getData().getDisplay());
+            }
+            return assetDto;
         }).collect(Collectors.toList());
     }
 
     @GetMapping(path = "ownedPools")
+    @Transactional(readOnly = true)
     public List<TradePool> getOwnedPools(
             @RequestParam String address
     ) {

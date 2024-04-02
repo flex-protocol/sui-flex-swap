@@ -1,6 +1,7 @@
 package org.test.suiswapexample.sui.contract.repository;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NftFtPoolRepository {
 
@@ -21,6 +22,7 @@ public interface NftFtPoolRepository {
         private String nftType;
         private String coinType;
 
+        private Map<String, Object> display;
 
         public NftAssetDto(String assetObjectId, String assetAmount, String assetSubtype,
                            String poolObjectId, String liquidityTokenObjectId, String poolType,
@@ -99,6 +101,14 @@ public interface NftFtPoolRepository {
             this.coinType = coinType;
         }
 
+        public Map<String, Object> getDisplay() {
+            return display;
+        }
+
+        public void setDisplay(Map<String, Object> display) {
+            this.display = display;
+        }
+
         @Override
         public String toString() {
             return "NftAssetDto{" +
@@ -108,6 +118,7 @@ public interface NftFtPoolRepository {
                     ", poolObjectId='" + poolObjectId + '\'' +
                     ", liquidityTokenObjectId='" + liquidityTokenObjectId + '\'' +
                     ", poolType='" + poolType + '\'' +
+                    ", display='" + display + '\'' +
                     '}';
         }
     }
