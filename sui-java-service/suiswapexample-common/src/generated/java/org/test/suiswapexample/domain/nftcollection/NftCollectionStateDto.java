@@ -99,6 +99,30 @@ public class NftCollectionStateDto {
         this.diTradePoolServiceModuleName = diTradePoolServiceModuleName;
     }
 
+    private String nftServiceImplPackageId;
+
+    public String getNftServiceImplPackageId()
+    {
+        return this.nftServiceImplPackageId;
+    }
+
+    public void setNftServiceImplPackageId(String nftServiceImplPackageId)
+    {
+        this.nftServiceImplPackageId = nftServiceImplPackageId;
+    }
+
+    private String nftServiceImplModuleName;
+
+    public String getNftServiceImplModuleName()
+    {
+        return this.nftServiceImplModuleName;
+    }
+
+    public void setNftServiceImplModuleName(String nftServiceImplModuleName)
+    {
+        this.nftServiceImplModuleName = nftServiceImplModuleName;
+    }
+
     private BigInteger basicUnitAmount;
 
     public BigInteger getBasicUnitAmount()
@@ -280,6 +304,12 @@ public class NftCollectionStateDto {
             }
             if (returnedFieldsContains("DiTradePoolServiceModuleName")) {
                 dto.setDiTradePoolServiceModuleName(state.getDiTradePoolServiceModuleName());
+            }
+            if (returnedFieldsContains("NftServiceImplPackageId")) {
+                dto.setNftServiceImplPackageId(state.getNftServiceImplPackageId());
+            }
+            if (returnedFieldsContains("NftServiceImplModuleName")) {
+                dto.setNftServiceImplModuleName(state.getNftServiceImplModuleName());
             }
             if (returnedFieldsContains("BasicUnitAmount")) {
                 dto.setBasicUnitAmount(state.getBasicUnitAmount());

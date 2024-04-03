@@ -880,6 +880,8 @@ public class M {
             "diBuyPoolServiceModuleName",
             "diSellPoolServiceModuleName",
             "diTradePoolServiceModuleName",
+            "nftServiceImplPackageId",
+            "nftServiceImplModuleName",
             "basicUnitAmount",
             "amountFieldName",
             "subtypeFieldName",
@@ -894,6 +896,8 @@ public class M {
     };
 
     public static final String[] propertyTypes = new String[] {
+            "String",
+            "String",
             "String",
             "String",
             "String",
@@ -940,6 +944,10 @@ public class M {
         aliasMap.put("DiSellPoolServiceModuleName", "diSellPoolServiceModuleName");
         aliasMap.put("diTradePoolServiceModuleName", "diTradePoolServiceModuleName");
         aliasMap.put("DiTradePoolServiceModuleName", "diTradePoolServiceModuleName");
+        aliasMap.put("nftServiceImplPackageId", "nftServiceImplPackageId");
+        aliasMap.put("NftServiceImplPackageId", "nftServiceImplPackageId");
+        aliasMap.put("nftServiceImplModuleName", "nftServiceImplModuleName");
+        aliasMap.put("NftServiceImplModuleName", "nftServiceImplModuleName");
         aliasMap.put("basicUnitAmount", "basicUnitAmount");
         aliasMap.put("BasicUnitAmount", "basicUnitAmount");
         aliasMap.put("amountFieldName", "amountFieldName");

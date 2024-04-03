@@ -640,6 +640,12 @@ aggregates:
         length: 200
       DiTradePoolServiceModuleName:
         type: String
+        length: 200
+      NftServiceImplPackageId:
+        type: ID
+      NftServiceImplModuleName:
+        type: String
+        length: 200
       BasicUnitAmount:
         type: u64
       AmountFieldName:

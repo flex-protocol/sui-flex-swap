@@ -85,6 +85,26 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
         this.diTradePoolServiceModuleName = diTradePoolServiceModuleName;
     }
 
+    private String nftServiceImplPackageId;
+
+    public String getNftServiceImplPackageId() {
+        return this.nftServiceImplPackageId;
+    }
+
+    public void setNftServiceImplPackageId(String nftServiceImplPackageId) {
+        this.nftServiceImplPackageId = nftServiceImplPackageId;
+    }
+
+    private String nftServiceImplModuleName;
+
+    public String getNftServiceImplModuleName() {
+        return this.nftServiceImplModuleName;
+    }
+
+    public void setNftServiceImplModuleName(String nftServiceImplModuleName) {
+        this.nftServiceImplModuleName = nftServiceImplModuleName;
+    }
+
     private BigInteger basicUnitAmount;
 
     public BigInteger getBasicUnitAmount() {
@@ -295,6 +315,8 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
         this.setDiBuyPoolServiceModuleName(s.getDiBuyPoolServiceModuleName());
         this.setDiSellPoolServiceModuleName(s.getDiSellPoolServiceModuleName());
         this.setDiTradePoolServiceModuleName(s.getDiTradePoolServiceModuleName());
+        this.setNftServiceImplPackageId(s.getNftServiceImplPackageId());
+        this.setNftServiceImplModuleName(s.getNftServiceImplModuleName());
         this.setBasicUnitAmount(s.getBasicUnitAmount());
         this.setAmountFieldName(s.getAmountFieldName());
         this.setSubtypeFieldName(s.getSubtypeFieldName());

@@ -28,7 +28,13 @@
       <column name="di_sell_pool_service_module_name" length="200" />
     </property>
     <property name="diTradePoolServiceModuleName">
-      <column name="di_trade_pool_service_module_name" />
+      <column name="di_trade_pool_service_module_name" length="200" />
+    </property>
+    <property name="nftServiceImplPackageId">
+      <column name="nft_service_impl_package_id" sql-type="VARCHAR(66)" />
+    </property>
+    <property name="nftServiceImplModuleName">
+      <column name="nft_service_impl_module_name" length="200" />
     </property>
     <property name="basicUnitAmount">
       <column name="basic_unit_amount" sql-type="DECIMAL(20,0)" />

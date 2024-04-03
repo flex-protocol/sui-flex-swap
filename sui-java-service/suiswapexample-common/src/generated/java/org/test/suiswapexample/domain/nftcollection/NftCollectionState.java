@@ -32,6 +32,10 @@ public interface NftCollectionState extends VersionedSuiMoveObject
 
     String getDiTradePoolServiceModuleName();
 
+    String getNftServiceImplPackageId();
+
+    String getNftServiceImplModuleName();
+
     BigInteger getBasicUnitAmount();
 
     String getAmountFieldName();
@@ -68,6 +72,10 @@ public interface NftCollectionState extends VersionedSuiMoveObject
         void setDiSellPoolServiceModuleName(String diSellPoolServiceModuleName);
 
         void setDiTradePoolServiceModuleName(String diTradePoolServiceModuleName);
+
+        void setNftServiceImplPackageId(String nftServiceImplPackageId);
+
+        void setNftServiceImplModuleName(String nftServiceImplModuleName);
 
         void setBasicUnitAmount(BigInteger basicUnitAmount);
 
