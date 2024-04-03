@@ -53,8 +53,8 @@ module sui_swap_utils::price_curve {
             )
         } else {
             //start_price is not used, all based on the current spot_price?
-            let multiplier = get_expontential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
-            get_expontential_curve_buy_info(
+            let multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
+            get_exponential_curve_buy_info(
                 number_of_items,
                 item_amount,
                 spot_price,
@@ -90,8 +90,8 @@ module sui_swap_utils::price_curve {
             )
         } else {
             //start_price is not used, all based on the current spot_price?
-            let multiplier = get_expontential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
-            get_expontential_curve_sell_info(
+            let multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
+            get_exponential_curve_sell_info(
                 number_of_items,
                 item_amount,
                 spot_price,
@@ -169,19 +169,8 @@ module sui_swap_utils::price_curve {
         (y_amount, new_spot_price)
     }
 
-    fun get_linear_curve_price_delta(
-        start_price: u64,
-        price_delta_numerator: u64,
-        price_delta_denominator: u64
-    ): u64 {
-        let delta = fixed_point32::multiply_u64(start_price, fixed_point32::create_from_rational(
-            price_delta_numerator,
-            price_delta_denominator
-        ));
-        delta
-    }
 
-    fun get_expontential_curve_buy_info(
+    fun get_exponential_curve_buy_info(
         number_of_items: FixedPoint32,
         item_amount: u64,
         spot_price: u64,
@@ -232,7 +221,7 @@ module sui_swap_utils::price_curve {
         (y_amount, new_spot_price)
     }
 
-    fun get_expontential_curve_sell_info(
+    fun get_exponential_curve_sell_info(
         number_of_items: FixedPoint32,
         item_amount: u64,
         spot_price: u64,
@@ -275,7 +264,7 @@ module sui_swap_utils::price_curve {
         (y_amount, new_spot_price)
     }
 
-    fun get_expontential_curve_price_multiplier(
+    fun get_exponential_curve_price_multiplier(
         price_delta_numerator: u64,
         price_delta_denominator: u64
     ): FixedPoint32 {
@@ -320,6 +309,18 @@ module sui_swap_utils::price_curve {
         // [debug] 1209999999
         // [debug] 2809999998
         // [debug] 999999999
+    }
+
+    fun get_linear_curve_price_delta(
+        start_price: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64
+    ): u64 {
+        let delta = fixed_point32::multiply_u64(start_price, fixed_point32::create_from_rational(
+            price_delta_numerator,
+            price_delta_denominator
+        ));
+        delta
     }
 
     fun get_number_of_items_and_remainder(amount: u64, item_amount: u64): (FixedPoint32, u64) {
