@@ -130,6 +130,41 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 [TBD]
 
+### 关于更新池子的 NFT 价格设置
+
+#### Linear 价格曲线设置
+
+当价格曲线类型为 Linear 时，前端允许用户输入：
+
+* 当前价格（`current_exchange_rate`）。表示最小单位的 NFT 兑换 FT（Coin）的价格。
+* 价格增量的绝对值（`absolute_price_delta`）。价格增量比例记为 `price_delta` = `absolute_price_delta` / `current_exchange_rate`。
+
+根据这两个值，我们可以这样计算出新的价格曲线参数：
+
+* `exchange_rate_numerator` = `current_exchange_rate` 的分子部分。
+* `exchange_rate_denominator` = `current_exchange_rate` 的分母部分。比如，如果 `current_exchange_rate` 为 1.005，那么 `exchange_rate_numerator` 可以为 1005，`exchange_rate_denominator` 可以为 1000。
+* `start_exchange_rate_numerator` = `exchange_rate_numerator`.
+* `price_delta_numerator` = `price_delta` 的分子部分。
+* `price_delta_denominator` = `price_delta` 的分母部分。
+* `price_delta_x_amount`，一般不变。
+
+#### 指数价格曲线设置
+
+当价格曲线类型为 Exponential 时，前端允许用户输入：
+
+* 当前价格（`current_exchange_rate`）。表示最小单位的 NFT 兑换 FT（Coin）的价格。
+* 价格增量的比例（`price_delta`）。一般使用百分比表示，比如 `0.5%`。
+
+根据这两个值，我们可以这样计算出新的价格曲线参数：
+
+* `exchange_rate_numerator` = `current_exchange_rate` 的分子部分。
+* `exchange_rate_denominator` = `current_exchange_rate` 的分母部分。
+* `start_exchange_rate_numerator`，可以不变。因为指数价格计算的时候，不会用到这个值。
+* `price_delta_numerator` = `price_delta` 的分子部分。
+* `price_delta_denominator` = `price_delta` 的分母部分。比如，如果 `price_delta` 为 0.5%，那么 `price_delta_numerator` 可以为 5，`price_delta_denominator` 可以为 1000。
+* `price_delta_x_amount`，一般不变。
+
+
 ### 测试链下服务
 
 #### 配置链下服务
