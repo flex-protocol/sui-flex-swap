@@ -1,5 +1,7 @@
 package org.test.suiswapexample.sui.contract.repository;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,8 @@ public interface NftFtPoolRepository {
     List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
                                 String subtypeFieldName, String subtypeValue, Boolean buyable);
 
-    List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String liquidityTokenObjectId);
+    List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String poolObjectId,
+                           String liquidityTokenObjectId);
 
     class NftAssetDto {
         private String assetObjectId;
@@ -141,8 +144,11 @@ public interface NftFtPoolRepository {
         private String priceDeltaDenominator;
         private String liquidityTokenObjectId;
 
+        private SpotPriceDto[] spotPrices;
+
         public PoolDto(String poolObjectId, String nftType, String coinType,
-                       String nftBasicUnitAmount, String nftTotalAmount,
+                       //String nftBasicUnitAmount,
+                       String nftTotalAmount,
                        String poolType, String priceCurveType,
                        String startExchangeRateNumerator,
                        String exchangeRateNumerator, String exchangeRateDenominator,
@@ -152,7 +158,7 @@ public interface NftFtPoolRepository {
             this.poolObjectId = poolObjectId;
             this.nftType = nftType;
             this.coinType = coinType;
-            this.nftBasicUnitAmount = nftBasicUnitAmount;
+            //this.nftBasicUnitAmount = nftBasicUnitAmount;
             this.nftTotalAmount = nftTotalAmount;
             this.poolType = poolType;
             this.priceCurveType = priceCurveType;
@@ -277,6 +283,14 @@ public interface NftFtPoolRepository {
             this.liquidityTokenObjectId = liquidityTokenObjectId;
         }
 
+        public SpotPriceDto[] getSpotPrices() {
+            return spotPrices;
+        }
+
+        public void setSpotPrices(SpotPriceDto[] spotPrices) {
+            this.spotPrices = spotPrices;
+        }
+
         @Override
         public String toString() {
             return "PoolDto{" +
@@ -294,6 +308,45 @@ public interface NftFtPoolRepository {
                     ", priceDeltaNumerator='" + priceDeltaNumerator + '\'' +
                     ", priceDeltaDenominator='" + priceDeltaDenominator + '\'' +
                     ", liquidityTokenObjectId='" + liquidityTokenObjectId + '\'' +
+                    ", spotPrices=" + Arrays.toString(spotPrices) +
+                    '}';
+        }
+    }
+
+    class SpotPriceDto {
+        //private BigDecimal price;
+        private BigInteger coinAmount;
+        private BigInteger nftAmount;
+
+        public SpotPriceDto(BigInteger coinAmount, BigInteger nftAmount) {
+            this.coinAmount = coinAmount;
+            this.nftAmount = nftAmount;
+        }
+
+        public SpotPriceDto() {
+        }
+
+        public BigInteger getCoinAmount() {
+            return coinAmount;
+        }
+
+        public void setCoinAmount(BigInteger coinAmount) {
+            this.coinAmount = coinAmount;
+        }
+
+        public BigInteger getNftAmount() {
+            return nftAmount;
+        }
+
+        public void setNftAmount(BigInteger nftAmount) {
+            this.nftAmount = nftAmount;
+        }
+
+        @Override
+        public String toString() {
+            return "SpotPriceDto{" +
+                    "coinAmount=" + coinAmount +
+                    ", nftAmount=" + nftAmount +
                     '}';
         }
     }

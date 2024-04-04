@@ -60,12 +60,12 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
     }
 
     @Override
-    public List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String liquidityTokenObjectId) {
+    public List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String poolObjectId, String liquidityTokenObjectId) {
         StringBuilder queryBuilder = new StringBuilder("SELECT\n" +
                 "    p.id AS poolObjectId,\n" +
                 "    p.x_token_type AS nftType,\n" +
                 "    p.y_token_type AS coinType,\n" +
-                "    c.basic_unit_amount AS nftBasicUnitAmount,\n" +
+                //"    c.basic_unit_amount AS nftBasicUnitAmount,\n" +
                 "    p.x_total_amount AS nftTotalAmount,\n" +
                 "    p.pool_type AS poolType,\n" +
                 "    p.price_curve_type AS priceCurveType,\n" +
@@ -78,13 +78,16 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
                 "    p.liquidity_token_id AS liquidityTokenObjectId\n" +
                 "FROM\n" +
                 "    trade_pool p\n" +
-                "        LEFT JOIN\n" +
-                "    nft_collection c ON p.x_token_type = c.collection_type\n" +
+                //"        LEFT JOIN\n" +
+                //"    nft_collection c ON p.x_token_type = c.collection_type\n" +
                 "WHERE\n" +
                 "    1 = 1\n" +
                 "        AND x_token_type = :nftType\n" +
                 "        AND y_token_type = :coinType\n");
 
+        if (poolObjectId != null) {
+            queryBuilder.append(" AND p.id = :poolObjectId\n");
+        }
         if (liquidityTokenObjectId != null) {
             queryBuilder.append(" AND p.liquidity_token_id = :liquidityTokenObjectId\n");
         }
@@ -102,6 +105,9 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         Query query = entityManager.createNativeQuery(queryBuilder.toString(), "NftFtPoolDtoMapping");
         query.setParameter("nftType", nftType);
         query.setParameter("coinType", coinType);
+        if (poolObjectId != null) {
+            query.setParameter("poolObjectId", poolObjectId);
+        }
         if (liquidityTokenObjectId != null) {
             query.setParameter("liquidityTokenObjectId", liquidityTokenObjectId);
         }

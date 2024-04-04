@@ -18,7 +18,10 @@ import org.test.suiswapexample.sui.contract.SuiPackage;
 import org.test.suiswapexample.sui.contract.TradePool;
 import org.test.suiswapexample.sui.contract.repository.NftFtPoolRepository;
 import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
+import org.test.suiswapexample.sui.contract.utils.Pair;
+import org.test.suiswapexample.sui.contract.utils.PriceCurve;
 
+import java.math.BigInteger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,12 +118,99 @@ public class NftPoolResource {
         }).collect(Collectors.toList());
     }
 
+
+    @GetMapping(path = "buySpotPrices")
+    @Transactional(readOnly = true)
+    public List<NftFtPoolRepository.PoolDto> getBuySpotPrices(
+            @RequestParam String nftType,
+            @RequestParam String coinType,
+            @RequestParam BigInteger nftAmountLimit,
+            @RequestParam(required = false) String poolObjectId
+    ) {
+        String[] poolTypes = new String[]{
+                NftFtPoolRepository.SELL_POOL + "",
+                NftFtPoolRepository.TRADE_POOL + ""
+        };
+        return getBuyOrSellSpotPrices(
+                nftType, coinType, nftAmountLimit, poolObjectId, poolTypes, true
+        );
+    }
+
+    @GetMapping(path = "sellSpotPrices")
+    @Transactional(readOnly = true)
+    public List<NftFtPoolRepository.PoolDto> getSellSpotPrices(
+            @RequestParam String nftType,
+            @RequestParam String coinType,
+            @RequestParam BigInteger nftAmountLimit,
+            @RequestParam(required = false) String poolObjectId
+    ) {
+        String[] poolTypes = new String[]{
+                NftFtPoolRepository.BUY_POOL + "",
+                NftFtPoolRepository.TRADE_POOL + ""
+        };
+        return getBuyOrSellSpotPrices(
+                nftType, coinType, nftAmountLimit, poolObjectId, poolTypes, false
+        );
+    }
+
+    private List<NftFtPoolRepository.PoolDto> getBuyOrSellSpotPrices(
+            String nftType, String coinType,
+            BigInteger nftAmountLimit,
+            String poolObjectId,
+            String[] poolTypes,
+            boolean buyOrSell
+    ) {
+        BigInteger nftBasicUnitAmount = getNftBasicUnitAmount(nftType);
+        String liquidityTokenObjectId = null;
+        List<NftFtPoolRepository.PoolDto> pools = nftPoolRepository.getPools(nftType, coinType, poolTypes, poolObjectId, liquidityTokenObjectId);
+        for (NftFtPoolRepository.PoolDto p : pools) {
+            p.setNftBasicUnitAmount(nftBasicUnitAmount + "");
+            BigInteger r = nftAmountLimit.remainder(nftBasicUnitAmount);
+            int n = nftAmountLimit.divide(nftBasicUnitAmount).intValue() + (r.compareTo(BigInteger.ZERO) > 0 ? 1 : 0);
+            BigInteger spot_price = new BigInteger(p.getExchangeRateNumerator());
+            BigInteger start_price = new BigInteger(p.getStartExchangeRateNumerator());
+            BigInteger scaling_factor = new BigInteger(p.getExchangeRateDenominator());
+            List<NftFtPoolRepository.SpotPriceDto> spotPrices = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                BigInteger nftAmount = nftBasicUnitAmount; //OR: i == n - 1 && r.compareTo(BigInteger.ZERO) > 0 ? r : nftBasicUnitAmount;
+                byte curve_type = Byte.parseByte(p.getPriceCurveType());
+                BigInteger price_delta_enumerator = new BigInteger(p.getPriceDeltaNumerator());
+                BigInteger price_delta_denominator = new BigInteger(p.getPriceDeltaDenominator());
+                new BigInteger(p.getPriceDeltaDenominator());
+                Pair<BigInteger, BigInteger> coin_amount_and_new_spot_price = buyOrSell ? PriceCurve.getBuyInfo(
+                        curve_type, nftAmount, nftBasicUnitAmount, spot_price, start_price,
+                        price_delta_enumerator, price_delta_denominator
+                ) : PriceCurve.getSellInfo(
+                        curve_type, nftAmount, nftBasicUnitAmount, spot_price, start_price,
+                        price_delta_enumerator, price_delta_denominator
+                );
+                BigInteger coin_amount = coin_amount_and_new_spot_price.getItem1();
+                NftFtPoolRepository.SpotPriceDto spotPrice = new NftFtPoolRepository.SpotPriceDto(
+                        coin_amount.divide(scaling_factor), nftAmount
+                );
+                spotPrices.add(spotPrice);
+                spot_price = coin_amount_and_new_spot_price.getItem2(); //new spot price
+            }//end for
+            p.setSpotPrices(spotPrices.toArray(new NftFtPoolRepository.SpotPriceDto[0]));
+        }//end for
+        return pools;
+    }
+
     //todo cache this?
     private String getPoolIdByLiquidityTokenId(String liquidityTokenId) {
         List<java.util.Map.Entry<String, Object>> filter = new ArrayList<>();
         filter.add(new AbstractMap.SimpleEntry<>("liquidityTokenId", liquidityTokenId));
         TradePoolState pool = tradePoolStateQueryRepository.getFirst(filter, null);
         return pool == null ? null : pool.getId();
+    }
+
+    //todo cache this?
+    private BigInteger getNftBasicUnitAmount(String nftType) {
+        NftCollectionState c = nftCollectionStateRepository.get(nftType, true);
+        if (c == null) {
+            throw new IllegalArgumentException("Invalid nftType");
+        }
+        return c.getBasicUnitAmount();
     }
 
     //todo cache this?

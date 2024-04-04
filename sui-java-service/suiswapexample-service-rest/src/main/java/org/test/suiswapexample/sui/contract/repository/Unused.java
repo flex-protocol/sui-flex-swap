@@ -27,7 +27,7 @@ import javax.persistence.*;
                         @ColumnResult(name = "poolObjectId", type = String.class),
                         @ColumnResult(name = "nftType", type = String.class),
                         @ColumnResult(name = "coinType", type = String.class),
-                        @ColumnResult(name = "nftBasicUnitAmount", type = String.class),
+                        //@ColumnResult(name = "nftBasicUnitAmount", type = String.class),
                         @ColumnResult(name = "nftTotalAmount", type = String.class),
                         @ColumnResult(name = "poolType", type = String.class),
                         @ColumnResult(name = "priceCurveType", type = String.class),
