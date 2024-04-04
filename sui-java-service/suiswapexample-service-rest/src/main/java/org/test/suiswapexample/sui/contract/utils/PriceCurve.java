@@ -1,6 +1,7 @@
 package org.test.suiswapexample.sui.contract.utils;
 
 import java.math.BigInteger;
+import com.github.wubuku.sui.utils.FixedPoint32;
 
 public class PriceCurve {
 
