@@ -68,6 +68,7 @@ public class PriceCurveTests {
         BigInteger start_price = BigInteger.valueOf(1_000_000);
         BigInteger price_delta_numerator = BigInteger.valueOf(100_000);
         BigInteger price_delta_denominator = BigInteger.valueOf(1_000_000);
+        System.out.println(start_price);
         Pair<BigInteger, BigInteger> buyInfo = getBuyInfo(
                 curve_type,
                 x_amount,

@@ -1,8 +1,6 @@
 package org.test.suiswapexample.sui.contract.utils;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 
 public class PriceCurve {
 
@@ -79,8 +77,8 @@ public class PriceCurve {
         if (!isValidCurveType(curve_type)) {
             throw new IllegalArgumentException("Invalid curve type");
         }
-        Pair<BigDecimal, BigInteger> number_of_items_remainder = get_number_of_items_and_remainder(amount, item_amount);
-        BigDecimal number_of_items = number_of_items_remainder.getItem1();
+        Pair<FixedPoint32, BigInteger> number_of_items_remainder = get_number_of_items_and_remainder(amount, item_amount);
+        FixedPoint32 number_of_items = number_of_items_remainder.getItem1();
         BigInteger remainder = number_of_items_remainder.getItem2();
         if (curve_type == LINEAR_CURVE) {
             BigInteger delta = get_linear_curve_price_delta(start_price, price_delta_numerator, price_delta_denominator);
@@ -92,7 +90,7 @@ public class PriceCurve {
                     remainder
             );
         } else {
-            BigDecimal multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
+            FixedPoint32 multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
             return get_exponential_curve_buy_info(
                     number_of_items,
                     item_amount,
@@ -151,8 +149,8 @@ public class PriceCurve {
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator
     ) {
-        Pair<BigDecimal, BigInteger> number_of_items_remainder = get_number_of_items_and_remainder(amount, item_amount);
-        BigDecimal number_of_items = number_of_items_remainder.getItem1();
+        Pair<FixedPoint32, BigInteger> number_of_items_remainder = get_number_of_items_and_remainder(amount, item_amount);
+        FixedPoint32 number_of_items = number_of_items_remainder.getItem1();
         BigInteger remainder = number_of_items_remainder.getItem2();
         if (curve_type == LINEAR_CURVE) {
             if (!isValidCurveType(curve_type)) {
@@ -166,7 +164,7 @@ public class PriceCurve {
                     delta
             );
         } else {
-            BigDecimal multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
+            FixedPoint32 multiplier = get_exponential_curve_price_multiplier(price_delta_numerator, price_delta_denominator);
             return get_exponential_curve_sell_info(
                     number_of_items,
                     item_amount,
@@ -203,17 +201,19 @@ public class PriceCurve {
     }
      */
     private static Pair<BigInteger, BigInteger> get_linear_curve_buy_info(
-            BigDecimal number_of_items,
+            FixedPoint32 number_of_items,
             BigInteger item_amount,
             BigInteger spot_price,
             BigInteger delta,
             BigInteger amount_remainder
     ) {
-        BigInteger new_spot_price = spot_price.add(new BigDecimal(delta).multiply(number_of_items).toBigInteger());
-        BigDecimal number_of_items_plus_one = number_of_items.add(BigDecimal.ONE);
-        BigInteger y_amount = item_amount.multiply(new BigDecimal(spot_price).multiply(number_of_items).toBigInteger())
-                .add(item_amount.multiply(new BigDecimal(delta).multiply(number_of_items).multiply(number_of_items_plus_one).toBigInteger())
-                        .divide(BigInteger.valueOf(2)));
+        BigInteger new_spot_price = spot_price.add(FixedPoint32.multiplyU64(delta, number_of_items));
+        FixedPoint32 number_of_items_plus_one = number_of_items.plusOne();
+        BigInteger y_amount = item_amount.multiply(FixedPoint32.multiplyU64(spot_price, number_of_items))
+                .add(item_amount.multiply(FixedPoint32.multiplyU64(
+                        FixedPoint32.multiplyU64(delta, number_of_items),
+                        number_of_items_plus_one
+                )).divide(BigInteger.valueOf(2)));
         if (amount_remainder.compareTo(BigInteger.ZERO) > 0) {
             y_amount = amount_remainder.multiply(new_spot_price);
         }
@@ -245,18 +245,23 @@ public class PriceCurve {
     }
      */
     private static Pair<BigInteger, BigInteger> get_linear_curve_sell_info(
-            BigDecimal number_of_items,
+            FixedPoint32 number_of_items,
             BigInteger item_amount,
             BigInteger spot_price,
             BigInteger delta
     ) {
-        BigInteger total_price_decrease = number_of_items.multiply(new BigDecimal(delta)).toBigInteger();
-        BigInteger new_spot_price = spot_price.compareTo(total_price_decrease) < 0
-                ? BigInteger.ZERO
-                : spot_price.subtract(total_price_decrease);
-        BigInteger y_amount = number_of_items.multiply(
-                        new BigDecimal(item_amount.multiply(spot_price.add(new_spot_price)))).toBigInteger()
-                .divide(BigInteger.valueOf(2));
+        BigInteger total_price_decrease = FixedPoint32.multiplyU64(delta, number_of_items);
+        BigInteger new_spot_price;
+        if (spot_price.compareTo(total_price_decrease) < 0) {
+            BigInteger number_of_items_till_zero_price = FixedPoint32.createFromRational(spot_price, delta).toBigInteger();
+            number_of_items = FixedPoint32.createFromRawValue(number_of_items_till_zero_price);
+            new_spot_price = BigInteger.ZERO;
+        } else {
+            new_spot_price = spot_price.subtract(total_price_decrease);
+        }
+        BigInteger y_amount = item_amount.multiply(
+                FixedPoint32.multiplyU64(spot_price.add(new_spot_price), number_of_items)
+        ).divide(BigInteger.valueOf(2));
         return Pair.of(y_amount, new_spot_price);
     }
 
@@ -306,31 +311,33 @@ public class PriceCurve {
     }
      */
     private static Pair<BigInteger, BigInteger> get_exponential_curve_buy_info(
-            BigDecimal number_of_items,
+            FixedPoint32 number_of_items,
             BigInteger item_amount,
             BigInteger spot_price,
-            BigDecimal multiplier,
+            FixedPoint32 multiplier,
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator,
             BigInteger amount_remainder
     ) {
-        assert (multiplier.compareTo(BigDecimal.ONE) >= 0);
+        if (!multiplier.greaterOrEqualThanOne()) {
+            throw new IllegalArgumentException("Multiplier less than one");
+        }
         if (spot_price.compareTo(MINIMUM_SPOT_PRICE) < 0) {
             spot_price = MINIMUM_SPOT_PRICE;
         }
-        Pair<BigInteger, BigDecimal> n_f = integer_and_fractional(number_of_items);
-        BigInteger n = n_f.getItem1();
-        BigDecimal f = n_f.getItem2();
-        BigDecimal multiplier_pow_n = multiplier.pow(n.intValue());
-        BigInteger buy_spot_price = new BigDecimal(spot_price).multiply(multiplier).toBigInteger();
-        BigInteger y_amount = item_amount.multiply(new BigDecimal(buy_spot_price)
-                .multiply(
-                        multiplier_pow_n.subtract(BigDecimal.ONE)
-                                .divide(multiplier.subtract(BigDecimal.ONE), 32, RoundingMode.HALF_UP)
-                ).toBigInteger());
-
-        BigInteger new_spot_price = new BigDecimal(spot_price).multiply(multiplier_pow_n).toBigInteger();
-        if (f.compareTo(BigDecimal.ZERO) > 0) {
+        BigInteger[] n_f = number_of_items.integerAndFractional();
+        BigInteger n = n_f[0];
+        BigInteger f = n_f[1];
+        FixedPoint32 multiplier_pow_n = multiplier.pow(n);
+        BigInteger buy_spot_price = FixedPoint32.multiplyU64(spot_price, multiplier);
+        BigInteger y_amount = item_amount.multiply(FixedPoint32.multiplyU64(
+                buy_spot_price,
+                multiplier_pow_n.minusOne().divide(
+                        multiplier.minusOne()
+                )
+        ));
+        BigInteger new_spot_price = FixedPoint32.multiplyU64(spot_price, multiplier_pow_n);
+        if (f.compareTo(BigInteger.ZERO) > 0) {
             new_spot_price = get_fractional_spot_price(
                     new_spot_price,
                     price_delta_numerator,
@@ -338,11 +345,13 @@ public class PriceCurve {
                     f,
                     false
             );
-            y_amount = y_amount.add(item_amount.multiply(new BigDecimal(new_spot_price)
-                    .multiply(f).toBigInteger()));
+            y_amount = y_amount.add(item_amount.multiply(FixedPoint32.multiplyU64(
+                    new_spot_price,
+                    FixedPoint32.createFromRawValue(f)
+            )));
         }
         if (amount_remainder.compareTo(BigInteger.ZERO) > 0) {
-            y_amount = new BigDecimal(amount_remainder).multiply(new BigDecimal(new_spot_price)).toBigInteger();
+            y_amount = amount_remainder.multiply(new_spot_price);
         }
         return Pair.of(y_amount, new_spot_price);
     }
@@ -389,29 +398,30 @@ public class PriceCurve {
     }
      */
     private static Pair<BigInteger, BigInteger> get_exponential_curve_sell_info(
-            BigDecimal number_of_items,
+            FixedPoint32 number_of_items,
             BigInteger item_amount,
             BigInteger spot_price,
-            BigDecimal multiplier,
+            FixedPoint32 multiplier,
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator
     ) {
-        if (multiplier.compareTo(BigDecimal.ONE) < 0) {
+        if (!multiplier.greaterOrEqualThanOne()) {
             throw new IllegalArgumentException("Multiplier less than one");
         }
-        BigDecimal inv_multiplier = BigDecimal.ONE.divide(multiplier, 32, RoundingMode.HALF_UP);
-        Pair<BigInteger, BigDecimal> n_f = integer_and_fractional(number_of_items);
-        BigInteger n = n_f.getItem1();
-        BigDecimal f = n_f.getItem2();
-        BigDecimal inv_multiplier_pow_n = inv_multiplier.pow(n.intValue());
-        BigInteger sell_spot_price = new BigDecimal(spot_price).multiply(inv_multiplier).toBigInteger();
-        BigInteger y_amount = item_amount.multiply(new BigDecimal(sell_spot_price)
-                .multiply(
-                        BigDecimal.ONE.subtract(inv_multiplier_pow_n)
-                                .divide(BigDecimal.ONE.subtract(inv_multiplier), 32, RoundingMode.HALF_UP)
-                ).toBigInteger());
-        BigInteger new_spot_price = new BigDecimal(spot_price).multiply(inv_multiplier_pow_n).toBigInteger();
-        if (f.compareTo(BigDecimal.ZERO) > 0) {
+        FixedPoint32 inv_multiplier = multiplier.reciprocal();
+        BigInteger[] n_f = number_of_items.integerAndFractional();
+        BigInteger n = n_f[0];
+        BigInteger f = n_f[1];
+        FixedPoint32 inv_multiplier_pow_n = inv_multiplier.pow(n);
+        BigInteger sell_spot_price = FixedPoint32.multiplyU64(spot_price, inv_multiplier);
+        BigInteger y_amount = item_amount.multiply(FixedPoint32.multiplyU64(
+                sell_spot_price,
+                FixedPoint32.oneMinus(inv_multiplier_pow_n).divide(
+                        FixedPoint32.oneMinus(inv_multiplier)
+                )
+        ));
+        BigInteger new_spot_price = FixedPoint32.multiplyU64(spot_price, inv_multiplier_pow_n);
+        if (f.compareTo(BigInteger.ZERO) > 0) {
             new_spot_price = get_fractional_spot_price(
                     new_spot_price,
                     price_delta_numerator,
@@ -419,8 +429,10 @@ public class PriceCurve {
                     f,
                     true
             );
-            y_amount = y_amount.add(item_amount.multiply(new BigDecimal(new_spot_price)
-                    .multiply(f).toBigInteger()));
+            y_amount = y_amount.add(item_amount.multiply(FixedPoint32.multiplyU64(
+                    new_spot_price,
+                    FixedPoint32.createFromRawValue(f)
+            )));
         }
         return Pair.of(y_amount, new_spot_price);
     }
@@ -436,12 +448,13 @@ public class PriceCurve {
         ))
     }
      */
-    private static BigDecimal get_exponential_curve_price_multiplier(
+    private static FixedPoint32 get_exponential_curve_price_multiplier(
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator
     ) {
-        return BigDecimal.ONE.add(new BigDecimal(price_delta_numerator)
-                .divide(new BigDecimal(price_delta_denominator), 32, RoundingMode.HALF_UP));
+        return FixedPoint32.createFromRational(
+                price_delta_numerator, price_delta_denominator
+        ).plusOne();
     }
 
     /*
@@ -475,15 +488,17 @@ public class PriceCurve {
             BigInteger spot_price,
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator,
-            BigDecimal fractional,
+            BigInteger fractional,
             boolean downward
     ) {
-        if (fractional.compareTo(BigDecimal.ZERO) <= 0) {
+        if (fractional.compareTo(BigInteger.ZERO) == 0) {
             return spot_price;
         } else {
             BigInteger linear_delta = get_linear_curve_price_delta(spot_price, price_delta_numerator, price_delta_denominator);
-            BigInteger d = fractional.multiply(new BigDecimal(linear_delta)).toBigInteger();
-            BigInteger fsp = downward ? spot_price.subtract(d.min(spot_price)) : spot_price.add(d);
+            BigInteger d = FixedPoint32.multiplyU64(linear_delta, FixedPoint32.createFromRawValue(fractional));
+            BigInteger fsp = downward
+                    ? spot_price.subtract(d.compareTo(spot_price) > 0 ? spot_price : d)
+                    : spot_price.add(d);
             return fsp;
         }
     }
@@ -505,8 +520,9 @@ public class PriceCurve {
             BigInteger start_price,
             BigInteger price_delta_numerator,
             BigInteger price_delta_denominator) {
-        return new BigDecimal(start_price).multiply(new BigDecimal(price_delta_numerator)
-                .divide(new BigDecimal(price_delta_denominator), 32, RoundingMode.HALF_UP)).toBigInteger();
+        return FixedPoint32.multiplyU64(start_price, FixedPoint32.createFromRational(
+                price_delta_numerator, price_delta_denominator
+        ));
     }
 
     /*
@@ -516,9 +532,9 @@ public class PriceCurve {
         (number_of_items, remainder)
     }
     */
-    private static Pair<BigDecimal, BigInteger> get_number_of_items_and_remainder(BigInteger amount, BigInteger item_amount) {
-        BigDecimal number_of_items = new BigDecimal(amount).divide(new BigDecimal(item_amount), 32, RoundingMode.HALF_UP);
-        BigInteger remainder = amount.subtract(new BigDecimal(item_amount).multiply(number_of_items).toBigInteger());
+    private static Pair<FixedPoint32, BigInteger> get_number_of_items_and_remainder(BigInteger amount, BigInteger item_amount) {
+        FixedPoint32 number_of_items = FixedPoint32.createFromRational(amount, item_amount);
+        BigInteger remainder = amount.subtract(FixedPoint32.multiplyU64(item_amount, number_of_items));
         return Pair.of(number_of_items, remainder);
     }
 
@@ -529,10 +545,10 @@ public class PriceCurve {
         (raw_value / SCALING_FACTOR, raw_value % SCALING_FACTOR)
     }
      */
-    private static Pair<BigInteger, BigDecimal> integer_and_fractional(BigDecimal value) {
-        BigInteger i = value.toBigInteger();
-        BigDecimal f = value.subtract(new BigDecimal(i));
-        return Pair.of(i, f);
-    }
+//    private static Pair<BigInteger, BigDecimal> integer_and_fractional(BigDecimal value) {
+//        BigInteger i = value.toBigInteger();
+//        BigDecimal f = value.subtract(new BigDecimal(i));
+//        return Pair.of(i, f);
+//    }
 
 }
