@@ -332,7 +332,7 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
             }
             if (iterable != null) {
                 for (NftCollectionSubtypeState ss : iterable) {
-                    NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getName());
+                    NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getSubtypeValue());
                     ((AbstractNftCollectionSubtypeState) thisInnerState).merge(ss);
                 }
             }
@@ -341,14 +341,14 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
             if (s.getSubtypes() instanceof EntityStateCollection.RemovalLoggedEntityStateCollection) {
                 if (((EntityStateCollection.RemovalLoggedEntityStateCollection)s.getSubtypes()).getRemovedStates() != null) {
                     for (NftCollectionSubtypeState ss : ((EntityStateCollection.RemovalLoggedEntityStateCollection<String, NftCollectionSubtypeState>)s.getSubtypes()).getRemovedStates()) {
-                        NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getName());
+                        NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(ss.getSubtypeValue());
                         ((EntityStateCollection.ModifiableEntityStateCollection)this.getSubtypes()).removeState(thisInnerState);
                     }
                 }
             } else {
                 if (s.getSubtypes().isAllLoaded()) {
-                    Set<String> removedStateIds = new HashSet<>(this.getSubtypes().stream().map(i -> i.getName()).collect(java.util.stream.Collectors.toList()));
-                    s.getSubtypes().forEach(i -> removedStateIds.remove(i.getName()));
+                    Set<String> removedStateIds = new HashSet<>(this.getSubtypes().stream().map(i -> i.getSubtypeValue()).collect(java.util.stream.Collectors.toList()));
+                    s.getSubtypes().forEach(i -> removedStateIds.remove(i.getSubtypeValue()));
                     for (String i : removedStateIds) {
                         NftCollectionSubtypeState thisInnerState = ((EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>)this.getSubtypes()).getOrAddDefault(i);
                         ((EntityStateCollection.ModifiableEntityStateCollection)this.getSubtypes()).removeState(thisInnerState);
@@ -400,9 +400,9 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
     class SimpleNftCollectionSubtypeStateCollection implements EntityStateCollection.ModifiableEntityStateCollection<String, NftCollectionSubtypeState>, Collection<NftCollectionSubtypeState> {
 
         @Override
-        public NftCollectionSubtypeState get(String name) {
+        public NftCollectionSubtypeState get(String subtypeValue) {
             return protectedSubtypes.stream().filter(
-                            e -> e.getName().equals(name))
+                            e -> e.getSubtypeValue().equals(subtypeValue))
                     .findFirst().orElse(null);
         }
 
@@ -422,10 +422,10 @@ public abstract class AbstractNftCollectionState implements NftCollectionState.S
         }
 
         @Override
-        public NftCollectionSubtypeState getOrAddDefault(String name) {
-            NftCollectionSubtypeState s = get(name);
+        public NftCollectionSubtypeState getOrAddDefault(String subtypeValue) {
+            NftCollectionSubtypeState s = get(subtypeValue);
             if (s == null) {
-                NftCollectionSubtypeId globalId = new NftCollectionSubtypeId(getCollectionType(), name);
+                NftCollectionSubtypeId globalId = new NftCollectionSubtypeId(getCollectionType(), subtypeValue);
                 AbstractNftCollectionSubtypeState state = new AbstractNftCollectionSubtypeState.SimpleNftCollectionSubtypeState();
                 state.setNftCollectionSubtypeId(globalId);
                 add(state);

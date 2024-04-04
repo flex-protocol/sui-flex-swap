@@ -214,14 +214,14 @@ public class NftCollectionResource {
 
     /**
      * Retrieve.
-     * Retrieves NftCollectionSubtype with the specified Name.
+     * Retrieves NftCollectionSubtype with the specified SubtypeValue.
      */
-    @GetMapping("{collectionType}/NftCollectionSubtypes/{name}")
+    @GetMapping("{collectionType}/NftCollectionSubtypes/{subtypeValue}")
     @Transactional(readOnly = true)
-    public NftCollectionSubtypeStateDto getNftCollectionSubtype(@PathVariable("collectionType") String collectionType, @PathVariable("name") String name) {
+    public NftCollectionSubtypeStateDto getNftCollectionSubtype(@PathVariable("collectionType") String collectionType, @PathVariable("subtypeValue") String subtypeValue) {
         try {
 
-            NftCollectionSubtypeState state = nftCollectionApplicationService.getNftCollectionSubtype(collectionType, name);
+            NftCollectionSubtypeState state = nftCollectionApplicationService.getNftCollectionSubtype(collectionType, subtypeValue);
             if (state == null) { return null; }
             NftCollectionSubtypeStateDto.DtoConverter dtoConverter = new NftCollectionSubtypeStateDto.DtoConverter();
             NftCollectionSubtypeStateDto stateDto = dtoConverter.toNftCollectionSubtypeStateDto(state);

@@ -14,18 +14,6 @@ import org.test.suiswapexample.specialization.*;
 
 public class NftCollectionSubtypeStateDto {
 
-    private String name;
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
     private String subtypeValue;
 
     public String getSubtypeValue()
@@ -36,6 +24,18 @@ public class NftCollectionSubtypeStateDto {
     public void setSubtypeValue(String subtypeValue)
     {
         this.subtypeValue = subtypeValue;
+    }
+
+    private String name;
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     private String imageUrl;
@@ -163,11 +163,11 @@ public class NftCollectionSubtypeStateDto {
                 return null;
             }
             NftCollectionSubtypeStateDto dto = new NftCollectionSubtypeStateDto();
-            if (returnedFieldsContains("Name")) {
-                dto.setName(state.getName());
-            }
             if (returnedFieldsContains("SubtypeValue")) {
                 dto.setSubtypeValue(state.getSubtypeValue());
+            }
+            if (returnedFieldsContains("Name")) {
+                dto.setName(state.getName());
             }
             if (returnedFieldsContains("ImageUrl")) {
                 dto.setImageUrl(state.getImageUrl());

@@ -658,12 +658,17 @@ aggregates:
         itemType: NftCollectionSubtype
     entities:
       NftCollectionSubtype:
+        metadata:
+          IsCompositeIdUsingShortColumnNames: true
+          # If it is certain that the name of the "leaf" property of the entity's composite-Id
+          # does not conflict with the names of the entity's other properties,
+          # then set this setting to true to make the resulting database column names shorter.
         id:
-          name: Name
+          name: SubtypeValue
           type: String
           length: 200
         properties:
-          SubtypeValue:
+          Name:
             type: String
             length: 200
           ImageUrl:

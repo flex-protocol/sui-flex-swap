@@ -177,10 +177,10 @@ public abstract class AbstractNftCollectionEvent extends AbstractEvent implement
         return (NftCollectionSubtypeEventDao)ApplicationContext.current.get("nftCollectionSubtypeEventDao");
     }
 
-    protected NftCollectionSubtypeEventId newNftCollectionSubtypeEventId(String name)
+    protected NftCollectionSubtypeEventId newNftCollectionSubtypeEventId(String subtypeValue)
     {
         NftCollectionSubtypeEventId eventId = new NftCollectionSubtypeEventId(this.getNftCollectionEventId().getCollectionType(), 
-            name, 
+            subtypeValue, 
             this.getNftCollectionEventId().getVersion());
         return eventId;
     }

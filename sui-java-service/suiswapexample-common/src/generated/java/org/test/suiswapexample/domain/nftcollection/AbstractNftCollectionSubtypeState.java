@@ -52,22 +52,22 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
         this.getNftCollectionSubtypeId().setNftCollectionCollectionType(nftCollectionCollectionType);
     }
 
-    public String getName() {
-        return this.getNftCollectionSubtypeId().getName();
+    public String getSubtypeValue() {
+        return this.getNftCollectionSubtypeId().getSubtypeValue();
     }
         
-    public void setName(String name) {
-        this.getNftCollectionSubtypeId().setName(name);
-    }
-
-    private String subtypeValue;
-
-    public String getSubtypeValue() {
-        return this.subtypeValue;
-    }
-
     public void setSubtypeValue(String subtypeValue) {
-        this.subtypeValue = subtypeValue;
+        this.getNftCollectionSubtypeId().setSubtypeValue(subtypeValue);
+    }
+
+    private String name;
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     private String imageUrl;
@@ -186,14 +186,14 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
 
     @Override
     public int hashCode() {
-        return getName().hashCode();
+        return getSubtypeValue().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) { return true; }
         if (obj instanceof NftCollectionSubtypeState) {
-            return Objects.equals(this.getName(), ((NftCollectionSubtypeState)obj).getName());
+            return Objects.equals(this.getSubtypeValue(), ((NftCollectionSubtypeState)obj).getSubtypeValue());
         }
         return false;
     }
@@ -212,7 +212,7 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
         if (s == this) {
             return;
         }
-        this.setSubtypeValue(s.getSubtypeValue());
+        this.setName(s.getName());
         this.setImageUrl(s.getImageUrl());
         this.setActive(s.getActive());
     }
@@ -227,10 +227,10 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
             throw DomainError.named("mutateWrongEntity", "Entity Id NftCollectionCollectionType %1$s in state but entity id NftCollectionCollectionType %2$s in event", stateEntityIdNftCollectionCollectionType, eventEntityIdNftCollectionCollectionType);
         }
 
-        String stateEntityIdName = this.getNftCollectionSubtypeId().getName();
-        String eventEntityIdName = ((NftCollectionSubtypeEvent.SqlNftCollectionSubtypeEvent)event).getNftCollectionSubtypeEventId().getName();
-        if (!stateEntityIdName.equals(eventEntityIdName)) {
-            throw DomainError.named("mutateWrongEntity", "Entity Id Name %1$s in state but entity id Name %2$s in event", stateEntityIdName, eventEntityIdName);
+        String stateEntityIdSubtypeValue = this.getNftCollectionSubtypeId().getSubtypeValue();
+        String eventEntityIdSubtypeValue = ((NftCollectionSubtypeEvent.SqlNftCollectionSubtypeEvent)event).getNftCollectionSubtypeEventId().getSubtypeValue();
+        if (!stateEntityIdSubtypeValue.equals(eventEntityIdSubtypeValue)) {
+            throw DomainError.named("mutateWrongEntity", "Entity Id SubtypeValue %1$s in state but entity id SubtypeValue %2$s in event", stateEntityIdSubtypeValue, eventEntityIdSubtypeValue);
         }
 
 

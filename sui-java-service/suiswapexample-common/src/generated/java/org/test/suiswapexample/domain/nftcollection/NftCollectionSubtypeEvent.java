@@ -20,9 +20,9 @@ public interface NftCollectionSubtypeEvent extends Event {
         void setEventReadOnly(boolean readOnly);
     }
 
-    String getName();
+    String getSubtypeValue();
 
-    //void setName(String name);
+    //void setSubtypeValue(String subtypeValue);
 
     String getCreatedBy();
 

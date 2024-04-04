@@ -22,16 +22,16 @@ public class NftCollectionSubtypeEventId implements Serializable {
         this.nftCollectionCollectionType = nftCollectionCollectionType;
     }
 
-    private String name;
+    private String subtypeValue;
 
-    public String getName()
+    public String getSubtypeValue()
     {
-        return this.name;
+        return this.subtypeValue;
     }
 
-    public void setName(String name)
+    public void setSubtypeValue(String subtypeValue)
     {
-        this.name = name;
+        this.subtypeValue = subtypeValue;
     }
 
     private BigInteger version;
@@ -50,10 +50,10 @@ public class NftCollectionSubtypeEventId implements Serializable {
     {
     }
 
-    public NftCollectionSubtypeEventId(String nftCollectionCollectionType, String name, BigInteger version)
+    public NftCollectionSubtypeEventId(String nftCollectionCollectionType, String subtypeValue, BigInteger version)
     {
         this.nftCollectionCollectionType = nftCollectionCollectionType;
-        this.name = name;
+        this.subtypeValue = subtypeValue;
         this.version = version;
     }
 
@@ -70,7 +70,7 @@ public class NftCollectionSubtypeEventId implements Serializable {
         NftCollectionSubtypeEventId other = (NftCollectionSubtypeEventId)obj;
         return true 
             && (nftCollectionCollectionType == other.nftCollectionCollectionType || (nftCollectionCollectionType != null && nftCollectionCollectionType.equals(other.nftCollectionCollectionType)))
-            && (name == other.name || (name != null && name.equals(other.name)))
+            && (subtypeValue == other.subtypeValue || (subtypeValue != null && subtypeValue.equals(other.subtypeValue)))
             && (version == other.version || (version != null && version.equals(other.version)))
             ;
     }
@@ -82,8 +82,8 @@ public class NftCollectionSubtypeEventId implements Serializable {
         if (this.nftCollectionCollectionType != null) {
             hash += 13 * this.nftCollectionCollectionType.hashCode();
         }
-        if (this.name != null) {
-            hash += 13 * this.name.hashCode();
+        if (this.subtypeValue != null) {
+            hash += 13 * this.subtypeValue.hashCode();
         }
         if (this.version != null) {
             hash += 13 * this.version.hashCode();
@@ -95,14 +95,14 @@ public class NftCollectionSubtypeEventId implements Serializable {
     public String toString() {
         return "NftCollectionSubtypeEventId{" +
                 "nftCollectionCollectionType=" + '\'' + nftCollectionCollectionType + '\'' +
-                ", name=" + '\'' + name + '\'' +
+                ", subtypeValue=" + '\'' + subtypeValue + '\'' +
                 ", version=" + version +
                 '}';
     }
 
     protected static final String[] FLATTENED_PROPERTY_NAMES = new String[]{
             "nftCollectionCollectionType",
-            "name",
+            "subtypeValue",
             "version",
     };
 

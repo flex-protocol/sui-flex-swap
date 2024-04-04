@@ -12,16 +12,16 @@ import org.test.suiswapexample.domain.AbstractCommand;
 
 public abstract class AbstractNftCollectionSubtypeCommand extends AbstractCommand implements NftCollectionSubtypeCommand {
 
-    private String name;
+    private String subtypeValue;
 
-    public String getName()
+    public String getSubtypeValue()
     {
-        return this.name;
+        return this.subtypeValue;
     }
 
-    public void setName(String name)
+    public void setSubtypeValue(String subtypeValue)
     {
-        this.name = name;
+        this.subtypeValue = subtypeValue;
     }
 
     private String nftCollectionCollectionType;

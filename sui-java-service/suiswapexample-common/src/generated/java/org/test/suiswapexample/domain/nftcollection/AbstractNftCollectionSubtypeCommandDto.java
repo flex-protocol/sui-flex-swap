@@ -12,23 +12,23 @@ import org.test.suiswapexample.domain.AbstractCommand;
 public abstract class AbstractNftCollectionSubtypeCommandDto extends AbstractCommand {
 
     /**
-     * Name
+     * Subtype Value
      */
-    private String name;
+    private String subtypeValue;
 
-    public String getName()
+    public String getSubtypeValue()
     {
-        return this.name;
+        return this.subtypeValue;
     }
 
-    public void setName(String name)
+    public void setSubtypeValue(String subtypeValue)
     {
-        this.name = name;
+        this.subtypeValue = subtypeValue;
     }
 
 
     public void copyTo(NftCollectionSubtypeCommand command) {
-        command.setName(this.getName());
+        command.setSubtypeValue(this.getSubtypeValue());
         
         command.setRequesterId(this.getRequesterId());
         command.setCommandId(this.getCommandId());

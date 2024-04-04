@@ -22,12 +22,12 @@ public abstract class AbstractNftCollectionSubtypeEvent extends AbstractEvent im
         this.nftCollectionSubtypeEventId = eventId;
     }
     
-    public String getName() {
-        return getNftCollectionSubtypeEventId().getName();
+    public String getSubtypeValue() {
+        return getNftCollectionSubtypeEventId().getSubtypeValue();
     }
 
-    public void setName(String name) {
-        getNftCollectionSubtypeEventId().setName(name);
+    public void setSubtypeValue(String subtypeValue) {
+        getNftCollectionSubtypeEventId().setSubtypeValue(subtypeValue);
     }
 
     private boolean eventReadOnly;

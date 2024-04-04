@@ -94,8 +94,8 @@ public abstract class AbstractNftCollectionApplicationService implements NftColl
         return new AbstractNftCollectionState.SimpleNftCollectionState(eventStream.getEvents());
     }
 
-    public NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String name) {
-        return getStateQueryRepository().getNftCollectionSubtype(nftCollectionCollectionType, name);
+    public NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String subtypeValue) {
+        return getStateQueryRepository().getNftCollectionSubtype(nftCollectionCollectionType, subtypeValue);
     }
 
     public Iterable<NftCollectionSubtypeState> getNftCollectionSubtypes(String nftCollectionCollectionType, Criterion filter, List<String> orders) {

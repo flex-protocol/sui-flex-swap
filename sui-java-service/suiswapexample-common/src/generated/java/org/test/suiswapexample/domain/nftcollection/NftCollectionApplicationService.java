@@ -33,7 +33,7 @@ public interface NftCollectionApplicationService {
 
     NftCollectionState getHistoryState(String collectionType, long version);
 
-    NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String name);
+    NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String subtypeValue);
 
     Iterable<NftCollectionSubtypeState> getNftCollectionSubtypes(String nftCollectionCollectionType, Criterion filter, List<String> orders);
 

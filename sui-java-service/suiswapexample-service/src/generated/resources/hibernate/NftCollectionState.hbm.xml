@@ -8,7 +8,7 @@
     <version name="offChainVersion" column="off_chain_version" type="long" />
     <set name="protectedSubtypes" inverse="true" cascade="all-delete-orphan" fetch="join">
       <key>
-        <column name="nft_collection_subtype_id_nft_collection_collection_type" />
+        <column name="nft_collection_collection_type" />
       </key>
       <one-to-many class="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionSubtypeState$SimpleNftCollectionSubtypeState" />
     </set>

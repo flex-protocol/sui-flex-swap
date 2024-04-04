@@ -31,7 +31,7 @@ public interface NftCollectionStateQueryRepository {
 
     long getCount(Criterion filter);
 
-    NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String name);
+    NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String subtypeValue);
 
     Iterable<NftCollectionSubtypeState> getNftCollectionSubtypes(String nftCollectionCollectionType, Criterion filter, List<String> orders);
 

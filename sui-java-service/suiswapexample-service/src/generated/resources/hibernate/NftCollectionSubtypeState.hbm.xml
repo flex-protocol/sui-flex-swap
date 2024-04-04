@@ -4,18 +4,18 @@
   <class name="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionSubtypeState$SimpleNftCollectionSubtypeState" table="nft_collection_subtype">
     <composite-id name="nftCollectionSubtypeId" class="org.test.suiswapexample.domain.nftcollection.NftCollectionSubtypeId">
       <key-property name="nftCollectionCollectionType">
-        <column name="nft_collection_subtype_id_nft_collection_collection_type" length="500" />
+        <column name="nft_collection_collection_type" length="500" />
       </key-property>
-      <key-property name="name">
-        <column name="nft_collection_subtype_id_name" length="200" />
+      <key-property name="subtypeValue">
+        <column name="subtype_value" length="200" />
       </key-property>
     </composite-id>
     <version name="offChainVersion" column="off_chain_version" type="long" />
     <many-to-one name="protectedNftCollectionState" class="org.test.suiswapexample.domain.nftcollection.AbstractNftCollectionState$SimpleNftCollectionState" insert="false" update="false">
-      <column name="nft_collection_subtype_id_nft_collection_collection_type" />
+      <column name="nft_collection_collection_type" />
     </many-to-one>
-    <property name="subtypeValue">
-      <column name="subtype_value" length="200" />
+    <property name="name">
+      <column name="name" length="200" />
     </property>
     <property name="imageUrl">
       <column name="image_url" length="500" />

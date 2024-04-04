@@ -21,26 +21,26 @@ public class NftCollectionSubtypeId implements Serializable {
         this.nftCollectionCollectionType = nftCollectionCollectionType;
     }
 
-    private String name;
+    private String subtypeValue;
 
-    public String getName()
+    public String getSubtypeValue()
     {
-        return this.name;
+        return this.subtypeValue;
     }
 
-    public void setName(String name)
+    public void setSubtypeValue(String subtypeValue)
     {
-        this.name = name;
+        this.subtypeValue = subtypeValue;
     }
 
     public NftCollectionSubtypeId()
     {
     }
 
-    public NftCollectionSubtypeId(String nftCollectionCollectionType, String name)
+    public NftCollectionSubtypeId(String nftCollectionCollectionType, String subtypeValue)
     {
         this.nftCollectionCollectionType = nftCollectionCollectionType;
-        this.name = name;
+        this.subtypeValue = subtypeValue;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class NftCollectionSubtypeId implements Serializable {
         NftCollectionSubtypeId other = (NftCollectionSubtypeId)obj;
         return true 
             && (nftCollectionCollectionType == other.nftCollectionCollectionType || (nftCollectionCollectionType != null && nftCollectionCollectionType.equals(other.nftCollectionCollectionType)))
-            && (name == other.name || (name != null && name.equals(other.name)))
+            && (subtypeValue == other.subtypeValue || (subtypeValue != null && subtypeValue.equals(other.subtypeValue)))
             ;
     }
 
@@ -67,8 +67,8 @@ public class NftCollectionSubtypeId implements Serializable {
         if (this.nftCollectionCollectionType != null) {
             hash += 13 * this.nftCollectionCollectionType.hashCode();
         }
-        if (this.name != null) {
-            hash += 13 * this.name.hashCode();
+        if (this.subtypeValue != null) {
+            hash += 13 * this.subtypeValue.hashCode();
         }
         return hash;
     }
@@ -77,13 +77,13 @@ public class NftCollectionSubtypeId implements Serializable {
     public String toString() {
         return "NftCollectionSubtypeId{" +
                 "nftCollectionCollectionType=" + '\'' + nftCollectionCollectionType + '\'' +
-                ", name=" + '\'' + name + '\'' +
+                ", subtypeValue=" + '\'' + subtypeValue + '\'' +
                 '}';
     }
 
     protected static final String[] FLATTENED_PROPERTY_NAMES = new String[]{
             "nftCollectionCollectionType",
-            "name",
+            "subtypeValue",
     };
 
     protected static final String[] FLATTENED_PROPERTY_TYPES = new String[]{

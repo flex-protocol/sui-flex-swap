@@ -131,8 +131,8 @@ public class HibernateNftCollectionStateQueryRepository implements NftCollection
     }
 
     @Transactional(readOnly = true)
-    public NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String name) {
-        NftCollectionSubtypeId entityId = new NftCollectionSubtypeId(nftCollectionCollectionType, name);
+    public NftCollectionSubtypeState getNftCollectionSubtype(String nftCollectionCollectionType, String subtypeValue) {
+        NftCollectionSubtypeId entityId = new NftCollectionSubtypeId(nftCollectionCollectionType, subtypeValue);
         return (NftCollectionSubtypeState) getCurrentSession().get(AbstractNftCollectionSubtypeState.SimpleNftCollectionSubtypeState.class, entityId);
     }
 

@@ -13,9 +13,9 @@ import org.test.suiswapexample.specialization.DomainError;
 
 public interface NftCollectionSubtypeCommand extends Command {
 
-    String getName();
+    String getSubtypeValue();
 
-    void setName(String name);
+    void setSubtypeValue(String subtypeValue);
 
 }
 

@@ -4,10 +4,10 @@
   <class name="AbstractNftCollectionSubtypeEvent" table="nft_collection_subtype_event" abstract="true">
     <composite-id name="nftCollectionSubtypeEventId" class="org.test.suiswapexample.domain.nftcollection.NftCollectionSubtypeEventId">
       <key-property name="nftCollectionCollectionType">
-        <column name="nft_collection_subtype_id_nft_collection_collection_type" length="500" />
+        <column name="nft_collection_collection_type" length="500" />
       </key-property>
-      <key-property name="name">
-        <column name="nft_collection_subtype_id_name" length="200" />
+      <key-property name="subtypeValue">
+        <column name="subtype_value" length="200" />
       </key-property>
       <key-property name="version">
         <column name="version" sql-type="DECIMAL(20,0)" />
