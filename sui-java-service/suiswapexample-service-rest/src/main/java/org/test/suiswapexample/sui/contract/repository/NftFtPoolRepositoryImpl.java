@@ -58,4 +58,54 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         }
         return query.getResultList();
     }
+
+    @Override
+    public List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String liquidityTokenObjectId) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT\n" +
+                "    p.id AS poolObjectId,\n" +
+                "    p.x_token_type AS nftType,\n" +
+                "    p.y_token_type AS coinType,\n" +
+                "    c.basic_unit_amount AS nftBasicUnitAmount,\n" +
+                "    p.x_total_amount AS nftTotalAmount,\n" +
+                "    p.pool_type AS poolType,\n" +
+                "    p.price_curve_type AS priceCurveType,\n" +
+                "    p.start_exchange_rate_numerator AS startExchangeRateNumerator,\n" +
+                "    p.exchange_rate_numerator AS exchangeRateNumerator,\n" +
+                "    p.exchange_rate_denominator AS exchangeRateDenominator,\n" +
+                "    p.price_delta_x_amount AS priceDeltaNftAmount,\n" +
+                "    p.price_delta_numerator AS priceDeltaNumerator,\n" +
+                "    p.price_delta_denominator AS priceDeltaDenominator,\n" +
+                "    p.liquidity_token_id AS liquidityTokenObjectId\n" +
+                "FROM\n" +
+                "    trade_pool p\n" +
+                "        LEFT JOIN\n" +
+                "    nft_collection c ON p.x_token_type = c.collection_type\n" +
+                "WHERE\n" +
+                "    1 = 1\n" +
+                "        AND x_token_type = :nftType\n" +
+                "        AND y_token_type = :coinType\n");
+
+        if (liquidityTokenObjectId != null) {
+            queryBuilder.append(" AND p.liquidity_token_id = :liquidityTokenObjectId\n");
+        }
+        if (poolTypes != null && poolTypes.length > 0) {
+            queryBuilder.append(" AND p.pool_type IN (");
+            for (int i = 0; i < poolTypes.length; i++) {
+                queryBuilder//.append("'")
+                        .append(poolTypes[i]);//.append("'");
+                if (i < poolTypes.length - 1) {
+                    queryBuilder.append(", ");
+                }
+            }
+            queryBuilder.append(")\n");
+        }
+        Query query = entityManager.createNativeQuery(queryBuilder.toString(), "NftFtPoolDtoMapping");
+        query.setParameter("nftType", nftType);
+        query.setParameter("coinType", coinType);
+        if (liquidityTokenObjectId != null) {
+            query.setParameter("liquidityTokenObjectId", liquidityTokenObjectId);
+        }
+        return query.getResultList();
+    }
+
 }

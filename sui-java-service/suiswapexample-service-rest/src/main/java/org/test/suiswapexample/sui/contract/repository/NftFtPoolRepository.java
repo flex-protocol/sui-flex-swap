@@ -12,6 +12,8 @@ public interface NftFtPoolRepository {
     List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
                                 String subtypeFieldName, String subtypeValue, Boolean buyable);
 
+    List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String liquidityTokenObjectId);
+
     class NftAssetDto {
         private String assetObjectId;
         private String assetAmount;
@@ -119,6 +121,179 @@ public interface NftFtPoolRepository {
                     ", liquidityTokenObjectId='" + liquidityTokenObjectId + '\'' +
                     ", poolType='" + poolType + '\'' +
                     ", display='" + display + '\'' +
+                    '}';
+        }
+    }
+
+    class PoolDto {
+        private String poolObjectId;
+        private String nftType;
+        private String coinType;
+        private String nftBasicUnitAmount;
+        private String nftTotalAmount;
+        private String poolType;
+        private String priceCurveType;
+        private String startExchangeRateNumerator;
+        private String exchangeRateNumerator;
+        private String exchangeRateDenominator;
+        private String priceDeltaNftAmount;
+        private String priceDeltaNumerator;
+        private String priceDeltaDenominator;
+        private String liquidityTokenObjectId;
+
+        public PoolDto(String poolObjectId, String nftType, String coinType,
+                       String nftBasicUnitAmount, String nftTotalAmount,
+                       String poolType, String priceCurveType,
+                       String startExchangeRateNumerator,
+                       String exchangeRateNumerator, String exchangeRateDenominator,
+                       String priceDeltaNftAmount, String priceDeltaNumerator, String priceDeltaDenominator,
+                       String liquidityTokenObjectId
+        ) {
+            this.poolObjectId = poolObjectId;
+            this.nftType = nftType;
+            this.coinType = coinType;
+            this.nftBasicUnitAmount = nftBasicUnitAmount;
+            this.nftTotalAmount = nftTotalAmount;
+            this.poolType = poolType;
+            this.priceCurveType = priceCurveType;
+            this.startExchangeRateNumerator = startExchangeRateNumerator;
+            this.exchangeRateNumerator = exchangeRateNumerator;
+            this.exchangeRateDenominator = exchangeRateDenominator;
+            this.priceDeltaNftAmount = priceDeltaNftAmount;
+            this.priceDeltaNumerator = priceDeltaNumerator;
+            this.priceDeltaDenominator = priceDeltaDenominator;
+            this.liquidityTokenObjectId = liquidityTokenObjectId;
+        }
+
+        public String getPoolObjectId() {
+            return poolObjectId;
+        }
+
+        public void setPoolObjectId(String poolObjectId) {
+            this.poolObjectId = poolObjectId;
+        }
+
+        public String getNftType() {
+            return nftType;
+        }
+
+        public void setNftType(String nftType) {
+            this.nftType = nftType;
+        }
+
+        public String getCoinType() {
+            return coinType;
+        }
+
+        public void setCoinType(String coinType) {
+            this.coinType = coinType;
+        }
+
+        public String getNftBasicUnitAmount() {
+            return nftBasicUnitAmount;
+        }
+
+        public void setNftBasicUnitAmount(String nftBasicUnitAmount) {
+            this.nftBasicUnitAmount = nftBasicUnitAmount;
+        }
+
+        public String getNftTotalAmount() {
+            return nftTotalAmount;
+        }
+
+        public void setNftTotalAmount(String nftTotalAmount) {
+            this.nftTotalAmount = nftTotalAmount;
+        }
+
+        public String getPoolType() {
+            return poolType;
+        }
+
+        public void setPoolType(String poolType) {
+            this.poolType = poolType;
+        }
+
+        public String getPriceCurveType() {
+            return priceCurveType;
+        }
+
+        public void setPriceCurveType(String priceCurveType) {
+            this.priceCurveType = priceCurveType;
+        }
+
+        public String getStartExchangeRateNumerator() {
+            return startExchangeRateNumerator;
+        }
+
+        public void setStartExchangeRateNumerator(String startExchangeRateNumerator) {
+            this.startExchangeRateNumerator = startExchangeRateNumerator;
+        }
+
+        public String getExchangeRateNumerator() {
+            return exchangeRateNumerator;
+        }
+
+        public void setExchangeRateNumerator(String exchangeRateNumerator) {
+            this.exchangeRateNumerator = exchangeRateNumerator;
+        }
+
+        public String getExchangeRateDenominator() {
+            return exchangeRateDenominator;
+        }
+
+        public void setExchangeRateDenominator(String exchangeRateDenominator) {
+            this.exchangeRateDenominator = exchangeRateDenominator;
+        }
+
+        public String getPriceDeltaNftAmount() {
+            return priceDeltaNftAmount;
+        }
+
+        public void setPriceDeltaNftAmount(String priceDeltaNftAmount) {
+            this.priceDeltaNftAmount = priceDeltaNftAmount;
+        }
+
+        public String getPriceDeltaNumerator() {
+            return priceDeltaNumerator;
+        }
+
+        public void setPriceDeltaNumerator(String priceDeltaNumerator) {
+            this.priceDeltaNumerator = priceDeltaNumerator;
+        }
+
+        public String getPriceDeltaDenominator() {
+            return priceDeltaDenominator;
+        }
+
+        public void setPriceDeltaDenominator(String priceDeltaDenominator) {
+            this.priceDeltaDenominator = priceDeltaDenominator;
+        }
+
+        public String getLiquidityTokenObjectId() {
+            return liquidityTokenObjectId;
+        }
+
+        public void setLiquidityTokenObjectId(String liquidityTokenObjectId) {
+            this.liquidityTokenObjectId = liquidityTokenObjectId;
+        }
+
+        @Override
+        public String toString() {
+            return "PoolDto{" +
+                    "poolObjectId='" + poolObjectId + '\'' +
+                    ", nftType='" + nftType + '\'' +
+                    ", coinType='" + coinType + '\'' +
+                    ", nftBasicUnitAmount='" + nftBasicUnitAmount + '\'' +
+                    ", nftTotalAmount='" + nftTotalAmount + '\'' +
+                    ", poolType='" + poolType + '\'' +
+                    ", priceCurveType='" + priceCurveType + '\'' +
+                    ", startExchangeRateNumerator='" + startExchangeRateNumerator + '\'' +
+                    ", exchangeRateNumerator='" + exchangeRateNumerator + '\'' +
+                    ", exchangeRateDenominator='" + exchangeRateDenominator + '\'' +
+                    ", priceDeltaNftAmount='" + priceDeltaNftAmount + '\'' +
+                    ", priceDeltaNumerator='" + priceDeltaNumerator + '\'' +
+                    ", priceDeltaDenominator='" + priceDeltaDenominator + '\'' +
+                    ", liquidityTokenObjectId='" + liquidityTokenObjectId + '\'' +
                     '}';
         }
     }
