@@ -273,6 +273,70 @@ curl -X GET "http://localhost:1023/api/TradePools?poolType=0&poolType=2" -H "acc
 curl -X GET "http://localhost:1023/api/TradePools?x_TokenType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c::equipment::Equipment&y_TokenType=0x2::sui::SUI" -H "accept: application/json"
 ```
 
+#### 获取 NFT 的购买价格
+
+当需要购买 NFT 时，可以调用这个接口获取从 sell pool 或 trade pool 购买 NFT 的价格，示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/buySpotPrices?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI&nftAmountLimit=10" -H "accept: application/json"
+```
+
+这里的查询参数 `nftAmountLimit` 表示需要计算的（欲购买的） NFT 的总价值。
+
+返回的数据示例：
+
+```json
+[
+  {
+    "poolObjectId": "0x2cf28fa6e72b3f63bc4414857fb8dca6908443a7339c8631b6da8497344d87f0",
+    "nftType": "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment",
+    "coinType": "0x2::sui::SUI",
+    "nftBasicUnitAmount": "1",
+    //...
+    "spotPrices": [
+      {
+        "coinAmount": 1008999991,
+        "nftAmount": 1
+      },
+      {
+        "coinAmount": 1009999990,
+        "nftAmount": 1
+      },
+      {
+        "coinAmount": 1010999989,
+        "nftAmount": 1
+      },
+      //...
+  },
+  //...
+]
+```
+
+解释：
+
+* `nftBasicUnitAmount`：每购买这个“基本单位价值”的 NFT，池子的点价格（spot price）就会更新一次。
+* `spotPrices`：这个数组可以理解为向该池子**依次**购买若干个 NFT 时，每个 NFT 所需要支付的 Coin 的金额。
+    也就是说，它的元素其实表示的是购买某个 NFT 时的“点价格”。
+    * `nftAmount`：目前总是等于 `nftBasicUnitAmount`。未来接口支持计算购买特定子类型的 NFT（它们的价值不一定等于“基本单位价值”）的价格时，这个值可能会变化。
+    * `coinAmount`：购买价值为 `nftAmount` 的 NFT需支付的 Coin 的金额。
+
+比如，我们测试的 NFT 项目，`nftBasicUnitAmount` 为 1。
+各个 NFT 子类型的价值是“基本单位价值”的倍数，其中`Block` 的价值是 1，`Shield` 的价值是 3，`Sword` 的价值是 5。
+当我们需要一次性混合购买多个 NFT（可能既有 `Block` 又有 `Shield`，还有 `Sword`）时，
+前端可以按照“基本单位价值”来获取各个池子的多个点价格，计算出最佳购买方案。
+
+
+#### 获取 NFT 的出售价格
+
+当需要出售 NFT 时，可以调用这个接口获取向 buy pool 或 trade pool 销售 NFT 的价格，示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/sellSpotPrices?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI&nftAmountLimit=20" -H "accept: application/json"
+```
+
+参考“获取 NFT 的购买价格”接口。
+
+
 ### 关于链下服务 API
 
 我们的链下服务将链上的对象状态拉取到链下的 SQL 数据库，以提供查询功能。这样一个链下服务有时候也被称为 indexer。
