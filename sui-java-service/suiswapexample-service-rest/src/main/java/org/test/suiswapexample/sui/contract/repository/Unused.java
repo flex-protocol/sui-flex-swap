@@ -37,7 +37,8 @@ import javax.persistence.*;
                         @ColumnResult(name = "priceDeltaNftAmount", type = String.class),
                         @ColumnResult(name = "priceDeltaNumerator", type = String.class),
                         @ColumnResult(name = "priceDeltaDenominator", type = String.class),
-                        @ColumnResult(name = "liquidityTokenObjectId", type = String.class)
+                        @ColumnResult(name = "liquidityTokenObjectId", type = String.class),
+                        @ColumnResult(name = "coinReserve", type = String.class),
                 }
         )
 )

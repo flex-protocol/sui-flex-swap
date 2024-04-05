@@ -206,7 +206,7 @@ curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437
 
 提示：路径 `/api/nftPools/` 下的接口是“定制开发”的，不是低代码工具生成的。
 
-如果只想要获得“可购买的”（即在 trade pool 或者 sell pool 中的资产），可以加上查询参数 `buyable=true`：
+如果只想要获得“可购买的”（即在 trade pool 或者 sell pool 中的）资产，可以加上查询参数 `buyable=true`：
 
 ```shell
 curl -X GET "http://localhost:1023/api/nftPools/assets?nftType=0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c%3A%3Aequipment%3A%3AEquipment&coinType=0x2%3A%3Asui%3A%3ASUI&buyable=true" -H "accept: application/json"

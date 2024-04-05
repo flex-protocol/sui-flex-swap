@@ -21,6 +21,7 @@ import org.test.suiswapexample.sui.contract.repository.SuiPackageRepository;
 import org.test.suiswapexample.sui.contract.utils.Pair;
 import org.test.suiswapexample.sui.contract.utils.PriceCurve;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -153,6 +154,8 @@ public class NftPoolResource {
         );
     }
 
+    private static final int MAX_NFT_COUNT = 500;
+
     private List<NftFtPoolRepository.PoolDto> getBuyOrSellSpotPrices(
             String nftType, String coinType,
             BigInteger nftAmountLimit,
@@ -164,6 +167,8 @@ public class NftPoolResource {
         String liquidityTokenObjectId = null;
         List<NftFtPoolRepository.PoolDto> pools = nftPoolRepository.getPools(nftType, coinType, poolTypes, poolObjectId, liquidityTokenObjectId);
         for (NftFtPoolRepository.PoolDto p : pools) {
+            BigInteger coinReserve = new BigDecimal(p.getCoinReserve()).toBigInteger();
+            BigInteger totalCoinAmount = BigInteger.ZERO;
             p.setNftBasicUnitAmount(nftBasicUnitAmount + "");
             BigInteger r = nftAmountLimit.remainder(nftBasicUnitAmount);
             int n = nftAmountLimit.divide(nftBasicUnitAmount).intValue() + (r.compareTo(BigInteger.ZERO) > 0 ? 1 : 0);
@@ -172,11 +177,17 @@ public class NftPoolResource {
             BigInteger scaling_factor = new BigInteger(p.getExchangeRateDenominator());
             List<NftFtPoolRepository.SpotPriceDto> spotPrices = new ArrayList<>();
             for (int i = 0; i < n; i++) {
-                BigInteger nftAmount = nftBasicUnitAmount; //OR: i == n - 1 && r.compareTo(BigInteger.ZERO) > 0 ? r : nftBasicUnitAmount;
+                if (i >= MAX_NFT_COUNT) {
+                    break;
+                }
+                //BigInteger nftAmount = nftBasicUnitAmount;
+                BigInteger nftAmount = i == n - 1 && r.compareTo(BigInteger.ZERO) > 0 ? r : nftBasicUnitAmount;
                 byte curve_type = Byte.parseByte(p.getPriceCurveType());
                 BigInteger price_delta_enumerator = new BigInteger(p.getPriceDeltaNumerator());
                 BigInteger price_delta_denominator = new BigInteger(p.getPriceDeltaDenominator());
                 new BigInteger(p.getPriceDeltaDenominator());
+                // --------
+                // todo cache this?
                 Pair<BigInteger, BigInteger> coin_amount_and_new_spot_price = buyOrSell ? PriceCurve.getBuyInfo(
                         curve_type, nftAmount, nftBasicUnitAmount, spot_price, start_price,
                         price_delta_enumerator, price_delta_denominator
@@ -184,10 +195,19 @@ public class NftPoolResource {
                         curve_type, nftAmount, nftBasicUnitAmount, spot_price, start_price,
                         price_delta_enumerator, price_delta_denominator
                 );
-                BigInteger coin_amount = coin_amount_and_new_spot_price.getItem1();
-                NftFtPoolRepository.SpotPriceDto spotPrice = new NftFtPoolRepository.SpotPriceDto(
-                        coin_amount.divide(scaling_factor), nftAmount
-                );
+                // --------
+                BigInteger unscaled_coin_amount = coin_amount_and_new_spot_price.getItem1();
+                BigInteger coinAmount = unscaled_coin_amount.divide(scaling_factor);
+                if (!buyOrSell) { //it is a sell
+                    if (coinAmount.compareTo(BigInteger.ZERO) == 0) {
+                        break;
+                    }
+                    totalCoinAmount = totalCoinAmount.add(coinAmount);
+                    if (totalCoinAmount.compareTo(coinReserve) > 0) {
+                        break;//"Insufficient coin reserve"
+                    }
+                }
+                NftFtPoolRepository.SpotPriceDto spotPrice = new NftFtPoolRepository.SpotPriceDto(coinAmount, nftAmount);
                 spotPrices.add(spotPrice);
                 spot_price = coin_amount_and_new_spot_price.getItem2(); //new spot price
             }//end for

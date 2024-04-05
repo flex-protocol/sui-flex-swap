@@ -143,7 +143,7 @@ public interface NftFtPoolRepository {
         private String priceDeltaNumerator;
         private String priceDeltaDenominator;
         private String liquidityTokenObjectId;
-
+        private String coinReserve;
         private SpotPriceDto[] spotPrices;
 
         public PoolDto(String poolObjectId, String nftType, String coinType,
@@ -153,7 +153,8 @@ public interface NftFtPoolRepository {
                        String startExchangeRateNumerator,
                        String exchangeRateNumerator, String exchangeRateDenominator,
                        String priceDeltaNftAmount, String priceDeltaNumerator, String priceDeltaDenominator,
-                       String liquidityTokenObjectId
+                       String liquidityTokenObjectId,
+                       String coinReserve
         ) {
             this.poolObjectId = poolObjectId;
             this.nftType = nftType;
@@ -169,6 +170,7 @@ public interface NftFtPoolRepository {
             this.priceDeltaNumerator = priceDeltaNumerator;
             this.priceDeltaDenominator = priceDeltaDenominator;
             this.liquidityTokenObjectId = liquidityTokenObjectId;
+            this.coinReserve = coinReserve;
         }
 
         public String getPoolObjectId() {
@@ -283,6 +285,14 @@ public interface NftFtPoolRepository {
             this.liquidityTokenObjectId = liquidityTokenObjectId;
         }
 
+        public String getCoinReserve() {
+            return coinReserve;
+        }
+
+        public void setCoinReserve(String coinReserve) {
+            this.coinReserve = coinReserve;
+        }
+
         public SpotPriceDto[] getSpotPrices() {
             return spotPrices;
         }
@@ -308,6 +318,7 @@ public interface NftFtPoolRepository {
                     ", priceDeltaNumerator='" + priceDeltaNumerator + '\'' +
                     ", priceDeltaDenominator='" + priceDeltaDenominator + '\'' +
                     ", liquidityTokenObjectId='" + liquidityTokenObjectId + '\'' +
+                    ", coinReserve='" + coinReserve + '\'' +
                     ", spotPrices=" + Arrays.toString(spotPrices) +
                     '}';
         }

@@ -75,7 +75,8 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
                 "    p.price_delta_x_amount AS priceDeltaNftAmount,\n" +
                 "    p.price_delta_numerator AS priceDeltaNumerator,\n" +
                 "    p.price_delta_denominator AS priceDeltaDenominator,\n" +
-                "    p.liquidity_token_id AS liquidityTokenObjectId\n" +
+                "    p.liquidity_token_id AS liquidityTokenObjectId,\n" +
+                "    p.y_reserve as coinReserve\n" +
                 "FROM\n" +
                 "    trade_pool p\n" +
                 //"        LEFT JOIN\n" +

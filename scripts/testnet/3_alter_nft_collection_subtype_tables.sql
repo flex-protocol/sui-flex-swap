@@ -101,3 +101,5 @@ WHERE `nft_collection_collection_type` = '0x507d2aacb7425085612e0d56131a57362729
 	AND `subtype_value` = '3';
 
 
+
+
