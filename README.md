@@ -1093,7 +1093,7 @@ CREATE SCHEMA `test5` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 Go to the `sui-java-service` directory and package the Java project:
 
 ```shell
-mvn package
+mvn package -DskipTests
 ```
 
 Then, run a command-line tool to initialize the database:
@@ -1110,9 +1110,9 @@ In the `sui-java-service` directory, execute the following command to start the 
 mvn -pl suiswapexample-service-rest -am spring-boot:run
 ```
 
-### About Off-Chain Services APIs
+### About Off-Chain Service APIs
 
-Our off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
+The off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
 Such an off-chain service is sometimes called an indexer.
 
 We can certainly start by using Sui's official API service, see: https://docs.sui.io/references/sui-api
@@ -1120,7 +1120,7 @@ We can certainly start by using Sui's official API service, see: https://docs.su
 However, there are some application-specific query requirements that Sui's official API service may not be able to fulfill, 
 so it should be necessary to build your own or use enhanced query or indexer services provided by third parties.
 
-By default, the off-chain services we generate provide some out-of-the-box APIs.
+By default, the off-chain service provide some out-of-the-box APIs - developers don't even need to write a single line of code for this.
 You can read the DDDML model files and then refer to the examples below to infer what APIs are available.
 
 For example, in our project, you can HTTP GET the list of token pairs from the URL like this:
