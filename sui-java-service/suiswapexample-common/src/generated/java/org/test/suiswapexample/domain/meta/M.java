@@ -999,6 +999,7 @@ public class M {
             "subtypeValue",
             "name",
             "imageUrl",
+            "subtypeAmount",
             "offChainVersion",
             "createdBy",
             "createdAt",
@@ -1015,6 +1016,7 @@ public class M {
             "String",
             "String",
             "String",
+            "BigInteger",
             "Long",
             "String",
             "Date",
@@ -1045,6 +1047,8 @@ public class M {
         aliasMap.put("Name", "name");
         aliasMap.put("imageUrl", "imageUrl");
         aliasMap.put("ImageUrl", "imageUrl");
+        aliasMap.put("subtypeAmount", "subtypeAmount");
+        aliasMap.put("SubtypeAmount", "subtypeAmount");
         aliasMap.put("offChainVersion", "offChainVersion");
         aliasMap.put("OffChainVersion", "offChainVersion");
         aliasMap.put("createdBy", "createdBy");

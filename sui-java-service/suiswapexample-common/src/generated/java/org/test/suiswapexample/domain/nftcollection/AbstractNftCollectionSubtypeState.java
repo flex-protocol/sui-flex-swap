@@ -7,6 +7,7 @@ package org.test.suiswapexample.domain.nftcollection;
 
 import java.util.*;
 import java.math.*;
+import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
@@ -78,6 +79,16 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    private BigInteger subtypeAmount;
+
+    public BigInteger getSubtypeAmount() {
+        return this.subtypeAmount;
+    }
+
+    public void setSubtypeAmount(BigInteger subtypeAmount) {
+        this.subtypeAmount = subtypeAmount;
     }
 
     private Long offChainVersion;
@@ -214,6 +225,7 @@ public abstract class AbstractNftCollectionSubtypeState implements NftCollection
         }
         this.setName(s.getName());
         this.setImageUrl(s.getImageUrl());
+        this.setSubtypeAmount(s.getSubtypeAmount());
         this.setActive(s.getActive());
     }
 

@@ -7,6 +7,7 @@ package org.test.suiswapexample.domain.nftcollection;
 
 import java.util.*;
 import java.math.*;
+import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.Event;
@@ -22,6 +23,8 @@ public interface NftCollectionSubtypeState
     String getName();
 
     String getImageUrl();
+
+    BigInteger getSubtypeAmount();
 
     Long getOffChainVersion();
 
@@ -45,6 +48,8 @@ public interface NftCollectionSubtypeState
         void setName(String name);
 
         void setImageUrl(String imageUrl);
+
+        void setSubtypeAmount(BigInteger subtypeAmount);
 
         void setOffChainVersion(Long offChainVersion);
 

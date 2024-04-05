@@ -101,5 +101,24 @@ WHERE `nft_collection_collection_type` = '0x507d2aacb7425085612e0d56131a57362729
 	AND `subtype_value` = '3';
 
 
+alter table nft_collection_subtype add column subtype_amount DECIMAL(20,0);
+
+UPDATE `nft_collection_subtype`
+    SET
+    `subtype_amount` = 5
+WHERE `nft_collection_collection_type` = '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment'
+	AND `subtype_value` = '3';
+ 
+UPDATE `nft_collection_subtype`
+    SET
+    `subtype_amount` = 3
+WHERE `nft_collection_collection_type` = '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment'
+	AND `subtype_value` = '2';
+
+UPDATE `nft_collection_subtype`
+    SET
+    `subtype_amount` = 1
+WHERE `nft_collection_collection_type` = '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment'
+	AND `subtype_value` = '1';
 
 

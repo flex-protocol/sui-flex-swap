@@ -20,6 +20,9 @@
     <property name="imageUrl">
       <column name="image_url" length="500" />
     </property>
+    <property name="subtypeAmount">
+      <column name="subtype_amount" sql-type="DECIMAL(20,0)" />
+    </property>
     <property name="createdBy">
       <column name="created_by" />
     </property>

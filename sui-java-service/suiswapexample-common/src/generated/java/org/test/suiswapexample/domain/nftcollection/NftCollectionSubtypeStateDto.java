@@ -7,6 +7,7 @@ package org.test.suiswapexample.domain.nftcollection;
 
 import java.util.*;
 import java.math.*;
+import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.specialization.*;
@@ -48,6 +49,18 @@ public class NftCollectionSubtypeStateDto {
     public void setImageUrl(String imageUrl)
     {
         this.imageUrl = imageUrl;
+    }
+
+    private BigInteger subtypeAmount;
+
+    public BigInteger getSubtypeAmount()
+    {
+        return this.subtypeAmount;
+    }
+
+    public void setSubtypeAmount(BigInteger subtypeAmount)
+    {
+        this.subtypeAmount = subtypeAmount;
     }
 
     private Boolean active;
@@ -171,6 +184,9 @@ public class NftCollectionSubtypeStateDto {
             }
             if (returnedFieldsContains("ImageUrl")) {
                 dto.setImageUrl(state.getImageUrl());
+            }
+            if (returnedFieldsContains("SubtypeAmount")) {
+                dto.setSubtypeAmount(state.getSubtypeAmount());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());

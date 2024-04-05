@@ -5,6 +5,7 @@
 
 package org.test.suiswapexample.domain.nftcollection;
 
+import java.math.BigInteger;
 import java.util.Date;
 import org.test.suiswapexample.domain.*;
 import org.test.suiswapexample.domain.AbstractCommand;

@@ -189,6 +189,58 @@ curl -X GET "http://localhost:1023/api/NftCollections" -H "accept: application/j
 
 注意：CoinType 属于池子的信息，不属于 NFT collection 的信息。因为一个 NFT 协议（项目）不会关心我们的池子使用什么 CoinType 和它们的 NFT 组成流动性。
 
+返回的数据示例：
+
+```json
+[
+  {
+    "collectionType": "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment",
+    "name": "Test NFT 2",
+    "imageUrl": "https://arweave.net/WA1r_yylVVWTBIV8e18xeWwlCTZvdQ7XQ5CKVvZ74EA",
+    "diPackageId": "0x9418aace582389a2f0108b9b7092bfcc26658e09eff1eb1c2564d4a1f4b278e2",
+    "diBuyPoolServiceModuleName": "test_equipment_buy_pool_service",
+    "diSellPoolServiceModuleName": "test_equipment_sell_pool_service",
+    "diTradePoolServiceModuleName": "test_equipment_trade_pool_service",
+    "nftServiceImplPackageId": "0x091e6daa7d6e000290fbdae96cd12b44619e98b956af9838921a7942e17ab5e2",
+    "nftServiceImplModuleName": "test_equipment_service_impl",
+    "basicUnitAmount": 1,
+    "amountFieldName": "amount",
+    "subtypeFieldName": "type",
+    "subtypes": [
+      {
+        "subtypeValue": "1",
+        "name": "Brick",
+        "imageUrl": "https://arweave.net/6AXZZCbeJLoOiexVs4TbWYcBvAtHsP8j0b0TZCLovs0",
+        "subtypeAmount": 1
+      },
+      {
+        "subtypeValue": "2",
+        "name": "Shield",
+        "imageUrl": "https://arweave.net/8CXgwIU2n7nVj9Bw5SAz5Kj_16OPUaNnOuYDEqCV5eQ",
+        "subtypeAmount": 3
+      },
+      {
+        "subtypeValue": "3",
+        "name": "Sword",
+        "imageUrl": "https://arweave.net/ItEzNg2lSS1Ne5ir5Cfbcyvi2HNsx5e6Et4LvzQx2rA",
+        "subtypeAmount": 5
+      }
+    ]
+  },
+  //...
+]
+```
+
+解释：
+
+* `amountFieldName`: 表示 NFT 的价值的字段的名称。
+* `subtypeFieldName`: 如果 NFT 有子类型，表示“子类型”的字段的名称。
+* `subtypes`: 如果 NFT 有子类型，这个数组表示子类型的信息。
+    * `subtypeValue`: 子类型的值。
+    * `name`: 子类型的名称。
+    * `imageUrl`: 子类型的图片 URL，可能为空。
+    * `subtypeAmount`: 子类型的价值，如果子类型的实例有统一的价值，该字段会被设置。
+
 
 #### 获取 一个 NFT collection 的信息
 

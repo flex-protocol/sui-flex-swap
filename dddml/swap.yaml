@@ -674,6 +674,9 @@ aggregates:
           ImageUrl:
             type: String
             length: 500
+          SubtypeAmount:
+            type: u64
+            # This property is set if the instances of the subtype have the same amount.
 
 singletonObjects:
   Exchange:
