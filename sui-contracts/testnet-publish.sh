@@ -30,7 +30,7 @@ sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps --skip-de
 
 
 publish_example_tokens_txn_digest=$(jq -r '.digest' "$publish_json_file")
-echo "publish example_tokens package txn_digest: $publish_example_tokens_txn_digest" | tee -a "$log_file"
+echo "publish example_tokens package. publish_example_tokens_txn_digest: $publish_example_tokens_txn_digest" | tee -a "$log_file"
 
 if [ -z "$publish_example_tokens_txn_digest" ]
 then
@@ -39,7 +39,7 @@ exit 1
 fi
 
 example_tokens_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
-echo "example_tokens package_id: $example_tokens_package_id" | tee -a "$log_file"
+echo "example_tokens_package_id: $example_tokens_package_id" | tee -a "$log_file"
 echo "" | tee -a "$log_file"
 
 while read -r line
@@ -110,7 +110,7 @@ publish_json_file="testnet_utils_publish.json"
 sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps --skip-dependency-verification --json > "$publish_json_file"
 
 publish_utils_txn_digest=$(jq -r '.digest' "$publish_json_file")
-echo "publish utils package txn_digest: $publish_utils_txn_digest" | tee -a "$log_file"
+echo "publish utils package. publish_utils_txn_digest: $publish_utils_txn_digest" | tee -a "$log_file"
 
 if [ -z "$publish_utils_txn_digest" ]
 then
@@ -119,7 +119,7 @@ exit 1
 fi
 
 utils_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
-echo "utils package_id: $utils_package_id" | tee -a "$log_file"
+echo "utils_package_id: $utils_package_id" | tee -a "$log_file"
 echo "" | tee -a "$log_file"
 
 while read -r line
@@ -174,7 +174,7 @@ publish_json_file="testnet_core_publish.json"
 sui client publish --gas-budget 800000000 --skip-fetch-latest-git-deps --skip-dependency-verification --json > "$publish_json_file"
 
 publish_core_txn_digest=$(jq -r '.digest' "$publish_json_file")
-echo "publish core package txn_digest: $publish_core_txn_digest" | tee -a "$log_file"
+echo "publish core package. publish_core_txn_digest: $publish_core_txn_digest" | tee -a "$log_file"
 
 if [ -z "$publish_core_txn_digest" ]
 then
@@ -183,7 +183,7 @@ exit 1
 fi
 
 core_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
-echo "core package_id: $core_package_id" | tee -a "$log_file"
+echo "core_package_id: $core_package_id" | tee -a "$log_file"
 echo "" | tee -a "$log_file"
 
 nft_service_config_object_id=""
@@ -247,7 +247,7 @@ publish_json_file="testnet_nft_service_impl_publish.json"
 sui client publish --gas-budget 200000000 --skip-fetch-latest-git-deps --skip-dependency-verification --json > "$publish_json_file"
 
 publish_nft_service_impl_txn_digest=$(jq -r '.digest' "$publish_json_file")
-echo "publish nft_service_impl package txn_digest: $publish_nft_service_impl_txn_digest" | tee -a "$log_file"
+echo "publish nft_service_impl package. publish_nft_service_impl_txn_digest: $publish_nft_service_impl_txn_digest" | tee -a "$log_file"
 
 if [ -z "$publish_nft_service_impl_txn_digest" ]
 then
@@ -256,7 +256,7 @@ exit 1
 fi
 
 nft_service_impl_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
-echo "nft_service_impl package_id: $nft_service_impl_package_id" | tee -a "$log_file"
+echo "nft_service_impl_package_id: $nft_service_impl_package_id" | tee -a "$log_file"
 echo "" | tee -a "$log_file"
 
 while read -r line
@@ -304,7 +304,7 @@ publish_json_file="testnet_di_publish.json"
 sui client publish --gas-budget 200000000 --skip-fetch-latest-git-deps --skip-dependency-verification --json > "$publish_json_file"
 
 publish_di_txn_digest=$(jq -r '.digest' "$publish_json_file")
-echo "publish di package txn_digest: $publish_di_txn_digest" | tee -a "$log_file"
+echo "publish di package. publish_di_txn_digest: $publish_di_txn_digest" | tee -a "$log_file"
 
 if [ -z "$publish_di_txn_digest" ]
 then
@@ -313,7 +313,7 @@ exit 1
 fi
 
 di_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
-echo "di package_id: $di_package_id" | tee -a "$log_file"
+echo "di_package_id: $di_package_id" | tee -a "$log_file"
 
 while read -r line
 do
