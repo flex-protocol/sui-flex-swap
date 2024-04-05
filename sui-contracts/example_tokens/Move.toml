@@ -1,6 +1,7 @@
 [package]
+published-at = "0x52bffc0becd6f3ba12b1b3b0f60de6b5239cfb568bd0688701209a4b7e3e328b"
 #published-at = "0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c"
-published-at = "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920"
+#published-at = "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920"
 name = "example_tokens"
 version = "0.0.1"
 
@@ -8,7 +9,8 @@ version = "0.0.1"
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
+example_tokens = "0x52bffc0becd6f3ba12b1b3b0f60de6b5239cfb568bd0688701209a4b7e3e328b"
 #example_tokens = "0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b96f0fb520691c"
-example_tokens = "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920"
+#example_tokens = "0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920"
 #example_tokens = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"

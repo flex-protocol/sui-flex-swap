@@ -12,12 +12,93 @@
 
 # The following are the object IDs of the SUI objects that are used in the following script.
 # Make sure the amounts of the following SUI objects are greater than 200000000
-sui_coin_object_id_1="0xfdf3344392babaf053e0293218cb901236dd43c3abf52a1cf3b5af17ee1b9e20"
-sui_coin_object_id_2="0xdd4aea51975a506e1e5451e38f340c3444ae03c4b2533afd04253f7a53a8b4d0"
+sui_coin_object_id_1="0x20596a0707756433b18280105f4d9986baf52288c4fc217e567f487da1c91b65"
+sui_coin_object_id_2="0x2df770b3cb96f5e1913969777ca4677c47229a9ad0cf139d971279d4fbc3ec74"
 
 # -------- Constants --------
 move_toml_file="Move.toml"
 move_toml_temp="Move-temp.toml"
+
+# ----------------------------------------------------------------------------------------
+# Publish example_tokens package
+cd example_tokens
+log_file="../testnet-publish.log"
+echo "#-------- publish example_tokens package --------" | tee -a "$log_file"
+publish_json_file="testnet_example_tokens_publish.json"
+
+sui client publish --gas-budget 300000000 --skip-fetch-latest-git-deps --skip-dependency-verification --json > "$publish_json_file"
+
+
+publish_example_tokens_txn_digest=$(jq -r '.digest' "$publish_json_file")
+echo "publish example_tokens package txn_digest: $publish_example_tokens_txn_digest" | tee -a "$log_file"
+
+if [ -z "$publish_example_tokens_txn_digest" ]
+then
+echo "The publish_example_tokens_txn_digest is empty, exit the script." | tee -a "$log_file"
+exit 1
+fi
+
+example_tokens_package_id=$(jq -r '.objectChanges[] | select(.type == "published").packageId' "$publish_json_file")
+echo "example_tokens package_id: $example_tokens_package_id" | tee -a "$log_file"
+echo "" | tee -a "$log_file"
+
+while read -r line
+do
+  objectType=$(echo "$line" | jq -r '.objectType')
+  echo "objectType: $objectType" | tee -a "$log_file"
+  objectId=$(echo "$line" | jq -r '.objectId')
+  echo "objectId: $objectId" | tee -a "$log_file"
+  echo "" | tee -a "$log_file"
+done < <(jq -c '.objectChanges[] | select(.type == "created")' "$publish_json_file")
+
+# -------- update example_tokens Move.toml --------
+while read -r line
+do
+if [[ $line == "published-at ="* ]]
+  then
+    echo "#$line" >> $move_toml_temp
+elif [[ $line == "[package]" ]]
+  then
+    echo "$line" >> $move_toml_temp
+    echo "published-at = \"$example_tokens_package_id\"" >> $move_toml_temp
+elif [[ $line == "example_tokens ="* ]]
+  then
+    echo "#$line" >> $move_toml_temp
+elif [[ $line == "[addresses]" ]]
+  then
+    echo "$line" >> $move_toml_temp
+    echo "example_tokens = \"$example_tokens_package_id\"" >> $move_toml_temp
+else
+  echo "$line" >> $move_toml_temp
+fi
+done < $move_toml_file
+mv $move_toml_temp $move_toml_file
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '1' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_1: $test_equipment_object_id_1" | tee -a "$log_file"
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '2' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_2=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_2: $test_equipment_object_id_2" | tee -a "$log_file"
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '3' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_3=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_3: $test_equipment_object_id_3" | tee -a "$log_file"
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '1' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_4=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_4: $test_equipment_object_id_4" | tee -a "$log_file"
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '2' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_5=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_5: $test_equipment_object_id_5" | tee -a "$log_file"
+
+sui client call --package "$example_tokens_package_id" --module equipment --function mint --args '3' --gas-budget 11000000 --json > testnet_mint_test_nft.json
+test_equipment_object_id_6=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("equipment::Equipment")).objectId' testnet_mint_test_nft.json)
+echo "test_equipment_object_id_6: $test_equipment_object_id_6" | tee -a "$log_file"
+
+cd ..
 
 # ----------------------------------------------------------------------------------------
 # Publish utils package
@@ -269,12 +350,6 @@ mv $move_toml_temp $move_toml_file
 
 
 # ----------------------------------------------------------------------------------------
-# Initialize sell pool, buy pool, and trade pool
-cd ..
-log_file="./testnet-publish.log"
-echo "" | tee -a "$log_file"
-echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee -a "$log_file"
-
 # Configure dependency injection allowlist
 
 # -------- Movescription as NFT --------
@@ -282,6 +357,19 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #--type-args "$nft_service_impl_package_id::movescription_service_impl::MovescriptionServiceImpl" \
 #--args "$nft_service_config_object_id" "$nft_service_config_cap_object_id" \
 #--gas-budget 300000000
+
+sui client call --function add_allowed_impl --module nft_service_config --package "$core_package_id" \
+--type-args "$nft_service_impl_package_id::test_equipment_service_impl::TestEquipmentServiceImpl" \
+--args "$nft_service_config_object_id" "$nft_service_config_cap_object_id" \
+--gas-budget 300000000
+
+
+# ----------------------------------------------------------------------------------------
+# Initialize sell pool, buy pool, and trade pool
+cd ..
+log_file="./testnet-publish.log"
+echo "" | tee -a "$log_file"
+echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee -a "$log_file"
 
 # Initialize sell pool
 
@@ -299,10 +387,25 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"10"' \
 #'"100"' \
 #--gas-budget 100000000 --json > testnet_initialize_sell_pool.json
-#sell_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_sell_pool.json)
-#echo "sell_pool_id_1: $sell_pool_id_1" | tee -a "$log_file"
-#sell_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_sell_pool.json)
-#echo "sell_pool_liquidity_token_id_1: $sell_pool_liquidity_token_id_1" | tee -a "$log_file"
+
+sui client call --package "$di_package_id" --module test_equipment_sell_pool_service --function initialize_sell_pool \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$exchange_object_id" \
+"$test_equipment_object_id_1" \
+'"1000000000"' \
+'"1"' \
+'0' \
+'"1"' \
+'"10"' \
+'"1000"' \
+--gas-budget 100000000 --json > testnet_initialize_sell_pool.json
+
+sell_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_sell_pool.json)
+echo "sell_pool_id_1: $sell_pool_id_1" | tee -a "$log_file"
+sell_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_sell_pool.json)
+echo "sell_pool_liquidity_token_id_1: $sell_pool_liquidity_token_id_1" | tee -a "$log_file"
 
 # Initialize buy pool
 
@@ -320,10 +423,25 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"10"' \
 #'"100"' \
 #--gas-budget 100000000 --json > testnet_initialize_buy_pool.json
-#buy_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_buy_pool.json)
-#echo "buy_pool_id_1: $buy_pool_id_1" | tee -a "$log_file"
-#buy_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_buy_pool.json)
-#echo "buy_pool_liquidity_token_id_1: $buy_pool_liquidity_token_id_1" | tee -a "$log_file"
+
+sui client call --package "$core_package_id" --module buy_pool_service --function initialize_buy_pool \
+--type-args "$example_tokens_package_id::equipment::Equipment" '0x2::sui::SUI' \
+--args \
+"$exchange_object_id" \
+"$sui_coin_object_id_1" \
+'"150000000"' \
+'"100000000"' \
+'"1"' \
+'0' \
+'"1"' \
+'"10"' \
+'"1000"' \
+--gas-budget 100000000 --json > testnet_initialize_buy_pool.json
+
+buy_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_buy_pool.json)
+echo "buy_pool_id_1: $buy_pool_id_1" | tee -a "$log_file"
+buy_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_buy_pool.json)
+echo "buy_pool_liquidity_token_id_1: $buy_pool_liquidity_token_id_1" | tee -a "$log_file"
 
 # Initialize trade pool
 
@@ -343,10 +461,28 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"10"' \
 #'"100"' \
 #--gas-budget 100000000 --json > testnet_initialize_trade_pool.json
-#trade_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_trade_pool.json)
-#echo "trade_pool_id_1: $trade_pool_id_1" | tee -a "$log_file"
-#trade_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_trade_pool.json)
-#echo "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -a "$log_file"
+
+sui client call --package "$di_package_id" --module test_equipment_trade_pool_service --function initialize_trade_pool \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$exchange_object_id" \
+"$test_equipment_object_id_2" \
+"$sui_coin_object_id_2" \
+'"200000000"' \
+'"100000000"' \
+'"1"' \
+'1' \
+'"1"' \
+'"10"' \
+'"1000"' \
+--gas-budget 100000000 --json > testnet_initialize_trade_pool.json
+
+trade_pool_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("trade_pool::TradePool<")).objectId' testnet_initialize_trade_pool.json)
+echo "trade_pool_id_1: $trade_pool_id_1" | tee -a "$log_file"
+trade_pool_liquidity_token_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_trade_pool.json)
+echo "trade_pool_liquidity_token_id_1: $trade_pool_liquidity_token_id_1" | tee -a "$log_file"
+
 
 ## -------- Get pool IDs from exchange object --------
 #exchange_object_id="0x01e4361f1bcf6529e5f68517d2dcd68b25b57bee016cc34a9b7639c2bd8b72fb"
@@ -385,6 +521,17 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"100"' \
 #--gas-budget 100000000
 
+sui client call --package "$di_package_id" --module test_equipment_buy_pool_service --function sell_x \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$trade_pool_id_1" \
+"$test_equipment_object_id_4" \
+"$sui_coin_object_id_1" \
+'"100"' \
+--gas-budget 100000000
+
+
 # Buy X token from trade pool / sell pool
 
 # -------- Movescription as NFT --------
@@ -396,6 +543,14 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #"$movescription_object_id_3" \
 #--gas-budget 100000000
 
+sui client call --package "$core_package_id" --module sell_pool_service --function buy_x \
+--type-args "$example_tokens_package_id::equipment::Equipment" '0x2::sui::SUI' \
+--args "$trade_pool_id_1" \
+"$sui_coin_object_id_2" \
+'"120000000"' \
+"$test_equipment_object_id_4" \
+--gas-budget 100000000
+
 # Deposit Y reserve to trade pool / buy pool
 
 # -------- Movescription as NFT --------
@@ -406,6 +561,14 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #"$sui_coin_object_id_1" \
 #'"1000"' \
 #--gas-budget 100000000
+
+sui client call --package "$core_package_id" --module trade_pool_service --function deposit_y_reserve \
+--type-args "$example_tokens_package_id::equipment::Equipment" '0x2::sui::SUI' \
+--args "$trade_pool_id_1" \
+"$trade_pool_liquidity_token_id_1" \
+"$sui_coin_object_id_1" \
+'"10000000"' \
+--gas-budget 100000000
 
 # Owner add X token to trade pool / sell pool
 
@@ -419,6 +582,16 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #"$movescription_object_id_4" \
 #--gas-budget 100000000
 
+sui client call --package "$di_package_id" --module test_equipment_sell_pool_service --function add_x_token \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$trade_pool_id_1" \
+"$trade_pool_liquidity_token_id_1" \
+"$test_equipment_object_id_3" \
+--gas-budget 100000000
+
+
 # Owner remove X token from trade pool / sell pool / buy pool
 
 # -------- Movescription as NFT --------
@@ -428,6 +601,14 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #"$trade_pool_liquidity_token_id_1" \
 #"$movescription_object_id_4" \
 #--gas-budget 100000000
+
+sui client call --package "$core_package_id" --module trade_pool_service --function remove_x_token \
+--type-args "$example_tokens_package_id::equipment::Equipment" '0x2::sui::SUI' \
+--args "$trade_pool_id_1" \
+"$trade_pool_liquidity_token_id_1" \
+"$test_equipment_object_id_3" \
+--gas-budget 100000000
+
 
 # Owner withdraw Y reserve from trade pool / sell pool / buy pool
 
@@ -439,6 +620,14 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"1000"' \
 #"$sui_coin_object_id_1" \
 #--gas-budget 100000000
+
+sui client call --package "$core_package_id" --module trade_pool_service --function withdraw_y_reserve \
+--type-args "$example_tokens_package_id::equipment::Equipment" '0x2::sui::SUI' \
+--args "$trade_pool_id_1" \
+"$trade_pool_liquidity_token_id_1" \
+'"10"' \
+"$sui_coin_object_id_1" \
+--gas-budget 100000000
 
 # -------- buy pool tests --------
 # Sell X token to buy pool
@@ -454,4 +643,16 @@ echo "# -------- Initialize sell pool, buy pool, and trade pool --------" | tee 
 #'"100"' \
 #--gas-budget 100000000
 
+
+sui client call --package "$di_package_id" --module test_equipment_buy_pool_service --function sell_x \
+--type-args '0x2::sui::SUI' \
+--args \
+"$nft_service_config_object_id" \
+"$buy_pool_id_1" \
+"$test_equipment_object_id_5" \
+"$sui_coin_object_id_1" \
+'"100"' \
+--gas-budget 100000000
+
 # ----------------------------------------------------------------------------------------
+
