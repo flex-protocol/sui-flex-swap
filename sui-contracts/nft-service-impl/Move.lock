@@ -2,11 +2,10 @@
 
 [move]
 version = 0
-manifest_digest = "07101552FC75EE52E21F857A7F23B1310C9E371DD81C687C0122D6F5CED49806"
-deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
+manifest_digest = "94648CB02AF14DC9B65460B94032976D9575ACB09430432F2D55C1E0FB8EC7F6"
+deps_digest = "F9B494B64F0615AED0E98FC12A85B85ECD2BC5185C22D30E7F67786BB52E507C"
 
 dependencies = [
-  { name = "SmartInscription" },
   { name = "Sui" },
   { name = "example_tokens" },
   { name = "sui_swap_core" },
@@ -16,14 +15,6 @@ dependencies = [
 [[move.package]]
 name = "MoveStdlib"
 source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/testnet", subdir = "crates/sui-framework/packages/move-stdlib" }
-
-[[move.package]]
-name = "SmartInscription"
-source = { local = "../../../../movescriptions/movescriptions/sui" }
-
-dependencies = [
-  { name = "Sui" },
-]
 
 [[move.package]]
 name = "Sui"
@@ -57,3 +48,8 @@ source = { local = "../utils" }
 dependencies = [
   { name = "Sui" },
 ]
+
+[move.toolchain-version]
+compiler-version = "1.17.3"
+edition = "legacy"
+flavor = "sui"

@@ -2,11 +2,10 @@
 
 [move]
 version = 0
-manifest_digest = "D5349345FEDF5378157E1208D1A5CAF8A57FDC94B473057D8D617D667D7A16E8"
-deps_digest = "397E6A9F7A624706DBDFEE056CE88391A15876868FD18A88504DA74EB458D697"
+manifest_digest = "BB063BB2FB6D3D329835EAD46073D11DC87B0DB16C851C95F5E89AA85C2A8181"
+deps_digest = "F9B494B64F0615AED0E98FC12A85B85ECD2BC5185C22D30E7F67786BB52E507C"
 
 dependencies = [
-  { name = "SmartInscription" },
   { name = "Sui" },
   { name = "nft_service_impl" },
   { name = "sui_swap_core" },
@@ -16,14 +15,6 @@ dependencies = [
 [[move.package]]
 name = "MoveStdlib"
 source = { git = "https://github.com/MystenLabs/sui.git", rev = "framework/testnet", subdir = "crates/sui-framework/packages/move-stdlib" }
-
-[[move.package]]
-name = "SmartInscription"
-source = { local = "../../../../movescriptions/movescriptions/sui" }
-
-dependencies = [
-  { name = "Sui" },
-]
 
 [[move.package]]
 name = "Sui"
@@ -46,7 +37,6 @@ name = "nft_service_impl"
 source = { local = "../nft-service-impl" }
 
 dependencies = [
-  { name = "SmartInscription" },
   { name = "Sui" },
   { name = "example_tokens" },
   { name = "sui_swap_core" },
