@@ -32,19 +32,15 @@ import java.util.stream.Collectors;
 @RestController
 public class NftPoolResource {
     public static final int PAGE_MAX_SIZE = 50;
-
+    private static final int MAX_NFT_COUNT = 500;
     @Autowired
     private NftFtPoolRepository nftPoolRepository;
-
     @Autowired
     private SuiJsonRpcClient suiJsonRpcClient;
-
     @Autowired
     private NftCollectionStateRepository nftCollectionStateRepository;
-
     @Autowired
     private SuiPackageRepository suiPackageRepository;
-
     @Autowired
     private TradePoolStateQueryRepository tradePoolStateQueryRepository;
 
@@ -56,8 +52,28 @@ public class NftPoolResource {
             @RequestParam(required = false) String liquidityTokenObjectId,
             @RequestParam(required = false) String subtypeFieldName,
             @RequestParam(required = false) String subtypeValue,
-            @RequestParam(required = false) Boolean buyable) {
-        return nftPoolRepository.getAssets(nftType, coinType, liquidityTokenObjectId, subtypeFieldName, subtypeValue, buyable);
+            @RequestParam(required = false) Boolean buyable,
+            @RequestParam(required = false) Boolean showDisplay) {
+        List<NftFtPoolRepository.NftAssetDto> assets = nftPoolRepository.getAssets(nftType, coinType, liquidityTokenObjectId, subtypeFieldName, subtypeValue, buyable);
+        if (showDisplay != null && showDisplay) {
+            assets.forEach(asset -> {
+                SuiObjectResponse suiObjectResponse = suiJsonRpcClient.getObject(asset.getAssetObjectId(),
+                        new SuiObjectDataOptions(
+                                false,
+                                false,
+                                false,
+                                true,
+                                false,
+                                false,
+                                false
+                        )
+                );
+                if (suiObjectResponse.getData() != null && suiObjectResponse.getData().getDisplay() != null) {
+                    asset.setDisplay(suiObjectResponse.getData().getDisplay());
+                }
+            });
+        }
+        return assets;
     }
 
     @GetMapping(path = "ownedAssets")
@@ -119,7 +135,6 @@ public class NftPoolResource {
         }).collect(Collectors.toList());
     }
 
-
     @GetMapping(path = "buySpotPrices")
     @Transactional(readOnly = true)
     public List<NftFtPoolRepository.PoolDto> getBuySpotPrices(
@@ -153,8 +168,6 @@ public class NftPoolResource {
                 nftType, coinType, nftAmountLimit, poolObjectId, poolTypes, false
         );
     }
-
-    private static final int MAX_NFT_COUNT = 500;
 
     private List<NftFtPoolRepository.PoolDto> getBuyOrSellSpotPrices(
             String nftType, String coinType,
