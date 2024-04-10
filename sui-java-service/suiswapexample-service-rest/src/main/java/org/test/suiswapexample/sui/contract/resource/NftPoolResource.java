@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 @RestController
 public class NftPoolResource {
     public static final int PAGE_MAX_SIZE = 50;
-    private static final int MAX_NFT_COUNT = 500;
     @Autowired
     private NftFtPoolRepository nftPoolRepository;
     @Autowired
@@ -67,11 +66,13 @@ public class NftPoolResource {
             @RequestParam String nftType,
             @RequestParam String coinType,
             @RequestParam(required = false) String liquidityTokenObjectId,
+            @RequestParam(required = false) String poolObjectId,
             @RequestParam(required = false) String subtypeFieldName,
             @RequestParam(required = false) String subtypeValue,
             @RequestParam(required = false) Boolean buyable,
             @RequestParam(required = false) Boolean showDisplay) {
-        List<NftFtPoolRepository.NftAssetDto> assets = nftPoolRepository.getAssets(nftType, coinType, liquidityTokenObjectId, subtypeFieldName, subtypeValue, buyable);
+        List<NftFtPoolRepository.NftAssetDto> assets = nftPoolRepository.getAssets(nftType, coinType,
+                liquidityTokenObjectId, poolObjectId, subtypeFieldName, subtypeValue, buyable);
         if (showDisplay != null && showDisplay) {
             assets.forEach(asset -> {
                 SuiObjectResponse suiObjectResponse = suiJsonRpcClient.getObject(asset.getAssetObjectId(),
@@ -200,20 +201,22 @@ public class NftPoolResource {
             BigInteger coinReserve = new BigDecimal(p.getCoinReserve()).toBigInteger();
             BigInteger totalCoinAmount = BigInteger.ZERO;
             p.setNftBasicUnitAmount(nftBasicUnitAmount + "");
+            BigInteger l = nftAmountLimit;
             if (buyOrSell) {//it is a buy
                 BigInteger totalNftAmount = p.getNftTotalAmount() != null && !p.getNftTotalAmount().isEmpty() ?
                         new BigInteger(p.getNftTotalAmount()) : BigInteger.ZERO;
                 if (nftAmountLimit.compareTo(totalNftAmount) > 0) {
-                    nftAmountLimit = totalNftAmount;
+                    l = totalNftAmount;
                 }
             }
-            BigInteger r = nftAmountLimit.remainder(nftBasicUnitAmount);
-            int n = nftAmountLimit.divide(nftBasicUnitAmount).intValue() + (r.compareTo(BigInteger.ZERO) > 0 ? 1 : 0);
+            BigInteger r = l.remainder(nftBasicUnitAmount);
+            int n = l.divide(nftBasicUnitAmount).intValue() + (r.compareTo(BigInteger.ZERO) > 0 ? 1 : 0);
             BigInteger spot_price = new BigInteger(p.getExchangeRateNumerator());
             BigInteger start_price = new BigInteger(p.getStartExchangeRateNumerator());
             BigInteger scaling_factor = new BigInteger(p.getExchangeRateDenominator());
             List<NftFtPoolRepository.SpotPriceDto> spotPrices = new ArrayList<>();
             for (int i = 0; i < n; i++) {
+                int MAX_NFT_COUNT = 500;
                 if (i >= MAX_NFT_COUNT) {
                     break;
                 }

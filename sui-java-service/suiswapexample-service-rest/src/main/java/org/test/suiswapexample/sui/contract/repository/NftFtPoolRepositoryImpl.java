@@ -14,6 +14,7 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
 
     @Override
     public List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
+                                       String poolObjectId,
                                        String subtypeFieldName, String subtypeValue, Boolean buyable) {
         if (subtypeFieldName != null && !IdentifierValidator.isValidFieldName(subtypeFieldName)) {
             throw new IllegalArgumentException("Invalid subtypeFieldName");
@@ -40,6 +41,9 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         if (liquidityTokenObjectId != null) {
             queryBuilder.append(" AND p.liquidity_token_id = :liquidityTokenObjectId");
         }
+        if (poolObjectId != null) {
+            queryBuilder.append(" AND a.trade_pool_id = :poolObjectId");
+        }
         if (subtypeFieldName != null && subtypeValue != null) {
             queryBuilder.append(" AND JSON_UNQUOTE(JSON_EXTRACT(r.value, CONCAT('$.','").append(subtypeFieldName).append("'))) = :subtypeValue");
         }
@@ -52,6 +56,9 @@ public class NftFtPoolRepositoryImpl implements NftFtPoolRepository {
         query.setParameter("coinType", coinType);
         if (liquidityTokenObjectId != null) {
             query.setParameter("liquidityTokenObjectId", liquidityTokenObjectId);
+        }
+        if (poolObjectId != null) {
+            query.setParameter("poolObjectId", poolObjectId);
         }
         if (subtypeFieldName != null && subtypeValue != null) {
             query.setParameter("subtypeValue", subtypeValue);

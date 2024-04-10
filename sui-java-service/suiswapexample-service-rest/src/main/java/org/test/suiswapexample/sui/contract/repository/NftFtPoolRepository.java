@@ -12,6 +12,7 @@ public interface NftFtPoolRepository {
     byte BUY_POOL = 2;
 
     List<NftAssetDto> getAssets(String nftType, String coinType, String liquidityTokenObjectId,
+                                String poolObjectId,
                                 String subtypeFieldName, String subtypeValue, Boolean buyable);
 
     List<PoolDto> getPools(String nftType, String coinType, String[] poolTypes, String poolObjectId,

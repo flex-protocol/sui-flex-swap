@@ -82,9 +82,6 @@ public class M {
         clsMap.put("AsciiString", String.class);
         clsMap.put("vector<u8>", int[].class);
         clsMap.put("int[]", int[].class);
-        clsMap.put("JsonObject", java.util.Map.class);
-        clsMap.put("java.util.Map<String, Object>", java.util.Map.class);
-        clsMap.put("java.util.Map", java.util.Map.class);
         clsMap.put("blob", java.sql.Blob.class);
         clsMap.put("java.sql.Blob", java.sql.Blob.class);
         clsMap.put("byte-array", byte[].class);
@@ -125,6 +122,9 @@ public class M {
         clsMap.put("ID", String.class);
         clsMap.put("address", String.class);
         clsMap.put("Balance", java.math.BigInteger.class);
+        clsMap.put("JsonObject", java.util.Map.class);
+        clsMap.put("java.util.Map<String, Object>", java.util.Map.class);
+        clsMap.put("java.util.Map", java.util.Map.class);
         CLASS_MAP = clsMap;
     }
 
