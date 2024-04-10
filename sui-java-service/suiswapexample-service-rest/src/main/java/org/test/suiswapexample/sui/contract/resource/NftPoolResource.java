@@ -44,6 +44,23 @@ public class NftPoolResource {
     @Autowired
     private TradePoolStateQueryRepository tradePoolStateQueryRepository;
 
+    private static void sortPoolsByFirstSpotPrice(boolean buyOrSell, List<NftFtPoolRepository.PoolDto> pools) {
+        pools.sort((p1, p2) -> {
+            if (p1.getSpotPrices().length == 0 && p2.getSpotPrices().length == 0) {
+                return 0;
+            }
+            if (p1.getSpotPrices().length == 0) {
+                //pool having the spot prices takes precedence
+                return 1;
+            }
+            if (p2.getSpotPrices().length == 0) {
+                return -1;
+            }
+            int c = p1.getSpotPrices()[0].getCoinAmount().compareTo(p2.getSpotPrices()[0].getCoinAmount());
+            return buyOrSell ? c : -c;//buy: ascending, sell: descending
+        });
+    }
+
     @GetMapping(path = "assets")
     @Transactional(readOnly = true)
     public List<NftFtPoolRepository.NftAssetDto> getAssets(
@@ -183,6 +200,13 @@ public class NftPoolResource {
             BigInteger coinReserve = new BigDecimal(p.getCoinReserve()).toBigInteger();
             BigInteger totalCoinAmount = BigInteger.ZERO;
             p.setNftBasicUnitAmount(nftBasicUnitAmount + "");
+            if (buyOrSell) {//it is a buy
+                BigInteger totalNftAmount = p.getNftTotalAmount() != null && !p.getNftTotalAmount().isEmpty() ?
+                        new BigInteger(p.getNftTotalAmount()) : BigInteger.ZERO;
+                if (nftAmountLimit.compareTo(totalNftAmount) > 0) {
+                    nftAmountLimit = totalNftAmount;
+                }
+            }
             BigInteger r = nftAmountLimit.remainder(nftBasicUnitAmount);
             int n = nftAmountLimit.divide(nftBasicUnitAmount).intValue() + (r.compareTo(BigInteger.ZERO) > 0 ? 1 : 0);
             BigInteger spot_price = new BigInteger(p.getExchangeRateNumerator());
@@ -226,6 +250,9 @@ public class NftPoolResource {
             }//end for
             p.setSpotPrices(spotPrices.toArray(new NftFtPoolRepository.SpotPriceDto[0]));
         }//end for
+        //
+        sortPoolsByFirstSpotPrice(buyOrSell, pools);
+        //
         return pools;
     }
 
