@@ -388,6 +388,25 @@ curl -X GET "http://localhost:1023/api/nftPools/sellSpotPrices?nftType=0x507d2aa
 
 参考“获取 NFT 的购买价格”接口。
 
+#### 计算 Buy Pool 需要存入的 Coin 金额
+
+示例，假设池子打算收购 5 个单位（size）的 NFT，开始价格是 1 SUI，
+采用线性价格曲线，每买入一个（单位）NFT，价格减少 0.1 SUI（转换为开始价格 1 SUI 的百分比，即 10%），
+这样请求 API：
+
+```shell
+curl -X GET "http://localhost:1023/api/nftPools/calculateCoinAmountNeededForBuyPool?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&nftBasicUnitQuantity=5&curveType=0&startPriceNumerator=1000000000&startPriceDenominator=1&priceDeltaNumerator=10&priceDeltaDenominator=100" -H "accept: application/json"
+```
+
+这个示例返回的值是:
+
+```text
+3750000012
+```
+
+一个介于 `1+0.9+0.8+0.7+0.6 = 4` 和 `0.9+0.8+0.7+0.6+0.5 = 3.5` 之间的值。为什么不是等于 4？
+是为了防止当我们将价格曲线运用于 Trade Pool 这样的双向交易池时，出现有人无本套利的情况，所以我们总是让用户向池子销售 NFT 时，价格比向池子购买 NFT 时要低一些。
+
 
 ### 关于链下服务 API
 

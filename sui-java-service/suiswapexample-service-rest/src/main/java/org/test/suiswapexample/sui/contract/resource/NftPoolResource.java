@@ -187,6 +187,27 @@ public class NftPoolResource {
         );
     }
 
+    @GetMapping(path = "calculateCoinAmountNeededForBuyPool")
+    @Transactional(readOnly = true)
+    public BigInteger calculateCoinAmountNeededForBuyPool(
+            @RequestParam String nftType,
+            @RequestParam BigInteger nftBasicUnitQuantity,
+            @RequestParam byte curveType,
+            @RequestParam BigInteger startPriceNumerator,
+            @RequestParam BigInteger startPriceDenominator,
+            @RequestParam BigInteger priceDeltaNumerator,
+            @RequestParam BigInteger priceDeltaDenominator
+    ) {
+        BigInteger nftBasicUnitAmount = getNftBasicUnitAmount(nftType);
+        BigInteger nftAmount = nftBasicUnitAmount.multiply(nftBasicUnitQuantity);
+        Pair<BigInteger, BigInteger> coin_amount_and_new_spot_price = PriceCurve.getSellInfo(curveType,
+                nftAmount, nftBasicUnitAmount,
+                startPriceNumerator, startPriceNumerator,
+                priceDeltaNumerator, priceDeltaDenominator
+        );
+        return coin_amount_and_new_spot_price.getItem1().divide(startPriceDenominator);
+    }
+
     private List<NftFtPoolRepository.PoolDto> getBuyOrSellSpotPrices(
             String nftType, String coinType,
             BigInteger nftAmountLimit,
