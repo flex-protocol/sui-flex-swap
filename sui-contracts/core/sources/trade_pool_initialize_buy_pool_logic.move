@@ -16,18 +16,11 @@ module sui_swap_core::trade_pool_initialize_buy_pool_logic {
     use sui_swap_core::exchange_aggregate;
     use sui_swap_core::liquidity_token::LiquidityToken;
     use sui_swap_core::liquidity_token_aggregate;
-    use sui_swap_core::trade_pool;
     use sui_swap_core::pool_type;
-    use sui_swap_utils::price_curve;
+    use sui_swap_core::trade_pool;
+    use sui_swap_core::trade_pool_util;
 
     friend sui_swap_core::trade_pool_aggregate;
-
-    const EInvalidPriceCurveType: u64 = 1;
-
-    const EInvalidExchangeRateNumerator: u64 = 11;
-    const EInvalidExchangeRateDenominator: u64 = 12;
-    const EInvalidPriceDeltaXAmount: u64 = 13;
-    const EInvalidPriceDeltaDenominator: u64 = 14;
 
     public(friend) fun verify<X: key + store, Y>(
         exchange: &mut Exchange,
@@ -40,12 +33,10 @@ module sui_swap_core::trade_pool_initialize_buy_pool_logic {
         price_delta_denominator: u64,
         ctx: &mut TxContext,
     ): trade_pool::BuyPoolInitialized {
-        assert!(exchange_rate_numerator > 0, EInvalidExchangeRateNumerator);
-
-        assert!(exchange_rate_denominator > 0, EInvalidExchangeRateDenominator);
-        assert!(price_delta_x_amount > 0, EInvalidPriceDeltaXAmount);
-        assert!(price_delta_denominator > 0, EInvalidPriceDeltaDenominator);
-        assert!(price_curve::is_valid_curve_type(price_curve_type), EInvalidPriceCurveType);
+        trade_pool_util::assert_trade_pool_initialize_exchange_rate_arguments(
+            exchange_rate_numerator, exchange_rate_denominator, price_curve_type,
+            price_delta_x_amount, price_delta_numerator, price_delta_denominator
+        );
 
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
