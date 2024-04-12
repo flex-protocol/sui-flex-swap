@@ -13,6 +13,7 @@ module sui_swap_core::liquidity_token_aggregate {
     friend sui_swap_core::trade_pool_initialize_trade_pool_logic;
     friend sui_swap_core::trade_pool_initialize_sell_pool_logic;
     friend sui_swap_core::trade_pool_initialize_buy_pool_logic;
+    friend sui_swap_core::trade_pool_initialize_trade_pool_with_empty_x_reserve_logic;
     friend sui_swap_core::token_pair_service;
     friend sui_swap_core::token_pair_service_process;
     friend sui_swap_core::trade_pool_service;

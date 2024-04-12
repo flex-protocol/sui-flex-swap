@@ -22,6 +22,7 @@ import org.test.suiswapexample.sui.contract.tokenpair.YSwappedForX;
 import org.test.suiswapexample.sui.contract.tokenpair.FeeRateUpdated;
 import org.test.suiswapexample.domain.tradepool.AbstractTradePoolEvent;
 import org.test.suiswapexample.sui.contract.tradepool.TradePoolInitialized;
+import org.test.suiswapexample.sui.contract.tradepool.TradePoolWithEmptyXReserveInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.SellPoolInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.BuyPoolInitialized;
 import org.test.suiswapexample.sui.contract.tradepool.PoolExchangeRateUpdated;
@@ -271,6 +272,36 @@ public class DomainBeanUtils {
         tradePoolInitialized.setSuiSender(eventEnvelope.getSender());
 
         return tradePoolInitialized;
+    }
+
+    public static AbstractTradePoolEvent.TradePoolWithEmptyXReserveInitialized toTradePoolWithEmptyXReserveInitialized(SuiMoveEventEnvelope<TradePoolWithEmptyXReserveInitialized> eventEnvelope) {
+        TradePoolWithEmptyXReserveInitialized contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTradePoolEvent.TradePoolWithEmptyXReserveInitialized tradePoolWithEmptyXReserveInitialized = new AbstractTradePoolEvent.TradePoolWithEmptyXReserveInitialized();
+        tradePoolWithEmptyXReserveInitialized.setId(contractEvent.getId());
+        tradePoolWithEmptyXReserveInitialized.setExchangeId(contractEvent.getExchangeId());
+        tradePoolWithEmptyXReserveInitialized.setExchangeRateNumerator(contractEvent.getExchangeRateNumerator());
+        tradePoolWithEmptyXReserveInitialized.setExchangeRateDenominator(contractEvent.getExchangeRateDenominator());
+        tradePoolWithEmptyXReserveInitialized.setPriceCurveType(contractEvent.getPriceCurveType());
+        tradePoolWithEmptyXReserveInitialized.setPriceDeltaX_Amount(contractEvent.getPriceDeltaX_Amount());
+        tradePoolWithEmptyXReserveInitialized.setPriceDeltaNumerator(contractEvent.getPriceDeltaNumerator());
+        tradePoolWithEmptyXReserveInitialized.setPriceDeltaDenominator(contractEvent.getPriceDeltaDenominator());
+        tradePoolWithEmptyXReserveInitialized.setProvider(contractEvent.getProvider());
+        tradePoolWithEmptyXReserveInitialized.setX_TokenType(contractEvent.getX_TokenType());
+        tradePoolWithEmptyXReserveInitialized.setY_TokenType(contractEvent.getY_TokenType());
+        tradePoolWithEmptyXReserveInitialized.setY_Amount(contractEvent.getY_Amount());
+        tradePoolWithEmptyXReserveInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        tradePoolWithEmptyXReserveInitialized.setVersion(BigInteger.valueOf(-1));
+
+        tradePoolWithEmptyXReserveInitialized.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        tradePoolWithEmptyXReserveInitialized.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        tradePoolWithEmptyXReserveInitialized.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        tradePoolWithEmptyXReserveInitialized.setSuiPackageId(eventEnvelope.getPackageId());
+        tradePoolWithEmptyXReserveInitialized.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        tradePoolWithEmptyXReserveInitialized.setSuiSender(eventEnvelope.getSender());
+
+        return tradePoolWithEmptyXReserveInitialized;
     }
 
     public static AbstractTradePoolEvent.SellPoolInitialized toSellPoolInitialized(SuiMoveEventEnvelope<SellPoolInitialized> eventEnvelope) {

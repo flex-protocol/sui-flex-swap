@@ -24,6 +24,8 @@ public class ContractConstants {
 
     public static final String TRADE_POOL_MODULE_TRADE_POOL_INITIALIZED = "trade_pool::TradePoolInitialized";
 
+    public static final String TRADE_POOL_MODULE_TRADE_POOL_WITH_EMPTY_X_RESERVE_INITIALIZED = "trade_pool::TradePoolWithEmptyXReserveInitialized";
+
     public static final String TRADE_POOL_MODULE_SELL_POOL_INITIALIZED = "trade_pool::SellPoolInitialized";
 
     public static final String TRADE_POOL_MODULE_BUY_POOL_INITIALIZED = "trade_pool::BuyPoolInitialized";

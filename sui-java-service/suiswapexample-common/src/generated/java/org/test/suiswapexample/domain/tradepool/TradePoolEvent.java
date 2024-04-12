@@ -80,6 +80,57 @@ public interface TradePoolEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
+    interface TradePoolWithEmptyXReserveInitialized extends TradePoolEvent {
+        String getExchangeId();
+
+        void setExchangeId(String value);
+
+        BigInteger getExchangeRateNumerator();
+
+        void setExchangeRateNumerator(BigInteger value);
+
+        BigInteger getExchangeRateDenominator();
+
+        void setExchangeRateDenominator(BigInteger value);
+
+        Integer getPriceCurveType();
+
+        void setPriceCurveType(Integer value);
+
+        BigInteger getPriceDeltaX_Amount();
+
+        void setPriceDeltaX_Amount(BigInteger value);
+
+        BigInteger getPriceDeltaNumerator();
+
+        void setPriceDeltaNumerator(BigInteger value);
+
+        BigInteger getPriceDeltaDenominator();
+
+        void setPriceDeltaDenominator(BigInteger value);
+
+        String getProvider();
+
+        void setProvider(String value);
+
+        String getX_TokenType();
+
+        void setX_TokenType(String value);
+
+        String getY_TokenType();
+
+        void setY_TokenType(String value);
+
+        BigInteger getY_Amount();
+
+        void setY_Amount(BigInteger value);
+
+        String getLiquidityTokenId();
+
+        void setLiquidityTokenId(String value);
+
+    }
+
     interface SellPoolInitialized extends TradePoolEvent {
         String getExchangeId();
 

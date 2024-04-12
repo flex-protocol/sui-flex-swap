@@ -17,6 +17,7 @@ module sui_swap_core::trade_pool {
     struct TRADE_POOL has drop {}
 
     friend sui_swap_core::trade_pool_initialize_trade_pool_logic;
+    friend sui_swap_core::trade_pool_initialize_trade_pool_with_empty_x_reserve_logic;
     friend sui_swap_core::trade_pool_initialize_sell_pool_logic;
     friend sui_swap_core::trade_pool_initialize_buy_pool_logic;
     friend sui_swap_core::trade_pool_update_exchange_rate_logic;
@@ -383,6 +384,114 @@ module sui_swap_core::trade_pool {
             y_amount,
             liquidity_token_id,
             x_id,
+        }
+    }
+
+    struct TradePoolWithEmptyXReserveInitialized has copy, drop {
+        id: option::Option<object::ID>,
+        exchange_id: ID,
+        exchange_rate_numerator: u64,
+        exchange_rate_denominator: u64,
+        price_curve_type: u8,
+        price_delta_x_amount: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
+        provider: address,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+        liquidity_token_id: Option<ID>,
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_id(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): option::Option<object::ID> {
+        trade_pool_with_empty_x_reserve_initialized.id
+    }
+
+    public(friend) fun set_trade_pool_with_empty_x_reserve_initialized_id(trade_pool_with_empty_x_reserve_initialized: &mut TradePoolWithEmptyXReserveInitialized, id: object::ID) {
+        trade_pool_with_empty_x_reserve_initialized.id = option::some(id);
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_exchange_id(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): ID {
+        trade_pool_with_empty_x_reserve_initialized.exchange_id
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_exchange_rate_numerator(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.exchange_rate_numerator
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_exchange_rate_denominator(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.exchange_rate_denominator
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_price_curve_type(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u8 {
+        trade_pool_with_empty_x_reserve_initialized.price_curve_type
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_price_delta_x_amount(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.price_delta_x_amount
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_price_delta_numerator(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.price_delta_numerator
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_price_delta_denominator(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.price_delta_denominator
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_provider(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): address {
+        trade_pool_with_empty_x_reserve_initialized.provider
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_x_token_type(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): String {
+        trade_pool_with_empty_x_reserve_initialized.x_token_type
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_y_token_type(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): String {
+        trade_pool_with_empty_x_reserve_initialized.y_token_type
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_y_amount(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): u64 {
+        trade_pool_with_empty_x_reserve_initialized.y_amount
+    }
+
+    public fun trade_pool_with_empty_x_reserve_initialized_liquidity_token_id(trade_pool_with_empty_x_reserve_initialized: &TradePoolWithEmptyXReserveInitialized): Option<ID> {
+        trade_pool_with_empty_x_reserve_initialized.liquidity_token_id
+    }
+
+    public(friend) fun set_trade_pool_with_empty_x_reserve_initialized_liquidity_token_id(trade_pool_with_empty_x_reserve_initialized: &mut TradePoolWithEmptyXReserveInitialized, liquidity_token_id: Option<ID>) {
+        trade_pool_with_empty_x_reserve_initialized.liquidity_token_id = liquidity_token_id;
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_trade_pool_with_empty_x_reserve_initialized<X: key + store, Y>(
+        exchange_id: ID,
+        exchange_rate_numerator: u64,
+        exchange_rate_denominator: u64,
+        price_curve_type: u8,
+        price_delta_x_amount: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
+        provider: address,
+        x_token_type: String,
+        y_token_type: String,
+        y_amount: u64,
+        liquidity_token_id: Option<ID>,
+    ): TradePoolWithEmptyXReserveInitialized {
+        TradePoolWithEmptyXReserveInitialized {
+            id: option::none(),
+            exchange_id,
+            exchange_rate_numerator,
+            exchange_rate_denominator,
+            price_curve_type,
+            price_delta_x_amount,
+            price_delta_numerator,
+            price_delta_denominator,
+            provider,
+            x_token_type,
+            y_token_type,
+            y_amount,
+            liquidity_token_id,
         }
     }
 
@@ -1131,6 +1240,11 @@ module sui_swap_core::trade_pool {
     public(friend) fun emit_trade_pool_initialized(trade_pool_initialized: TradePoolInitialized) {
         assert!(std::option::is_some(&trade_pool_initialized.id), EEmptyObjectID);
         event::emit(trade_pool_initialized);
+    }
+
+    public(friend) fun emit_trade_pool_with_empty_x_reserve_initialized(trade_pool_with_empty_x_reserve_initialized: TradePoolWithEmptyXReserveInitialized) {
+        assert!(std::option::is_some(&trade_pool_with_empty_x_reserve_initialized.id), EEmptyObjectID);
+        event::emit(trade_pool_with_empty_x_reserve_initialized);
     }
 
     public(friend) fun emit_sell_pool_initialized(sell_pool_initialized: SellPoolInitialized) {

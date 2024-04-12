@@ -196,7 +196,7 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 | Placeholder                             | Value                                                              |
 |-----------------------------------------|--------------------------------------------------------------------|
 | UTILS_PACKAGE_ID                        | 0xf08c2f0fce586a3d0b6e4964b31a4e8b46e060fe17bb591b6c8deb5514f67c22 |
-| CORE_PACKAGE_ID                         | 0x4d6c3dd86aac1db8f2337fe78fb087ef5ea6812715edec09e4d9fa363872c261 |
+| CORE_PACKAGE_ID                         | 0x9be6c08a00a0c42912f959c94a7f3a92f1cb6cd5dde5c8be8301c0bb7c49ceb1 |
 | NFT_SERVICE_IMPL_PACKAGE_ID             | 0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223 |
 | NFT_SERVICE_IMPL_PACKAGE_ID_2           | 0x091e6daa7d6e000290fbdae96cd12b44619e98b956af9838921a7942e17ab5e2 |
 | DI_PACKAGE_ID                           | 0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099 |
@@ -822,6 +822,29 @@ Note the output IDs of `TradePool` object and `LiquidityToken` object:
 │  │ Owner: Account Address ...
 │  │ ObjectType: 0x...::liquidity_token::LiquidityToken<...::equipment::Equipment, 0x2::sui::SU>
 ```
+
+#### Initialize test NFT trade pool with empty X reserve
+
+The function parameters is the same as "initialize_buy_pool".
+
+We assume that the SUI coin object is `0x42ce68efec70dc482cafb4eb6f6e759074ab8397202cb8002f9fb33130951758`, execute the command:
+
+```shell
+sui client call --package {CORE_PACKAGE_ID} --module trade_pool_service --function initialize_trade_pool_with_empty_x_reserve \
+--type-args '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment' '0x2::sui::SUI' \
+--args \
+'{EXCHANGE_OBJECT_ID}' \
+'0x42ce68efec70dc482cafb4eb6f6e759074ab8397202cb8002f9fb33130951758' \
+'"200000000"' \
+'"11110"' \
+'"100"' \
+'0' \
+'"500"' \
+'"10"' \
+'"100"' \
+--gas-budget 100000000
+```
+
 
 #### Sell Movescription token to trade pool
 

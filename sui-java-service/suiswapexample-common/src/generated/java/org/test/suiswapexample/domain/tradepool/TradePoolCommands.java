@@ -156,6 +156,135 @@ public class TradePoolCommands {
 
     }
 
+    public static class InitializeTradePoolWithEmptyX_Reserve extends AbstractTradePoolCommand implements TradePoolCommand {
+
+        public String getCommandType() {
+            return "InitializeTradePoolWithEmptyX_Reserve";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Exchange
+         */
+        private String exchange;
+
+        public String getExchange() {
+            return this.exchange;
+        }
+
+        public void setExchange(String exchange) {
+            this.exchange = exchange;
+        }
+
+        /**
+         * Exchange Rate Numerator
+         */
+        private BigInteger exchangeRateNumerator;
+
+        public BigInteger getExchangeRateNumerator() {
+            return this.exchangeRateNumerator;
+        }
+
+        public void setExchangeRateNumerator(BigInteger exchangeRateNumerator) {
+            this.exchangeRateNumerator = exchangeRateNumerator;
+        }
+
+        /**
+         * Exchange Rate Denominator
+         */
+        private BigInteger exchangeRateDenominator;
+
+        public BigInteger getExchangeRateDenominator() {
+            return this.exchangeRateDenominator;
+        }
+
+        public void setExchangeRateDenominator(BigInteger exchangeRateDenominator) {
+            this.exchangeRateDenominator = exchangeRateDenominator;
+        }
+
+        /**
+         * Price Curve Type
+         */
+        private Integer priceCurveType;
+
+        public Integer getPriceCurveType() {
+            return this.priceCurveType;
+        }
+
+        public void setPriceCurveType(Integer priceCurveType) {
+            this.priceCurveType = priceCurveType;
+        }
+
+        /**
+         * Price Delta X_ Amount
+         */
+        private BigInteger priceDeltaX_Amount;
+
+        public BigInteger getPriceDeltaX_Amount() {
+            return this.priceDeltaX_Amount;
+        }
+
+        public void setPriceDeltaX_Amount(BigInteger priceDeltaX_Amount) {
+            this.priceDeltaX_Amount = priceDeltaX_Amount;
+        }
+
+        /**
+         * Price Delta Numerator
+         */
+        private BigInteger priceDeltaNumerator;
+
+        public BigInteger getPriceDeltaNumerator() {
+            return this.priceDeltaNumerator;
+        }
+
+        public void setPriceDeltaNumerator(BigInteger priceDeltaNumerator) {
+            this.priceDeltaNumerator = priceDeltaNumerator;
+        }
+
+        /**
+         * Price Delta Denominator
+         */
+        private BigInteger priceDeltaDenominator;
+
+        public BigInteger getPriceDeltaDenominator() {
+            return this.priceDeltaDenominator;
+        }
+
+        public void setPriceDeltaDenominator(BigInteger priceDeltaDenominator) {
+            this.priceDeltaDenominator = priceDeltaDenominator;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
     public static class InitializeSellPool extends AbstractTradePoolCommand implements TradePoolCommand {
 
         public String getCommandType() {

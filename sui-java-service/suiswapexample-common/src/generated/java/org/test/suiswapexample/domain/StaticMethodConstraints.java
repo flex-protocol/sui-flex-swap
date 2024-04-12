@@ -86,6 +86,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tradepool.InitializeTradePoolWithEmptyX_ReserveLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TradePoolState.class, String.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "exchange", "exchangeRateNumerator", "exchangeRateDenominator", "priceCurveType", "priceDeltaX_Amount", "priceDeltaNumerator", "priceDeltaDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.tradepool.InitializeSellPoolLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TradePoolState.class, String.class, BigInteger.class, BigInteger.class, BigInteger.class, Integer.class, BigInteger.class, BigInteger.class, BigInteger.class, VerificationContext.class},

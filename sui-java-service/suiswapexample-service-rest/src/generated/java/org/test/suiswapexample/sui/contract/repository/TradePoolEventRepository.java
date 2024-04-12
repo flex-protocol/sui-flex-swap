@@ -15,6 +15,8 @@ public interface TradePoolEventRepository extends JpaRepository<AbstractTradePoo
 
     AbstractTradePoolEvent.TradePoolInitialized findFirstTradePoolInitializedByOrderBySuiTimestampDesc();
 
+    AbstractTradePoolEvent.TradePoolWithEmptyXReserveInitialized findFirstTradePoolWithEmptyXReserveInitializedByOrderBySuiTimestampDesc();
+
     AbstractTradePoolEvent.SellPoolInitialized findFirstSellPoolInitializedByOrderBySuiTimestampDesc();
 
     AbstractTradePoolEvent.BuyPoolInitialized findFirstBuyPoolInitializedByOrderBySuiTimestampDesc();

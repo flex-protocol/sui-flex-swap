@@ -359,6 +359,16 @@ aggregates:
             X_Id:
               type: ID
 
+      InitializeTradePoolWithEmptyX_Reserve:
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
+        inheritsFrom: InitializeBuyPool
+        isInternal: true
+        isCreationCommand: true
+        event:
+          name: TradePoolWithEmptyXReserveInitialized
+          isObjectShared: true
+
       InitializeSellPool:
         isInternal: true
         isCreationCommand: true
@@ -565,6 +575,7 @@ aggregates:
       - TradePool.InitializeTradePool
       - TradePool.InitializeSellPool
       - TradePool.InitializeBuyPool
+      - TradePool.InitializeTradePoolWithEmptyX_Reserve
       #- TokenPair.AddLiquidity
       #- TokenPair.RemoveLiquidity
     typeParameters:
@@ -685,6 +696,7 @@ singletonObjects:
       - TradePool.InitializeTradePool
       - TradePool.InitializeSellPool
       - TradePool.InitializeBuyPool
+      - TradePool.InitializeTradePoolWithEmptyX_Reserve
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -1039,6 +1051,9 @@ services:
 
   TradePoolService:
     methods:
+      InitializeTradePoolWithEmptyX_Reserve:
+        inheritsFrom: BuyPoolService.InitializeBuyPool
+
       RemoveXToken:
         typeParameters:
           X:
