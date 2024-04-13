@@ -24,6 +24,33 @@ module sui_swap_di::test_equipment_sell_pool_service {
         price_delta_denominator: u64,
         _ctx: &mut TxContext,
     ) {
+        let sell_pool = initialize_sell_pool_then_return<Y>(
+            _nft_service_config,
+            exchange,
+            x,
+            exchange_rate_numerator,
+            exchange_rate_denominator,
+            price_curve_type,
+            price_delta_x_amount,
+            price_delta_numerator,
+            price_delta_denominator,
+            _ctx
+        );
+        trade_pool::share_object(sell_pool);
+    }
+
+    public fun initialize_sell_pool_then_return<Y>(
+        _nft_service_config: &NftServiceConfig,
+        exchange: &mut Exchange,
+        x: Equipment,
+        exchange_rate_numerator: u64,
+        exchange_rate_denominator: u64,
+        price_curve_type: u8,
+        price_delta_x_amount: u64,
+        price_delta_numerator: u64,
+        price_delta_denominator: u64,
+        _ctx: &mut TxContext,
+    ): trade_pool::TradePool<Equipment, Y> {
         let get_x_amount_req = sell_pool_service_process::initialize_sell_pool<Equipment, Y>(
             exchange,
             x,
@@ -41,8 +68,8 @@ module sui_swap_di::test_equipment_sell_pool_service {
             get_x_amount_rsp,
             _ctx
         );
-        trade_pool::share_object(sell_pool);
         transfer::public_transfer(liquidity_token, tx_context::sender(_ctx));
+        sell_pool
     }
 
     public fun add_x_token<Y>(

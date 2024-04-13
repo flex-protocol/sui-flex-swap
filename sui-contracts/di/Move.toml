@@ -1,8 +1,11 @@
 [package]
-published-at = "0x8305989fe8286bdec3ea489712101a8aa7478644d22ff3327a4fe6fe88501333"
+# Movement M2 devnet:
+#published-at = "0x8305989fe8286bdec3ea489712101a8aa7478644d22ff3327a4fe6fe88501333"
+# Sui testnet:
 #published-at = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
 #published-at = "0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099"
 #published-at = "0x9418aace582389a2f0108b9b7092bfcc26658e09eff1eb1c2564d4a1f4b278e2"
+published-at = "0x67e0936804a5d110344a71a4d82d895e0a121eabdb0437e7174f5f1226046e4e"
 name = "sui_swap_di"
 version = "0.0.1"
 
@@ -15,9 +18,11 @@ nft_service_impl = { local = "../nft-service-impl" }
 sui_swap_utils = { local = "../utils" }
 
 [addresses]
-sui_swap_di = "0x8305989fe8286bdec3ea489712101a8aa7478644d22ff3327a4fe6fe88501333"
+# Movement M2 devnet:
+#sui_swap_di = "0x8305989fe8286bdec3ea489712101a8aa7478644d22ff3327a4fe6fe88501333"
+# Sui testnet:
 #sui_swap_di = "0x5a73f6c254f726a1abdcfdb394d277b06e430868f5db77149a942d8a877f3b79"
 #sui_swap_di = "0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099"
 #sui_swap_di = "0x9418aace582389a2f0108b9b7092bfcc26658e09eff1eb1c2564d4a1f4b278e2"
+sui_swap_di = "0x67e0936804a5d110344a71a4d82d895e0a121eabdb0437e7174f5f1226046e4e"
 #sui_swap_di = "0x0"
-#sui = "0000000000000000000000000000000000000000000000000000000000000002"

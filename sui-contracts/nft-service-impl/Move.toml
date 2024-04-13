@@ -1,8 +1,11 @@
 [package]
-published-at = "0x7313bc541172c4ea46466307b1d9e82a32240417a6720ddf1cbd881cd980dbef"
+# Movement M2 devnet:
+#published-at = "0x7313bc541172c4ea46466307b1d9e82a32240417a6720ddf1cbd881cd980dbef"
+# Sui testnet:
 #published-at = "0xeb8c7f34a456fa3b5114c376a7eb5a1a5535625cc023f10ad70822a02eaffdb7"
 #published-at = "0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223"
 #published-at = "0x091e6daa7d6e000290fbdae96cd12b44619e98b956af9838921a7942e17ab5e2"
+published-at = "0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632"
 name = "nft_service_impl"
 version = "0.0.1"
 
@@ -15,9 +18,12 @@ sui_swap_core = { local = "../core" }
 sui_swap_utils = { local = "../utils" }
 
 [addresses]
-nft_service_impl = "0x7313bc541172c4ea46466307b1d9e82a32240417a6720ddf1cbd881cd980dbef"
+# Movement M2 devnet:
+#nft_service_impl = "0x7313bc541172c4ea46466307b1d9e82a32240417a6720ddf1cbd881cd980dbef"
+# Sui testnet:
 #nft_service_impl = "0xeb8c7f34a456fa3b5114c376a7eb5a1a5535625cc023f10ad70822a02eaffdb7"
 #nft_service_impl = "0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223"
 #nft_service_impl = "0x091e6daa7d6e000290fbdae96cd12b44619e98b956af9838921a7942e17ab5e2"
+nft_service_impl = "0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632"
 #nft_service_impl = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
