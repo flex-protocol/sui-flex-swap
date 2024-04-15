@@ -172,10 +172,13 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
         transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 ```
 
-解释：
+对上面几行代码的解释：
 
-1. 使用  `{UTILS_PACKAGE_ID}::coin_util::split_up_and_into_balance` 函数将 Coin 对象转换为（或者分割出）指定金额的 Balance；
-2. 调用  `{CORE_PACKAGE_ID}::trade_pool_aggregate::initialize_trade_pool_with_empty_x_reserve` 函数，来初始化一个 Trade Pool，这个函数会返回 TradePool 对象和 LiquidityToken 对象。
+1. 使用  `{UTILS_PACKAGE_ID}::coin_util::split_up_and_into_balance` 函数将 Coin 对象转换为（或者分割出）指定金额的 Balance 类型的值。
+    后面调用的函数需要使用这个类型的值。
+    其实想要将 Coin 转换为 Balance 类型的值不一定需要调用 UTILS 包中的方法，Sui 框架中就存在函数 `0x2::coin::into_balance()` 是用来做这个事情的；
+2. 调用  `{CORE_PACKAGE_ID}::trade_pool_aggregate::initialize_trade_pool_with_empty_x_reserve` 函数，来初始化一个 Trade Pool，
+    这个函数会返回 TradePool 对象和 LiquidityToken 对象。
 3. 调用 `add_x_token` 函数添加多个 NFTs。（使用为测试 NFT 开发的 DI 包的话，该函数的模块是 `test_equipment_sell_pool_service`。）
 4. 调用 `trade_pool::share_object` 函数共享 TradePool 对象。
 5. 调用 `{CORE_PACKAGE_ID}::transfer::public_transfer` 函数将 LiquidityToken 对象转移给调用者。

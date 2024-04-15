@@ -9,4 +9,13 @@ UPDATE `nft_collection` SET `nft_service_impl_package_id` = '0x091e6daa7d6e00029
 	WHERE (`collection_type` = '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment');
 
 -- SELECT * FROM nft_collection;
+-- ------------------
+
+UPDATE `nft_collection` 
+    SET 
+        `di_package_id` = '0x5780d0992aa082a83f52acaf82d44ec52c21373f7709d556f73774447f6524a0', 
+        `nft_service_impl_package_id` = '0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632' 
+	WHERE 
+        (`collection_type` = '0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment');
+
 
