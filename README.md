@@ -200,7 +200,7 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 | NFT_SERVICE_IMPL_PACKAGE_ID             | 0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223 |
 | NFT_SERVICE_IMPL_PACKAGE_ID_2           | 0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632 |
 | DI_PACKAGE_ID                           | 0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099 |
-| DI_PACKAGE_ID_2                         | 0x67e0936804a5d110344a71a4d82d895e0a121eabdb0437e7174f5f1226046e4e |
+| DI_PACKAGE_ID_2                         | 0x5780d0992aa082a83f52acaf82d44ec52c21373f7709d556f73774447f6524a0 |
 | EXCHANGE_OBJECT_ID                      | 0xdb548141e56f50ade96f9a8c16070f79c89e71408c43f8a1636ad82f958de45b |
 | NFT_SERVICE_CONFIG_OBJECT_ID            | 0xb60641282c6d3f96fd6942c093f0ce2c8cf6c54a09fd8834a68777de73b03b36 |
 | NFT_SERVICE_CONFIG_CAP_OBJECT_ID        | 0xdff5d4f408cef1ea52e43ac39b361485c6f2489970c2864588a261b511f96c06 |
@@ -272,7 +272,7 @@ sui client call --package 0x8b697f60efef437887f3c1c80879091a7e60f9880e4a41d745b9
 > On testnet, we also deployed the contract at another address (package ID): `0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920`.
 > The publishing transaction digest: `44kiFkx9im8G4RNs5ZaBpB1KN9LL7tRLHZXWRZ8FvKGm`.
 > The package ID of the corresponding "nft-service-impl" contract for this contract is: `0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632`.
-> The package ID of the corresponding DI contract is: `0x67e0936804a5d110344a71a4d82d895e0a121eabdb0437e7174f5f1226046e4e`.
+> The package ID of the corresponding DI contract is: `0x5780d0992aa082a83f52acaf82d44ec52c21373f7709d556f73774447f6524a0`.
 
 
 ### Deploy contracts

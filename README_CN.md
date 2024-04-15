@@ -130,6 +130,57 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 [TBD]
 
+### 依赖 DI 合约，前端使用 PTBs 实现批量往池子添加 NFTs
+
+理想状态下，要实现批量往池子添加 NFTs，前端其实可以绕过 DI 合约，使用 PTBs 直接调用底层的 core 和 nft_service_impl 合约（后者是需要为接入的 NFT 项目开发的的适配合约）。
+（如果使用 DI 合约，每对接一个 NFT 项目都需要开发只适用于这个 NFT 项目的 DI 合约，包含比“适配合约”多得多的代码量。）
+
+不过，这里先讲解使用 DI 合约实现往池子添加 NFTs 的方法。
+
+#### 使用 PTB 初始化 Sell Pool 并添加多个 NFTs
+
+我们为此增加了一个函数 `{DI_PACKAGE_ID}::test_equipment_sell_pool_service::initialize_sell_pool_then_return`。
+（调用时候需要将占位符 `{DI_PACKAGE_ID}` 替换为 NFT 项目对应的 DI 合约的包 ID，目前应该是 `0x5780d0992aa082a83f52acaf82d44ec52c21373f7709d556f73774447f6524a0`，请注意确认）。
+这个函数和原有的 `initialize_sell_pool` 函数不同之处是它会返回 TradePool 和 LiquidityToken 对象。
+这使得让它无法被 CLI 调用，但是给前端使用 PTBs 组合它提供了机会。
+前端可以在获得返回的对象后，调用已有的 `add_x_token` 函数往池子里添加多个 NFTs。
+
+前端 PTB 的实现可以参考 `sui-contracts/di/sources/test_equipment_sell_pool_service.move` 的 `initialize_sell_pool` 函数。
+基本上就是直接将这个函数的逻辑转换为前端代码，不同之处只是在获取 TradePool 和 LiquidityToken 对象后，调用 `add_x_token` 函数时。
+
+```move
+        let (sell_pool, liquidity_token) = initialize_sell_pool_then_return<Y>(
+            //...
+        );
+        // 这里调用 add_x_token 函数添加多个 NFTs
+        transfer::public_transfer(liquidity_token, tx_context::sender(_ctx));
+        trade_pool::share_object(sell_pool); // 注意需要调用 {CORE_PACKAGE_ID}::trade_pool::share_object 把它共享出去。
+```
+
+#### 使用 PTB 初始化 Trade Pool 并添加多个 NFTs
+
+前端 PTB 实现可以参考 `sui-contracts/core/sources/trade_pool_service.move` 中函数 `initialize_trade_pool_with_empty_x_reserve` 的做法。
+基本上就是直接将这个函数的逻辑转换为前端代码，不同之处只是在获取 TradePool 和 LiquidityToken 对象后，调用 `add_x_token` 函数时。
+
+```move
+        let y_amount_b = coin_util::split_up_and_into_balance(y_coin, y_amount, ctx);
+        let (trade_pool, liquidity_token) = trade_pool_aggregate::initialize_trade_pool_with_empty_x_reserve<X, Y>(
+            //...
+        );
+        // 这里调用 add_x_token 函数添加多个 NFTs
+        trade_pool::share_object(trade_pool);
+        transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
+```
+
+解释：
+
+1. 使用  `{UTILS_PACKAGE_ID}::coin_util::split_up_and_into_balance` 函数将 Coin 对象转换为（或者分割出）指定金额的 Balance；
+2. 调用  `{CORE_PACKAGE_ID}::trade_pool_aggregate::initialize_trade_pool_with_empty_x_reserve` 函数，来初始化一个 Trade Pool，这个函数会返回 TradePool 对象和 LiquidityToken 对象。
+3. 调用 `add_x_token` 函数添加多个 NFTs。（使用为测试 NFT 开发的 DI 包的话，该函数的模块是 `test_equipment_sell_pool_service`。）
+4. 调用 `trade_pool::share_object` 函数共享 TradePool 对象。
+5. 调用 `{CORE_PACKAGE_ID}::transfer::public_transfer` 函数将 LiquidityToken 对象转移给调用者。
+
+
 ### 关于更新池子的 NFT 价格设置
 
 #### Linear 价格曲线设置
