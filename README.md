@@ -141,16 +141,9 @@ Execute the following command in the directory `sui-contracts` to publish the co
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
 
-If the command is executed successfully, the transaction digest of this publication will be output. For example:
+If the command is executed successfully, the transaction digest of this publication will be output. 
 
-```*shell
-*----- Transaction Digest ----
-267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp
------ Transaction Data ----
-#...
-```
-
-Take note of this transaction digest, for example, `267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp`.
+Take note of this transaction digest, for example, `AJoNuD8kstRtHjDzrKLJngfd7EanNy1v1GFHjSW4M5Uz`.
 When setting up the off-chain service, we will need it.
 
 
@@ -180,7 +173,7 @@ The output contains something like the following:
 │  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
 │  │ Sender: 0x...                                                                                                                       │
 │  │ Owner: Account Address ( 0x... )                                                                                                    │
-│  │ ObjectType: 0x2::coin::Coin<{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>         │
+│  │ ObjectType: 0x2::coin::Coin<{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>
 ```
 
 Record the ID of the test coin object created, for example `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`:
@@ -205,7 +198,7 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 Note the arguments required by "initialize liquidity" function, which are assumed by the following commands:
 
 * The ID of the publisher object for module `liquidity_token` is `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`.
-* Assuming the ID of the `Exchange` object is `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`.
+* The object ID of `Exchange` is `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`.
 * SUI coin object ID is `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`.
 * The ID of the test (`EXAMPLE_COIN`) coin object is `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`.
 
@@ -310,7 +303,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 
 #### Configuring off-chain Service
 
-Open the `application-test.yml` file located in the directory `sui-java-service/suiswapexample-service-rest/src/main/resources` and set the published transaction digest.
+Open the `application-test.yml` file located in the directory `sui-java-service/suiswapexample-service-rest/src/main/resources` and set the publishing transaction digest.
 
 After setting, it should look like this:
 
@@ -327,10 +320,10 @@ This is the only place where off-chain service need to be configured, and it's t
 
 #### Creating a database for off-chain service
 
-Use a MySQL client to connect to the local MySQL server and execute the following script to create an empty database (assuming the name is `test5`):
+Use a MySQL client to connect to the local MySQL server and execute the following script to create an empty database (assuming the name is `flex_testnet_ft`):
 
 ```sql
-CREATE SCHEMA `test5` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+CREATE SCHEMA `flex_testnet_ft` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 ```
 
 Go to the `sui-java-service` directory and package the Java project:
@@ -342,7 +335,7 @@ mvn package
 Then, run a command-line tool to initialize the database:
 
 ```shell
-java -jar ./suiswapexample-service-cli/target/suiswapexample-service-cli-0.0.1-SNAPSHOT.jar ddl -d "./scripts" -c "jdbc:mysql://127.0.0.1:3306/test5?enabledTLSProtocols=TLSv1.2&characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false" -u root -p 123456
+java -jar ./suiswapexample-service-cli/target/suiswapexample-service-cli-0.0.1-SNAPSHOT.jar ddl -d "./scripts" -c "jdbc:mysql://127.0.0.1:3306/flex_testnet_ft?enabledTLSProtocols=TLSv1.2&characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false" -u root -p 123456
 ```
 
 #### Starting off-chain Service
@@ -352,6 +345,91 @@ In the `sui-java-service` directory, run the following command to start the off-
 ```shell
 mvn -pl suiswapexample-service-rest -am spring-boot:run
 ```
+
+
+### About Off-Chain Service APIs
+
+The off-chain service pulls the state of objects on chain into an off-chain SQL database to provide query functionality.
+Such an off-chain service is sometimes called an indexer.
+
+We can certainly start by using Sui's official API service, see: https://docs.sui.io/references/sui-api
+
+However, there are some application-specific query requirements that Sui's official API service may not be able to fulfill,
+so it should be necessary to build your own or use enhanced query or indexer services provided by third parties.
+
+By default, the off-chain service provide some out-of-the-box APIs - developers don't even need to write a single line of code for this.
+You can read the DDDML model files and then refer to the examples below to infer what APIs are available.
+
+For example, in our project, you can HTTP GET the list of token pairs from the URL like this:
+
+```text
+http://localhost:1023/api/TokenPairs
+```
+
+You can use query criteria:
+
+```text
+http://localhost:1023/api/TokenPairs?totalLiquidity=gt(100)&x_Reserve.tick=MOVE
+```
+
+Get the information of a token pair:
+
+```text
+http://localhost:1023/api/TokenPairs/0xe5bb0aa9fcd7ce57973bd3289f5b1ab0f946c47f3273641c3527a5d26775a5ac
+```
+
+Get a list of liquidity tokens:
+
+```text
+http://localhost:1023/api/LiquidityTokens
+```
+
+Get the information of a liquidity token:
+
+```text
+http://localhost:1023/api/LiquidityTokens/0x1c934038fbb356446add349062e9fad959820c5998c80f6f363969d07288cb16
+```
+
+#### Query parameters for getting entity lists
+
+Query parameters that can be supported in the request URL for getting a list, including:
+
+* `sort`: The name of the property to be used for sorting. Multiple names can be separated by commas.
+  A "-" in front of the name indicates reverse order.
+  The query parameter `sort` can appear multiple times, like this: `sort=fisrtName&sort=lastName,desc`.
+* `fields`: The names of the fields (properties) to be returned.
+  Multiple names can be separated by commas.
+* `filter`: The filter to return the result, explained further later (TBD).
+* `firstResult`: The ordinal number of the first record returned in the result, starting from `0`.
+* `maxResults`: The maximum number of records returned in the result.
+
+#### Getting the entity list's page envelope
+
+I personally don't like page "envelope",
+but because some developers requested it,
+we support sending a GET request to a URL to get a page envelope for the list:
+
+```url
+{BASE_URL}/{Entities}/_page?page={page}
+```
+
+Supported paging-related query parameters:
+
+* `page`: Page number, starting from 0.
+* `size`: Page size.
+
+For example:
+
+```text
+http://localhost:1023/api/TokenPairs/_page?page=0&size=10
+```
+
+#### Need more query functionality?
+
+Since the off-chain service already pulls the state of the objects on chain to the off-chain SQL database,
+we can query the off-chain service's database using any SQL query statement.
+It is very easy to encapsulate these SQL query statements into APIs.
+If you have such a need, modify the source code and add the APIs you need.
 
 
 ##  Further Reading

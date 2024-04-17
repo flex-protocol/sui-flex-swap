@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/test5?characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false
+    url: jdbc:mysql://localhost/flex_testnet_ft?characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false
     username: root
     password: 123456
-#    url: jdbc:mysql://localhost/test5?characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false
+#    url: jdbc:mysql://localhost/flex_testnet_ft?characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false
 #    username: root
 
   jpa:
@@ -19,7 +19,7 @@ server:
 sui:
   contract:
     jsonrpc:
-      url: "https://fullnode.devnet.sui.io/"
-      #url: "https://fullnode.testnet.sui.io/"
       #url: "http://localhost:9000"
-    package-publish-transaction: "267z86Ge4Phdow8AH424uw9WPqBhrGSUbjMsuA6cpEzp"
+      #url: "https://fullnode.devnet.sui.io/"
+      url: "https://fullnode.testnet.sui.io/"
+    package-publish-transaction: "AJoNuD8kstRtHjDzrKLJngfd7EanNy1v1GFHjSW4M5Uz"
