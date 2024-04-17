@@ -6,3 +6,9 @@ sui-contracts/core/build
 sui-contracts/example_tokens/build
 sui-contracts/nft-service-impl/build
 sui-contracts/example_tokens
+sui-contracts/testnet_*.json
+sui-contracts/core/testnet_*.json
+sui-contracts/di/testnet_*.json
+sui-contracts/nft-service-impl/testnet_*.json
+sui-contracts/utils/build
+sui-contracts/utils/testnet_*.json
