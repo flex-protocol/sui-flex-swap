@@ -58,13 +58,13 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 注意，mint 测试币需要传入的第一个参数是一个类型为 `0x0000..0002::coin::TreasuryCap` 的对象的 Id。
 你可以在部署合约时，终端的输出信息中发现它。
 
-假设我们部署的测试币合约的包 Id 是 `0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d`，
+假设我们部署的测试币合约的包 Id 是 `{EXAMPLE_COIN_PACKAGE_ID}`，
 那么，像下面这样给自己 mint 一些测试币：
 
 
 ```shell
-sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d --module example_coin --function mint \
---args 0x3c3a6aba123ab679b634f7cb7904d9c15d311994c5347afb984b508bb6add40a 100000000000 --gas-budget 30000000
+sui client call --package {EXAMPLE_COIN_PACKAGE_ID} --module example_coin --function mint \
+--args {EXAMPLE_COIN_TREASURY_CAP_OBJECT_ID} 100000000000 --gas-budget 30000000
 ```
 
 输出包含类似下面这样的内容：
@@ -75,7 +75,7 @@ sui client call --package 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae
 │  │ ObjectID: 0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55                                                        │
 │  │ Sender: 0x...                                                                                                                       │
 │  │ Owner: Account Address ( 0x... )                                                                                                    │
-│  │ ObjectType: 0x2::coin::Coin<0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>         │
+│  │ ObjectType: 0x2::coin::Coin<{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>         │
 ```
 
 记录下创建的测试币的 Coin 对象的 Id，比如 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`：
@@ -106,8 +106,8 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 所以，需要执行的命令类似下面这样：
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function initialize_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function initialize_liquidity \
+--type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
 '0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116' \
 '0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6' \
@@ -125,7 +125,7 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 │  │ ObjectID: 0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd                                                                                                                                                    │
 │  │ Sender: 0x...                                                                                                                                                                                                                   │
 │  │ Owner: Shared                                                                                                                                                                                                                   │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::token_pair::TokenPair<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>            │
+│  │ ObjectType: {CORE_PACKAGE_ID}::token_pair::TokenPair<0x2::sui::SUI, {EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>            │
 ```
 
 ### 添加流动性
@@ -133,8 +133,8 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 添加流动性：
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function add_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function add_liquidity \
+--type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
 '0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
@@ -152,7 +152,7 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 │  │ ObjectID: 0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8                                                                                                                                                    │
 │  │ Sender: 0x...                                                                                                                                                                                                                   │
 │  │ Owner: Account Address ( 0x... )                                                                                                                                                                                                │
-│  │ ObjectType: 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e::liquidity_token::LiquidityToken<0x2::sui::SUI, 0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN>  │
+│  │ ObjectType: {CORE_PACKAGE_ID}::liquidity_token::LiquidityToken<0x2::sui::SUI, {EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>  │
 ```
 
 ### 移除流动性
@@ -160,8 +160,8 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 移除流动性：
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function remove_liquidity \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function remove_liquidity \
+--type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
 '0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
 '0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8' \
@@ -175,8 +175,8 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 兑换，以 Token X 换出 Token Y：
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_x \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_x \
+--type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
 '0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
@@ -189,8 +189,8 @@ sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2f
 反方向兑换，以 Token Y 换出 Token X：
 
 ```shell
-sui client call --package 0x76fe693b3fe1186d9a8577d6e88f741167f54483142a72f66e2fe9371d15f31e --module token_pair_service --function swap_y \
---type-args '0x2::sui::SUI' '0xb874f15f4f8695c8748337e03f60892479ba73c95deab3d4a1ae18dd5a35d81d::example_coin::EXAMPLE_COIN' \
+sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_y \
+--type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
 '0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
 '0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \

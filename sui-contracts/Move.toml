@@ -1,4 +1,6 @@
 [package]
+# Sui testnet:
+published-at = "0x5735d1d054cff161d0dd25299da53cd7369d00c37d2f9fb149fd13c66e9b6ae5"
 name = "sui_swap_example"
 version = "0.0.1"
 
@@ -7,5 +9,7 @@ version = "0.0.1"
 Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-sui_swap_example = "0x0"
+# Sui testnet:
+sui_swap_example = "0x5735d1d054cff161d0dd25299da53cd7369d00c37d2f9fb149fd13c66e9b6ae5"
+#sui_swap_example = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
