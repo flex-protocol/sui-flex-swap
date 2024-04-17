@@ -56,6 +56,17 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
     }
 
+    interface FeeRateUpdated extends TokenPairEvent {
+        BigInteger getFeeNumerator();
+
+        void setFeeNumerator(BigInteger value);
+
+        BigInteger getFeeDenominator();
+
+        void setFeeDenominator(BigInteger value);
+
+    }
+
     interface LiquidityAdded extends TokenPairEvent {
         String getProvider();
 

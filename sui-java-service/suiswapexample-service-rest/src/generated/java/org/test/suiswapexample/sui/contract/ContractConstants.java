@@ -10,6 +10,8 @@ public class ContractConstants {
 
     public static final String TOKEN_PAIR_MODULE_LIQUIDITY_INITIALIZED = "token_pair::LiquidityInitialized";
 
+    public static final String TOKEN_PAIR_MODULE_FEE_RATE_UPDATED = "token_pair::FeeRateUpdated";
+
     public static final String TOKEN_PAIR_MODULE_LIQUIDITY_ADDED = "token_pair::LiquidityAdded";
 
     public static final String TOKEN_PAIR_MODULE_LIQUIDITY_REMOVED = "token_pair::LiquidityRemoved";
@@ -29,7 +31,7 @@ public class ContractConstants {
     public static final String EXCHANGE_MODULE_EXCHANGE_UPDATED = "exchange::ExchangeUpdated";
 
 
-    public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
+    public static String[] getDefaultPackageIdGeneratorObjectTypes(String packageId) {
         return new String[]{
         };
     }

@@ -21,6 +21,16 @@ aggregates:
         type: "Balance<Y>"
       TotalLiquidity:
         type: u64
+      FeeNumerator:
+        type: u64
+        defaultLogic:
+          Move:
+            '3'
+      FeeDenominator:
+        type: u64
+        defaultLogic:
+          Move:
+            '1000'
 
     methods:
       InitializeLiquidity:
@@ -61,6 +71,24 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+
+      UpdateFeeRate:
+        requiredPermission: AdminCap
+        metadata:
+          NO_MOVE_EVENT_MODULE: true
+        typeParameters:
+          X: {}
+          Y: {}
+        objectTypeArguments:
+          X: X
+          Y: Y
+        parameters:
+          FeeNumerator:
+            type: u64
+          FeeDenominator:
+            type: u64
+        event:
+          name: FeeRateUpdated
 
       AddLiquidity:
         #shouldCallByReference: true

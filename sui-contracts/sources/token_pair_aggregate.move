@@ -14,10 +14,12 @@ module sui_swap_example::token_pair_aggregate {
     use sui_swap_example::token_pair_remove_liquidity_logic;
     use sui_swap_example::token_pair_swap_x_logic;
     use sui_swap_example::token_pair_swap_y_logic;
+    use sui_swap_example::token_pair_update_fee_rate_logic;
 
     friend sui_swap_example::token_pair_service;
 
     const EInvalidPublisher: u64 = 50;
+    const EInvalidAdminCap: u64 = 51;
 
     #[allow(unused_mut_parameter)]
     public fun initialize_liquidity<X, Y>(
@@ -44,6 +46,31 @@ module sui_swap_example::token_pair_aggregate {
         token_pair::set_liquidity_initialized_id(&mut liquidity_initialized, token_pair::id(&token_pair));
         token_pair::share_object(token_pair);
         token_pair::emit_liquidity_initialized(liquidity_initialized);
+    }
+
+    #[allow(unused_mut_parameter)]
+    public entry fun update_fee_rate<X, Y>(
+        token_pair: &mut token_pair::TokenPair<X, Y>,
+        admin_cap: &token_pair::AdminCap,
+        fee_numerator: u64,
+        fee_denominator: u64,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        assert!(token_pair::admin_cap(token_pair) == sui::object::id(admin_cap), EInvalidAdminCap);
+        token_pair::assert_schema_version(token_pair);
+        let fee_rate_updated = token_pair_update_fee_rate_logic::verify<X, Y>(
+            fee_numerator,
+            fee_denominator,
+            token_pair,
+            ctx,
+        );
+        token_pair_update_fee_rate_logic::mutate<X, Y>(
+            &fee_rate_updated,
+            token_pair,
+            ctx,
+        );
+        token_pair::update_object_version(token_pair);
+        token_pair::emit_fee_rate_updated(fee_rate_updated);
     }
 
     #[allow(unused_mut_parameter)]

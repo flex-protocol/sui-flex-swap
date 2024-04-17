@@ -75,6 +75,14 @@ module sui_swap_example::exchange {
         exchange.name = name;
     }
 
+    public fun borrow_token_pairs(exchange: &Exchange): &vector<ID> {
+        &exchange.token_pairs
+    }
+
+    public(friend) fun borrow_mut_token_pairs(exchange: &mut Exchange): &mut vector<ID> {
+        &mut exchange.token_pairs
+    }
+
     public fun token_pairs(exchange: &Exchange): vector<ID> {
         exchange.token_pairs
     }
@@ -83,12 +91,28 @@ module sui_swap_example::exchange {
         exchange.token_pairs = token_pairs;
     }
 
+    public fun borrow_x_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.x_token_types
+    }
+
+    public(friend) fun borrow_mut_x_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.x_token_types
+    }
+
     public fun x_token_types(exchange: &Exchange): vector<String> {
         exchange.x_token_types
     }
 
     public(friend) fun set_x_token_types(exchange: &mut Exchange, x_token_types: vector<String>) {
         exchange.x_token_types = x_token_types;
+    }
+
+    public fun borrow_y_token_types(exchange: &Exchange): &vector<String> {
+        &exchange.y_token_types
+    }
+
+    public(friend) fun borrow_mut_y_token_types(exchange: &mut Exchange): &mut vector<String> {
+        &mut exchange.y_token_types
     }
 
     public fun y_token_types(exchange: &Exchange): vector<String> {
@@ -211,30 +235,10 @@ module sui_swap_example::exchange {
     }
 
 
-    public(friend) fun transfer_object(exchange: Exchange, recipient: address) {
-        assert!(exchange.version == 0, EInappropriateVersion);
-        transfer::transfer(exchange, recipient);
-    }
-
-    public(friend) fun update_version_and_transfer_object(exchange: Exchange, recipient: address) {
-        update_object_version(&mut exchange);
-        transfer::transfer(exchange, recipient);
-    }
-
     #[lint_allow(share_owned)]
     public(friend) fun share_object(exchange: Exchange) {
         assert!(exchange.version == 0, EInappropriateVersion);
         transfer::share_object(exchange);
-    }
-
-    public(friend) fun freeze_object(exchange: Exchange) {
-        assert!(exchange.version == 0, EInappropriateVersion);
-        transfer::freeze_object(exchange);
-    }
-
-    public(friend) fun update_version_and_freeze_object(exchange: Exchange) {
-        update_object_version(&mut exchange);
-        transfer::freeze_object(exchange);
     }
 
     public(friend) fun update_object_version(exchange: &mut Exchange) {

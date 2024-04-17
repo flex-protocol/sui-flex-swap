@@ -4,6 +4,15 @@
 
 ## TokenPair aggregate
 
+### UpdateFeeRate method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function update_fee_rate \
+--type-args 'X' 'Y' \
+--args token_pair_Object_ID \"_TOKEN_PAIR_ADMIN_CAP_OBJECT_ID_\" \"u64_fee_numerator\" \"u64_fee_denominator\" \
+--gas-budget 100000
+```
+
 ## LiquidityToken aggregate
 
 ## Exchange singleton object

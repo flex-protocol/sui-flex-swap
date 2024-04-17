@@ -79,7 +79,7 @@ public class HibernateLiquidityTokenStateRepository implements LiquidityTokenSta
         LiquidityTokenState persistent = getCurrentSession().get(AbstractLiquidityTokenState.SimpleLiquidityTokenState.class, detached.getId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateLiquidityTokenStateRepository implements LiquidityTokenSta
     }
 
     private void merge(LiquidityTokenState persistent, LiquidityTokenState detached) {
-        ((LiquidityTokenState.MutableLiquidityTokenState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractLiquidityTokenState) persistent).merge(detached);
     }
 
 }

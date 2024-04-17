@@ -15,6 +15,7 @@ import org.test.suiswapexample.sui.contract.ContractConstants;
 import org.test.suiswapexample.sui.contract.DomainBeanUtils;
 import org.test.suiswapexample.sui.contract.SuiPackage;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityInitialized;
+import org.test.suiswapexample.sui.contract.tokenpair.FeeRateUpdated;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityAdded;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
@@ -81,6 +82,46 @@ public class TokenPairEventService {
             return;
         }
         tokenPairEventRepository.save(liquidityInitialized);
+    }
+
+    @Transactional
+    public void pullFeeRateUpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getFeeRateUpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<FeeRateUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.TOKEN_PAIR_MODULE_FEE_RATE_UPDATED,
+                    cursor, limit, false, FeeRateUpdated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<FeeRateUpdated> eventEnvelope : eventPage.getData()) {
+                    saveFeeRateUpdated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getFeeRateUpdatedEventNextCursor() {
+        AbstractTokenPairEvent lastEvent = tokenPairEventRepository.findFirstFeeRateUpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveFeeRateUpdated(SuiMoveEventEnvelope<FeeRateUpdated> eventEnvelope) {
+        AbstractTokenPairEvent.FeeRateUpdated feeRateUpdated = DomainBeanUtils.toFeeRateUpdated(eventEnvelope);
+        if (tokenPairEventRepository.findById(feeRateUpdated.getTokenPairEventId()).isPresent()) {
+            return;
+        }
+        tokenPairEventRepository.save(feeRateUpdated);
     }
 
     @Transactional

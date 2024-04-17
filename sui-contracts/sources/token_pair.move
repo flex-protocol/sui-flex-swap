@@ -15,6 +15,7 @@ module sui_swap_example::token_pair {
     struct TOKEN_PAIR has drop {}
 
     friend sui_swap_example::token_pair_initialize_liquidity_logic;
+    friend sui_swap_example::token_pair_update_fee_rate_logic;
     friend sui_swap_example::token_pair_add_liquidity_logic;
     friend sui_swap_example::token_pair_remove_liquidity_logic;
     friend sui_swap_example::token_pair_swap_x_logic;
@@ -24,6 +25,7 @@ module sui_swap_example::token_pair {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
+    const EEmptyObjectID: u64 = 107;
 
     /// Not the right admin for the object
     const ENotAdmin: u64 = 0;
@@ -40,7 +42,7 @@ module sui_swap_example::token_pair {
 
 
     fun init(otw: TOKEN_PAIR, ctx: &mut TxContext) {
-        sui::package::claim_and_keep(otw, ctx)
+        sui::package::claim_and_keep(otw, ctx);
     }
 
     public fun assert_schema_version<X, Y>(token_pair: &TokenPair<X, Y>) {
@@ -55,6 +57,8 @@ module sui_swap_example::token_pair {
         x_reserve: Balance<X>,
         y_reserve: Balance<Y>,
         total_liquidity: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
     }
 
     public fun id<X, Y>(token_pair: &TokenPair<X, Y>): object::ID {
@@ -65,7 +69,7 @@ module sui_swap_example::token_pair {
         token_pair.version
     }
 
-    public(friend) fun borrow_x_reserve<X, Y>(token_pair: &TokenPair<X, Y>): &Balance<X> {
+    public fun borrow_x_reserve<X, Y>(token_pair: &TokenPair<X, Y>): &Balance<X> {
         &token_pair.x_reserve
     }
 
@@ -73,7 +77,7 @@ module sui_swap_example::token_pair {
         &mut token_pair.x_reserve
     }
 
-    public(friend) fun borrow_y_reserve<X, Y>(token_pair: &TokenPair<X, Y>): &Balance<Y> {
+    public fun borrow_y_reserve<X, Y>(token_pair: &TokenPair<X, Y>): &Balance<Y> {
         &token_pair.y_reserve
     }
 
@@ -87,6 +91,22 @@ module sui_swap_example::token_pair {
 
     public(friend) fun set_total_liquidity<X, Y>(token_pair: &mut TokenPair<X, Y>, total_liquidity: u64) {
         token_pair.total_liquidity = total_liquidity;
+    }
+
+    public fun fee_numerator<X, Y>(token_pair: &TokenPair<X, Y>): u64 {
+        token_pair.fee_numerator
+    }
+
+    public(friend) fun set_fee_numerator<X, Y>(token_pair: &mut TokenPair<X, Y>, fee_numerator: u64) {
+        token_pair.fee_numerator = fee_numerator;
+    }
+
+    public fun fee_denominator<X, Y>(token_pair: &TokenPair<X, Y>): u64 {
+        token_pair.fee_denominator
+    }
+
+    public(friend) fun set_fee_denominator<X, Y>(token_pair: &mut TokenPair<X, Y>, fee_denominator: u64) {
+        token_pair.fee_denominator = fee_denominator;
     }
 
     public fun admin_cap<X, Y>(token_pair: &TokenPair<X, Y>): ID {
@@ -110,6 +130,8 @@ module sui_swap_example::token_pair {
             x_reserve: sui::balance::zero(),
             y_reserve: sui::balance::zero(),
             total_liquidity,
+            fee_numerator: 3,
+            fee_denominator: 1000,
         }
     }
 
@@ -192,6 +214,39 @@ module sui_swap_example::token_pair {
             y_amount,
             liquidity_amount,
             liquidity_token_id,
+        }
+    }
+
+    struct FeeRateUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
+    }
+
+    public fun fee_rate_updated_id(fee_rate_updated: &FeeRateUpdated): object::ID {
+        fee_rate_updated.id
+    }
+
+    public fun fee_rate_updated_fee_numerator(fee_rate_updated: &FeeRateUpdated): u64 {
+        fee_rate_updated.fee_numerator
+    }
+
+    public fun fee_rate_updated_fee_denominator(fee_rate_updated: &FeeRateUpdated): u64 {
+        fee_rate_updated.fee_denominator
+    }
+
+    #[allow(unused_type_parameter)]
+    public(friend) fun new_fee_rate_updated<X, Y>(
+        token_pair: &TokenPair<X, Y>,
+        fee_numerator: u64,
+        fee_denominator: u64,
+    ): FeeRateUpdated {
+        FeeRateUpdated {
+            id: id(token_pair),
+            version: version(token_pair),
+            fee_numerator,
+            fee_denominator,
         }
     }
 
@@ -454,30 +509,10 @@ module sui_swap_example::token_pair {
     }
 
 
-    public(friend) fun transfer_object<X, Y>(token_pair: TokenPair<X, Y>, recipient: address) {
-        assert!(token_pair.version == 0, EInappropriateVersion);
-        transfer::transfer(token_pair, recipient);
-    }
-
-    public(friend) fun update_version_and_transfer_object<X, Y>(token_pair: TokenPair<X, Y>, recipient: address) {
-        update_object_version(&mut token_pair);
-        transfer::transfer(token_pair, recipient);
-    }
-
     #[lint_allow(share_owned)]
     public(friend) fun share_object<X, Y>(token_pair: TokenPair<X, Y>) {
         assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::share_object(token_pair);
-    }
-
-    public(friend) fun freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
-        assert!(token_pair.version == 0, EInappropriateVersion);
-        transfer::freeze_object(token_pair);
-    }
-
-    public(friend) fun update_version_and_freeze_object<X, Y>(token_pair: TokenPair<X, Y>) {
-        update_object_version(&mut token_pair);
-        transfer::freeze_object(token_pair);
     }
 
     public(friend) fun update_object_version<X, Y>(token_pair: &mut TokenPair<X, Y>) {
@@ -494,6 +529,8 @@ module sui_swap_example::token_pair {
             x_reserve,
             y_reserve,
             total_liquidity: _total_liquidity,
+            fee_numerator: _fee_numerator,
+            fee_denominator: _fee_denominator,
         } = token_pair;
         object::delete(id);
         sui::balance::destroy_zero(x_reserve);
@@ -501,7 +538,12 @@ module sui_swap_example::token_pair {
     }
 
     public(friend) fun emit_liquidity_initialized(liquidity_initialized: LiquidityInitialized) {
+        assert!(std::option::is_some(&liquidity_initialized.id), EEmptyObjectID);
         event::emit(liquidity_initialized);
+    }
+
+    public(friend) fun emit_fee_rate_updated(fee_rate_updated: FeeRateUpdated) {
+        event::emit(fee_rate_updated);
     }
 
     public(friend) fun emit_liquidity_added(liquidity_added: LiquidityAdded) {

@@ -46,6 +46,19 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             super(state);
         }
 
+        @Override
+        public void updateFeeRate(BigInteger feeNumerator, BigInteger feeDenominator, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.UpdateFeeRate c) {
+            java.util.function.Supplier<TokenPairEvent.FeeRateUpdated> eventFactory = () -> newFeeRateUpdated(feeNumerator, feeDenominator, offChainVersion, commandId, requesterId);
+            TokenPairEvent.FeeRateUpdated e;
+            try {
+                e = verifyUpdateFeeRate(eventFactory, feeNumerator, feeDenominator, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            apply(e);
+        }
+
         protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, String exchange, TokenPairCommands.InitializeLiquidity c) {
             String Exchange = exchange;
 
@@ -60,6 +73,28 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
 //
 //public class InitializeLiquidityLogic {
 //    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, String exchange, VerificationContext verificationContext) {
+//    }
+//}
+
+            return e;
+        }
+           
+
+        protected TokenPairEvent.FeeRateUpdated verifyUpdateFeeRate(java.util.function.Supplier<TokenPairEvent.FeeRateUpdated> eventFactory, BigInteger feeNumerator, BigInteger feeDenominator, TokenPairCommands.UpdateFeeRate c) {
+            BigInteger FeeNumerator = feeNumerator;
+            BigInteger FeeDenominator = feeDenominator;
+
+            TokenPairEvent.FeeRateUpdated e = (TokenPairEvent.FeeRateUpdated) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateFeeRateLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), feeNumerator, feeDenominator, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiswapexample.domain.tokenpair;
+//
+//public class UpdateFeeRateLogic {
+//    public static TokenPairEvent.FeeRateUpdated verify(java.util.function.Supplier<TokenPairEvent.FeeRateUpdated> eventFactory, TokenPairState tokenPairState, BigInteger feeNumerator, BigInteger feeDenominator, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -149,6 +184,29 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             return e;
         }
            
+
+        protected AbstractTokenPairEvent.FeeRateUpdated newFeeRateUpdated(BigInteger feeNumerator, BigInteger feeDenominator, Long offChainVersion, String commandId, String requesterId) {
+            TokenPairEventId eventId = new TokenPairEventId(getState().getId(), null);
+            AbstractTokenPairEvent.FeeRateUpdated e = new AbstractTokenPairEvent.FeeRateUpdated();
+
+            e.setFeeNumerator(feeNumerator);
+            e.setFeeDenominator(feeDenominator);
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setTokenPairEventId(eventId);
+            return e;
+        }
 
     }
 

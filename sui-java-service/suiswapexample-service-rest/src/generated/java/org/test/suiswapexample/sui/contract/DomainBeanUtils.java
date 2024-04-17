@@ -10,8 +10,11 @@ import java.util.*;
 
 import com.github.wubuku.sui.bean.MoveEvent;
 import com.github.wubuku.sui.bean.SuiMoveEventEnvelope;
+import com.github.wubuku.sui.bean.Table;
+import com.github.wubuku.sui.bean.ObjectTable;
 import org.test.suiswapexample.domain.tokenpair.AbstractTokenPairEvent;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityInitialized;
+import org.test.suiswapexample.sui.contract.tokenpair.FeeRateUpdated;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityAdded;
 import org.test.suiswapexample.sui.contract.tokenpair.LiquidityRemoved;
 import org.test.suiswapexample.sui.contract.tokenpair.XSwappedForY;
@@ -29,6 +32,26 @@ import org.test.suiswapexample.sui.contract.exchange.ExchangeUpdated;
  */
 public class DomainBeanUtils {
     private DomainBeanUtils() {
+    }
+
+    public static org.test.suiswapexample.domain.ObjectTable toObjectTable(ObjectTable contractObjectTable) {
+        if (contractObjectTable == null) {
+            return null;
+        }
+        org.test.suiswapexample.domain.ObjectTable objectTable = new org.test.suiswapexample.domain.ObjectTable();
+        objectTable.setId(contractObjectTable.getFields().getId().getId());
+        objectTable.setSize(contractObjectTable.getFields().getSize());
+        return objectTable;
+    }
+
+    public static org.test.suiswapexample.domain.Table toTable(Table contractTable) {
+        if (contractTable == null) {
+            return null;
+        }
+        org.test.suiswapexample.domain.Table table = new org.test.suiswapexample.domain.Table();
+        table.setId(contractTable.getFields().getId().getId());
+        table.setSize(contractTable.getFields().getSize());
+        return table;
     }
 
 
@@ -56,6 +79,26 @@ public class DomainBeanUtils {
         liquidityInitialized.setSuiSender(eventEnvelope.getSender());
 
         return liquidityInitialized;
+    }
+
+    public static AbstractTokenPairEvent.FeeRateUpdated toFeeRateUpdated(SuiMoveEventEnvelope<FeeRateUpdated> eventEnvelope) {
+        FeeRateUpdated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTokenPairEvent.FeeRateUpdated feeRateUpdated = new AbstractTokenPairEvent.FeeRateUpdated();
+        feeRateUpdated.setId(contractEvent.getId());
+        feeRateUpdated.setFeeNumerator(contractEvent.getFeeNumerator());
+        feeRateUpdated.setFeeDenominator(contractEvent.getFeeDenominator());
+        feeRateUpdated.setVersion(contractEvent.getVersion());
+
+        feeRateUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        feeRateUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        feeRateUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        feeRateUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        feeRateUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        feeRateUpdated.setSuiSender(eventEnvelope.getSender());
+
+        return feeRateUpdated;
     }
 
     public static AbstractTokenPairEvent.LiquidityAdded toLiquidityAdded(SuiMoveEventEnvelope<LiquidityAdded> eventEnvelope) {
@@ -163,7 +206,7 @@ public class DomainBeanUtils {
         AbstractLiquidityTokenEvent.LiquidityTokenMinted liquidityTokenMinted = new AbstractLiquidityTokenEvent.LiquidityTokenMinted();
         liquidityTokenMinted.setId(contractEvent.getId());
         liquidityTokenMinted.setAmount(contractEvent.getAmount());
-        liquidityTokenMinted.setVersion(BigInteger.valueOf(-1));
+        liquidityTokenMinted.setVersion(BigInteger.valueOf(eventEnvelope.getTimestampMs()));
 
         liquidityTokenMinted.setSuiTimestamp(eventEnvelope.getTimestampMs());
         liquidityTokenMinted.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
@@ -182,7 +225,7 @@ public class DomainBeanUtils {
         AbstractLiquidityTokenEvent.LiquidityTokenDestroyed liquidityTokenDestroyed = new AbstractLiquidityTokenEvent.LiquidityTokenDestroyed();
         liquidityTokenDestroyed.setId(contractEvent.getId());
         liquidityTokenDestroyed.setAmount(contractEvent.getAmount());
-        liquidityTokenDestroyed.setVersion(BigInteger.valueOf(-1));
+        liquidityTokenDestroyed.setVersion(BigInteger.valueOf(eventEnvelope.getTimestampMs()));
 
         liquidityTokenDestroyed.setSuiTimestamp(eventEnvelope.getTimestampMs());
         liquidityTokenDestroyed.setSuiTxDigest(eventEnvelope.getId().getTxDigest());

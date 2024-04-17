@@ -44,6 +44,7 @@
         <column name="dynamic_properties_lob" sql-type="VARCHAR(2000)" />
       </property>
       <subclass name="AbstractTokenPairEvent$LiquidityInitialized" discriminator-value="LiquidityInitialized" />
+      <subclass name="AbstractTokenPairEvent$FeeRateUpdated" discriminator-value="FeeRateUpdated" />
       <subclass name="AbstractTokenPairEvent$LiquidityAdded" discriminator-value="LiquidityAdded" />
       <subclass name="AbstractTokenPairEvent$LiquidityRemoved" discriminator-value="LiquidityRemoved" />
       <subclass name="AbstractTokenPairEvent$XSwappedForY" discriminator-value="XSwappedForY" />

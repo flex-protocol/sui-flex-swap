@@ -72,6 +72,7 @@ public class M {
         clsMap.put("u64", java.math.BigInteger.class);
         clsMap.put("u128", java.math.BigInteger.class);
         clsMap.put("u256", java.math.BigInteger.class);
+        clsMap.put("AsciiString", String.class);
         clsMap.put("vector<u8>", int[].class);
         clsMap.put("int[]", int[].class);
         clsMap.put("blob", java.sql.Blob.class);
@@ -143,6 +144,8 @@ public class M {
             "x_Reserve",
             "y_Reserve",
             "totalLiquidity",
+            "feeNumerator",
+            "feeDenominator",
             "version",
             "offChainVersion",
             "createdBy",
@@ -159,6 +162,8 @@ public class M {
             "String",
             "java.math.BigInteger",
             "java.math.BigInteger",
+            "BigInteger",
+            "BigInteger",
             "BigInteger",
             "BigInteger",
             "Long",
@@ -192,6 +197,10 @@ public class M {
         aliasMap.put("Y_Reserve", "y_Reserve");
         aliasMap.put("totalLiquidity", "totalLiquidity");
         aliasMap.put("TotalLiquidity", "totalLiquidity");
+        aliasMap.put("feeNumerator", "feeNumerator");
+        aliasMap.put("FeeNumerator", "feeNumerator");
+        aliasMap.put("feeDenominator", "feeDenominator");
+        aliasMap.put("FeeDenominator", "feeDenominator");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");

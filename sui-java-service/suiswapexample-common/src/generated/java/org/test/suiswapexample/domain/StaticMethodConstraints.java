@@ -28,6 +28,14 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateFeeRateLogic",
+                    "verify",
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "feeNumerator", "feeDenominator"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiswapexample.domain.tokenpair.AddLiquidityLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
@@ -96,6 +104,14 @@ public class StaticMethodConstraints {
                     "verify",
                     new Class[]{java.util.function.Supplier.class, ExchangeState.class, String.class, VerificationContext.class},
                     new String[]{"_", "_", "name"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiswapexample.domain.tokenpair.UpdateFeeRateLogic",
+                    "mutate",
+                    new Class[]{TokenPairState.class, BigInteger.class, BigInteger.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "feeNumerator", "feeDenominator", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

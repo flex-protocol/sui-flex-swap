@@ -18,9 +18,10 @@ module sui_swap_example::liquidity_token {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    const EEmptyObjectID: u64 = 107;
 
     fun init(otw: LIQUIDITY_TOKEN, ctx: &mut TxContext) {
-        sui::package::claim_and_keep(otw, ctx)
+        sui::package::claim_and_keep(otw, ctx);
     }
 
     struct LiquidityToken<phantom X, phantom Y> has key, store {
@@ -107,16 +108,6 @@ module sui_swap_example::liquidity_token {
         transfer::transfer(liquidity_token, recipient);
     }
 
-    #[lint_allow(share_owned, custom_state_change)]
-    public(friend) fun share_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
-        transfer::share_object(liquidity_token);
-    }
-
-    #[lint_allow(custom_state_change)]
-    public(friend) fun freeze_object<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
-        transfer::freeze_object(liquidity_token);
-    }
-
     public(friend) fun drop_liquidity_token<X, Y>(liquidity_token: LiquidityToken<X, Y>) {
         let LiquidityToken {
             id,
@@ -126,6 +117,7 @@ module sui_swap_example::liquidity_token {
     }
 
     public(friend) fun emit_liquidity_token_minted(liquidity_token_minted: LiquidityTokenMinted) {
+        assert!(std::option::is_some(&liquidity_token_minted.id), EEmptyObjectID);
         event::emit(liquidity_token_minted);
     }
 

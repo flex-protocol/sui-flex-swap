@@ -47,6 +47,8 @@ public class SuiTokenPairStateRetriever {
         tokenPairState.setX_Reserve(tokenPair.getX_Reserve());
         tokenPairState.setY_Reserve(tokenPair.getY_Reserve());
         tokenPairState.setTotalLiquidity(tokenPair.getTotalLiquidity());
+        tokenPairState.setFeeNumerator(tokenPair.getFeeNumerator());
+        tokenPairState.setFeeDenominator(tokenPair.getFeeDenominator());
         tokenPairState.setX_TokenType(typeArgs.get(0));
         tokenPairState.setY_TokenType(typeArgs.get(1));
         return tokenPairState;

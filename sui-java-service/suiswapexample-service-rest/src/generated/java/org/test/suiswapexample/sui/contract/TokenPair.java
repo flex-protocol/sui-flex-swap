@@ -45,6 +45,10 @@ public class TokenPair {
 
     private BigInteger totalLiquidity;
 
+    private BigInteger feeNumerator;
+
+    private BigInteger feeDenominator;
+
     private BigInteger version;
 
     private String x_TokenType;
@@ -91,6 +95,22 @@ public class TokenPair {
         this.totalLiquidity = totalLiquidity;
     }
 
+    public BigInteger getFeeNumerator() {
+        return feeNumerator;
+    }
+
+    public void setFeeNumerator(BigInteger feeNumerator) {
+        this.feeNumerator = feeNumerator;
+    }
+
+    public BigInteger getFeeDenominator() {
+        return feeDenominator;
+    }
+
+    public void setFeeDenominator(BigInteger feeDenominator) {
+        this.feeDenominator = feeDenominator;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
@@ -123,6 +143,8 @@ public class TokenPair {
                 ", x_Reserve=" + x_Reserve +
                 ", y_Reserve=" + y_Reserve +
                 ", totalLiquidity=" + totalLiquidity +
+                ", feeNumerator=" + feeNumerator +
+                ", feeDenominator=" + feeDenominator +
                 ", version=" + version +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

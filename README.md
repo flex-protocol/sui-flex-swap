@@ -1,20 +1,8 @@
-# Sui Swap Example
+# Sui Flex Swap
 
 ## Requirements
 
-This is a Sui Move sample project for teaching purposes. The client is a Web3 developer education institution, and the requirements are brief:
-
-> Build a Simple Token Swap dApp using Sui Move
->
-> **Overview**: We are creating a basic dApp to allow users to trade one cryptocurrency for another on the Sui blockchain. We need two main components: a smart contract and a simple frontend.
->
-> * The token swap dApp contract should be straightforward, focusing only on the swapping feature. We don't need the other DEX features.
-> * The smart contract code must include comments to explain how it works.
-> * A basic frontend should be provided for users to interact with the dApp.
-
-Let's further clarify the requirements so that we can better determine the workload in the next step.
-
-From the front-end, the dApp would look roughly like this:
+From the front-end, the Dapp would look roughly like this:
 
 * First we would display a list of supported token pairs, TokenX-TokenY, TokenY-TokenZ and so on. Of course, at first, this list is empty.
 
@@ -33,8 +21,6 @@ From the front-end, the dApp would look roughly like this:
 * The revenue that the user receives for providing liquidity comes from the fee and nothing else.
 
 From a front-end UX perspective, the main features are those above.
-
-The internal implementation of the smart contract will be kept as simple as possible, as long as it is sufficient to illustrate the basic principles of the DEX using the AMM model.
 
 Here, let's try to develop it using the [dddappp](https://www.dddappp.org) low-code tool.
 

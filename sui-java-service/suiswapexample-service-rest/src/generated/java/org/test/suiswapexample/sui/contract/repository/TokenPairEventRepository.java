@@ -15,6 +15,8 @@ public interface TokenPairEventRepository extends JpaRepository<AbstractTokenPai
 
     AbstractTokenPairEvent.LiquidityInitialized findFirstLiquidityInitializedByOrderBySuiTimestampDesc();
 
+    AbstractTokenPairEvent.FeeRateUpdated findFirstFeeRateUpdatedByOrderBySuiTimestampDesc();
+
     AbstractTokenPairEvent.LiquidityAdded findFirstLiquidityAddedByOrderBySuiTimestampDesc();
 
     AbstractTokenPairEvent.LiquidityRemoved findFirstLiquidityRemovedByOrderBySuiTimestampDesc();

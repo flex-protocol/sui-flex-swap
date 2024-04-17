@@ -31,7 +31,7 @@ public class HibernateTokenPairStateRepository implements TokenPairStateReposito
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "Y_Reserve", "TotalLiquidity", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "X_Reserve", "Y_Reserve", "TotalLiquidity", "FeeNumerator", "FeeDenominator", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "X_TokenType", "Y_TokenType"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     
@@ -79,7 +79,7 @@ public class HibernateTokenPairStateRepository implements TokenPairStateReposito
         TokenPairState persistent = getCurrentSession().get(AbstractTokenPairState.SimpleTokenPairState.class, detached.getId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateTokenPairStateRepository implements TokenPairStateReposito
     }
 
     private void merge(TokenPairState persistent, TokenPairState detached) {
-        ((TokenPairState.MutableTokenPairState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractTokenPairState) persistent).merge(detached);
     }
 
 }

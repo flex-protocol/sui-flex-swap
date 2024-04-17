@@ -16,6 +16,12 @@
     <property name="totalLiquidity">
       <column name="total_liquidity" sql-type="DECIMAL(20,0)" />
     </property>
+    <property name="feeNumerator">
+      <column name="fee_numerator" sql-type="DECIMAL(20,0)" />
+    </property>
+    <property name="feeDenominator">
+      <column name="fee_denominator" sql-type="DECIMAL(20,0)" />
+    </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
     </property>

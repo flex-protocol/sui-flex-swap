@@ -17,6 +17,8 @@ public interface TokenPairAggregate {
 
     List<Event> getChanges();
 
+    void updateFeeRate(BigInteger feeNumerator, BigInteger feeDenominator, Long offChainVersion, String commandId, String requesterId, TokenPairCommands.UpdateFeeRate c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 
