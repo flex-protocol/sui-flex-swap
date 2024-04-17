@@ -22,4 +22,4 @@ sui:
       #url: "http://localhost:9000"
       #url: "https://fullnode.devnet.sui.io/"
       url: "https://fullnode.testnet.sui.io/"
-    package-publish-transaction: "AJoNuD8kstRtHjDzrKLJngfd7EanNy1v1GFHjSW4M5Uz"
+    package-publish-transaction: "Ea7L7cbe4pP6QgnkqAKu1vvxPYh6ZEcjQAWmTxyRq3CW"
