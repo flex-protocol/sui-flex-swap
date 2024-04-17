@@ -129,7 +129,7 @@ sui client call --package "$core_package_id" --module token_pair_service --funct
 "$sui_coin_object_id_1" \
 '"90000000"' \
 "$example_coin_object_id_1" \
-'"90000000"' \
+'"90000000"' [] \
 --gas-budget 30000000 --json > testnet_add_liquidity.json
 
 # Remove liquidity
@@ -139,7 +139,7 @@ sui client call --package "$core_package_id" --module token_pair_service --funct
 "$token_pair_object_id_1" \
 "$liquidity_token_object_id_1" \
 "$sui_coin_object_id_1" \
-"$example_coin_object_id_1" \
+"$example_coin_object_id_1" [] [] \
 --gas-budget 30000000
 
 # Swap X for Y

@@ -1,5 +1,6 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::token_pair_remove_liquidity_logic {
+    use std::option::{Self, Option};
     use std::string;
     use std::type_name;
 
@@ -17,9 +18,13 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EInconsistentLiquidityAmount: u64 = 1;
+    const EExpectedXAmount: u64 = 2;
+    const EExpectedYAmount: u64 = 3;
 
     public(friend) fun verify<X, Y>(
         liquidity_token: &LiquidityToken<X, Y>,
+        expected_x_amount: Option<u64>,
+        expected_y_amount: Option<u64>,
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &TxContext,
     ): token_pair::LiquidityRemoved {
@@ -33,6 +38,12 @@ module sui_swap_example::token_pair_remove_liquidity_logic {
             y_reserve,
             liquidity_amount
         );
+        if (option::is_some(&expected_x_amount)) {
+            assert!(x_amount >= option::extract(&mut expected_x_amount) , EExpectedXAmount);
+        };
+        if (option::is_some(&expected_y_amount)) {
+            assert!(y_amount >= option::extract(&mut expected_y_amount) , EExpectedYAmount);
+        };
         token_pair::new_liquidity_removed(
             token_pair,
             liquidity_amount,

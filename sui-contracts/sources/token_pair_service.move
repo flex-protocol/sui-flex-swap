@@ -1,5 +1,6 @@
 module sui_swap_example::token_pair_service {
 
+    use std::option::Option;
     use sui::balance::Balance;
     use sui::coin::{Self, Coin};
     use sui::transfer;
@@ -37,6 +38,7 @@ module sui_swap_example::token_pair_service {
         x_amount: u64,
         y_coin: Coin<Y>,
         y_amount: u64,
+        expected_liquidity_amount: Option<u64>,
         ctx: &mut tx_context::TxContext,
     ) {
         let x_amount_b = split_up_and_into_balance(x_coin, x_amount, ctx);
@@ -45,6 +47,7 @@ module sui_swap_example::token_pair_service {
             token_pair,
             x_amount_b,
             y_amount_b,
+            expected_liquidity_amount,
             ctx,
         )
     }
@@ -54,11 +57,15 @@ module sui_swap_example::token_pair_service {
         liquidity_token: LiquidityToken<X, Y>,
         x_coin: &mut Coin<X>,
         y_coin: &mut Coin<Y>,
+        expected_x_amount: Option<u64>,
+        expected_y_amount: Option<u64>,
         ctx: &mut tx_context::TxContext,
     ) {
         let (x_balance, y_balance) = token_pair_aggregate::remove_liquidity(
             token_pair,
             liquidity_token,
+            expected_x_amount,
+            expected_y_amount,
             ctx,
         );
         coin::join(x_coin, coin::from_balance(x_balance, ctx));

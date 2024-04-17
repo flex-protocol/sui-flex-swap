@@ -153,6 +153,19 @@ public class TokenPairCommands {
         }
 
         /**
+         * Expected Liquidity Amount
+         */
+        private BigInteger expectedLiquidityAmount;
+
+        public BigInteger getExpectedLiquidityAmount() {
+            return this.expectedLiquidityAmount;
+        }
+
+        public void setExpectedLiquidityAmount(BigInteger expectedLiquidityAmount) {
+            this.expectedLiquidityAmount = expectedLiquidityAmount;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;
@@ -201,6 +214,32 @@ public class TokenPairCommands {
 
         public void setLiquidityToken(String liquidityToken) {
             this.liquidityToken = liquidityToken;
+        }
+
+        /**
+         * Expected X_ Amount
+         */
+        private BigInteger expectedX_Amount;
+
+        public BigInteger getExpectedX_Amount() {
+            return this.expectedX_Amount;
+        }
+
+        public void setExpectedX_Amount(BigInteger expectedX_Amount) {
+            this.expectedX_Amount = expectedX_Amount;
+        }
+
+        /**
+         * Expected Y_ Amount
+         */
+        private BigInteger expectedY_Amount;
+
+        public BigInteger getExpectedY_Amount() {
+            return this.expectedY_Amount;
+        }
+
+        public void setExpectedY_Amount(BigInteger expectedY_Amount) {
+            this.expectedY_Amount = expectedY_Amount;
         }
 
         /**

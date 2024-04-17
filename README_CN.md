@@ -131,7 +131,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
 '"1000"' \
 '0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
+'"100000000"' [] \
 --gas-budget 30000000
 ```
 
@@ -157,7 +157,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 '0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd' \
 '0x3137df8f5a394a6566539aa2a1b287db52758ad254f7b2b008136cf7ef87bec8' \
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
-'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
+'0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' [] [] \
 --gas-budget 30000000
 ```
 

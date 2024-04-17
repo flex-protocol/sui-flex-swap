@@ -39,7 +39,7 @@ public class StaticMethodConstraints {
                     "org.test.suiswapexample.domain.tokenpair.AddLiquidityLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
-                    new String[]{"_", "_"}
+                    new String[]{"_", "_", "expectedLiquidityAmount"}
             );
 
 
@@ -47,7 +47,7 @@ public class StaticMethodConstraints {
                     "org.test.suiswapexample.domain.tokenpair.RemoveLiquidityLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "_", "liquidityToken"}
+                    new String[]{"_", "_", "liquidityToken", "expectedX_Amount", "expectedY_Amount"}
             );
 
 

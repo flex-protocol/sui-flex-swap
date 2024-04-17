@@ -102,19 +102,20 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.LiquidityAdded verifyAddLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, TokenPairCommands.AddLiquidity c) {
+        protected TokenPairEvent.LiquidityAdded verifyAddLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, BigInteger expectedLiquidityAmount, TokenPairCommands.AddLiquidity c) {
+            BigInteger ExpectedLiquidityAmount = expectedLiquidityAmount;
 
             TokenPairEvent.LiquidityAdded e = (TokenPairEvent.LiquidityAdded) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.AddLiquidityLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
+                    new Object[]{eventFactory, getState(), expectedLiquidityAmount, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class AddLiquidityLogic {
-//    public static TokenPairEvent.LiquidityAdded verify(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
+//    public static TokenPairEvent.LiquidityAdded verify(java.util.function.Supplier<TokenPairEvent.LiquidityAdded> eventFactory, TokenPairState tokenPairState, BigInteger expectedLiquidityAmount, VerificationContext verificationContext) {
 //    }
 //}
 
@@ -122,20 +123,22 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
         }
            
 
-        protected TokenPairEvent.LiquidityRemoved verifyRemoveLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, String liquidityToken, TokenPairCommands.RemoveLiquidity c) {
+        protected TokenPairEvent.LiquidityRemoved verifyRemoveLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, String liquidityToken, BigInteger expectedX_Amount, BigInteger expectedY_Amount, TokenPairCommands.RemoveLiquidity c) {
             String LiquidityToken = liquidityToken;
+            BigInteger ExpectedX_Amount = expectedX_Amount;
+            BigInteger ExpectedY_Amount = expectedY_Amount;
 
             TokenPairEvent.LiquidityRemoved e = (TokenPairEvent.LiquidityRemoved) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.RemoveLiquidityLogic",
                     "verify",
                     new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), liquidityToken, VerificationContext.forCommand(c)}
+                    new Object[]{eventFactory, getState(), liquidityToken, expectedX_Amount, expectedY_Amount, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class RemoveLiquidityLogic {
-//    public static TokenPairEvent.LiquidityRemoved verify(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, TokenPairState tokenPairState, String liquidityToken, VerificationContext verificationContext) {
+//    public static TokenPairEvent.LiquidityRemoved verify(java.util.function.Supplier<TokenPairEvent.LiquidityRemoved> eventFactory, TokenPairState tokenPairState, String liquidityToken, BigInteger expectedX_Amount, BigInteger expectedY_Amount, VerificationContext verificationContext) {
 //    }
 //}
 

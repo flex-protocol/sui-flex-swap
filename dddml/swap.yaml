@@ -103,6 +103,10 @@ aggregates:
             type: Balance<X>
           Y_Amount:
             type: Balance<Y>
+          ExpectedLiquidityAmount:
+            type: u64
+            optional: true
+            isIgnoredInEvent: true
         event:
           name: LiquidityAdded
           properties:
@@ -134,6 +138,14 @@ aggregates:
           LiquidityToken:
             type: LiquidityToken<X, Y>
             #eventPropertyName: LiquidityTokenId
+          ExpectedX_Amount:
+            type: u64
+            optional: true
+            isIgnoredInEvent: true
+          ExpectedY_Amount:
+            type: u64
+            optional: true
+            isIgnoredInEvent: true
         result:
           type: (Balance<X>, Balance<Y>)
         event:
@@ -360,6 +372,9 @@ services:
             type: Coin<Y>
           Y_Amount:
             type: u64
+          ExpectedLiquidityAmount:
+            type: u64
+            optional: true
 
       RemoveLiquidity:
         typeParameters:
@@ -377,6 +392,12 @@ services:
           Y_Coin:
             referenceType: Coin<Y>
             isMutableReference: true
+          ExpectedX_Amount:
+            type: u64
+            optional: true
+          ExpectedY_Amount:
+            type: u64
+            optional: true
 
       SwapX:
         typeParameters:

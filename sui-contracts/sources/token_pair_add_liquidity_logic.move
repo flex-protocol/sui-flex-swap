@@ -1,5 +1,6 @@
 #[allow(unused_variable, unused_use, unused_assignment, unused_mut_parameter)]
 module sui_swap_example::token_pair_add_liquidity_logic {
+    use std::option::{Self, Option};
     use std::string;
     use std::type_name;
 
@@ -17,11 +18,13 @@ module sui_swap_example::token_pair_add_liquidity_logic {
     friend sui_swap_example::token_pair_aggregate;
 
     const EAddInvalidLiquidity: u64 = 100;
+    const EExpectedLiquidity: u64 = 101;
 
     #[lint_allow(self_transfer)]
     public(friend) fun verify<X, Y>(
         x_amount: &Balance<X>,
         y_amount: &Balance<Y>,
+        expected_liquidity_amount: Option<u64>,
         token_pair: &token_pair::TokenPair<X, Y>,
         ctx: &mut TxContext,
     ): token_pair::LiquidityAdded {
@@ -38,6 +41,10 @@ module sui_swap_example::token_pair_add_liquidity_logic {
             y_amount_i
         );
         assert!(liquidity_amount_added > 0, EAddInvalidLiquidity);
+        if (option::is_some(&expected_liquidity_amount)) {
+            let expected_liquidity_amount_i = option::extract(&mut expected_liquidity_amount);
+            assert!(liquidity_amount_added >= expected_liquidity_amount_i, EExpectedLiquidity);
+        };
 
         // mint first, so that we can emit its id in the event
         let liquidity_token = liquidity_token_aggregate::mint<X, Y>(liquidity_amount_added, ctx);
