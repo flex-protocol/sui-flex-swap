@@ -17,3 +17,4 @@ testnet_initialize_buy_pool.json
 testnet_initialize_sell_pool.json
 testnet_mint_test_nft.json
 testnet_example_tokens_publish.json
+sui-contracts/testnet_*.json
