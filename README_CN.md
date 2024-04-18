@@ -450,13 +450,24 @@ curl -X GET "http://localhost:1023/api/nftPools/sellSpotPrices?nftType=0x507d2aa
 
 #### 计算 Buy Pool 需要存入的 Coin 金额
 
-示例，假设池子打算收购 5 个单位（size）的 NFT，开始价格是 1 SUI，
+我们使用先一个示例来说明。假设：池子打算收购 5 个基本单位的 NFT，开始价格是 1 SUI，
 采用线性价格曲线，每买入一个（单位）NFT，价格减少 0.1 SUI（转换为开始价格 1 SUI 的百分比，即 10%），
-这样请求 API：
+那么，这样请求 API：
 
 ```shell
 curl -X GET "http://localhost:1023/api/nftPools/calculateCoinAmountNeededForBuyPool?nftType=0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920%3A%3Aequipment%3A%3AEquipment&nftBasicUnitQuantity=5&curveType=0&startPriceNumerator=1000000000&startPriceDenominator=1&priceDeltaNumerator=10&priceDeltaDenominator=100" -H "accept: application/json"
 ```
+
+在上面的示例中，各查询参数的含义解释如下：
+
+* `nftType`: NFT 的类型。比如 `0x507d2aacb7425085612e0d56131a57362729779bf3510c286b98568479314920::equipment::Equipment`。
+* `nftBasicUnitQuantity`: 打算购入 NFT 的“基本单位”的数量。（有时候这个参数被称为 size。）
+* `curveType`: 价格曲线类型。0 是 Linear，1 是 Exponential。
+* `startPriceNumerator`: 开始价格的分子部分。
+* `startPriceDenominator`: 开始价格的分母部分。比如 startPriceNumerator 为 1000000000，startPriceDenominator 为 1 时，如果计价单位是 SUI，那么开始价格就是 1 SUI。
+* `priceDeltaNumerator`: 价格增量的分子部分。
+* `priceDeltaDenominator`: 价格增量的分母部分。比如 priceDeltaNumerator 为 10，priceDeltaDenominator 为 100 时，价格增量就是 10%。
+
 
 这个示例返回的值是:
 
