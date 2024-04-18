@@ -194,18 +194,27 @@ public class NftPoolResource {
             @RequestParam BigInteger nftBasicUnitQuantity,
             @RequestParam byte curveType,
             @RequestParam BigInteger startPriceNumerator,
-            @RequestParam BigInteger startPriceDenominator,
+            @RequestParam(required = false) BigInteger priceNumerator,
+            @RequestParam(required = false) BigInteger startPriceDenominator, // default to 1
+            @RequestParam(required = false) BigInteger priceDenominator, // default to 1
             @RequestParam BigInteger priceDeltaNumerator,
             @RequestParam BigInteger priceDeltaDenominator
     ) {
         BigInteger nftBasicUnitAmount = getNftBasicUnitAmount(nftType);
         BigInteger nftAmount = nftBasicUnitAmount.multiply(nftBasicUnitQuantity);
+        BigInteger spot_price = priceNumerator == null ? startPriceNumerator : priceNumerator;
+        BigInteger start_price = startPriceNumerator; // although "start_price" is NOT required for exponential curve actually
         Pair<BigInteger, BigInteger> coin_amount_and_new_spot_price = PriceCurve.getSellInfo(curveType,
                 nftAmount, nftBasicUnitAmount,
-                startPriceNumerator, startPriceNumerator,
+                spot_price, start_price,
                 priceDeltaNumerator, priceDeltaDenominator
         );
-        return coin_amount_and_new_spot_price.getItem1().divide(startPriceDenominator);
+        return coin_amount_and_new_spot_price.getItem1().divide(
+                priceDenominator != null ? priceDenominator : (
+                        startPriceDenominator != null ? startPriceDenominator :
+                                BigInteger.ONE
+                )
+        );
     }
 
     private List<NftFtPoolRepository.PoolDto> getBuyOrSellSpotPrices(
