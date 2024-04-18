@@ -180,8 +180,8 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 2. 调用  `{CORE_PACKAGE_ID}::trade_pool_aggregate::initialize_trade_pool_with_empty_x_reserve` 函数，来初始化一个 Trade Pool，
     这个函数会返回 TradePool 对象和 LiquidityToken 对象。
 3. 调用 `add_x_token` 函数添加多个 NFTs。（使用为测试 NFT 开发的 DI 包的话，该函数的模块是 `test_equipment_sell_pool_service`。）
-4. 调用 `trade_pool::share_object` 函数共享 TradePool 对象。
-5. 调用 `{CORE_PACKAGE_ID}::transfer::public_transfer` 函数将 LiquidityToken 对象转移给调用者。
+4. 调用 `{CORE_PACKAGE_ID}::trade_pool::share_object` 函数共享 TradePool 对象。
+5. 调用 Sui 框架提供的 `transfer::public_transfer` 函数将 LiquidityToken 对象转移给调用者。
 
 
 ### 关于更新池子的 NFT 价格设置
