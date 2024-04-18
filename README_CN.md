@@ -196,11 +196,12 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 当价格曲线类型为 Linear 时，前端允许用户输入：
 
-* 当前价格（`current_exchange_rate`）。表示最小单位的 NFT 兑换 FT（Coin）的价格。
-* 价格增量的绝对值（`absolute_price_delta`）。价格增量比例记为 `price_delta` = `absolute_price_delta` / `current_exchange_rate`。
+* 当前价格（记为 `current_exchange_rate`）。表示最小单位的 NFT 兑换 FT（Coin）的价格。
+* 价格增量的绝对值（记为 `absolute_price_delta`）。
 
 根据这两个值，我们可以这样计算出新的价格曲线参数：
 
+* 先计算价格增量比例 `price_delta` = `absolute_price_delta` / `current_exchange_rate`。
 * `exchange_rate_numerator` = `current_exchange_rate` 的分子部分。
 * `exchange_rate_denominator` = `current_exchange_rate` 的分母部分。比如，如果 `current_exchange_rate` 为 1.005，那么 `exchange_rate_numerator` 可以为 1005，`exchange_rate_denominator` 可以为 1000。
 * `start_exchange_rate_numerator` = `exchange_rate_numerator`.
@@ -213,7 +214,7 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 当价格曲线类型为 Exponential 时，前端允许用户输入：
 
 * 当前价格（`current_exchange_rate`）。表示最小单位的 NFT 兑换 FT（Coin）的价格。
-* 价格增量的比例（`price_delta`）。一般使用百分比表示，比如 `0.5%`。
+* 价格增量的比例（`price_delta`）。前端一般使用百分比表示，比如 `0.5%`。
 
 根据这两个值，我们可以这样计算出新的价格曲线参数：
 
