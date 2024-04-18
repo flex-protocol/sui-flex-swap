@@ -634,7 +634,6 @@ module sui_swap_core::token_pair {
 
     #[lint_allow(share_owned)]
     public fun share_object<X: key + store, Y>(token_pair: TokenPair<X, Y>) {
-        assert!(token_pair.version == 0, EInappropriateVersion);
         transfer::share_object(token_pair);
     }
 

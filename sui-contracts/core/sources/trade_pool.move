@@ -1200,7 +1200,6 @@ module sui_swap_core::trade_pool {
 
     #[lint_allow(share_owned)]
     public fun share_object<X: key + store, Y>(trade_pool: TradePool<X, Y>) {
-        assert!(trade_pool.version == 0, EInappropriateVersion);
         transfer::share_object(trade_pool);
     }
 
