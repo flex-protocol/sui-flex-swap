@@ -157,6 +157,12 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
         trade_pool::share_object(sell_pool); // 注意需要调用 {CORE_PACKAGE_ID}::trade_pool::share_object 把它共享出去。
 ```
 
+注意，调用 `add_x_token` 函数之后，需要：
+
+* 调用 `{CORE_PACKAGE_ID}::trade_pool::share_object` 函数共享 TradePool 对象。 
+* 调用 Sui 框架提供的 `transfer::public_transfer` 函数将 LiquidityToken 对象转移给调用者。
+
+
 #### 使用 PTB 初始化 Trade Pool 并添加多个 NFTs
 
 前端 PTB 实现可以参考 `sui-contracts/core/sources/trade_pool_service.move` 中函数 `initialize_trade_pool_with_empty_x_reserve` 的做法。
