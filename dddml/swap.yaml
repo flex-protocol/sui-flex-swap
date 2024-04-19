@@ -363,7 +363,7 @@ aggregates:
         metadata:
           NO_MOVE_EVENT_MODULE: true
         inheritsFrom: InitializeBuyPool
-        isInternal: true
+        #isInternal: true
         isCreationCommand: true
         event:
           name: TradePoolWithEmptyXReserveInitialized

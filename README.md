@@ -196,7 +196,7 @@ On the Sui testnet, we deployed as well as set up a set of test contracts with t
 | Placeholder                             | Value                                                              |
 |-----------------------------------------|--------------------------------------------------------------------|
 | UTILS_PACKAGE_ID                        | 0xf08c2f0fce586a3d0b6e4964b31a4e8b46e060fe17bb591b6c8deb5514f67c22 |
-| CORE_PACKAGE_ID                         | 0x93d594cf0e132c68fabce857b5abd89cdb7b34e27dcbd5a3c0dc809a0ffb3fea |
+| CORE_PACKAGE_ID                         | 0x81ccbc687db60ddb6a87100e007396d71d85d41677305e70af7b91305ec5514b |
 | NFT_SERVICE_IMPL_PACKAGE_ID             | 0x6485d131e5a2a30c7b606fcb71c1b3c828f00ae5e5e4298269cc9e7287fe0223 |
 | NFT_SERVICE_IMPL_PACKAGE_ID_2           | 0x2ec32d6b9280d0c26280310e1367a5db3f5aa9bd8f3d7112170518522fead632 |
 | DI_PACKAGE_ID                           | 0xe8ab46a6a9e24ee824a819f6e2aa68cc4bb4f6981057495c9919755ed74f7099 |

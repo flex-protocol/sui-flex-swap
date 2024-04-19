@@ -73,7 +73,7 @@ module sui_swap_core::trade_pool_aggregate {
     }
 
     #[allow(unused_mut_parameter)]
-    public(friend) fun initialize_trade_pool_with_empty_x_reserve<X: key + store, Y>(
+    public fun initialize_trade_pool_with_empty_x_reserve<X: key + store, Y>(
         exchange: &mut Exchange,
         y_amount: Balance<Y>,
         exchange_rate_numerator: u64,
