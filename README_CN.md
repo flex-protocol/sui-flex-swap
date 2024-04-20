@@ -37,8 +37,33 @@
 sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 ```
 
-如果命令执行成功，在终端中会输出这次发布的交易摘要。 记录下这个交易摘要，比如 `AJoNuD8kstRtHjDzrKLJngfd7EanNy1v1GFHjSW4M5Uz`。
-在设置链下服务的时候，我们需要用到它。
+如果命令执行成功，在终端中会输出这次发布的交易摘要。 记录下这个交易摘要，在设置链下服务的时候，我们需要用到它。
+
+#### Sui testnet 部署记录
+
+```text
+publish core package... publish_core_txn_digest: Ea7L7cbe4pP6QgnkqAKu1vvxPYh6ZEcjQAWmTxyRq3CW
+core_package_id: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
+
+objectType: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072::exchange::Exchange
+objectId: 0x086a967e383f82cba8b1b7dd02995492019eac386dd0c86cf8e12436cabcc8cb
+
+objectType: 0x2::package::Publisher
+objectId: 0x35baa5967d82a6a8f41b92e9b3d8aebef0d43f6bc59e0220fa1bd5283c7c1417
+
+objectType: 0x2::package::Publisher
+objectId: 0x073a89cab7e9b86b307cf30c8d248ddad40bbc9077260ce2a42aa72849a04d10
+
+objectType: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072::exchange::AdminCap
+objectId: 0xe405cb87f70e62ec508afdb58cf0d25dd1a2fd95a26077bfe076a2bf2c2da10b
+
+objectType: 0x2::package::UpgradeCap
+objectId: 0xf38baaf62a36c350cdf05e6b7de1a53c5f5b964b44735e547bebf6ccc636a736
+
+token_pair_object_id_1: 0x32295beac0c29ba32bd35cb38d8ef9984f474ce91b21bfd0945a9a7186f9fd9c
+liquidity_token_object_id_1: 0x57e3523a340af3c633f04aaf1dec288dd6d0332faf170398668922ff994d5725
+```
+
 
 ### 一些可能需要的准备工作
 
@@ -87,14 +112,22 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 
 ### 初始化流动性
 
-注意初始化流动性函数所需要的参数，下面的命令假设：
+注意，初始化流动性的操作目前需要合约的发布者（拥有 publisher 对象）来执行。
 
-* 模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
-* 假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`，
-* Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`，
-* 测试币（EXAMPLE_COIN）Coin 对象的 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+初始化流动性函数的参数：
 
-所以，需要执行的命令类似下面这样：
+* 类型参数 `X` 和 `Y` 表示代币对的两种代币类型。
+    下面的命令假设我们的 X 代币是 SUI，所以类型参数是 `0x2::sui::SUI`；
+    Y 代币是 EXAMPLE_COIN，所以类型参数是 `{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN`。
+* publisher: &sui::package::Publisher. 
+    下面的示例命令假设模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
+* exchange: &mut Exchange. 下面假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`。
+* x_coin: Coin<X>. 下面 Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
+* x_amount: u64. 初始化存入的 X 代币的数量。
+* y_coin: Coin<Y>. 下面假设 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+* y_amount: u64. 初始化存入的 Y 代币的数量。
+
+使用 Sui CLI 像下面这样执行命令：
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function initialize_liquidity \
@@ -109,19 +142,28 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 --gas-budget 30000000
 ```
 
-注意输出的 `TokenPair` 对象的 Id（在添加流动性的时候，我们需要使用它）：
+注意记录下交易执行成功后输出的 `TokenPair` 对象的 Id（在添加流动性的时候，我们需要使用它）：
 
 ```text
 │  ┌──                                                                                                                                                                                                                               │
 │  │ ObjectID: 0x8a7c305c010a481d49a74a2a8ad3148d20e38452eaacab0e720477f0e4d75acd                                                                                                                                                    │
 │  │ Sender: 0x...                                                                                                                                                                                                                   │
 │  │ Owner: Shared                                                                                                                                                                                                                   │
-│  │ ObjectType: {CORE_PACKAGE_ID}::token_pair::TokenPair<0x2::sui::SUI, {EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>            │
+│  │ ObjectType: {CORE_PACKAGE_ID}::token_pair::TokenPair<0x2::sui::SUI, {EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>
 ```
 
 ### 添加流动性
 
-添加流动性：
+添加流动性函数的参数：
+
+* 类型参数 `X` 和 `Y` 表示代币对（池子）的两种代币类型。
+* token_pair: &mut TokenPair<X, Y>. 上面初始化流动性的时候记录的 `TokenPair` 对象的 Id。
+* x_coin: Coin<X>. 下面假设 Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
+* x_amount: u64. 添加的 X 代币的数量。下面的示例假设为 `1000`。
+* y_coin: Coin<Y>. 下面假设 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+* y_amount: u64. 添加的 Y 代币的数量。下面的示例假设为 `100000000`。
+* expected_liquidity_amount: Option<u64>. 期望获得的流动性 Token 的 amount（流动性 Token 可以理解为池子的“股份”）。
+    本参数是可选的（以空数组表示“空值”；非空值以只有一个元素的数组来表示）。如果不提供，则表示不管获得多少流动性 token 交易的发送者都可以接受。
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function add_liquidity \
@@ -135,7 +177,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 --gas-budget 30000000
 ```
 
-注意输出中的 `LiquidityToken` 对象的 Id：
+注意输出中的 `LiquidityToken` 对象的 Id，移除流动性的时候，需要使用它。
 
 ```text
 │ Created Objects:                                                                                                                                                                                                                   │
@@ -148,7 +190,15 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 
 ### 移除流动性
 
-移除流动性：
+移除流动性函数的参数：
+
+* 类型参数 `X` 和 `Y` 表示代币对（池子）的两种代币类型。
+* token_pair: &mut TokenPair<X, Y>.
+* liquidity_token: LiquidityToken<X, Y>. 添加流动性时，获得的 `LiquidityToken` 对象的 Id。
+* x_coin: &mut Coin<X>. 下面假设 X 代币（SUI）的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
+* y_coin: &mut Coin<Y>. 下面假设 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+* expected_x_amount: Option<u64>. 期望获得的 X 代币的数量。本参数是可选的。如果不提供，则表示不管获得多少 X 代币交易的发送者都可以接受。
+* expected_y_amount: Option<u64>. 期望获得的 Y 代币的数量。本参数是可选的。如果不提供，则表示不管获得多少 Y 代币交易的发送者都可以接受。
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function remove_liquidity \
@@ -163,7 +213,13 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 
 ### 兑换
 
-兑换，以 Token X 换出 Token Y：
+兑换，以 Token X 换出 Token Y，参数：
+
+* token_pair: &mut TokenPair<X, Y>.
+* x_coin: Coin<X>. 下面假设 X 代币（SUI）的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
+* x_amount: u64. 打算兑换（换入）的 X 代币数量。
+* y_coin: &mut Coin<Y>. 下面假设用于接受换出的 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
+* expected_y_amount_out: u64. 期望获得的 Y 代币的数量。如果合约计算发现实际可获得的 Y 代币数量小于这个值，则交易失败。
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_x \
@@ -177,7 +233,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 --gas-budget 30000000
 ```
 
-反方向兑换，以 Token Y 换出 Token X：
+反方向兑换，以 Token Y 换出 Token X，函数的参数和 `swap_x` 函数类似，不再赘述。示例命令：
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_y \
