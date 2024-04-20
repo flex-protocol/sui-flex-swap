@@ -42,8 +42,9 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 #### Sui testnet 部署记录
 
 ```text
-publish core package... publish_core_txn_digest: Ea7L7cbe4pP6QgnkqAKu1vvxPYh6ZEcjQAWmTxyRq3CW
-core_package_id: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
+publish core package...
+publish_core_txn_digest: Ea7L7cbe4pP6QgnkqAKu1vvxPYh6ZEcjQAWmTxyRq3CW
+CORE_PACKAGE_ID: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
 
 objectType: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072::exchange::Exchange
 objectId: 0x086a967e383f82cba8b1b7dd02995492019eac386dd0c86cf8e12436cabcc8cb
@@ -62,6 +63,9 @@ objectId: 0xf38baaf62a36c350cdf05e6b7de1a53c5f5b964b44735e547bebf6ccc636a736
 
 token_pair_object_id_1: 0x32295beac0c29ba32bd35cb38d8ef9984f474ce91b21bfd0945a9a7186f9fd9c
 liquidity_token_object_id_1: 0x57e3523a340af3c633f04aaf1dec288dd6d0332faf170398668922ff994d5725
+
+EXAMPLE_COIN_PACKAGE_ID: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
+EXAMPLE_COIN_TREASURY_CAP_OBJECT_ID: 0x552014be591d4bbfab8444707ea6176124ac7e4a8bd56616d7b7f147328b2662
 ```
 
 
@@ -73,9 +77,7 @@ liquidity_token_object_id_1: 0x57e3523a340af3c633f04aaf1dec288dd6d0332faf1703986
 
 注意，mint 测试币需要传入的第一个参数是一个类型为 `0x0000..0002::coin::TreasuryCap` 的对象的 Id。
 你可以在部署合约时，终端的输出信息中发现它。
-
-假设我们部署的测试币合约的包 Id 是 `{EXAMPLE_COIN_PACKAGE_ID}`，
-那么，像下面这样给自己 mint 一些测试币：
+假设我们部署的测试币合约的包 Id 是 `{EXAMPLE_COIN_PACKAGE_ID}`， 那么，像下面这样给自己 mint 一些测试币：
 
 
 ```shell
@@ -94,7 +96,7 @@ sui client call --package {EXAMPLE_COIN_PACKAGE_ID} --module example_coin --func
 │  │ ObjectType: 0x2::coin::Coin<{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN>         │
 ```
 
-记录下创建的测试币的 Coin 对象的 Id，比如 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`：
+记录下 mint 得到的测试币的 Coin 对象的 Id，下面的测试可以使用它。
 
 查看当前账户中的 Sui Coin 对象：
 
