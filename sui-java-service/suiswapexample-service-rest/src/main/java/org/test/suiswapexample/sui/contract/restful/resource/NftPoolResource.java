@@ -1,4 +1,4 @@
-package org.test.suiswapexample.sui.contract.resource;
+package org.test.suiswapexample.sui.contract.restful.resource;
 
 import com.github.wubuku.sui.bean.*;
 import com.github.wubuku.sui.utils.SuiJsonRpcClient;
