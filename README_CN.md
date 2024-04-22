@@ -227,7 +227,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 * x_coin: Coin<X>. 下面假设 X 代币（SUI）的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
 * x_amount: u64. 打算兑换（换入）的 X 代币数量。
 * y_coin: &mut Coin<Y>. 下面假设用于接受换出的 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
-* expected_y_amount_out: u64. 期望获得的 Y 代币的数量。如果合约计算发现实际可获得的 Y 代币数量小于这个值，则交易失败。
+* expected_y_amount_out: u64. 期望获得的 Y 代币的数量。如果合约计算发现实际可获得的 Y 代币数量小于这个值，则交易失败。关于如何计算这个值，可以参考下面的链下服务接口描述。
 
 ```shell
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function swap_x \
@@ -257,7 +257,63 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 
 ### 测试链下服务
 
-请参考英文版本。
+关于配置和启动链下服务，请参考英文版本。
+
+#### 计算“初始化移动性”可获得的 Liquidity Amount
+
+示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/utils/calculateLiquidity?totalSupplied=0&xReserve=0&yReserve=0&xAmount=1000000&yAmount=1000000" -H "accept: application/json"
+```
+
+#### 计算“添加移动性”可获得的 Liquidity Amount
+
+示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/utils/calculateLiquidity?totalSupplied=999000&xReserve=1000000&yReserve=1000000&xAmount=500000&yAmount=500000" -H "accept: application/json"
+```
+
+查询参数说明：
+
+* totalSupplied: 已经存入的流动性的总量。
+* xReserve: 池子中 X 代币的储备量。
+* yReserve: 池子中 Y 代币的储备量。
+* xAmount: 打算存入的 X 代币数量。
+* yAmount: 打算存入的 Y 代币数量。一般来说，存入的 X 代币数量和 Y 代币的比例应该和池子中的 X 代币数量和 Y 代币数量的比例一致，此时流动性提供者获得的收益最大。
+
+
+#### 计算“移除流动性”可获得的 X 和 Y 代币数量
+
+示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/utils/calculateTokenPairAmountsOfLiquidity?totalSupplied=999000&xReserve=1000000&yReserve=1000000&liquidity=300000" -H "accept: application/json"
+```
+
+查询参数说明：
+
+* totalSupplied: 已经存入的流动性的总量。
+* xReserve: 池子中 X 代币的储备量。
+* yReserve: 池子中 Y 代币的储备量。
+* liquidity: 打算移除的流动性数量。
+
+#### 计算“兑换 X”可获得的 Y 代币数量
+
+示例：
+
+```shell
+curl -X GET "http://localhost:1023/api/utils/calculateSwapAmountOut?xReserve=500000&yReserve=500000&xAmountIn=100000&feeNumerator=3&feeDenominator=1000" -H "accept: application/json"
+```
+
+查询参数说明：
+
+* xReserve: 池子中 X 代币的储备量。
+* yReserve: 池子中 Y 代币的储备量。
+* xAmountIn: 打算换入的 X 代币数量。
+* feeNumerator: 手续费的分子。
+* feeDenominator: 手续费的分母。在上面的示例中，手续费是 `0.3%`。
 
 
 ### 关于链下服务 API
