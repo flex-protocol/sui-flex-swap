@@ -38,19 +38,6 @@ public class TokenPairCommands {
         }
 
         /**
-         * Exchange
-         */
-        private String exchange;
-
-        public String getExchange() {
-            return this.exchange;
-        }
-
-        public void setExchange(String exchange) {
-            this.exchange = exchange;
-        }
-
-        /**
          * Off Chain Version
          */
         private Long offChainVersion;

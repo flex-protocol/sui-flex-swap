@@ -253,7 +253,7 @@ public class TokenPairResource {
  
     public static class TokenPairResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, TokenPairCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiswapexample.domain.tokenpair.TokenPairCommand value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

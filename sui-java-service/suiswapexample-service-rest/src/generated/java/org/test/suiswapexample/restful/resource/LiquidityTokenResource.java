@@ -235,7 +235,7 @@ public class LiquidityTokenResource {
  
     public static class LiquidityTokenResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, LiquidityTokenCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiswapexample.domain.liquiditytoken.LiquidityTokenCommand value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

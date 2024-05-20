@@ -17,8 +17,6 @@ import java.util.*;
 public class LiquidityInitialized {
     private String id;
 
-    private String exchangeId;
-
     private String provider;
 
     private String x_TokenType;
@@ -39,14 +37,6 @@ public class LiquidityInitialized {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getExchangeId() {
-        return exchangeId;
-    }
-
-    public void setExchangeId(String exchangeId) {
-        this.exchangeId = exchangeId;
     }
 
     public String getProvider() {
@@ -109,7 +99,6 @@ public class LiquidityInitialized {
     public String toString() {
         return "LiquidityInitialized{" +
                 "id=" + '\'' + id + '\'' +
-                ", exchangeId=" + '\'' + exchangeId + '\'' +
                 ", provider=" + '\'' + provider + '\'' +
                 ", x_TokenType=" + '\'' + x_TokenType + '\'' +
                 ", y_TokenType=" + '\'' + y_TokenType + '\'' +

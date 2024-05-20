@@ -1,20 +1,20 @@
 module sui_swap_example::token_pair_service {
 
     use std::option::Option;
+
     use sui::balance::Balance;
     use sui::coin::{Self, Coin};
     use sui::transfer;
     use sui::tx_context;
     use sui::tx_context::TxContext;
 
-    use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair::TokenPair;
     use sui_swap_example::token_pair_aggregate;
 
     public entry fun initialize_liquidity<X, Y>(
-        publisher: &sui::package::Publisher,
-        exchange: &mut Exchange,
+        // publisher: &sui::package::Publisher,
+        // exchange: &mut Exchange,
         x_coin: Coin<X>,
         x_amount: u64,
         y_coin: Coin<Y>,
@@ -24,8 +24,8 @@ module sui_swap_example::token_pair_service {
         let x_amount_b = split_up_and_into_balance(x_coin, x_amount, ctx);
         let y_amount_b = split_up_and_into_balance(y_coin, y_amount, ctx);
         token_pair_aggregate::initialize_liquidity(
-            publisher,
-            exchange,
+            // publisher,
+            // exchange,
             x_amount_b,
             y_amount_b,
             ctx,

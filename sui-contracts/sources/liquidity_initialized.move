@@ -14,10 +14,6 @@ module sui_swap_example::liquidity_initialized {
         token_pair::liquidity_initialized_id(liquidity_initialized)
     }
 
-    public fun exchange_id(liquidity_initialized: &LiquidityInitialized): ID {
-        token_pair::liquidity_initialized_exchange_id(liquidity_initialized)
-    }
-
     public fun provider(liquidity_initialized: &LiquidityInitialized): address {
         token_pair::liquidity_initialized_provider(liquidity_initialized)
     }

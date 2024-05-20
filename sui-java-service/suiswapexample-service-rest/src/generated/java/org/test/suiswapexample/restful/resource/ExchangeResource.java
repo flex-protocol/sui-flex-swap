@@ -171,6 +171,24 @@ public class ExchangeResource {
     }
 
 
+    @PutMapping("{id}/_commands/AddTokenPair")
+    public void addTokenPair(@PathVariable("id") String id, @RequestBody ExchangeCommands.AddTokenPair content) {
+        try {
+
+            ExchangeCommands.AddTokenPair cmd = content;//.toAddTokenPair();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            exchangeApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+
     @PutMapping("{id}/_commands/Update")
     public void update(@PathVariable("id") String id, @RequestBody ExchangeCommands.Update content) {
         try {
@@ -253,7 +271,7 @@ public class ExchangeResource {
  
     public static class ExchangeResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, ExchangeCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiswapexample.domain.exchange.ExchangeCommand value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

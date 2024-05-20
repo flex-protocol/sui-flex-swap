@@ -5,26 +5,28 @@
 
 module sui_swap_example::exchange_aggregate {
     use std::string::String;
-    use sui::object::ID;
     use sui::tx_context;
     use sui_swap_example::exchange;
     use sui_swap_example::exchange_add_token_pair_logic;
     use sui_swap_example::exchange_update_logic;
+    use sui_swap_example::token_pair::TokenPair;
 
-    friend sui_swap_example::token_pair_initialize_liquidity_logic;
     friend sui_swap_example::token_pair_service;
 
-    const EInvalidAdminCap: u64 = 50;
+    const EInvalidPublisher: u64 = 50;
+    const EInvalidAdminCap: u64 = 51;
 
     #[allow(unused_mut_parameter)]
-    public(friend) fun add_token_pair<X, Y>(
+    public entry fun add_token_pair<X, Y>(
         exchange: &mut exchange::Exchange,
-        token_pair_id: ID,
+        publisher: &sui::package::Publisher,
+        token_pair: &TokenPair<X, Y>,
         ctx: &mut tx_context::TxContext,
     ) {
+        assert!(sui::package::from_package<exchange::Exchange>(publisher), EInvalidPublisher);
         exchange::assert_schema_version(exchange);
         let token_pair_added_to_exchange = exchange_add_token_pair_logic::verify<X, Y>(
-            token_pair_id,
+            token_pair,
             exchange,
             ctx,
         );

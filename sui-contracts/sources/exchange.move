@@ -18,6 +18,7 @@ module sui_swap_example::exchange {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
 
     /// Not the right admin for the object

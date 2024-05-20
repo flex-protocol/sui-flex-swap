@@ -17,6 +17,15 @@ sui client call --package _PACKAGE_ID_ --module token_pair_aggregate --function 
 
 ## Exchange singleton object
 
+### AddTokenPair method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module exchange_aggregate --function add_token_pair \
+--type-args 'X' 'Y' \
+--args exchange_Object_ID \"_SUI_PACKAGE_PUBLISHER_OBJECT_ID_\" \"_TOKEN_PAIR<_X,_Y>_OBJECT_ID_\" \
+--gas-budget 100000
+```
+
 ### Update method
 
 ```shell

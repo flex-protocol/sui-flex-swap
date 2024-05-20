@@ -76,16 +76,16 @@ public class ExchangeCommands {
         }
 
         /**
-         * Token Pair Id
+         * Token Pair
          */
-        private String tokenPairId;
+        private String tokenPair;
 
-        public String getTokenPairId() {
-            return this.tokenPairId;
+        public String getTokenPair() {
+            return this.tokenPair;
         }
 
-        public void setTokenPairId(String tokenPairId) {
-            this.tokenPairId = tokenPairId;
+        public void setTokenPair(String tokenPair) {
+            this.tokenPair = tokenPair;
         }
 
         /**

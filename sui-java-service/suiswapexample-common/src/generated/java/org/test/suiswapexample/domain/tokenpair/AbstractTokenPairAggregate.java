@@ -59,20 +59,19 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             apply(e);
         }
 
-        protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, String exchange, TokenPairCommands.InitializeLiquidity c) {
-            String Exchange = exchange;
+        protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairCommands.InitializeLiquidity c) {
 
             TokenPairEvent.LiquidityInitialized e = (TokenPairEvent.LiquidityInitialized) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.InitializeLiquidityLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, String.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), exchange, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class InitializeLiquidityLogic {
-//    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, String exchange, VerificationContext verificationContext) {
+//    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
 //    }
 //}
 

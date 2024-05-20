@@ -35,7 +35,7 @@ aggregates:
     methods:
       InitializeLiquidity:
         isCreationCommand: true
-        requiredPermission: "__Publisher__"
+        #requiredPermission: "__Publisher__"
         typeParameters:
           X: {}
           Y: {}
@@ -43,10 +43,10 @@ aggregates:
           X: X
           Y: Y
         parameters:
-          Exchange:
-            referenceType: Exchange
-            isMutableReference: true
-            eventPropertyName: ExchangeId
+          #Exchange:
+          #  referenceType: Exchange
+          #  isMutableReference: true
+          #  eventPropertyName: ExchangeId
           X_Amount:
             type: Balance<X>
           Y_Amount:
@@ -278,7 +278,7 @@ aggregates:
 
 singletonObjects:
   Exchange:
-    friends: [ "TokenPair.InitializeLiquidity" ]
+    #friends: [ "TokenPair.InitializeLiquidity" ]
     metadata:
       #Preprocessors: [ "MOVE_CRUD_IT" ]
       #CRUD_IT_NO_UPDATE: true
@@ -307,17 +307,21 @@ singletonObjects:
           isObjectShared: true # Share the object after initialization.
 
       AddTokenPair:
-        isInternal: true
+        requiredPermission: "__Publisher__"
+        #isInternal: true
         #shouldCallByReference: true
         typeParameters:
           X: {}
           Y: {}
         parameters:
-          TokenPairId:
-            type: ID #ObjectID
+          TokenPair:
+            referenceType: TokenPair<X, Y>
+            isIgnoredInEvent: true
         event:
           name: TokenPairAddedToExchange
           properties:
+            TokenPairId:
+              type: ID #ObjectID
             X_TokenType:
               type: String
             Y_TokenType:
@@ -339,11 +343,11 @@ services:
           X: {}
           Y: {}
         parameters:
-          Publisher:
-            referenceType: "sui::package::Publisher"
-          Exchange:
-            referenceType: Exchange
-            isMutableReference: true
+          #Publisher:
+          #  referenceType: "sui::package::Publisher"
+          #Exchange:
+          #  referenceType: Exchange
+          #  isMutableReference: true
           X_Coin:
             type: Coin<X>
           X_Amount:

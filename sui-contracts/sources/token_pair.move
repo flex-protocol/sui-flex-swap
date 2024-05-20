@@ -24,6 +24,7 @@ module sui_swap_example::token_pair {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
     const EEmptyObjectID: u64 = 107;
 
@@ -143,7 +144,6 @@ module sui_swap_example::token_pair {
 
     struct LiquidityInitialized has copy, drop {
         id: option::Option<object::ID>,
-        exchange_id: ID,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -159,10 +159,6 @@ module sui_swap_example::token_pair {
 
     public(friend) fun set_liquidity_initialized_id(liquidity_initialized: &mut LiquidityInitialized, id: object::ID) {
         liquidity_initialized.id = option::some(id);
-    }
-
-    public fun liquidity_initialized_exchange_id(liquidity_initialized: &LiquidityInitialized): ID {
-        liquidity_initialized.exchange_id
     }
 
     public fun liquidity_initialized_provider(liquidity_initialized: &LiquidityInitialized): address {
@@ -195,7 +191,6 @@ module sui_swap_example::token_pair {
 
     #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X, Y>(
-        exchange_id: ID,
         provider: address,
         x_token_type: String,
         y_token_type: String,
@@ -206,7 +201,6 @@ module sui_swap_example::token_pair {
     ): LiquidityInitialized {
         LiquidityInitialized {
             id: option::none(),
-            exchange_id,
             provider,
             x_token_type,
             y_token_type,

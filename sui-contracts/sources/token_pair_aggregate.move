@@ -7,7 +7,6 @@ module sui_swap_example::token_pair_aggregate {
     use std::option::Option;
     use sui::balance::Balance;
     use sui::tx_context;
-    use sui_swap_example::exchange::Exchange;
     use sui_swap_example::liquidity_token::LiquidityToken;
     use sui_swap_example::token_pair;
     use sui_swap_example::token_pair_add_liquidity_logic;
@@ -19,20 +18,15 @@ module sui_swap_example::token_pair_aggregate {
 
     friend sui_swap_example::token_pair_service;
 
-    const EInvalidPublisher: u64 = 50;
-    const EInvalidAdminCap: u64 = 51;
+    const EInvalidAdminCap: u64 = 50;
 
     #[allow(unused_mut_parameter)]
     public fun initialize_liquidity<X, Y>(
-        publisher: &sui::package::Publisher,
-        exchange: &mut Exchange,
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
         ctx: &mut tx_context::TxContext,
     ) {
-        assert!(sui::package::from_package<token_pair::TokenPair<X, Y>>(publisher), EInvalidPublisher);
         let liquidity_initialized = token_pair_initialize_liquidity_logic::verify<X, Y>(
-            exchange,
             &x_amount,
             &y_amount,
             ctx,
@@ -41,7 +35,6 @@ module sui_swap_example::token_pair_aggregate {
             &liquidity_initialized,
             x_amount,
             y_amount,
-            exchange,
             ctx,
         );
         token_pair::set_liquidity_initialized_id(&mut liquidity_initialized, token_pair::id(&token_pair));

@@ -1,5 +1,6 @@
 [package]
-published-at = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
+published-at = "0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa"
+#published-at = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
 name = "sui_swap_example"
 version = "0.0.1"
 
@@ -8,5 +9,6 @@ version = "0.0.1"
 Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-sui_swap_example = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
+sui_swap_example = "0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa"
+#sui_swap_example = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
 #sui_swap_example = "0x0"

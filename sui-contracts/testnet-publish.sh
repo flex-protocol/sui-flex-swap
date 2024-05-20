@@ -5,12 +5,34 @@
 
 # The following are the object IDs of the SUI objects that are used in the following script.
 # Make sure the amounts of the following SUI objects are greater than 200000000
-sui_coin_object_id_1="0x42ce68efec70dc482cafb4eb6f6e759074ab8397202cb8002f9fb33130951758"
-sui_coin_object_id_2="0x719daa0c3c4a06f72e9efa1fcf0a96a178065895c23be0e10eaece30fd8c24c9"
+sui_coin_object_id_1="0xdd9b2417fd5a1a34ca1c4f39b979c05d63f924ebe3de3d6db677ef8027e658ea"
+sui_coin_object_id_2="0xa8de6bd2d0c22acb3207ffffad4dbb0be223577415c88bdd8a6bea698fc81991"
 
 # -------- Constants --------
 move_toml_file="Move.toml"
 move_toml_temp="Move-temp.toml"
+
+
+# -------- reset core Move.toml --------
+while read -r line
+do
+if [[ $line == "published-at ="* ]]
+  then
+    echo "#$line" >> $move_toml_temp
+elif [[ $line == "sui_swap_example ="* ]]
+  then
+    echo "#$line" >> $move_toml_temp
+elif [[ $line == "[addresses]" ]]
+  then
+    echo "$line" >> $move_toml_temp
+    echo "sui_swap_example = \"0x0\"" >> $move_toml_temp
+else
+  echo "$line" >> $move_toml_temp
+fi
+done < $move_toml_file
+
+mv $move_toml_temp $move_toml_file
+
 
 log_file="testnet-publish.log"
 echo "#-------- publish core package --------" | tee -a "$log_file"
@@ -108,18 +130,32 @@ echo "example_coin_object_id_3: $example_coin_object_id_3" | tee -a "$log_file"
 sui client call --package "$core_package_id" --module token_pair_service --function initialize_liquidity \
 --type-args '0x2::sui::SUI' "$core_package_id"::example_coin::EXAMPLE_COIN \
 --args \
-"$publisher_object_id" \
-"$exchange_object_id" \
 "$sui_coin_object_id_1" \
 '"100000000"' \
 "$example_coin_object_id_1" \
 '"100000000"' \
 --gas-budget 30000000 --json > testnet_initialize_liquidity.json
 
+#"$publisher_object_id" \
+#"$exchange_object_id" \
+
 token_pair_object_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("token_pair::TokenPair<")).objectId' testnet_initialize_liquidity.json)
 echo "token_pair_object_id_1: $token_pair_object_id_1" | tee -a "$log_file"
 liquidity_token_object_id_1=$(jq -r '.objectChanges[] | select(.type == "created") | select(.objectType | test("liquidity_token::LiquidityToken<")).objectId' testnet_initialize_liquidity.json)
 echo "liquidity_token_object_id_1: $liquidity_token_object_id_1" | tee -a "$log_file"
+
+
+
+# Add (register) token pair into exchange
+sui client call --package "$core_package_id" --module exchange_aggregate --function add_token_pair \
+--type-args '0x2::sui::SUI' "$core_package_id"::example_coin::EXAMPLE_COIN \
+--args \
+"$exchange_object_id" \
+"$publisher_object_id" \
+"$token_pair_object_id_1" \
+--gas-budget 30000000
+#--json > testnet_add_token_pair.json
+
 
 # Add liquidity
 sui client call --package "$core_package_id" --module token_pair_service --function add_liquidity \

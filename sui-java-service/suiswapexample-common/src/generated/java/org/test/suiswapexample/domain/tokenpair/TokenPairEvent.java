@@ -22,10 +22,6 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
     }
 
     interface LiquidityInitialized extends TokenPairEvent {
-        String getExchangeId();
-
-        void setExchangeId(String value);
-
         String getProvider();
 
         void setProvider(String value);

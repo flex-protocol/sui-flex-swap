@@ -23,7 +23,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
 
     #[lint_allow(self_transfer)]
     public(friend) fun verify<X, Y>(
-        exchange: &mut Exchange,
+        // exchange: &mut Exchange,
         x_amount: &Balance<X>,
         y_amount: &Balance<Y>,
         ctx: &mut TxContext,
@@ -41,7 +41,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         transfer::public_transfer(liquidity_token, tx_context::sender(ctx));
 
         token_pair::new_liquidity_initialized<X, Y>(
-            object::id(exchange),
+            // object::id(exchange),
             tx_context::sender(ctx),
             string::from_ascii(type_name::into_string(type_name::get<X>())),
             string::from_ascii(type_name::into_string(type_name::get<Y>())),
@@ -56,7 +56,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         liquidity_initialized: &token_pair::LiquidityInitialized,
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
-        exchange: &mut Exchange,
+        // exchange: &mut Exchange,
         ctx: &mut TxContext,
     ): token_pair::TokenPair<X, Y> {
         //let exchange_id = liquidity_initialized::exchange_id(liquidity_initialized);
@@ -72,7 +72,7 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             ctx,
         );
         //
-        exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
+        // exchange_aggregate::add_token_pair<X, Y>(exchange, token_pair::id(&token_pair), ctx);
         //
         let x_reserve = token_pair::borrow_mut_x_reserve(&mut token_pair);
         sui::balance::join(x_reserve, x_amount);

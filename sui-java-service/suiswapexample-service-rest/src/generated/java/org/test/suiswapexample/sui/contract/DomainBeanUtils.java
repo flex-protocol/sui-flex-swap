@@ -60,7 +60,6 @@ public class DomainBeanUtils {
 
         AbstractTokenPairEvent.LiquidityInitialized liquidityInitialized = new AbstractTokenPairEvent.LiquidityInitialized();
         liquidityInitialized.setId(contractEvent.getId());
-        liquidityInitialized.setExchangeId(contractEvent.getExchangeId());
         liquidityInitialized.setProvider(contractEvent.getProvider());
         liquidityInitialized.setX_TokenType(contractEvent.getX_TokenType());
         liquidityInitialized.setY_TokenType(contractEvent.getY_TokenType());

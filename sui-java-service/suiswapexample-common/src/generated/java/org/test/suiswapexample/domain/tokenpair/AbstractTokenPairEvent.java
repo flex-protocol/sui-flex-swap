@@ -219,18 +219,6 @@ public abstract class AbstractTokenPairEvent extends AbstractEvent implements To
             return "LiquidityInitialized";
         }
 
-        public String getExchangeId() {
-            Object val = getDynamicProperties().get("exchangeId");
-            if (val instanceof String) {
-                return (String) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
-        }
-
-        public void setExchangeId(String value) {
-            getDynamicProperties().put("exchangeId", value);
-        }
-
         public String getProvider() {
             Object val = getDynamicProperties().get("provider");
             if (val instanceof String) {

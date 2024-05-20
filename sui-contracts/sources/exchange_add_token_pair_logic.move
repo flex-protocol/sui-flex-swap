@@ -4,22 +4,26 @@ module sui_swap_example::exchange_add_token_pair_logic {
     use std::type_name;
     use std::vector;
 
-    use sui::object::ID;
     use sui::tx_context::TxContext;
 
     use sui_swap_example::exchange;
     use sui_swap_example::exchange::Exchange;
+    use sui_swap_example::token_pair;
+    use sui_swap_example::token_pair::TokenPair;
     use sui_swap_example::token_pair_added_to_exchange;
+    use sui_swap_example::token_util;
 
     friend sui_swap_example::exchange_aggregate;
 
     const ETokenPairExists: u64 = 100;
 
     public(friend) fun verify<X, Y>(
-        token_pair_id: ID,
+        token_pair: &TokenPair<X, Y>,
         exchange: &exchange::Exchange,
         _ctx: &TxContext,
     ): exchange::TokenPairAddedToExchange {
+        token_util::assert_type_less_than<X, Y>();
+        let token_pair_id = token_pair::id(token_pair);
         let x_token_type = string::from_ascii(type_name::into_string(type_name::get<X>()));
         let y_token_type = string::from_ascii(type_name::into_string(type_name::get<Y>()));
         assert_token_pair_not_exists(exchange, x_token_type, y_token_type);
