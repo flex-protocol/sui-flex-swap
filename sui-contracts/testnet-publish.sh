@@ -5,8 +5,8 @@
 
 # The following are the object IDs of the SUI objects that are used in the following script.
 # Make sure the amounts of the following SUI objects are greater than 200000000
-sui_coin_object_id_1="0xdd9b2417fd5a1a34ca1c4f39b979c05d63f924ebe3de3d6db677ef8027e658ea"
-sui_coin_object_id_2="0xa8de6bd2d0c22acb3207ffffad4dbb0be223577415c88bdd8a6bea698fc81991"
+sui_coin_object_id_1="0xe77728165c39d03faf673b6921957a0f11cb206a41c7a40033a454ec5497390b"
+sui_coin_object_id_2="0xfbfa2a7f9c77eb422cfb74b2bc0c810b667af215c07969a488f97c641e9fc1d1"
 
 # -------- Constants --------
 move_toml_file="Move.toml"
@@ -165,7 +165,7 @@ sui client call --package "$core_package_id" --module token_pair_service --funct
 "$sui_coin_object_id_1" \
 '"90000000"' \
 "$example_coin_object_id_1" \
-'"90000000"' [] \
+'"90000000"' '[]' \
 --gas-budget 30000000 --json > testnet_add_liquidity.json
 
 # Remove liquidity
@@ -175,7 +175,7 @@ sui client call --package "$core_package_id" --module token_pair_service --funct
 "$token_pair_object_id_1" \
 "$liquidity_token_object_id_1" \
 "$sui_coin_object_id_1" \
-"$example_coin_object_id_1" [] [] \
+"$example_coin_object_id_1" '[]' '[]' \
 --gas-budget 30000000
 
 # Swap X for Y
