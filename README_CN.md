@@ -120,16 +120,11 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 
 ### 初始化流动性
 
-注意，初始化流动性的操作目前需要合约的发布者（拥有 publisher 对象）来执行。
-
 初始化流动性函数的参数：
 
 * 类型参数 `X` 和 `Y` 表示代币对的两种代币类型。
     下面的命令假设我们的 X 代币是 SUI，所以类型参数是 `0x2::sui::SUI`；
     Y 代币是 EXAMPLE_COIN，所以类型参数是 `{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN`。
-* publisher: &sui::package::Publisher. 
-    下面的示例命令假设模块 `liquidity_token` 的 publisher 对象的 Id 为 `0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116`，
-* exchange: &mut Exchange. 下面假设 `Exchange` 对象的 Id 是 `0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6`。
 * x_coin: Coin<X>. 下面 Sui 的 Coin 对象 Id 为 `0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294`。
 * x_amount: u64. 初始化存入的 X 代币的数量。
 * y_coin: Coin<Y>. 下面假设 Y 代币（EXAMPLE_COIN）的 Coin 对象 Id 为 `0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55`。
@@ -141,8 +136,6 @@ sui client pay-sui --input-coins 0x4715b65812e202a97f47f7dddf288776fabae989d1288
 sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --function initialize_liquidity \
 --type-args '0x2::sui::SUI' '{EXAMPLE_COIN_PACKAGE_ID}::example_coin::EXAMPLE_COIN' \
 --args \
-'0xeefacdaacffe5d94276a0b827c664a3abea9256a3bc82990c81cb74128f7d116' \
-'0xfc600b206b331c61bf1710bb04188d6aff2c9ceaf4e87acd75b6f2beeeb19bf6' \
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
 '"1000"' \
 '0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
@@ -254,6 +247,21 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 '"90"' \
 --gas-budget 30000000
 ```
+
+### 在 Exchange 中注册池子（token pair）
+
+注意，这个操作需要合约的发布者（拥有 publisher 对象）来执行。
+
+```shell
+sui client call --package "$core_package_id" --module exchange_aggregate --function add_token_pair \
+--type-args '0x2::sui::SUI' "$core_package_id"::example_coin::EXAMPLE_COIN \
+--args \
+"$exchange_object_id" \
+"$publisher_object_id" \
+"$token_pair_object_id" \
+--gas-budget 30000000
+```
+
 
 ### 测试链下服务
 
