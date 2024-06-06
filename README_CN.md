@@ -262,6 +262,24 @@ sui client call --package "$core_package_id" --module exchange_aggregate --funct
 --gas-budget 30000000
 ```
 
+### 更新池子的费率
+
+
+举例来说，假设池子的对象 ID 是 `0xba7d3a867b315f360f55f4f9ebab0bdd3f0669408512daf9abf9ddca122f0c61`，
+它的 `AdminCap` 对象的 ID 是 `0x2308d22d64bfcfc4e3f1308f6fbcb2e052dc7286e57fe220c48daf535fb6aea3`（你需要拥有这个对象），
+你想要将费率修改为 1/1000，可以这样执行命令：
+
+```shell
+sui client call --package 0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa \
+--module token_pair_aggregate --function update_fee_rate \
+--type-args '0x2::sui::SUI' \
+0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa::example_coin::EXAMPLE_COIN \
+--args 0xba7d3a867b315f360f55f4f9ebab0bdd3f0669408512daf9abf9ddca122f0c61 \
+0x2308d22d64bfcfc4e3f1308f6fbcb2e052dc7286e57fe220c48daf535fb6aea3 \
+1 1000 \
+--gas-budget 30000000
+```
+
 
 ### 测试链下服务
 
