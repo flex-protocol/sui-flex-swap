@@ -264,6 +264,22 @@ sui client call --package "$core_package_id" --module exchange_aggregate --funct
 
 ### 更新池子的费率
 
+你可以使用 Sui CLI 查看“池子”的信息：
+
+```shell
+sui client object {token_pair_object_id}
+```
+
+注意输出中的 `AdminCap` 对象的 ID：
+
+```text
+│               │ │ fields            │ ╭─────────────────┬───────────────────────────────────────────────────────────────────────────────╮                                                                                              │ │
+│               │ │                   │ │ admin_cap       │  0x2308d22d64bfcfc4e3f1308f6fbcb2e052dc7286e57fe220c48daf535fb6aea3           │                                                                                              │ │
+│               │ │                   │ │ fee_denominator │  1000                                                                         │                                                                                              │ │
+│               │ │                   │ │ fee_numerator   │  3                                                                            │ 
+```
+
+这个对象是你创建交易对的时候，合约向你发送（transfer）的一个对象，代表了对这个“池子”管理权限。如果你想要更新这个“池子”的费率，你需要用到。
 
 举例来说，假设池子的对象 ID 是 `0xba7d3a867b315f360f55f4f9ebab0bdd3f0669408512daf9abf9ddca122f0c61`，
 它的 `AdminCap` 对象的 ID 是 `0x2308d22d64bfcfc4e3f1308f6fbcb2e052dc7286e57fe220c48daf535fb6aea3`（你需要拥有这个对象），
