@@ -23,14 +23,8 @@ aggregates:
         type: u64
       FeeNumerator:
         type: u64
-        defaultLogic:
-          Move:
-            '3'
       FeeDenominator:
         type: u64
-        defaultLogic:
-          Move:
-            '1000'
 
     methods:
       InitializeLiquidity:
@@ -51,6 +45,13 @@ aggregates:
             type: Balance<X>
           Y_Amount:
             type: Balance<Y>
+          FeeNumerator:
+            type: u64
+            eventPropertyName: FeeNumerator # To control the position of the event property corresponding to the param.
+          FeeDenominator:
+            type: u64
+            sequenceNumber: 101
+            eventPropertyName: FeeDenominator
         event:
           name: LiquidityInitialized
           isObjectShared: true # Share the object after created.
@@ -71,6 +72,10 @@ aggregates:
               type: u64
             LiquidityTokenId:
               type: ID #ObjectID
+            FeeNumerator:
+              type: u64
+            FeeDenominator:
+              type: u64
 
       UpdateFeeRate:
         requiredPermission: AdminCap
@@ -355,6 +360,10 @@ services:
           Y_Coin:
             type: Coin<Y>
           Y_Amount:
+            type: u64
+          FeeNumerator:
+            type: u64
+          FeeDenominator:
             type: u64
 
       AddLiquidity:

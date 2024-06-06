@@ -19,6 +19,8 @@ module sui_swap_example::token_pair_service {
         x_amount: u64,
         y_coin: Coin<Y>,
         y_amount: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut tx_context::TxContext,
     ) {
         let x_amount_b = split_up_and_into_balance(x_coin, x_amount, ctx);
@@ -28,6 +30,8 @@ module sui_swap_example::token_pair_service {
             // exchange,
             x_amount_b,
             y_amount_b,
+            fee_numerator,
+            fee_denominator,
             ctx,
         )
     }

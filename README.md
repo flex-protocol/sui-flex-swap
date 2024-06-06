@@ -213,7 +213,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
 '"1000"' \
 '0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
+'"100000000"' 3 1000 \
 --gas-budget 30000000
 ```
 

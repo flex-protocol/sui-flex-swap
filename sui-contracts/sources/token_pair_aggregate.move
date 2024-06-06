@@ -24,11 +24,15 @@ module sui_swap_example::token_pair_aggregate {
     public fun initialize_liquidity<X, Y>(
         x_amount: Balance<X>,
         y_amount: Balance<Y>,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut tx_context::TxContext,
     ) {
         let liquidity_initialized = token_pair_initialize_liquidity_logic::verify<X, Y>(
             &x_amount,
             &y_amount,
+            fee_numerator,
+            fee_denominator,
             ctx,
         );
         let token_pair = token_pair_initialize_liquidity_logic::mutate<X, Y>(

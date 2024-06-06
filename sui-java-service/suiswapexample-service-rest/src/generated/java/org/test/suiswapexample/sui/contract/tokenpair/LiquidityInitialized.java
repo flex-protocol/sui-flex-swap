@@ -31,6 +31,10 @@ public class LiquidityInitialized {
 
     private String liquidityTokenId;
 
+    private BigInteger feeNumerator;
+
+    private BigInteger feeDenominator;
+
     public String getId() {
         return id;
     }
@@ -95,6 +99,22 @@ public class LiquidityInitialized {
         this.liquidityTokenId = liquidityTokenId;
     }
 
+    public BigInteger getFeeNumerator() {
+        return feeNumerator;
+    }
+
+    public void setFeeNumerator(BigInteger feeNumerator) {
+        this.feeNumerator = feeNumerator;
+    }
+
+    public BigInteger getFeeDenominator() {
+        return feeDenominator;
+    }
+
+    public void setFeeDenominator(BigInteger feeDenominator) {
+        this.feeDenominator = feeDenominator;
+    }
+
     @Override
     public String toString() {
         return "LiquidityInitialized{" +
@@ -106,6 +126,8 @@ public class LiquidityInitialized {
                 ", y_Amount=" + y_Amount +
                 ", liquidityAmount=" + liquidityAmount +
                 ", liquidityTokenId=" + '\'' + liquidityTokenId + '\'' +
+                ", feeNumerator=" + feeNumerator +
+                ", feeDenominator=" + feeDenominator +
                 '}';
     }
 

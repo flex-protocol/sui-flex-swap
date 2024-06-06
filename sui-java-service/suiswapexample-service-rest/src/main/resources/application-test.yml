@@ -21,6 +21,6 @@ sui:
     jsonrpc:
       #url: "http://localhost:9000"
       #url: "https://fullnode.devnet.sui.io/"
-      #url: "https://fullnode.testnet.sui.io/"
-      url: "https://sui.devnet.m2.movementlabs.xyz/"
-    package-publish-transaction: "7qeUDVCQDUP92NUNGfxkRjuRXCrCn72cuAtsZHWoHqvN"
+      url: "https://fullnode.testnet.sui.io/"
+      #url: "https://sui.devnet.m2.movementlabs.xyz/"
+    package-publish-transaction: "9k2iqeeV9Gnf95SNv1B6otnj5uVRLJHBLs6YbxsH2JoU"

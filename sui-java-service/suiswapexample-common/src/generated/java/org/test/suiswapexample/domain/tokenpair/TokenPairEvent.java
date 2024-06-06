@@ -50,6 +50,14 @@ public interface TokenPairEvent extends Event, SuiEventEnvelope, SuiMoveEvent, H
 
         void setLiquidityTokenId(String value);
 
+        BigInteger getFeeNumerator();
+
+        void setFeeNumerator(BigInteger value);
+
+        BigInteger getFeeDenominator();
+
+        void setFeeDenominator(BigInteger value);
+
     }
 
     interface FeeRateUpdated extends TokenPairEvent {

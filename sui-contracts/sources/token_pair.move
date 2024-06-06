@@ -116,6 +116,8 @@ module sui_swap_example::token_pair {
 
     public(friend) fun new_token_pair<X, Y>(
         total_liquidity: u64,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut TxContext,
     ): TokenPair<X, Y> {
         let admin_cap = AdminCap {
@@ -131,8 +133,8 @@ module sui_swap_example::token_pair {
             x_reserve: sui::balance::zero(),
             y_reserve: sui::balance::zero(),
             total_liquidity,
-            fee_numerator: 3,
-            fee_denominator: 1000,
+            fee_numerator,
+            fee_denominator,
         }
     }
 
@@ -151,6 +153,8 @@ module sui_swap_example::token_pair {
         y_amount: u64,
         liquidity_amount: u64,
         liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
     }
 
     public fun liquidity_initialized_id(liquidity_initialized: &LiquidityInitialized): option::Option<object::ID> {
@@ -189,6 +193,14 @@ module sui_swap_example::token_pair {
         liquidity_initialized.liquidity_token_id
     }
 
+    public fun liquidity_initialized_fee_numerator(liquidity_initialized: &LiquidityInitialized): u64 {
+        liquidity_initialized.fee_numerator
+    }
+
+    public fun liquidity_initialized_fee_denominator(liquidity_initialized: &LiquidityInitialized): u64 {
+        liquidity_initialized.fee_denominator
+    }
+
     #[allow(unused_type_parameter)]
     public(friend) fun new_liquidity_initialized<X, Y>(
         provider: address,
@@ -198,6 +210,8 @@ module sui_swap_example::token_pair {
         y_amount: u64,
         liquidity_amount: u64,
         liquidity_token_id: ID,
+        fee_numerator: u64,
+        fee_denominator: u64,
     ): LiquidityInitialized {
         LiquidityInitialized {
             id: option::none(),
@@ -208,6 +222,8 @@ module sui_swap_example::token_pair {
             y_amount,
             liquidity_amount,
             liquidity_token_id,
+            fee_numerator,
+            fee_denominator,
         }
     }
 

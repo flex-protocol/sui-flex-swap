@@ -48,30 +48,39 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 #### Sui testnet 部署记录
 
 ```text
-publish core package...
-publish_core_txn_digest: Ea7L7cbe4pP6QgnkqAKu1vvxPYh6ZEcjQAWmTxyRq3CW
-CORE_PACKAGE_ID: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
+#-------- publish core package --------
+publish core package. publish_core_txn_digest: 9k2iqeeV9Gnf95SNv1B6otnj5uVRLJHBLs6YbxsH2JoU
+core_package_id: 0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729
 
-objectType: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072::exchange::Exchange
-objectId: 0x086a967e383f82cba8b1b7dd02995492019eac386dd0c86cf8e12436cabcc8cb
-
-objectType: 0x2::package::Publisher
-objectId: 0x35baa5967d82a6a8f41b92e9b3d8aebef0d43f6bc59e0220fa1bd5283c7c1417
-
-objectType: 0x2::package::Publisher
-objectId: 0x073a89cab7e9b86b307cf30c8d248ddad40bbc9077260ce2a42aa72849a04d10
-
-objectType: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072::exchange::AdminCap
-objectId: 0xe405cb87f70e62ec508afdb58cf0d25dd1a2fd95a26077bfe076a2bf2c2da10b
+objectType: 0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729::exchange::AdminCap
+objectId: 0x020c65ea3d61d62c285c73ff7a3c44a60a11b28bf89576eb12c30ee4e66a140e
 
 objectType: 0x2::package::UpgradeCap
-objectId: 0xf38baaf62a36c350cdf05e6b7de1a53c5f5b964b44735e547bebf6ccc636a736
+objectId: 0x531be2f31853ca83d0e266b78a70fd7f46bde14a59580bdc30aca34abdb53be8
 
-token_pair_object_id_1: 0x32295beac0c29ba32bd35cb38d8ef9984f474ce91b21bfd0945a9a7186f9fd9c
-liquidity_token_object_id_1: 0x57e3523a340af3c633f04aaf1dec288dd6d0332faf170398668922ff994d5725
+objectType: 0x2::package::Publisher
+objectId: 0x609a06380cd877851c73dfbcb899c7ee593f5857bfd7280a0d9b2d0e5e88cc0f
 
-EXAMPLE_COIN_PACKAGE_ID: 0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072
-EXAMPLE_COIN_TREASURY_CAP_OBJECT_ID: 0x552014be591d4bbfab8444707ea6176124ac7e4a8bd56616d7b7f147328b2662
+objectType: 0x2::package::Publisher
+objectId: 0x9a896d63b1f2c061a0d056951605edf0348201a8005ed0541410d7f4f67f5f0c
+
+objectType: 0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729::exchange::Exchange
+objectId: 0xa556bc09e966ab42ddcc98b84bc1d26c00cc6438d8dc61a787cfc696200099e7
+
+objectType: 0x2::coin::TreasuryCap<0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729::example_coin::EXAMPLE_COIN>
+objectId: 0xece35b44183b02df36ae544a2071ab5db5c46d957147fac5b3dbcc9d7066259f
+
+objectType: 0x2::coin::CoinMetadata<0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729::example_coin::EXAMPLE_COIN>
+objectId: 0xffc28c95ac95373ed4ee603eb2a0c9096db06145f53d6549353ecfbaf2558f8c
+
+example_coin_object_id_1: 0xcaf8f3c81d684f13d7a41df5d10645294fe3ab55533315d0fe66cdb6699c47a8
+example_coin_object_id_2: 0x9078a7bb02147bc59b40fd67e61c363a842d0f81768d936ce173ab69b7acbc93
+example_coin_object_id_3: 0xf716cb6d5278a1aae6f5be68825ef78aee38a66f0b302081384eefa35adf4c45
+token_pair_object_id_1: 0x9c8cb597fdf33be9741308fa9e015e6de9fc78ef2dfc111995be8c4b396cd5cb
+liquidity_token_object_id_1: 0x531ec6c8b54c8f2f6dcd511c960958d5d18f800319b8fba22f20125f9d6d7191
+
+EXAMPLE_COIN_PACKAGE_ID: 0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729
+EXAMPLE_COIN_TREASURY_CAP_OBJECT_ID: 0xece35b44183b02df36ae544a2071ab5db5c46d957147fac5b3dbcc9d7066259f
 ```
 
 
@@ -139,7 +148,7 @@ sui client call --package {CORE_PACKAGE_ID} --module token_pair_service --functi
 '0x4715b65812e202a97f47f7dddf288776fabae989d1288c2e17c616c566abc294' \
 '"1000"' \
 '0xa5fd542a85374df599d1800e8154b1897953f8de981236adcc45ebed15ff3d55' \
-'"100000000"' \
+'"100000000"' 3 1000 \
 --gas-budget 30000000
 ```
 

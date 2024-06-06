@@ -38,6 +38,32 @@ public class TokenPairCommands {
         }
 
         /**
+         * Fee Numerator
+         */
+        private BigInteger feeNumerator;
+
+        public BigInteger getFeeNumerator() {
+            return this.feeNumerator;
+        }
+
+        public void setFeeNumerator(BigInteger feeNumerator) {
+            this.feeNumerator = feeNumerator;
+        }
+
+        /**
+         * Fee Denominator
+         */
+        private BigInteger feeDenominator;
+
+        public BigInteger getFeeDenominator() {
+            return this.feeDenominator;
+        }
+
+        public void setFeeDenominator(BigInteger feeDenominator) {
+            this.feeDenominator = feeDenominator;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;

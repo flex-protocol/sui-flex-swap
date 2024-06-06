@@ -1,6 +1,7 @@
 [package]
+published-at = "0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729"
 # Movement M2 devnet
-published-at = "0x71ec440c694153474dd2a9c5c19cf60e2968d1af51aacfa24e34ee96a2df44dd"
+#published-at = "0x71ec440c694153474dd2a9c5c19cf60e2968d1af51aacfa24e34ee96a2df44dd"
 #published-at = "0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa"
 #published-at = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
 name = "sui_swap_example"
@@ -11,8 +12,10 @@ version = "0.0.1"
 Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
+sui_swap_example = "0x1fbb91bd77221cf17450a4378f2d93100cf65725e0099e4da71f62070ce4b729"
+#sui_swap_example = "0x0"
 # Movement M2 devnet
-sui_swap_example = "0x71ec440c694153474dd2a9c5c19cf60e2968d1af51aacfa24e34ee96a2df44dd"
+#sui_swap_example = "0x71ec440c694153474dd2a9c5c19cf60e2968d1af51aacfa24e34ee96a2df44dd"
 #sui_swap_example = "0xaa999d77147d4fff90d088823c85aac9b396fe97175dc9b7219a1c2ca71e44fa"
 #sui_swap_example = "0x7d6ed7690d4501cc83f1bdab01e45738022890da4030eee655cdbcb985a6f072"
 #sui_swap_example = "0x0"

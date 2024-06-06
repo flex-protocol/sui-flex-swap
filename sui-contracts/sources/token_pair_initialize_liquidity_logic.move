@@ -19,6 +19,9 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
 
     friend sui_swap_example::token_pair_aggregate;
 
+    const DEFAULT_FEE_NUMERATOR: u64 = 3;
+    const DEFAULT_FEE_DENOMINATOR: u64 = 1000;
+
     const EAddInvalidLiquidity: u64 = 100;
 
     #[lint_allow(self_transfer)]
@@ -26,6 +29,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         // exchange: &mut Exchange,
         x_amount: &Balance<X>,
         y_amount: &Balance<Y>,
+        fee_numerator: u64,
+        fee_denominator: u64,
         ctx: &mut TxContext,
     ): token_pair::LiquidityInitialized {
         token_util::assert_type_less_than<X, Y>();
@@ -49,6 +54,8 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
             y_amount_i,
             liquidity_amount,
             liquidity_token_id,
+            fee_numerator,
+            fee_denominator,
         )
     }
 
@@ -65,10 +72,18 @@ module sui_swap_example::token_pair_initialize_liquidity_logic {
         //let y_token_type = liquidity_initialized::y_token_type(liquidity_initialized);
         // let x_amount = liquidity_initialized::x_amount(liquidity_initialized);
         // let y_amount = liquidity_initialized::y_amount(liquidity_initialized);
+        let fee_numerator = liquidity_initialized::fee_numerator(liquidity_initialized);
+        let fee_denominator = liquidity_initialized::fee_denominator(liquidity_initialized);
+        if (fee_denominator == 0 || fee_numerator >= fee_denominator / 10) {
+            fee_numerator = DEFAULT_FEE_NUMERATOR;
+            fee_denominator = DEFAULT_FEE_DENOMINATOR;
+        };
         let liquidity_amount = liquidity_initialized::liquidity_amount(liquidity_initialized);
 
         let token_pair = token_pair::new_token_pair(
             liquidity_amount,
+            fee_numerator,
+            fee_denominator,
             ctx,
         );
         //

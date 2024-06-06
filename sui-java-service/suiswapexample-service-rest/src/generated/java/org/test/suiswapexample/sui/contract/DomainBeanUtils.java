@@ -67,6 +67,8 @@ public class DomainBeanUtils {
         liquidityInitialized.setY_Amount(contractEvent.getY_Amount());
         liquidityInitialized.setLiquidityAmount(contractEvent.getLiquidityAmount());
         liquidityInitialized.setLiquidityTokenId(contractEvent.getLiquidityTokenId());
+        liquidityInitialized.setFeeNumerator(contractEvent.getFeeNumerator());
+        liquidityInitialized.setFeeDenominator(contractEvent.getFeeDenominator());
         liquidityInitialized.setVersion(BigInteger.valueOf(-1));
 
         liquidityInitialized.setSuiTimestamp(eventEnvelope.getTimestampMs());

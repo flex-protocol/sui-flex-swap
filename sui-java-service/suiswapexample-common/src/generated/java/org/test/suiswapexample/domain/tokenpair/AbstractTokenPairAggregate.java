@@ -59,19 +59,21 @@ public abstract class AbstractTokenPairAggregate extends AbstractAggregate imple
             apply(e);
         }
 
-        protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairCommands.InitializeLiquidity c) {
+        protected TokenPairEvent.LiquidityInitialized verifyInitializeLiquidity(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, BigInteger feeNumerator, BigInteger feeDenominator, TokenPairCommands.InitializeLiquidity c) {
+            BigInteger FeeNumerator = feeNumerator;
+            BigInteger FeeDenominator = feeDenominator;
 
             TokenPairEvent.LiquidityInitialized e = (TokenPairEvent.LiquidityInitialized) ReflectUtils.invokeStaticMethod(
                     "org.test.suiswapexample.domain.tokenpair.InitializeLiquidityLogic",
                     "verify",
-                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, VerificationContext.class},
-                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TokenPairState.class, BigInteger.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), feeNumerator, feeDenominator, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiswapexample.domain.tokenpair;
 //
 //public class InitializeLiquidityLogic {
-//    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, VerificationContext verificationContext) {
+//    public static TokenPairEvent.LiquidityInitialized verify(java.util.function.Supplier<TokenPairEvent.LiquidityInitialized> eventFactory, TokenPairState tokenPairState, BigInteger feeNumerator, BigInteger feeDenominator, VerificationContext verificationContext) {
 //    }
 //}
 
