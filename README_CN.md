@@ -132,8 +132,10 @@ sui client publish --gas-budget 1000000000 --skip-fetch-latest-git-deps
 
 ### 依赖 DI 合约，前端使用 PTBs 实现批量往池子添加 NFTs
 
-理想状态下，要实现批量往池子添加 NFTs，前端其实可以绕过 DI 合约，使用 PTBs 直接调用底层的 core 和 nft_service_impl 合约（后者是需要为接入的 NFT 项目开发的的适配合约）。
-（如果使用 DI 合约，每对接一个 NFT 项目都需要开发只适用于这个 NFT 项目的 DI 合约，包含比“适配合约”多得多的代码量。）
+理想状态下，要实现批量往池子添加 NFTs，前端其实可以绕过 DI 合约，
+使用 PTBs 直接调用底层的 core 和 nft_service_impl 合约——后者是为接入的 NFT 项目开发的“适配合约”，它们是少不了的。
+而如果使用 DI 合约，则每对接一个 NFT 项目还需要开发只适用于这个 NFT 项目的 DI 合约，它们包含比“适配合约”更多的“胶水”代码
+（因为 Hot Potato 模式的使用，这些代码“谁来写都只能这么写”）。
 
 不过，这里先讲解使用 DI 合约实现往池子添加 NFTs 的方法。
 
