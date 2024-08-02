@@ -1,4 +1,4 @@
-# Flex: An NFT Assets Exchange on Sui
+# Flex: An NFT Assets Exchange - Move
 
 This repository contains on-chain contracts as well as off-chain service (indexer) of Flex.
 
