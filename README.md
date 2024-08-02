@@ -15,7 +15,7 @@ Types of Pools focused toward Story Assets
 - **IPA <> USDC/ETH (NFT <> FT)**: This will allow trading of IP Assets (IPA) with fungible tokens like USDC or ETH.
 - **LT <> RT (NFT <> FT)**: This feature enables the exchange of License Tokens (LT) for Royalty Tokens (RT).
 - **LT <> FT (NFT <> FT)**: License Tokens can be traded directly with fungible tokens.
-For NFT <> FT Pool creation and swap -  Buy, Sell, Trade check [nft branch readme] (https://github.com/flex-protocol/sui-flex-swap/tree/nft?tab=readme-ov-file#sell-pool--buy-pool--trade-pool)
+For NFT <> FT Pool creation and swap -  Buy, Sell, Trade check [nft branch readme](https://github.com/flex-protocol/sui-flex-swap/tree/nft?tab=readme-ov-file#sell-pool--buy-pool--trade-pool)
 
 - **RT <> FT (FT <> FT)**: Royalty Tokens can be bought and sold using fungible tokens.
 - **FT <> FT**: Flex DEX already supports this, enabling direct swaps between different fungible tokens.
