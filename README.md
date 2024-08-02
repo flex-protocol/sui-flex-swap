@@ -1,6 +1,6 @@
 # Flex Swap - Move
 
-Flex DEX is a decentralized exchange (DEX) built on Move, designed for FT <> FT and NFT <> FT trading with indexer support. We will transition our DEX to Solidity to integrate with EVM infrastructure. This document provides an overview of our Move code.
+Flex DEX Move, designed for FT <> FT and NFT <> FT trading with indexer support. We will transition our DEX to Solidity to integrate with EVM infrastructure. This document provides an overview of our Move implemetaion.
 
 - main branch has FT <> FT
 - nft branch has NFT <> FT 
@@ -9,7 +9,7 @@ Flex DEX is a decentralized exchange (DEX) built on Move, designed for FT <> FT 
 
 # Integration with Story Protocol
 
-To integrate with Story Protocol's infrastructure, we will adapt Flex DEX functionalities to accommodate the specific token usecases used by Story Protocol. Here are the mappings and features, along with the relevant functions with Solidity migration:
+To integrate with Story Protocol's infrastructure, we will adapt Flex DEX functionalities to accommodate the specific token usecases on Story. Here are the mappings and features, along with the relevant functions:
 
 Types of Pools focused toward Story Assets
 - **IPA <> USDC/ETH (NFT <> FT)**: This will allow trading of IP Assets (IPA) with fungible tokens like USDC or ETH.
@@ -23,7 +23,7 @@ For NFT <> FT Pool creation and swap -  Buy, Sell, Trade check [nft branch readm
 - **FT <> FT**: Flex DEX already supports this, enabling direct swaps between different fungible tokens.
 
 
-For FT <> FT Pool create on swap - check below.
+For FT <> FT Pool creation and swap - check below.
 
 ---
 
