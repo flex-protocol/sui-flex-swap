@@ -1,4 +1,38 @@
-# Sui Flex Swap
+# Flex Swap - Move
+
+Flex DEX is a decentralized exchange (DEX) built on Move, designed for FT <> FT and NFT <> FT trading with indexer support. We will transition our DEX to Solidity to integrate with EVM infrastructure. This document provides an overview of our Move code.
+
+- main branch has FT <> FT
+- nft branch has NFT <> FT 
+
+---
+
+# Integration with Story Protocol
+
+To integrate with Story Protocol's infrastructure, we will adapt Flex DEX functionalities to accommodate the specific token usecases used by Story Protocol. Here are the mappings and features, along with the relevant functions with Solidity migration:
+
+Types of Pools focused toward Story Assets
+- **IPA <> USDC/ETH (NFT <> FT)**: This will allow trading of IP Assets (IPA) with fungible tokens like USDC or ETH.
+- **LT <> RT (NFT <> FT)**: This feature enables the exchange of License Tokens (LT) for Royalty Tokens (RT).
+- **LT <> FT (NFT <> FT)**: License Tokens can be traded directly with fungible tokens.
+For NFT <> FT Pool creation and swap -  Buy, Sell, Trade check [nft branch readme] (https://github.com/flex-protocol/sui-flex-swap/tree/nft?tab=readme-ov-file#sell-pool--buy-pool--trade-pool)
+
+- **RT <> FT (FT <> FT)**: Royalty Tokens can be bought and sold using fungible tokens.
+- **FT <> FT**: Flex DEX already supports this, enabling direct swaps between different fungible tokens.
+For FT <> FT Pool create on swap - check below.
+
+Additional features from our solution that will be aligned with Story Protocol include:
+
+- **Customizable License Tokens Pool Whitelist**: Owners of IPAs can set restrictive rules on buyers’ addresses to protect their IP.
+- **Customizable Bonding Curve**: Allows dynamic pricing curves for IP assets, enabling efficient market creation.
+
+More Webapp features:
+- **All-In-One Embeddable Widget and API**: Integrate ERC20 and ERC721 widgets and APIs seamlessly.
+- **IPA Public Rating Page**: Lists all IPAs with information on token assets, market data, and community engagement.
+- **IPA Profile Pages**: Dedicated profile pages showcasing IP details, market data, community engagement, and revenue streams.
+
+---
+
 
 ## Requirements
 
