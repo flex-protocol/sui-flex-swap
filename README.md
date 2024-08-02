@@ -425,7 +425,7 @@ sui client call --function add_allowed_impl --module nft_service_config --packag
 ```
 
 
-### Sell Pool tests
+### Sell Pool
 
 Sell pool properties related to price settings:
 
@@ -710,7 +710,7 @@ Same as "Owner withdraw Y reserve from sell pool".
 
 Same as "Owner update exchange rate" of sell pool.
 
-### Trade Pool tests
+### Trade Pool 
 
 #### Initialize Movescription trade pool
 
