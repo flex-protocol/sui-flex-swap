@@ -33,17 +33,6 @@ The "Sell Pool" entity has some similarity to `TokenPair`. Properties of Sell Po
     The owner of the pool can destroy the pool.
 * Methods of sell pool for general users include `BuyX`, i.e. "Swap-Y-For-X".
 
-[Documentation to be improved.]
-
-
-#### Buy Pool
-
-[Documentation to be improved.]
-
-#### Trade Pool
-
-[Documentation to be improved.]
-
 ### Token Pair
 
 This `nft` branch currently also implements a NFT/FT `TokenPair` that supports the AMM model.
@@ -615,7 +604,7 @@ sui client call --package {CORE_PACKAGE_ID} --module trade_pool_aggregate --func
 
 ~~Note the package ID above, we are using a newer version than `{CORE_PACKAGE_ID}`.~~
 
-### Buy Pool tests
+### Buy Pool
 
 #### Initialize buy pool
 
