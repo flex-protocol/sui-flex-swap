@@ -25,16 +25,6 @@ For NFT <> FT Pool creation and swap -  Buy, Sell, Trade check [nft branch readm
 
 For FT <> FT Pool create on swap - check below.
 
-Additional features from our solution that will be aligned with Story Protocol include:
-
-- **Customizable License Tokens Pool Whitelist**: Owners of IPAs can set restrictive rules on buyers’ addresses to protect their IP.
-- **Customizable Bonding Curve**: Allows dynamic pricing curves for IP assets, enabling efficient market creation.
-
-More Webapp features:
-- **All-In-One Embeddable Widget and API**: Integrate ERC20 and ERC721 widgets and APIs seamlessly.
-- **IPA Public Rating Page**: Lists all IPAs with information on token assets, market data, and community engagement.
-- **IPA Profile Pages**: Dedicated profile pages showcasing IP details, market data, community engagement, and revenue streams.
-
 ---
 
 
