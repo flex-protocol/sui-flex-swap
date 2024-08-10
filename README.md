@@ -28,7 +28,7 @@ As we move Flex DEX from Move to Solidity, the goal is to retain core functional
 
 #### Migration of Move-Specific Features
 - **Resource-Oriented Design**: Translate Move’s resource-oriented design to Solidity, leveraging ownership and access control features.
-- **Function Mapping**: Map Move functions to Solidity equivalents, implementing logic where direct mapping isn’t possible.
+- **Function Mapping**: Map Move functions to Solidity equivalents.
 
 ---
 
