@@ -34,7 +34,7 @@ As we move Flex DEX from Move to Solidity, the goal is to retain core functional
 
 ## In-Game AMM with Unified Resource Management
 
-As we transition Flex DEX from Move to Solidity, our focus is on creating a custom in-game AMM that allows seamless trading of resources (ERC-20) and products (ERC-1155) within the game’s ecosystem. This AMM will be unique to each island, fostering localized economies where players can trade, craft, and decompose items.
+As we transition Flex DEX from Move to Solidity, our focus is also on creating a custom in-game AMM (already build in Move) that allows seamless trading of resources (ERC-20) and products (ERC-1155) within the game’s ecosystem. This AMM will be unique to each island, fostering localized economies where players can trade, craft, and decompose items.
 
 #### Unified Resource Management
 
