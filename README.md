@@ -38,7 +38,7 @@ As we transition Flex DEX from Move to Solidity, our focus is also on creating a
 
 #### Unified Resource Management
 
-- **Root Resource Structure**: We'll manage both ERC-20 resources (e.g., water, cotton, ink) and ERC-1155 products (e.g., color paper, color water) under a unified structure. This allows for consistent handling of all assets within the AMM, making it easy to decompose and recombine items as needed.
+- **Root Resource Structure**: We'll manage both ERC-20 resources (e.g., wood, iron) and ERC-1155 products (e.g., sword, axe) under a unified structure. This allows for consistent handling of all assets within the AMM, making it easy to decompose and recombine items as needed.
 
 - **ERC-20 & ERC-1155 Compliance**: While the AMM operates within the game, all tokens will adhere to their respective standards, ensuring they function seamlessly in this custom environment.
 
