@@ -7,10 +7,6 @@ Flex DEX Move, designed for FT <> FT and NFT <> FT trading with indexer support.
 
 ---
 
-Certainly! Here's a more concise, developer-focused version of the "Migration to Solidity" section for your README:
-
----
-
 # Migration to Solidity
 
 As we move Flex DEX from Move to Solidity, the goal is to retain core functionalities while adapting them to the EVM architecture. Below are the key concepts and methods for implementing Flex DEX in Solidity.
