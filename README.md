@@ -20,19 +20,11 @@ As we move Flex DEX from Move to Solidity, the goal is to retain core functional
 
 #### Liquidity Pools
 - **FT <> FT Pools**: Enable direct swaps between fungible tokens, similar to Uniswap’s model.
-- **NFT <> FT Pools**: Facilitate NFT <> FT swaps using ERC-721 and ERC-1155 contracts paired with ERC-20 tokens.
+- **NFT <> FT Pools**: Facilitate NFT <> FT swaps using ERC-721 and ERC-1155 contracts paired with ERC-20 tokens. Ensure robust pricing mechanisms for NFTs, potentially involving oracles or bonding curves.
 
 #### Swap Mechanisms
 - **FT <> FT Swaps**: Implemented via standard AMM logic, handling liquidity provision, trading, and fee distribution.
 - **NFT <> FT Swaps**: Custom logic for NFT <> FT swaps to account for NFT uniqueness and manage liquidity effectively.
-
-### Implementing Flex DEX in Solidity
-
-#### FT <> FT Pool Implementation
-- **Uniswap V2 Fork**: Fork and modify Uniswap V2 to support FT <> FT trading, adding features like token pair initialization and custom fee management.
-
-#### NFT <> FT Pool Implementation
-- **Custom AMM Logic**: Develop a custom AMM for NFT <> FT pools using ERC-721 and ERC-1155 standards. Ensure robust pricing mechanisms for NFTs, potentially involving oracles or bonding curves.
 
 #### Migration of Move-Specific Features
 - **Resource-Oriented Design**: Translate Move’s resource-oriented design to Solidity, leveraging ownership and access control features.
