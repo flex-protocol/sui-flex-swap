@@ -20,7 +20,7 @@ As we move Flex DEX from Move to Solidity, the goal is to retain core functional
 
 #### Liquidity Pools
 - **FT <> FT Pools**: Enable direct swaps between fungible tokens, similar to Uniswap’s model.
-- **NFT <> FT Pools**: Facilitate NFT <> FT swaps using ERC-721 and ERC-1155 contracts paired with ERC-20 tokens. Ensure robust pricing mechanisms for NFTs, potentially involving oracles or bonding curves.
+- **NFT <> FT Pools**: Facilitate NFT <> FT swaps using ERC-721 and ERC-1155 contracts paired with ERC-20 tokens. Ensure robust pricing mechanisms for NFTs, involving bonding curves.
 
 #### Swap Mechanisms
 - **FT <> FT Swaps**: Implemented via standard AMM logic, handling liquidity provision, trading, and fee distribution.
