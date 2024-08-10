@@ -7,50 +7,50 @@ Flex DEX Move, designed for FT <> FT and NFT <> FT trading with indexer support.
 
 ---
 
-# Migration to Solidity
+## Migration to Solidity
 
 As we move Flex DEX from Move to Solidity, the goal is to retain core functionalities while adapting them to the EVM architecture. Below are the key concepts and methods for implementing Flex DEX in Solidity.
 
-## Core Concepts
+### Core Concepts
 
-### Token Standards
+#### Token Standards
 - **ERC-20 (Fungible Tokens)**: Equivalent to FT in Move. These represent assets like USDC, ETH, and other tokens swappable on Flex DEX.
 - **ERC-721 (Non-Fungible Tokens)**: Used for unique assets.
 - **ERC-1155 (Multi-Token Standard)**: Supports both fungible and non-fungible behavior.
 
-### Liquidity Pools
+#### Liquidity Pools
 - **FT <> FT Pools**: Enable direct swaps between fungible tokens, similar to Uniswap’s model.
 - **NFT <> FT Pools**: Facilitate NFT <> FT swaps using ERC-721 and ERC-1155 contracts paired with ERC-20 tokens.
 
-### Swap Mechanisms
+#### Swap Mechanisms
 - **FT <> FT Swaps**: Implemented via standard AMM logic, handling liquidity provision, trading, and fee distribution.
 - **NFT <> FT Swaps**: Custom logic for NFT <> FT swaps to account for NFT uniqueness and manage liquidity effectively.
 
-## Implementing Flex DEX in Solidity
+### Implementing Flex DEX in Solidity
 
-### FT <> FT Pool Implementation
+#### FT <> FT Pool Implementation
 - **Uniswap V2 Fork**: Fork and modify Uniswap V2 to support FT <> FT trading, adding features like token pair initialization and custom fee management.
 
-### NFT <> FT Pool Implementation
+#### NFT <> FT Pool Implementation
 - **Custom AMM Logic**: Develop a custom AMM for NFT <> FT pools using ERC-721 and ERC-1155 standards. Ensure robust pricing mechanisms for NFTs, potentially involving oracles or bonding curves.
 
-### Migration of Move-Specific Features
+#### Migration of Move-Specific Features
 - **Resource-Oriented Design**: Translate Move’s resource-oriented design to Solidity, leveraging ownership and access control features.
 - **Function Mapping**: Map Move functions to Solidity equivalents, implementing logic where direct mapping isn’t possible.
 
 ---
 
-# In-Game AMM with Unified Resource Management
+## In-Game AMM with Unified Resource Management
 
 As we transition Flex DEX from Move to Solidity, our focus is on creating a custom in-game AMM that allows seamless trading of resources (ERC-20) and products (ERC-1155) within the game’s ecosystem. This AMM will be unique to each island, fostering localized economies where players can trade, craft, and decompose items.
 
-### Unified Resource Management
+#### Unified Resource Management
 
 - **Root Resource Structure**: We'll manage both ERC-20 resources (e.g., water, cotton, ink) and ERC-1155 products (e.g., color paper, color water) under a unified structure. This allows for consistent handling of all assets within the AMM, making it easy to decompose and recombine items as needed.
 
 - **ERC-20 & ERC-1155 Compliance**: While the AMM operates within the game, all tokens will adhere to their respective standards, ensuring they function seamlessly in this custom environment.
 
-### In-Game AMM Functionality
+#### In-Game AMM Functionality
 
 - **Decomposition**: Players can break down composite products (ERC-1155) into their base resources (ERC-20) directly within the AMM. The system uses predefined recipes stored on-chain to manage this process.
 
@@ -60,13 +60,13 @@ As we transition Flex DEX from Move to Solidity, our focus is on creating a cust
 
 - **Island-Owned AMMs**: Each island in the game will have its own AMM, controlled by the island owner. This setup allows for custom rules, fees, and economic strategies tailored to each island’s needs.
 
-### Resource Liquidity Management
+#### Resource Liquidity Management
 
 - **Minimum Pool Requirements**: To maintain stability, the AMM enforces minimum resource levels. This ensures that key resources are always available, preventing issues during decompositions and trades.
 
 - **Customizable Rules**: Island owners can configure their AMM to suit their strategy, including setting which items can be crafted or decomposed and determining trade fees.
 
-### Some Benefits
+#### Some Benefits
 
 - **Self-Contained Economy**: By keeping all trades within the game, we maintain a controlled, immersive in-game economy.
 - **Simplified UX**: The AMM abstracts the complexity, letting players focus on gameplay rather than underlying mechanics.
@@ -74,7 +74,7 @@ As we transition Flex DEX from Move to Solidity, our focus is on creating a cust
 
 ---
 
-# Integration with Story Protocol
+## Integration with Story Protocol
 
 To integrate with Story Protocol's infrastructure, we will adapt Flex DEX functionalities to accommodate the specific token usecases on Story. Here are the mappings and features, along with the relevant functions:
 
