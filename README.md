@@ -44,19 +44,19 @@ As we transition Flex DEX from Move to Solidity, our focus is also on creating a
 
 #### In-Game AMM Functionality
 
-- **Decomposition**: Players can break down composite products (ERC-1155) into their base resources (ERC-20) directly within the AMM. The system uses predefined recipes stored on-chain to manage this process.
+- **Decomposition**: Composite products (ERC-1155) can be broken down into their base resources (ERC-20) directly within the AMM. The system uses predefined recipes stored on-chain to manage this process.
 
-- **Combination**: Players can also combine resources to craft new products. The AMM will automatically guide them through available crafting options based on the resources they deposit.
+- **Combination**: Combine resources into products. The AMM will automatically craft the product based on the resources deposited after the decomposed resources are traded.
 
-- **Single Interface for Trading**: Players interact with one interface to trade, craft, and decompose items. The AMM handles all the logic behind the scenes, ensuring a smooth user experience.
+- **Single Interface for Trading**: Players interact with one interface to trade items with same root resources. The AMM handles all the logic behind the scenes, ensuring a smooth user experience.
 
 - **Island-Owned AMMs**: Each island in the game will have its own AMM, controlled by the island owner. This setup allows for custom rules, fees, and economic strategies tailored to each island’s needs.
 
 #### Resource Liquidity Management
 
-- **Minimum Pool Requirements**: To maintain stability, the AMM enforces minimum resource levels. This ensures that key resources are always available, preventing issues during decompositions and trades.
+- **Minimum Pool Requirements**: To maintain stability, the AMM enforces minimum resource levels. This ensures that key resources are always available, preventing issues during decompositions, combination and trades.
 
-- **Customizable Rules**: Island owners can configure their AMM to suit their strategy, including setting which items can be crafted or decomposed and determining trade fees.
+- **Customizable Rules**: Island owners can configure their AMM to suit their strategy.
 
 #### Some Benefits
 
